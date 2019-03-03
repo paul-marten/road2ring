@@ -1,0 +1,39 @@
+<header class="top-header" th:fragment="header">
+  <div class="top-header-inner">
+    <div class="header-logo">
+      <a href="/" class="brand-logo">
+        <span class="brand"><img src="/img/availaball.png"></span>
+      </a>
+    </div>
+    <div class="header-container">
+      <div class="pull-left">
+        <div class="dateclock-wrap">
+          <div id="dateclock">
+            <span class="date"></span><span class="hours"></span><span class="min"></span><span
+              class="sec"></span>
+          </div>
+        </div>
+      </div>
+      <div class="pull-right">
+        <div class="user-block hidden-xs">
+          <a href="#" id="" data-toggle="dropdown">
+            <div class="user-detail inline-block" th:inline="text">
+              Welcome, [[${#httpServletRequest.remoteUser}]]
+              <i class="fa fa-cog"></i>
+            </div>
+          </a>
+          <div class="dropdown-menu user-panel">
+            <ul>
+              <li>
+                <a>
+                  <span>Log out</span>
+                </a>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+      <div class="clearfix">
+    </div>
+  </div>
+</header>

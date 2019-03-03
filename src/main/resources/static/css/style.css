@@ -1,0 +1,92 @@
+@font-face {
+  font-family: 'availaballs';
+  src:  url('fonts/fonts/availaballs.eot?lj4n13');
+  src:  url('fonts/fonts/availaballs.eot?lj4n13#iefix') format('embedded-opentype'),
+    url('fonts/fonts/availaballs.ttf?lj4n13') format('truetype'),
+    url('fonts/fonts/availaballs.woff?lj4n13') format('woff'),
+    url('fonts/fonts/availaballs.svg?lj4n13#availaballs') format('svg');
+  font-weight: normal;
+  font-style: normal;
+}
+
+[class^="icon-"], [class*=" icon-"] {
+  /* use !important to prevent issues with browser extensions that change fonts */
+  font-family: 'availaballs' !important;
+  speak: none;
+  font-style: normal;
+  font-weight: normal;
+  font-variant: normal;
+  text-transform: none;
+  line-height: 1;
+
+  /* Better Font Rendering =========== */
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.icon-edit_icon:before {
+  content: "\e904";
+}
+.icon-dashboard:before {
+  content: "\e900";
+
+padding-left: 15px;
+padding-right: 16px;
+padding-bottom: 25px;
+padding-top: 35px;
+}
+.icon-gear:before {
+  content: "\e901";
+  font-weight:bold!important;
+}
+.icon-maps:before {
+  content: "\e902";
+    padding-left :20px;
+  padding-right :25px;
+  padding-bottom:25px;
+}
+.icon-user_icon:before {
+  content: "\e903";
+     padding-left :20px;
+  padding-right :25px;
+  padding-bottom:25px;
+}
+
+
+@font-face {
+  font-family: 'availaball';
+  src:  url('fonts/fonts/availaball.eot?t8k4p5');
+  src:  url('fonts/fonts/availaball.eot?t8k4p5#iefix') format('embedded-opentype'),
+    url('fonts/fonts/availaball.ttf?t8k4p5') format('truetype'),
+    url('fonts/fonts/availaball.woff?t8k4p5') format('woff'),
+    url('fonts/fonts/availaball.svg?t8k4p5#availaball') format('svg');
+  font-weight: normal;
+  font-style: normal;
+}
+
+[class^="icon_"], [class*=" icon_"] {
+  /* use !important to prevent issues with browser extensions that change fonts */
+  font-family: 'availaball' !important;
+  speak: none;
+  font-style: normal;
+  font-weight: normal;
+  font-variant: normal;
+  text-transform: none;
+  line-height: 1;
+
+  /* Better Font Rendering =========== */
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.icon_minus:before {
+  content: "\e905";
+    color:#d8514c;
+}
+.icon_add:before {
+  content: "\e906";
+    color:#5cb85c;
+}
+
+
+

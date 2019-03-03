@@ -1,0 +1,59 @@
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+
+  <title>BEM | Badan Eksekutif Mahasiswa</title>
+  <th:block th:include="layout :: head"></th:block>
+</head>
+
+<body class="hold-transition skin-blue layout-boxed sidebar-mini">
+
+<div class="wrapper">
+  <th:block th:include="layout :: main-header"></th:block>
+
+  <!-- Content Wrapper. Contains page content -->
+  <div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+    <section class="content-header">
+      <h1>
+        Error Page
+      </h1>
+      <ol class="breadcrumb">
+        <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
+        <li><a href="#">Error</a></li>
+      </ol>
+    </section>
+
+    <!-- Main content -->
+    <section class="content">
+      <div class="error-page">
+
+
+        <div class="error">
+        <div class="error-code m-b-10 m-t-20">403 <i class="fa fa-warning"></i></div>
+        <h3 class="font-bold">We couldn't find the page..</h3>
+
+        <div class="error-desc">
+            Sorry, but the page you are looking for was either not found or does not exist. <br/>
+            Try refreshing the page or click the button below to go back to the Homepage.
+            <div>
+                <a class=" login-detail-panel-button btn" href="index.html">
+                        <i class="fa fa-arrow-left"></i>
+                        Go back to Home                      
+                    </a>
+            </div>
+        </div>
+    </div>
+        <!-- /.error-content -->
+      </div>
+      <!-- /.error-page -->
+    </section>
+    <!-- /.content -->
+  </div>
+
+	
+  <th:block th:include="layout :: main-sidebar"></th:block>
+  <th:block th:include="layout :: main-footer"></th:block>	
+
+</div>
+</body>
+</html>

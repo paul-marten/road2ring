@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorator="layout">
+<head>
+  <meta charset="UTF-8"/>
+  <title>Login</title>
+</head>
+<link rel="stylesheet" th:href="@{/css/plugins/login.css}"/>
+<body>
+<div id="wrapper">
+  <div layout:fragment="content">
+    <div class="container">
+      <div class="card card-container">
+        <img id="logo-img" class="logo-img" src="img/availaball.png"/>
+        <form class="form-signin">
+          <label class="lable-color">Email</label>
+          <input type="email" id="inputEmail" class="form-control" placeholder="Ketik Email"
+                 required autofocus>
+          <label class="lable-color">Password</label>
+          <input type="password" id="inputPassword" class="form-control"
+                 placeholder="Ketik Password" required>
+          <button class="btn btn-lg btn-primary btn-block btn-signin" id="button-login"
+                  type="submit">Login
+          </button>
+        </form>
+
+      </div>
+    </div>
+  </div>
+</div>
+</body>
+</html>

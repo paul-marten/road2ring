@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html layout:decorator="/admin/layout"
+	xmlns:th="http://www.thymeleaf.org">
+<head>
+<title>Availaball</title>
+<!--   -->
+<!-- <th:block th:replace="/admin/layout :: head"></th:block> -->
+<link rel="stylesheet" th:href="@{/css/plugins/list-field.css}" />
+<link rel="stylesheet" th:href="@{/css/plugins/customs.css}" />
+<!--<link rel="stylesheet" th:href="@{/css/plugins/main.css}" />-->
+<script src="/js/datatables/futsalfield.js"></script>
+</head>
+<body>
+	<div id="page-wrapper">
+		<div class="padding-md content content-list" layout:fragment="content">
+			
+				<div class="container-fluid">
+					<!-- Page Heading -->
+					<div class="row">
+
+						<div>
+							<div class="header-table">
+								<div class="pull-left vlign">
+									<h4>List Lapangan</h4>
+								</div>
+								<div class="pull-right header-search vlign">
+									<div class="pull-left search-label">
+										<form action="#" method="get">
+											<label class="pull-left">Filter</label>
+											<div class="input-group pull-right">
+
+												<input type="text" id="searchName"
+													class="form-control countrycode"
+													placeholder="Nama Lapangan" /> <span
+													class="input-group-btn"> </span>
+											</div>
+											<div class="clearfix"></div>
+										</form>
+										<div class="modal fade" id="myModal" tabindex="-1"
+											role="dialog" aria-labelledby="myModalLabel"
+											aria-hidden="true">
+											<div class="modal-dialog">
+												<div class="modal-content" id="modal_content">
+													<div class="modal-header" id="modal_header">
+														<!--   <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">�</span></button> -->
+														<p class="modal-title " id="modal_lables">Are you sure
+															want to delete it?</p>
+													</div>
+
+													<div class="modal-footer" id="modal_footer">
+														<div class="button_c_d">
+															<button type="button" id="button_delete"
+																class="btn btn-primary">Delete</button>
+															<button type="button" id="button_cancel"
+																class="btn btn-default" data-dismiss="modal">Cancel</button>
+														</div>
+													</div>
+												</div>
+											</div>
+										</div>
+									</div>
+
+									<div class="search-nolabel">
+										<div class="input-group dropdown pull-right">
+											<input id="searchLocation" type="text"
+												class="form-control countrycode dropdown-toggle"
+												placeholder="Lokasi"/>
+											<ul class="dropdown-menu">
+												<li><a href="#" data-value="Jakarta Barat">Jakarta
+														Barat</a></li>
+												<li><a href="#" data-value="Jakarta">Jakarta</a></li>
+												<li><a href="#" data-value="Jakarta Utara">Jakarta
+														Utara</a></li>
+											</ul>
+										</div>
+									</div>
+									<div class="clearfix"></div>
+								</div>
+								<div class="clearfix"></div>
+							</div>
+							<div>
+								<div class="smart-widget">
+									<table id="rsp-table"
+										class="table table-bordred table-striped center">
+										<thead class="center">
+											<th class="sorting_disabled">No</th>
+											<th>Nama Lapangan</th>
+											<th>Lokasi</th>
+											<th>Jumlah <br>Lapangan</br>
+											</th>
+											<th>Latest <br>Update</br></th>
+											<th>Surveyer</th>
+											<th></th>
+										</thead>
+										<tbody>
+										</tbody>
+									</table>
+								</div>
+							</div>
+						</div>
+					</div>
+		</div>
+	</div>
+	</div>
+      <div th:replace="/admin/fragment/footer:: footer"></div>
+</body>
+</html>

@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="utf-8"/>
+  <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+
+  <!--<link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">-->
+  <!--<link href="https://fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet">-->
+
+  <!--&lt;!&ndash;minify css&ndash;&gt;-->
+  <!--<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css" />-->
+  <!--&lt;!&ndash; Font Awesome &ndash;&gt;-->
+  <!--<link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css" rel="stylesheet" />-->
+
+  <!--<link rel="stylesheet" type="text/css" href="/css/main.css" />-->
+
+  <!--<script th:src="@{/js/jquery.js}"></script>-->
+  <!--<script th:src="@{/js/bootstrap.min.js}"></script>-->
+  <!--<script src="https://cdn.datatables.net/s/bs/jqc-1.11.3,dt-1.10.10/datatables.min.js"></script>-->
+  <!--<script th:src="@{/lib/jquery.spring-friendly.js}"></script>-->
+
+  <!--<script th:src="@{/js/app.min.js}"></script>-->
+  <!--<script th:src="@{/js/jquery.slimscroll.min.js}"></script>-->
+  <!--<link rel="stylesheet" th:href="@{/css/bootstrap.css}" />-->
+  <!--<link rel="stylesheet" th:href="@{/css/plugins/customs.css}" />-->
+  <!--<link rel="stylesheet" th:href="@{/css/sb-admin.css}" />-->
+  <!--Import Style-->
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css" />
+  <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css" rel="stylesheet" />
+
+  <link rel="stylesheet" th:href="@{/css/style.css}" />
+  <link rel="stylesheet" th:href="@{/css/fonts/icon-edit/style.css}" />
+  <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet">
+
+  <!--Own Style and Js-->
+  <link rel="stylesheet" type="text/css" href="/css/main.css" />
+
+  <script th:src="@{/js/jquery.js}"></script>
+  <script th:src="@{/js/bootstrap.min.js}"></script>
+  <script src="https://cdn.datatables.net/s/bs/jqc-1.11.3,dt-1.10.10/datatables.min.js"></script>
+  <script th:src="@{/lib/jquery.spring-friendly.js}"></script>
+
+  <title>Page</title>
+</head>
+<body>
+  <div class="wrapper">
+    <header th:replace="/admin/fragment/header :: header"></header>
+    <aside th:replace="/admin/fragment/sidebar :: sidebar"></aside>
+    <div class="main-container">
+      <div layout:fragment="content"></div>
+    </div>
+  </div>
+
+  <!--JS-->
+  <script src='/js/clock.js'></script>
+</body>
+</html>
+
+
+<!--<!DOCTYPE html>-->
+<!--<html xmlns="http://www.w3.org/1999/xhtml"-->
+      <!--xmlns:th="http://www.thymeleaf.org">-->
+<!--<head>-->
+  <!--<meta charset="utf-8" />-->
+  <!--<meta http-equiv="X-UA-Compatible" content="IE=edge" />-->
+  <!--<meta name="viewport" content="width=device-width, initial-scale=1" />-->
+  <!--<meta name="description" content="" />-->
+  <!--<meta name="author" content="" />-->
+
+  <!--<link rel="stylesheet" th:href="@{/css/bootstrap.css}" />-->
+  <!--<link rel="stylesheet" th:href="@{/css/plugins/customs.css}" />-->
+  <!--<link rel="stylesheet" th:href="@{/css/sb-admin.css}" />-->
+  <!--<link rel="stylesheet" th:href="@{/css/style.css}" />-->
+  <!--<link rel="stylesheet" th:href="@{/css/fonts/icon-edit/style.css}" />-->
+  <!--<link rel="stylesheet" th:href="@{/font-awesome/css/font-awesome.css}" />-->
+  <!--<link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">-->
+  <!--<link href="https://fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet">-->
+
+  <!--<script th:src="@{/js/jquery.js}"></script>-->
+  <!--<script th:src="@{/js/bootstrap.min.js}"></script>-->
+  <!--<script src="https://cdn.datatables.net/s/bs/jqc-1.11.3,dt-1.10.10/datatables.min.js"></script>-->
+  <!--<script th:src="@{/lib/jquery.spring-friendly.js}"></script>-->
+
+  <!--<title>Page</title>-->
+<!--</head>-->
+<!--<body>-->
+<!--<div id="wrapper">-->
+  <!--<div th:replace="/admin/fragment/top :: top-header"></div>-->
+  <!--<div id="page-wrapper">-->
+    <!--<div class="padding-md content content-list" layout:fragment="content"></div>-->
+  <!--</div>-->
+<!--</div>-->
+<!--</body>-->
+<!--</html>-->
