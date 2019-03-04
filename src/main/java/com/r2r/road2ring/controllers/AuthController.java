@@ -1,6 +1,6 @@
-package com.r2r.road2ring.controller;
+package com.r2r.road2ring.controllers;
 
-import com.r2r.road2ring.model.Account;
+import com.r2r.road2ring.models.Account;
 import com.r2r.road2ring.service.AuthService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;

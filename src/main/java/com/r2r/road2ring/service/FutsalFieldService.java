@@ -12,8 +12,8 @@ import org.springframework.data.jpa.datatables.mapping.DataTablesInput;
 import org.springframework.data.jpa.datatables.mapping.DataTablesOutput;
 import org.springframework.stereotype.Service;
 
-import com.r2r.road2ring.model.Account;
-import com.r2r.road2ring.repository.AccountRepository;
+import com.r2r.road2ring.models.Account;
+import com.r2r.road2ring.repositories.AccountRepository;
 
 /**
  * Created by paulms on 7/4/2017.

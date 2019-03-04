@@ -1,7 +1,7 @@
 package com.r2r.road2ring.service;
 
-import com.r2r.road2ring.model.Account;
-import com.r2r.road2ring.repository.AccountRepository;
+import com.r2r.road2ring.models.Account;
+import com.r2r.road2ring.repositories.AccountRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.AuthorityUtils;

@@ -1,10 +1,7 @@
-package com.r2r.road2ring.repository;
+package com.r2r.road2ring.repositories;
 
-import com.r2r.road2ring.model.Account;
+import com.r2r.road2ring.models.Account;
 import org.springframework.data.jpa.datatables.repository.DataTablesRepository;
-import org.springframework.data.jpa.repository.Modifying;
-import org.springframework.data.jpa.repository.Query;
-import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 @Repository

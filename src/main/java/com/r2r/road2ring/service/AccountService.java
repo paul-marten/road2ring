@@ -7,8 +7,8 @@ import org.springframework.data.jpa.datatables.mapping.DataTablesInput;
 import org.springframework.data.jpa.datatables.mapping.DataTablesOutput;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
-import com.r2r.road2ring.model.Account;
-import com.r2r.road2ring.repository.AccountRepository;
+import com.r2r.road2ring.models.Account;
+import com.r2r.road2ring.repositories.AccountRepository;
 import org.springframework.stereotype.Service;
 
 /**

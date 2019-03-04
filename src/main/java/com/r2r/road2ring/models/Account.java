@@ -1,4 +1,4 @@
-package com.r2r.road2ring.model;
+package com.r2r.road2ring.models;
 
 import com.fasterxml.jackson.annotation.JsonView;
 import org.hibernate.validator.constraints.NotEmpty;

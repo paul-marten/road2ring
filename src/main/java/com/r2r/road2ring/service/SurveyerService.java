@@ -1,6 +1,6 @@
 package com.r2r.road2ring.service;
 
-import com.r2r.road2ring.model.Account;
+import com.r2r.road2ring.models.Account;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
