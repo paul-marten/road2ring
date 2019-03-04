@@ -31,36 +31,6 @@ repositories {
 
 
 dependencies {
-	/*compile('org.springframework.boot:spring-boot-starter-security:1.5.1.RELEASE')
-
-	compile('org.springframework.boot:spring-boot-starter-test:2.1.0.RELEASE'){
-		exclude(module: 'commons-logging')
-	}
-
-	compile('org.springframework.boot:spring-boot-starter-jdbc:2.1.0.RELEASE')
-
-	compile('org.springframework.boot:spring-boot-starter-data-jpa:2.1.0.RELEASE')
-
-	compile('org.springframework.boot:spring-boot-starter-thymeleaf:1.4.0.RELEASE')
-
-	compile('org.springframework.security.oauth:spring-security-oauth2:2.0.7.RELEASE')
-
-	compile('postgresql:postgresql:9.1-901-1.jdbc4')
-
-	compile('net.sourceforge.nekohtml:nekohtml:1.9.22')
-
-	compile('org.neo4j:neo4j-cypher-compiler-2.1:2.1.5')
-
-	compile('org.hibernate:hibernate-core:5.0.4.Final')
-
-	compile('com.github.darrachequesne:spring-data-jpa-datatables:1.2')
-
-	compile('org.projectlombok:lombok:1.16.10')
-
-	compile('org.thymeleaf.extras:thymeleaf-extras-springsecurity4:3.0.1.RELEASE')
-
-	testCompile('org.springframework.boot:spring-boot-starter-test')*/
-
 	compile group: 'org.springframework.boot', name: 'spring-boot-starter-data-jpa', version:'1.4.0.RELEASE'
 	compile group: 'org.springframework.boot', name: 'spring-boot-starter-security', version:'1.5.1.RELEASE'
 	compile group: 'org.springframework.boot', name: 'spring-boot-starter-web', version:'1.4.0.RELEASE'
@@ -70,6 +40,9 @@ dependencies {
 	compile group: 'org.hibernate', name: 'hibernate-core', version:'5.0.4.Final'
 	compile group: 'org.springframework.security.oauth', name: 'spring-security-oauth2', version:'2.0.7.RELEASE'
 	compile group: 'com.github.darrachequesne', name: 'spring-data-jpa-datatables', version:'1.2'
+
+	compile('org.projectlombok:lombok:1.16.10')
+
 	compile(group: 'org.springframework.boot', name: 'spring-boot-starter-test', version:'1.4.0.RELEASE') {
 		exclude(module: 'commons-logging')
 	}

@@ -1,6 +1,6 @@
 package com.r2r.road2ring.service;
 
-import com.r2r.road2ring.models.Account;
+import com.r2r.road2ring.modules.Consumer.Consumer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -14,7 +14,7 @@ public class SurveyerService {
   private SurveyerRepository surveyerRepository;
 
 
-  public Account getAccount(int idAccount) {
+  public Consumer getAccount(int idAccount) {
     return surveyerRepository.findOne(idAccount);
   }
 
@@ -22,7 +22,7 @@ public class SurveyerService {
     surveyerRepository.delete(idAccount);
   }
 
-  public Account saveOrUpdateActivity(Account activity) {
+  public Consumer saveOrUpdateActivity(Consumer activity) {
     return surveyerRepository.save(activity);
   }
 

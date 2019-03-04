@@ -26,7 +26,7 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 @EnableJpaRepositories(
     repositoryFactoryBeanClass = DataTablesRepositoryFactoryBean.class,
     entityManagerFactoryRef = "entityManagerFactory",
-    basePackages = {"com.r2r.road2ring.repositories"})
+    basePackages = {"com.r2r.road2ring.modules"})
 public class DatabaseConfig {
 
   @Autowired
@@ -55,7 +55,7 @@ public class DatabaseConfig {
 
     return builder
         .dataSource(dataSource)
-        .packages(new String[] {"com.gvmnetworks.bolalob.models"})
+        .packages(new String[] {"com.gvmnetworks.bolalob.modules"})
         .persistenceUnit("main")
         .properties(properties)
         .build();

@@ -1,6 +1,6 @@
 package com.r2r.road2ring.service;
 
-import com.r2r.road2ring.models.Account;
+import com.r2r.road2ring.modules.Consumer.Consumer;
 import com.r2r.road2ring.repositories.AccountRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
@@ -22,14 +22,14 @@ public class AuthService implements UserDetailsService {
   @Autowired
   private AccountRepository accountRepository;
 
-  public void register(Account account) {
+  public void register(Consumer account) {
     account.setRole("ROLE_SURVEYER");
     accountRepository.save(account);
   }
 
   @Override
   public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-    Account account = accountRepository.findByUsername(username);
+    Consumer account = accountRepository.findByUsername(username);
 
     if (account == null) {
       System.out

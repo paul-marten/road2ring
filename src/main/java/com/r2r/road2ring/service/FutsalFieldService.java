@@ -12,7 +12,7 @@ import org.springframework.data.jpa.datatables.mapping.DataTablesInput;
 import org.springframework.data.jpa.datatables.mapping.DataTablesOutput;
 import org.springframework.stereotype.Service;
 
-import com.r2r.road2ring.models.Account;
+import com.r2r.road2ring.modules.Consumer.Consumer;
 import com.r2r.road2ring.repositories.AccountRepository;
 
 /**
@@ -48,7 +48,7 @@ public class FutsalFieldService {
 
   public void deleteFutsalField(int id) {
     FutsalField futsalFieldAccount = new FutsalField();
-    Account accountSave = new Account();
+    Consumer accountSave = new Consumer();
     futsalFieldAccount = futsalFieldRepository.findOne(id);
     accountSave = accountRepository.findOne(futsalFieldAccount.getAccount().getId());
     int totalField = accountSave.getTotalField();
@@ -75,7 +75,7 @@ public class FutsalFieldService {
     futsalFieldSave.setAccount(futsalField.getAccount());
     futsalFieldSave.setLocation(futsalField.getLocation());
     futsalFieldSave.setLatestUpdate(new java.sql.Timestamp(today.getTime()));
-    Account accountSaveFutsalField = new Account();
+    Consumer accountSaveFutsalField = new Consumer();
 
 //		String[] days = futsalField.getDays().split(",");
 //		List<String> dayList = Arrays.asList(futsalField.getDays().split(","));

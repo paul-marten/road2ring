@@ -22,17 +22,17 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
     	http.csrf().disable();
         http.authorizeRequests()
-                .antMatchers("/", "/register").permitAll()
-                .antMatchers("/js/*","/css/*","/img/*").permitAll()
-                .antMatchers("/admin/**").hasRole("ADMIN")
-                .and()
-                .formLogin()
-                .loginPage("/login")
-                .defaultSuccessUrl("/admin/index")
-                .permitAll()
-                .and()
-                .logout().permitAll();
-        	http.httpBasic();
+            .antMatchers("/", "/register").permitAll()
+            .antMatchers("/js/*","/css/*","/img/*").permitAll()
+            .antMatchers("/admin/**").hasRole("ADMIN")
+            .and()
+            .formLogin()
+            .loginPage("/login")
+            .defaultSuccessUrl("/admin/index")
+            .permitAll()
+            .and()
+            .logout().permitAll();
+        http.httpBasic();
     }
     /*
      * Only Needed for inmemory authentication. Remove this code after implementing the real user in database

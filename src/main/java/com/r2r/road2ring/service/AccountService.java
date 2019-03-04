@@ -7,7 +7,7 @@ import org.springframework.data.jpa.datatables.mapping.DataTablesInput;
 import org.springframework.data.jpa.datatables.mapping.DataTablesOutput;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
-import com.r2r.road2ring.models.Account;
+import com.r2r.road2ring.modules.Consumer.Consumer;
 import com.r2r.road2ring.repositories.AccountRepository;
 import org.springframework.stereotype.Service;
 
@@ -20,16 +20,16 @@ public class AccountService {
   @Autowired
   private AccountRepository accountRepository;
 
-  public DataTablesOutput<Account> findAllSurveyer(@Valid DataTablesInput input) {
+  public DataTablesOutput<Consumer> findAllSurveyer(@Valid DataTablesInput input) {
     return accountRepository.findAll(input);
   }
 
-  public Account findAccountByUsername(String username) {
+  public Consumer findAccountByUsername(String username) {
     return accountRepository.findByUsername(username);
   }
 
-  public Account saveUser(Account account) {
-    Account result = new Account();
+  public Consumer saveUser(Consumer account) {
+    Consumer result = new Consumer();
     if (account.getId() == 0) {
       String password = new BCryptPasswordEncoder().encode(account.getPlainPassword());
       result.setPassword(password);
@@ -47,7 +47,7 @@ public class AccountService {
     return accountRepository.save(result);
   }
 
-  public Account findAccountById(int id) {
+  public Consumer findAccountById(int id) {
     return accountRepository.findOne(id);
   }
 }
