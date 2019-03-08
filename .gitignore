@@ -28,3 +28,6 @@
 ### Gradle ###
 .gradle
 build/
+
+#Config
+src/main/resources/application.properties
