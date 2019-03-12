@@ -12,8 +12,4 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping(value = "{api/consumer, /m/api/consumer}")
 public class ConsumerAPIController {
 
-  @RequestMapping(value = "")
-  public String test(){
-    return "Hello";
-  }
 }

@@ -28,6 +28,9 @@ public class Consumer implements Serializable {
   @Column(name = "consumer_password")
   private String password;
 
+  @Column(name = "consumer_picture")
+  private String picture;
+
   @ManyToOne(fetch = FetchType.LAZY)
   @JoinColumn(name = "consumer_role_id", nullable = false)
   private Role role;
