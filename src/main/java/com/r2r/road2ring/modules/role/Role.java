@@ -2,7 +2,7 @@ package com.r2r.road2ring.modules.role;
 
 import com.r2r.road2ring.modules.consumer.Consumer;
 import java.io.Serializable;
-import java.util.Set;
+import java.util.List;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -26,5 +26,5 @@ public class Role implements Serializable {
   private String name;
 
   @OneToMany(fetch = FetchType.LAZY, mappedBy = "role")
-  private Set<Consumer> consumers;
+  private List<Consumer> consumers;
 }
