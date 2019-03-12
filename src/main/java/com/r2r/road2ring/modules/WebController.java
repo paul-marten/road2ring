@@ -11,7 +11,7 @@ public class WebController {
 
   @GetMapping("/home")
   public String home(){
-    return "admin/page/index";
+    return "admin/form/trip";
   }
 
 
