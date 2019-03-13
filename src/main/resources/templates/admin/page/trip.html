@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html layout:decorator="/admin/layout">
+<head>
+  <title>R2R-Trip</title>
+</head>
+<body>
+  <div layout:fragment="content">
+    <div class="col-xs-12">
+      <div class="box">
+        <div class="box-header">
+          <h3 class="box-title">Trip List</h3>
+        </div>
+        <div class="box-body">
+          <table id="rsp-tbl" class="table table-bordered table-hover">
+            <thead>
+              <tr>
+                <th>No.</th>
+                <th>Description</th>
+                <th>Icon Cover</th>
+                <th>Icon Publisher</th>
+                <th>Duration</th>
+                <th>Tag</th>
+                <th>Detail Description</th>
+                <th>Captain</th>
+              </tr>
+            </thead>
+            <!--<tfoot>-->
+              <!--<th>Description</th>-->
+            <!--</tfoot>-->
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+  <th:block layout:fragment="footer-js">
+  <script src="../../plugins/datatables/jquery.dataTables.min.js"></script>
+  <script src="../../plugins/datatables/dataTables.bootstrap.min.js"></script>
+  <script src="../../js/si/tripList.js"></script>
+  </th:block>
+</body>
+
+</html>

@@ -43,7 +43,7 @@ public class TripController {
     response.setObject(tripService.saveTrip(trip));
     model.addAttribute("response", response);
 
-    return "redirect:/si/tournament";
+    return "redirect:/admin/page/index";
   }
 
 }
