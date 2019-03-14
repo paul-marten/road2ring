@@ -1,19 +1,14 @@
 package com.r2r.road2ring.modules.consumer;
-import com.fasterxml.jackson.annotation.JsonView;
 import com.r2r.road2ring.modules.role.Role;
 import com.r2r.road2ring.modules.trip.Trip;
 import java.util.List;
 import javax.persistence.*;
 import java.io.Serializable;
 import lombok.Data;
-import lombok.Getter;
-import lombok.Setter;
 
 @Entity
 @Table(name = "consumer")
 @Data
-@Setter
-@Getter
 public class Consumer implements Serializable {
 
   @Id
