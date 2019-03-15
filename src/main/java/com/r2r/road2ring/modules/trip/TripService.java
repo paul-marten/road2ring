@@ -37,7 +37,7 @@ public class TripService {
     saved.setCreated(new Date());
     saved = tripRepository.save(saved);
     if( saved != null){
-      itineraryService.saveListOfItinerary(trip.getItineraries(),saved);
+      itineraryService.saveListOfItinerary(trip.getItineraries(),saved, trip.getGroupTitle());
     }
     return saved;
   }

@@ -16,20 +16,21 @@ public class ItineraryService {
     this.itineraryRepository = itineraryRepository;
   }
 
-  public Itinerary saveItinerary(Itinerary itinerary, Trip trip){
+  public Itinerary saveItinerary(Itinerary itinerary, Trip trip, List<String> groupTitle){
     Itinerary saved = new Itinerary();
     saved.setDescription(itinerary.getDescription());
     saved.setTitle(itinerary.getTitle());
     saved.setImageUrl(itinerary.getImageUrl());
     saved.setGroup(itinerary.getGroup());
+    saved.setGroupTitle(groupTitle.get(itinerary.getGroup()));
     saved.setTrip(trip);
     return itineraryRepository.save(saved);
   }
 
-  public List<Itinerary> saveListOfItinerary(List<Itinerary> itineraries, Trip trip){
+  public List<Itinerary> saveListOfItinerary(List<Itinerary> itineraries, Trip trip, List<String> groupTitle){
     List<Itinerary> result = new ArrayList<>();
     for(Itinerary saved : itineraries){
-      result.add(saveItinerary(saved,trip));
+      result.add(saveItinerary(saved,trip, groupTitle));
     }
     return result;
   }

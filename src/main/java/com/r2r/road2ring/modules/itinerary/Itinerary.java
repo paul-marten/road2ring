@@ -37,6 +37,9 @@ public class Itinerary implements Serializable {
   @Column(name = "itinerary_group")
   private Integer group;
 
+  @Column(name = "itinerary_group_title")
+  private String groupTitle;
+
   @ManyToOne(fetch = FetchType.LAZY , optional = true)
   @JoinColumn(name = "itinerary_trip_id" , nullable = true)
   private Trip trip;
