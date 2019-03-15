@@ -31,7 +31,4 @@ public class Consumer implements Serializable {
   @ManyToOne(fetch = FetchType.LAZY)
   @JoinColumn(name = "consumer_role_id", nullable = false)
   private Role role;
-
-  @OneToMany(fetch = FetchType.LAZY, mappedBy = "roadCaptain")
-  private List<Trip> trips;
 }

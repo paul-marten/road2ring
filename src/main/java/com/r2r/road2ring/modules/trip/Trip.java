@@ -1,7 +1,10 @@
 package com.r2r.road2ring.modules.trip;
 
 import com.r2r.road2ring.modules.consumer.Consumer;
+import com.r2r.road2ring.modules.itinerary.Itinerary;
+import com.r2r.road2ring.modules.roadcaptain.RoadCaptain;
 import java.io.Serializable;
+import java.util.Date;
 import java.util.List;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -42,19 +45,33 @@ public class Trip implements Serializable {
   @Column(name = "trip_duration")
   private Integer duration;
 
+  @Column(name = "trip_distance")
+  private Integer distance;
+
+  @Column(name = "trip_terrain")
+  private String terrain;
+
+  @Column(name = "trip_max_rider")
+  private Integer maxRider;
+
   @Column(name = "trip_tag")
   private String tag;
 
-  @Column(name = "trip_detail_description")
-  private String detailDescription;
+  @Column(name = "trip_created")
+  private Date created;
+
+  @Column(name = "trip_updated")
+  private Date updated;
 
   @ManyToOne(fetch = FetchType.LAZY , optional = true)
   @JoinColumn(name = "trip_road_captain" , nullable = true)
-  private Consumer roadCaptain;
+  private RoadCaptain roadCaptain;
 
   @OneToMany(fetch = FetchType.LAZY, mappedBy = "trip")
   private List<TripFacility> tripFacilities;
 
+  @OneToMany(fetch = FetchType.LAZY, mappedBy = "trip")
+  private List<Itinerary> itineraries;
 //  private List<facility> facilities;
 //  private List<>
 //  private Iternary iternary;
