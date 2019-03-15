@@ -9,7 +9,6 @@ $(document).ready( function () {
 			    { "mData": "iconPublisher"},
 			    { "mData": "duration"},
 			    { "mData": "tag"},
-			    { "mData": "detailDescription"},
 			    { "mData": "roadCaptain"},
 			],
 			"columnDefs": [ {
