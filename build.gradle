@@ -24,7 +24,7 @@ buildscript {
 }
 
 bootRun {
-	jvmArgs = ["-XX:PermSize=256m", "-XX:MaxPermSize=512m", "-Xmx2048m", "-Dserver.port=8081"]
+	jvmArgs = ["-XX:PermSize=256m", "-XX:MaxPermSize=512m", "-Xmx2048m", "-Dserver.port=8080"]
 	addResources = true
 }
 
