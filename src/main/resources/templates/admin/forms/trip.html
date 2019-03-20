@@ -2,6 +2,16 @@
 <html xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorator="/admin/layout">
 <head>
   <title>R2R-Trip</title>
+  <style>
+.ck-editor__editable {
+    min-height: 200px;
+}
+
+.box-inline{
+      box-shadow: 0 1px 1px rgba(0,0,0,0.5) !important;
+      padding: 5px 10px;
+}
+</style>
 </head>
 <body>
 <div layout:fragment="content">
@@ -13,12 +23,12 @@
       <div class="box-body">
         <div class="form-group">
           <label for="title">Title</label>
-          <input type="text" class="form-control" id="title" placeholder="Title">
+          <input type="text" class="form-control" name="title" id="title" placeholder="Title" required>
         </div>
 
         <div class="form-group">
           <label for="description">Description</label>
-          <textarea class="form-control" rows="3" name="description" id="description" placeholder="Enter description"></textarea>
+          <textarea class="form-control" name="description" id="description" placeholder="Enter description"></textarea>
         </div>
 
         <div class="form-group">
@@ -36,36 +46,70 @@
         </div>
 
         <div class="form-group">
+          <label for="max-rider">Max Rider</label>
+          <input type="number" name="maxRider" id="max-rider" class="form-control" placeholder="Max Rider" required>
+        </div>
+
+        <div class="form-group">
           <label for="duration">Duration</label>
           <div class="input-group" id="duration">
-            <input type="number" name="duration" class="form-control" placeholder="Duration">
+            <input type="number" name="duration" class="form-control" placeholder="Duration" required>
             <span class="input-group-addon">Days</span>
           </div>
         </div>
 
         <div class="form-group">
           <label for="tag">Tag</label>
-          <input type="text" name="tag" class="form-control" id="tag" placeholder="Tag">
-        </div>
-
-        <div class="form-group">
-          <label for="detail-desc">Detail Desc</label>
-          <textarea class="form-control" name="detailDescription" rows="3" id="detail-desc" placeholder="Enter Detail Description"></textarea>
+          <input type="text" name="tag" class="form-control" id="tag" placeholder="Tag" required>
         </div>
 
         <div class="form-group">
           <label for="captain">Captain</label>
-          <input type="text" class="form-control" id="captain" placeholder="Captain">
+          <input type="text" class="form-control" id="captain" placeholder="Captain" required>
+        </div>
+
+        <!-- /.facility not included -->
+        <!--<button type="button" class="btn btn-info facility-btn collapse" data-toggle="collapse" data-target="#form-list">Simple collapsible</button>-->
+        <!--<div class="form-group box box-info box-inline">-->
+          <!--<div class="box-header">-->
+            <!--<label for="add-form">Trip Facilities(not-include)</label>-->
+            <!--<button style="margin: 0px 15px; height: 30px;" id="add-form" type="button"-->
+                    <!--class="btn btn-default btn-sm m-bottom-sm btn-add-tab">-->
+              <!--<i class="fa fa-plus fa-lg"></i>-->
+            <!--</button>-->
+          <!--</div>-->
+          <!--<div id="form-list"></div>-->
+        <!--</div>-->
+
+        <button type="button" class="btn btn-info itinerary-btn collapse" data-toggle="collapse" data-target="#itinerary-form">Simple collapsible</button>
+        <div class="form-group box box-success box-inline">
+          <div class="box-header">
+            <label for="add-itinerary">Itinerary</label>
+            <button style="margin: 0px 15px; height: 30px;" id="add-itinerary" type="button"
+                    class="btn btn-default btn-sm m-bottom-sm btn-add-tab">
+              <i class="fa fa-plus fa-lg"></i>
+            </button>
+          </div>
+          <div id="itinerary-form"></div>
         </div>
 
       </div>
-      <!-- /.box-body -->
-
       <div class="box-footer">
         <button type="submit" class="btn btn-primary">Submit</button>
       </div>
     </form>
   </div>
-</div>>
+</div>
+<th:block layout:fragment="footer-js">
+  <script src="../../js/si/tripFacility.js"></script>
+  <script src="../../js/si/tripItinerary.js"></script>
+  <script src="https://cdn.ckeditor.com/ckeditor5/12.0.0/classic/ckeditor.js"></script>
+  <script>
+    ClassicEditor
+    .create(document.querySelector( '#description' ))
+    .then(editor => {})
+    .catch(error => {});
+  </script>
+</th:block>
 </body>
 </html>
