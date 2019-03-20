@@ -1,6 +1,7 @@
 package com.r2r.road2ring.modules.trip;
 
 import com.r2r.road2ring.modules.common.Response;
+import com.r2r.road2ring.modules.itinerary.Itinerary;
 import java.security.Principal;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -44,6 +45,18 @@ public class TripController {
     model.addAttribute("response", response);
 
     return "redirect:/home";
+  }
+
+  @RequestMapping(value = "/{tripId}/itinerary")
+  public String editTripItinerary(@ModelAttribute Itinerary itinerary, Model modelm, Principal principal){
+
+    return "admin/forms/trip-itinerary";
+  }
+
+  @RequestMapping(value = "/{tripId}/facility")
+  public String editTripFacility(@ModelAttribute Itinerary itinerary, Model modelm, Principal principal){
+
+    return "admin/forms/trip-facility";
   }
 
 }

@@ -1,0 +1,31 @@
+<!DOCTYPE html SYSTEM "http://www.thymeleaf.org/dtd/xhtml1-strict-thymeleaf-spring4-4.dtd">
+<html xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorator="/admin/layout">
+<head>
+  <title>R2R-Trip</title>
+</head>
+<body>
+<div layout:fragment="content">
+  <div class="box box-primary">
+    <div class="box-header with-border">
+      <h1 class="box-title">Trip Itinerary Form</h1>
+    </div>
+    <form role="form" th:action="@{'/trip/save'}" th:object="${response}" method="post">
+      <button type="button" class="btn btn-info itinerary-btn collapse" data-toggle="collapse" data-target="#itinerary-form">Simple collapsible</button>
+      <div class="form-group box box-success box-inline">
+        <div class="box-header">
+          <label for="add-itinerary">Itinerary</label>
+          <button style="margin: 0px 15px; height: 30px;" id="add-itinerary" type="button"
+                  class="btn btn-default btn-sm m-bottom-sm btn-add-tab">
+            <i class="fa fa-plus fa-lg"></i>
+          </button>
+        </div>
+        <div id="itinerary-form"></div>
+      </div>
+    </form>
+  </div>
+</div>
+<th:block layout:fragment="footer-js">
+  <script src="../../js/si/tripItinerary.js"></script>
+</th:block>
+</body>
+</html>

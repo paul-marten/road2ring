@@ -1,0 +1,31 @@
+<!DOCTYPE html SYSTEM "http://www.thymeleaf.org/dtd/xhtml1-strict-thymeleaf-spring4-4.dtd">
+<html xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorator="/admin/layout">
+<head>
+  <title>R2R-Trip</title>
+</head>
+<body>
+<div layout:fragment="content">
+  <div class="box box-primary">
+    <div class="box-header with-border">
+      <h1 class="box-title">Trip Facility Form</h1>
+    </div>
+    <form role="form" th:action="@{'/trip/save'}" th:object="${response}" method="post">
+      <button type="button" class="btn btn-info facility-btn collapse" data-toggle="collapse" data-target="#form-list">Simple collapsible</button>
+      <div class="form-group box box-info box-inline">
+        <div class="box-header">
+          <label for="add-form">Trip Facilities(not-include)</label>
+          <button style="margin: 0px 15px; height: 30px;" id="add-form" type="button"
+                  class="btn btn-default btn-sm m-bottom-sm btn-add-tab">
+            <i class="fa fa-plus fa-lg"></i>
+          </button>
+        </div>
+        <div id="form-list"></div>
+      </div>
+    </form>
+  </div>
+</div>
+<th:block layout:fragment="footer-js">
+  <script src="../../js/si/tripFacility.js"></script>
+</th:block>
+</body>
+</html>
