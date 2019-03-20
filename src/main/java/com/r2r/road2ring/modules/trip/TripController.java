@@ -1,6 +1,6 @@
 package com.r2r.road2ring.modules.trip;
 
-import com.r2r.road2ring.modules.common.Response;
+import com.r2r.road2ring.modules.common.ResponseMessage;
 import java.security.Principal;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -8,7 +8,6 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
 
 @Controller
 @RequestMapping(value = "/trip")
@@ -23,14 +22,14 @@ public class TripController {
 
   @RequestMapping(value = "", method = RequestMethod.GET)
   public String index(Model model) {
-    Response response = new Response();
+    ResponseMessage response = new ResponseMessage();
     model.addAttribute("response", response);
     return "admin/page/trip";
   }
 
   @RequestMapping(value = "/add", method = RequestMethod.GET)
   public String add(Model model) {
-    Response response = new Response();
+    ResponseMessage response = new ResponseMessage();
     Trip trip = new Trip();
     response.setObject(trip);
     model.addAttribute("response", response);
@@ -39,7 +38,7 @@ public class TripController {
 
   @RequestMapping(value = "/save", method = RequestMethod.POST)
   public String save(@ModelAttribute Trip trip, Model model, Principal principal) {
-    Response response = new Response();
+    ResponseMessage response = new ResponseMessage();
     response.setObject(tripService.saveTrip(trip));
     model.addAttribute("response", response);
 
