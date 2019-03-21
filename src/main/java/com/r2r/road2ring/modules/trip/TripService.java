@@ -1,5 +1,6 @@
 package com.r2r.road2ring.modules.trip;
 
+import com.r2r.road2ring.modules.facility.Facility;
 import com.r2r.road2ring.modules.itinerary.Itinerary;
 import com.r2r.road2ring.modules.itinerary.ItineraryService;
 import java.util.ArrayList;
@@ -46,18 +47,17 @@ public class TripService {
     return tripRepository.findAll();
   }
 
-//  public DataTablesOutput<Trip> getDatatableContents(DataTablesInput input) {
-//    DataTablesOutput<Trip> trip = tripRepository.findAll(input);
-//    return trip;
-//  }
-
-  public List<Trip> buildListSI(List<Trip> bios, String baseUrl) {
-
-//    for (LinkInBio bio: bios) {
-//      bio.setLink(contentService.getLinkContent(bio.getId(), bio.getTitle(), baseUrl));
-//    }
-
-    return bios;
-
+  public DataTablesOutput<Trip> getDatatableContents(DataTablesInput input) {
+    DataTablesOutput<Trip> trip = tripRepository.findAll(input);
+    return trip;
   }
+
+  public List<TripFacility> getTripFacility(Trip trip){
+    Trip trips = tripRepository.findOne(trip.getId());
+    TripFacility tripFacility;
+    List<TripFacility> result = new ArrayList<TripFacility>();
+    result = trip.getTripFacilities();
+    return result;
+  }
+
 }

@@ -35,7 +35,4 @@ public class RoadCaptain implements Serializable {
 
   @Column(name = "road_captain_description")
   private String description;
-
-  @OneToMany(fetch = FetchType.LAZY, mappedBy = "roadCaptain")
-  private List<Trip> trips;
 }

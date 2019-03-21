@@ -1,5 +1,7 @@
 package com.r2r.road2ring.modules.trip;
 
+import com.fasterxml.jackson.annotation.JsonView;
+import com.r2r.road2ring.modules.common.ResponseView;
 import com.r2r.road2ring.modules.consumer.Consumer;
 import com.r2r.road2ring.modules.itinerary.Itinerary;
 import com.r2r.road2ring.modules.roadcaptain.RoadCaptain;
@@ -29,39 +31,63 @@ public class Trip implements Serializable {
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   @Column(name = "trip_id")
+  @JsonView(ResponseView.LimitedTrip.class)
   private Integer id;
 
   @Column(name = "trip_title")
+  @JsonView(ResponseView.LimitedTrip.class)
   private String title;
 
+  @Column(name = "trip_meeting_point")
+  @JsonView(ResponseView.LimitedTrip.class)
+  private String meetingPoint;
+
   @Column(name = "trip_description")
+  @JsonView(ResponseView.LimitedTrip.class)
   private String description;
 
   @Column(name = "trip_icon_cover")
+  @JsonView(ResponseView.DefaultTrip.class)
   private String iconCover;
 
   @Column(name = "trip_icon_publisher")
+  @JsonView(ResponseView.DefaultTrip.class)
   private String iconPublisher;
 
+  @Column(name = "trip_cover_landscape")
+  @JsonView(ResponseView.DefaultTrip.class)
+  private String coverLandscape;
+
+  @Column(name = "trip_cover_potrait")
+  @JsonView(ResponseView.DefaultTrip.class)
+  private String coverPotrait;
+
   @Column(name = "trip_duration")
+  @JsonView(ResponseView.DefaultTrip.class)
   private Integer duration;
 
   @Column(name = "trip_distance")
+  @JsonView(ResponseView.DefaultTrip.class)
   private Integer distance;
 
   @Column(name = "trip_terrain")
+  @JsonView(ResponseView.DefaultTrip.class)
   private String terrain;
 
   @Column(name = "trip_max_rider")
+  @JsonView(ResponseView.DefaultTrip.class)
   private Integer maxRider;
 
   @Column(name = "trip_tag")
+  @JsonView(ResponseView.DefaultTrip.class)
   private String tag;
 
   @Column(name = "trip_created")
+  @JsonView(ResponseView.DefaultTrip.class)
   private Date created;
 
   @Column(name = "trip_updated")
+  @JsonView(ResponseView.DefaultTrip.class)
   private Date updated;
 
   @Transient
@@ -69,14 +95,19 @@ public class Trip implements Serializable {
 
   @ManyToOne(fetch = FetchType.LAZY , optional = true)
   @JoinColumn(name = "trip_road_captain" , nullable = true)
+  @JsonView(ResponseView.DetailedTrip.class)
   private RoadCaptain roadCaptain;
 
   @OneToMany(fetch = FetchType.LAZY, mappedBy = "trip")
+  @JsonView(ResponseView.DetailedTrip.class)
   private List<TripFacility> tripFacilities;
 
   @OneToMany(fetch = FetchType.LAZY, mappedBy = "trip")
+  @JsonView(ResponseView.DetailedTrip.class)
   private List<Itinerary> itineraries;
-//  private List<facility> facilities;
-//  private List<>
-//  private Iternary iternary;
+
+  @OneToMany(fetch = FetchType.LAZY, mappedBy = "trip")
+  @JsonView(ResponseView.DetailedTrip.class)
+  private List<TripPrice> tripPrices;
+
 }
