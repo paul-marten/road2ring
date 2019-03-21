@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonView;
 import com.r2r.road2ring.modules.common.ResponseView;
 import com.r2r.road2ring.modules.trip.Trip;
 import java.io.Serializable;
+import java.util.List;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -13,6 +14,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 import lombok.Data;
 
 @Entity
@@ -47,6 +49,9 @@ public class Itinerary implements Serializable {
   @Column(name = "itinerary_group_title")
   @JsonView(ResponseView.DefaultItinerary.class)
   private String groupTitle;
+
+  @Transient
+  private List<String> groupTitles;
 
   @ManyToOne(fetch = FetchType.LAZY , optional = true)
   @JoinColumn(name = "itinerary_trip_id" , nullable = true)
