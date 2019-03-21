@@ -27,10 +27,10 @@ public class ItineraryService {
     return itineraryRepository.save(saved);
   }
 
-  public List<Itinerary> saveListOfItinerary(List<Itinerary> itineraries, Trip trip, List<String> groupTitle){
+  public List<Itinerary> saveListOfItinerary(List<Itinerary> itineraries, Trip trip, List<String> groupTitles){
     List<Itinerary> result = new ArrayList<>();
     for(Itinerary saved : itineraries){
-      result.add(saveItinerary(saved,trip, groupTitle));
+      result.add(saveItinerary(saved,trip, groupTitles));
     }
     return result;
   }

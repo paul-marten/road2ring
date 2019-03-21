@@ -36,10 +36,15 @@ public class TripService {
     saved.setTerrain(trip.getTerrain());
     saved.setDuration(trip.getDuration());
     saved.setCreated(new Date());
+    saved.setMeetingPoint(trip.getMeetingPoint());
+    saved.setUpdated(new Date());
+    saved.setTag(trip.getTag());
+    saved.setTitle(trip.getTitle());
+    saved.setLocation(trip.getLocation());
     saved = tripRepository.save(saved);
-    if( saved != null){
-      itineraryService.saveListOfItinerary(trip.getItineraries(),saved, trip.getGroupTitle());
-    }
+//    if( saved != null){
+//      itineraryService.saveListOfItinerary(trip.getItineraries(),saved, trip.getGroupTitle());
+//    }
     return saved;
   }
 
