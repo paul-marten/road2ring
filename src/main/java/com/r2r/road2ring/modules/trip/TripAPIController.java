@@ -1,6 +1,7 @@
 package com.r2r.road2ring.modules.trip;
 
 import com.fasterxml.jackson.annotation.JsonView;
+import com.r2r.road2ring.modules.TripFacility.TripFacility;
 import com.r2r.road2ring.modules.common.ResponseView;
 import com.r2r.road2ring.modules.itinerary.Itinerary;
 import java.util.List;

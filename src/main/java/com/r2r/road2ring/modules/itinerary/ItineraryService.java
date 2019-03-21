@@ -19,8 +19,7 @@ public class ItineraryService {
   }
 
 
-  public DataTablesOutput<Itinerary> getDatatableItinerary(DataTablesInput input,
-      int tripId) {
+  public DataTablesOutput<Itinerary> getDatatableItinerary(DataTablesInput input) {
     DataTablesOutput<Itinerary> itineraries = itineraryRepository.findAll(input);
 
     List<Itinerary> builtItinerary = itineraries.getData();

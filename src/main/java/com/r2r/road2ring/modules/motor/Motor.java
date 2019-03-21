@@ -21,6 +21,24 @@ public class Motor implements Serializable {
   @Column(name = "motor_id")
   private Integer id;
 
-  @Column(name = "motor_name")
-  private String name;
+  @Column(name = "motor_title")
+  private String title;
+
+  @Column(name = "motor_capacity")
+  private Integer capacity;
+
+  @Column(name = "motor_brand")
+  private String brand;
+
+  @Column(name = "motor_price")
+  private Integer price;
+
+  @Column(name = "motor_discount")
+  private Integer discount;
+
+  @Column(name = "motor_description")
+  private String description;
+
+  @Column(name = "motor_picture")
+  private String picture;
 }

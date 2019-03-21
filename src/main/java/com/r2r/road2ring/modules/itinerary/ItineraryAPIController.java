@@ -22,9 +22,9 @@ public class ItineraryAPIController {
     this.itineraryService = itineraryService;
   }
 
-  @RequestMapping(value = "/datatable/{tripId}", method = RequestMethod.GET)
-  public DataTablesOutput<Itinerary> datatable(@Valid DataTablesInput input,@PathVariable Integer scheduleId) {
-    return itineraryService.getDatatableItinerary(input, scheduleId);
+  @RequestMapping(value = "/datatable", method = RequestMethod.GET)
+  public DataTablesOutput<Itinerary> datatable(@Valid DataTablesInput input) {
+    return itineraryService.getDatatableItinerary(input);
   }
 
 }

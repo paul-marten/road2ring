@@ -33,6 +33,10 @@ public class TripPrice {
   @JsonView(ResponseView.DefaultTripPrice.class)
   private Date finishTrip;
 
+  @Column(name = "trip_price_person_paid")
+  @JsonView(ResponseView.DefaultTripPrice.class)
+  private Integer personPaid;
+
   @Column(name = "trip_price_status")
   @JsonView(ResponseView.DefaultTripPrice.class)
   private TripPriceStatus status;
