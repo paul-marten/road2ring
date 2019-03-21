@@ -56,12 +56,19 @@ public class TripService {
     return trip;
   }
 
-  public List<TripFacility> getTripFacility(Trip trip){
-    Trip trips = tripRepository.findOne(trip.getId());
+  public List<TripFacility> getTripFacility(int tripId){
+    Trip trips = tripRepository.findOne(tripId);
     TripFacility tripFacility;
     List<TripFacility> result = new ArrayList<TripFacility>();
-    result = trip.getTripFacilities();
+    result = trips.getTripFacilities();
     return result;
   }
 
+  public List<Itinerary> getTripItinerary(int tripId){
+    Trip trips = tripRepository.findOne(tripId);
+    TripFacility tripFacility;
+    List<Itinerary> result = new ArrayList<Itinerary>();
+    result = trips.getItineraries();
+    return result;
+  }
 }
