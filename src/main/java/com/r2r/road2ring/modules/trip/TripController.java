@@ -17,7 +17,7 @@ public class TripController {
   TripService tripService;
 
   @Autowired
-  public void setTripService(TripService tripService){
+  public void setTripService(TripService tripService) {
     this.tripService = tripService;
   }
 
@@ -47,14 +47,16 @@ public class TripController {
   }
 
   @RequestMapping(value = "/{tripId}/itinerary")
-  public String editTripItinerary(@ModelAttribute Itinerary itinerary, Model modelm, Principal principal){
-
+  public String editTripItinerary(@ModelAttribute Itinerary itinerary, Model model) {
+    ResponseMessage response = new ResponseMessage();
+    model.addAttribute("response", response);
     return "admin/page/trip-itinerary";
   }
 
   @RequestMapping(value = "/{tripId}/facility")
-  public String editTripFacility(@ModelAttribute Itinerary itinerary, Model modelm, Principal principal){
-
+  public String editTripFacility(@ModelAttribute Itinerary itinerary, Model model) {
+    ResponseMessage response = new ResponseMessage();
+    model.addAttribute("response", response);
     return "admin/page/trip-facility";
   }
 

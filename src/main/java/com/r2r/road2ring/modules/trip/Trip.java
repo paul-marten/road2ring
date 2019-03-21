@@ -1,6 +1,8 @@
 package com.r2r.road2ring.modules.trip;
 
 import com.fasterxml.jackson.annotation.JsonView;
+import com.r2r.road2ring.modules.TripFacility.TripFacility;
+import com.r2r.road2ring.modules.common.Language;
 import com.r2r.road2ring.modules.common.ResponseView;
 import com.r2r.road2ring.modules.itinerary.Itinerary;
 import com.r2r.road2ring.modules.roadcaptain.RoadCaptain;
@@ -95,6 +97,14 @@ public class Trip implements Serializable {
   @Column(name = "trip_published_status")
   @JsonView(ResponseView.DefaultTrip.class)
   private TripPublishedStatus publishedStatus;
+
+  @Column(name = "trip_language")
+  @JsonView(ResponseView.DefaultTrip.class)
+  private Language language;
+
+  @Column(name = "trip_related_trip_id")
+  @JsonView(ResponseView.DefaultTrip.class)
+  private Integer relatedTrip;
 
   @ManyToOne(fetch = FetchType.LAZY , optional = true)
   @JoinColumn(name = "trip_road_captain" , nullable = true)

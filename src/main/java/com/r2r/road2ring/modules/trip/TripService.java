@@ -1,7 +1,6 @@
 package com.r2r.road2ring.modules.trip;
 
-import com.r2r.road2ring.modules.facility.Facility;
-import com.r2r.road2ring.modules.itinerary.Itinerary;
+import com.r2r.road2ring.modules.TripFacility.TripFacility;
 import com.r2r.road2ring.modules.itinerary.ItineraryService;
 import java.util.ArrayList;
 import java.util.Date;

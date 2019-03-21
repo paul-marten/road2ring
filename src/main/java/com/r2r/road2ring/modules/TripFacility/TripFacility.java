@@ -1,7 +1,9 @@
-package com.r2r.road2ring.modules.trip;
+package com.r2r.road2ring.modules.TripFacility;
 
 import com.fasterxml.jackson.annotation.JsonView;
+import com.r2r.road2ring.modules.common.Language;
 import com.r2r.road2ring.modules.common.ResponseView;
+import com.r2r.road2ring.modules.trip.Trip;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -40,5 +42,13 @@ public class TripFacility {
   @JsonView(ResponseView.DefaultTripFacility.class)
   @Column(name = "trip_facility_is_included")
   private Boolean isIncluded;
+
+  @Column(name = "trip_facility_language")
+  @JsonView(ResponseView.DefaultTrip.class)
+  private Language language;
+
+  @Column(name = "trip_facility_related_trip_facility_id")
+  @JsonView(ResponseView.DefaultTrip.class)
+  private Integer relatedTripFacility;
 
 }
