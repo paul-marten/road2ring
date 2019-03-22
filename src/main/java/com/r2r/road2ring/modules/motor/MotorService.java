@@ -1,7 +1,10 @@
 package com.r2r.road2ring.modules.motor;
 
 import java.util.List;
+import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.jpa.datatables.mapping.DataTablesInput;
+import org.springframework.data.jpa.datatables.mapping.DataTablesOutput;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -12,6 +15,10 @@ public class MotorService {
   @Autowired
   public void setMotorRepository(MotorRepository motorRepository){
     this.motorRepository = motorRepository;
+  }
+
+  public DataTablesOutput<Motor> findDatatable(@Valid DataTablesInput input) {
+    return motorRepository.findAll(input);
   }
 
   public Motor saveMotor(Motor motor){
