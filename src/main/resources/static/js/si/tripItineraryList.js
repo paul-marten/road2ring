@@ -131,7 +131,8 @@ $(document).ready( function () {
 //                                      'href': '',
 //                                      }));
 //  var btnScheduled = $('<li>', {'id':'schedule'}).append(iconScheduled).append(textScheduled);
-  var list = btnEdit.add(btnFacility).add(btnIternary).add(btnPublish);
+  var list = btnEdit;
+//  .add(btnFacility).add(btnIternary).add(btnPublish);
 
   if (rowData.isPublished == "PUBLISHED" || rowData.isPublished == "EDITED") {
                   btnScheduled = $('<li>', {'style':'display: none;'});

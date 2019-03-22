@@ -100,27 +100,27 @@ $(document).ready( function () {
   var btnEdit = $('<li>').append(iconEdit).append(textEdit);
 
 //  var iconEdit = $('<span>').append($('<i>', {'class':'icon-icon_edit'}));
-  var textFacility =$('<span>').append( $('<a>', {
-                                'text':'Facility ',
-                                'href': '/trip/'+cellData+'/facility',
-                            }));
-  var btnFacility= $('<li>').append(textFacility);
-
+//  var textFacility =$('<span>').append( $('<a>', {
+//                                'text':'Facility ',
+//                                'href': '/trip/'+cellData+'/facility',
+//                            }));
+//  var btnFacility= $('<li>').append(textFacility);
+//
 
 //  var iconEdit = $('<span>').append($('<i>', {'class':'icon-icon_edit'}));
-  var textIternary =$('<span>').append( $('<a>', {
-                                'text':'Iternary ',
-                                'href': '/trip/'+cellData+'/itinerary',
-                            }));
-  var btnIternary= $('<li>').append(textIternary);
+//  var textIternary =$('<span>').append( $('<a>', {
+//                                'text':'Iternary ',
+//                                'href': '/trip/'+cellData+'/itinerary',
+//                            }));
+//  var btnIternary= $('<li>').append(textIternary);
 
   //Draw buttom Publish
-  var iconPublish =$('<span>').append($('<i>', {'class':'icon-icon_publish'}));
-  var textPublish =$('<span>').append( $('<a>', {
-                                  'text':'Publish ',
-                                  'href': '',
-                              }));
-  var btnPublish = $('<li>', {'id':'publishContent'}).append(iconPublish).append(textPublish);
+//  var iconPublish =$('<span>').append($('<i>', {'class':'icon-icon_publish'}));
+//  var textPublish =$('<span>').append( $('<a>', {
+//                                  'text':'Publish ',
+//                                  'href': '',
+//                              }));
+//  var btnPublish = $('<li>', {'id':'publishContent'}).append(iconPublish).append(textPublish);
 
   //Draw buttom Publish
   var iconUnpublish =$('<span>').append($('<i>', {'class':'icon-icon_unpublish'}));
@@ -137,7 +137,7 @@ $(document).ready( function () {
 //                                      'href': '',
 //                                      }));
 //  var btnScheduled = $('<li>', {'id':'schedule'}).append(iconScheduled).append(textScheduled);
-  var list = btnEdit.add(btnFacility).add(btnIternary).add(btnPublish);
+  var list = btnEdit;
 
   if (rowData.isPublished == "PUBLISHED" || rowData.isPublished == "EDITED") {
                   btnScheduled = $('<li>', {'style':'display: none;'});

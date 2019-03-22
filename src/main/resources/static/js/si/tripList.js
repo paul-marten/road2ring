@@ -87,7 +87,7 @@ $(document).ready( function () {
   var iconEdit = $('<span>').append($('<i>', {'class':'icon-icon_edit'}));
   var textEdit =$('<span>').append( $('<a>', {
                               'text':'Edit ',
-                              'href': '/trip/edit?id=' + cellData,
+                              'href': '#' + cellData,
                           }));
   var btnEdit = $('<li>').append(iconEdit).append(textEdit);
 
