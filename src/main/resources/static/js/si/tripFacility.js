@@ -13,7 +13,7 @@ function drawField(index){
 
   var formGroup = $('#form-list')
   formField.append("<br/>")
-  formField.append(drawLabel('Facility-'+labelIndex))
+  formField.append(drawLabel('Facility'))
   formField.append(drawInput('Facility-'+labelIndex))
   formField.append(drawDeleteButton())
 
@@ -45,13 +45,14 @@ function drawDeleteButton(){
 }
 
  function drawInput(label){
-  var indexName = indexTmp-1;
+  var indexName = indexTmp;
   var input = $('<input>', {
     'type': 'text',
     'class': 'form-control',
     'name': 'tripFacilities['+indexName+'].facilityName',
     'id': label,
-    'required': true
+    'required': true,
+    'placeholder': 'Facility Name',
   });
   var inputHidden = $('<input>', {
       'type': 'hidden',

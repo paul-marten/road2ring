@@ -1,5 +1,7 @@
 package com.r2r.road2ring.modules.trip;
 
+import com.r2r.road2ring.modules.TripFacility.TripFacility;
+import com.r2r.road2ring.modules.TripFacility.TripFacilityService;
 import com.r2r.road2ring.modules.facility.Facility;
 import com.r2r.road2ring.modules.itinerary.Itinerary;
 import com.r2r.road2ring.modules.common.ResponseMessage;
@@ -21,6 +23,8 @@ public class TripController {
 
   ItineraryService itineraryService;
 
+  TripFacilityService tripFacilityService;
+
   @Autowired
   public void setTripService(TripService tripService) {
     this.tripService = tripService;
@@ -29,6 +33,11 @@ public class TripController {
   @Autowired
   public void setItineraryService(ItineraryService itineraryService) {
     this.itineraryService = itineraryService;
+  }
+
+  @Autowired
+  public void setTripFacility(TripFacilityService tripFacility) {
+    this.tripFacilityService = tripFacility;
   }
 
   @RequestMapping(value = "", method = RequestMethod.GET)
@@ -62,6 +71,13 @@ public class TripController {
     return "redirect:/trip/"+id+"/itinerary";
   }
 
+  @RequestMapping(value = "/{tripId}/facility/save")
+  public String saveTripFacility(@PathVariable("tripId") int id, @ModelAttribute Trip trip, Model model, Principal principal){
+    System.out.println(trip.toString());
+    tripFacilityService.saveListOfTripFacility(trip.getTripFacilities(), trip);
+    return "redirect:/trip/"+id+"/facility";
+  }
+
   @RequestMapping(value = "/{tripId}/itinerary")
   public String viewTripItinerary(@ModelAttribute Itinerary itinerary, Model model) {
     ResponseMessage response = new ResponseMessage();
@@ -81,15 +97,18 @@ public class TripController {
   }
 
   @RequestMapping(value = "/{tripId}/facility")
-  public String editTripFacility(@ModelAttribute Itinerary itinerary, Model model) {
+  public String editTripFacility(@PathVariable("tripId") int id, @ModelAttribute Itinerary itinerary, Model model) {
     ResponseMessage response = new ResponseMessage();
     model.addAttribute("response", response);
     return "admin/page/trip-facility";
   }
 
   @RequestMapping(value = "/{tripId}/facility/add")
-  public String addTripFacility(@ModelAttribute Facility itinerary, Model model) {
+  public String addTripFacility(@PathVariable("tripId") int id, @ModelAttribute Facility itinerary, Model model) {
+    Trip trip = tripService.getTripById(id);
     ResponseMessage response = new ResponseMessage();
+    response.setObject(trip);
+    model.addAttribute("action", "/trip/"+id+"/facility/save");
     model.addAttribute("response", response);
     return "admin/forms/trip-facility";
   }

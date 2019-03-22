@@ -9,19 +9,24 @@
     <div class="box-header with-border">
       <h1 class="box-title">Trip Facility Form</h1>
     </div>
-    <form role="form" th:action="@{'/trip/save'}" th:object="${response}" method="post">
+    <form role="form" th:object="${response}" th:action="${action}" method="post">
+      <input type="hidden" name="id" th:value="${response.object.id}">
+      <input type="hidden" class="hidden" name="tripFacilities[0].isIncluded" value="false">
       <div class="box-body">
+        <label for="title">Not Include Facility</label>
         <button style="margin: 0px 0px; height: 30px;" id="add-form" type="button"
                 class="btn btn-default btn-sm m-bottom-sm btn-add-tab">
           <i class="fa fa-plus fa-lg"></i>
         </button>
+
         <div class="form-group">
-          <label for="title">Facility-1</label>
-          <input type="text" class="form-control" name="title" id="title" placeholder="Title" required>
-        </div>
-        <div class="form-group">
-            <div id="form-list"></div>
-            <br/>
+            <div id="form-list">
+              <div id="tripFacility-0">
+                <label for="title">Facility</label>
+                <input type="text" class="form-control" name="tripFacilities[0].facilityName" id="title" placeholder="Facility Name" required>
+              </div>
+            </div>
+            <!--<br/>-->
         </div>
       </div>
       <div class="box-footer">
