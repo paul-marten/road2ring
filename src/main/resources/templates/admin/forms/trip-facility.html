@@ -10,22 +10,28 @@
       <h1 class="box-title">Trip Facility Form</h1>
     </div>
     <form role="form" th:action="@{'/trip/save'}" th:object="${response}" method="post">
-      <button type="button" class="btn btn-info facility-btn collapse" data-toggle="collapse" data-target="#form-list">Simple collapsible</button>
-      <div class="form-group box box-info box-inline">
-        <div class="box-header">
-          <label for="add-form">Trip Facilities(not-include)</label>
-          <button style="margin: 0px 15px; height: 30px;" id="add-form" type="button"
-                  class="btn btn-default btn-sm m-bottom-sm btn-add-tab">
-            <i class="fa fa-plus fa-lg"></i>
-          </button>
+      <div class="box-body">
+        <button style="margin: 0px 0px; height: 30px;" id="add-form" type="button"
+                class="btn btn-default btn-sm m-bottom-sm btn-add-tab">
+          <i class="fa fa-plus fa-lg"></i>
+        </button>
+        <div class="form-group">
+          <label for="title">Facility-1</label>
+          <input type="text" class="form-control" name="title" id="title" placeholder="Title" required>
         </div>
-        <div id="form-list"></div>
+        <div class="form-group">
+            <div id="form-list"></div>
+            <br/>
+        </div>
+      </div>
+      <div class="box-footer">
+        <button type="submit" class="btn btn-primary">Submit</button>
       </div>
     </form>
   </div>
 </div>
 <th:block layout:fragment="footer-js">
-  <script src="../../js/si/tripFacility.js"></script>
+  <script src="/js/si/tripFacility.js"></script>
 </th:block>
 </body>
 </html>

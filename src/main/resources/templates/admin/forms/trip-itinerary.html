@@ -10,22 +10,35 @@
       <h1 class="box-title">Trip Itinerary Form</h1>
     </div>
     <form role="form" th:action="@{'/trip/save'}" th:object="${response}" method="post">
-      <button type="button" class="btn btn-info itinerary-btn collapse" data-toggle="collapse" data-target="#itinerary-form">Simple collapsible</button>
-      <div class="form-group box box-success box-inline">
-        <div class="box-header">
-          <label for="add-itinerary">Itinerary</label>
-          <button style="margin: 0px 15px; height: 30px;" id="add-itinerary" type="button"
-                  class="btn btn-default btn-sm m-bottom-sm btn-add-tab">
-            <i class="fa fa-plus fa-lg"></i>
-          </button>
+      <div class="box-body">
+        <div class="form-group">
+
+          <div class="form-group">
+            <label for="title">Title</label>
+            <input type="text" class="form-control" name="title" id="title" placeholder="Title eg: Day 1" required>
+          </div>
+
+          <button type="button" class="btn btn-info itinerary-btn collapse" data-toggle="collapse" data-target="#itinerary-form">Simple collapsible</button>
+          <div class="form-group box box-success box-inline">
+            <div class="box-header">
+              <label for="add-event">Event</label>
+              <button style="margin: 0px 15px; height: 30px;" id="add-event" type="button"
+                      class="btn btn-default btn-sm m-bottom-sm btn-add-tab">
+                <i class="fa fa-plus fa-lg"></i>
+              </button>
+            </div>
+            <div id="itinerary-form"></div>
+          </div>
         </div>
-        <div id="itinerary-form"></div>
+      </div>
+      <div class="box-footer">
+        <button type="submit" class="btn btn-primary">Submit</button>
       </div>
     </form>
   </div>
 </div>
 <th:block layout:fragment="footer-js">
-  <script src="../../js/si/tripItinerary.js"></script>
+  <script src="/js/si/tripItinerary.js"></script>
 </th:block>
 </body>
 </html>

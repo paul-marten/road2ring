@@ -1,61 +1,36 @@
 var indexTmps = 1;
-var indexDay = 1;
-$(document).on("click", "#add-itinerary", function(event) {
-    drawIterField();
-    indexDay += 1;
-    $('.itinerary-btn').removeClass('collapse')
-});
 
 function drawIterField(){
-  var formEventGroup = $('<div>', {
-    'id': 'day-'+indexDay,
+  var curIndex = indexTmps - 1;
+
+  var formFields = $('<div>', {
+    'id': 'day',
     'class': 'box-header container-day'
   });
 
   var formGroup = $('#itinerary-form')
-  formEventGroup.append("<br/>")
-  formEventGroup.append(drawIterLabel('title-'+indexDay,'Title'))
-  formEventGroup.append(drawIterInput('title-'+indexDay,'text'))
-  formEventGroup.append(drawAddButton())
-  formEventGroup.append(drawIterDeleteButton())
-  formGroup.append(formEventGroup)
-  $('#add-event').click(autoAddForm(indexDay))
-}
-$(document).on("click", "#add-event", function(event) {
-    var numItems = $('.container-day').length
-    console.log($(this).parent().attr('id'))
-    drawIterEventField($(this).parent().attr('id'));
-    indexTmps += 1;
-});
-
-function autoAddForm(index){
-  drawIterEventField('day-'+index);
-  indexTmps += 1;
-}
-
-function drawIterEventField(container){
-
-  var formFields = $('<div>', {
-    'id': 'field-'+indexTmps
-  });
-  var formGroup = $('#'+container)
-  var fieldIndex = indexTmps - 1
-  console.log(formGroup)
-
-  formGroup.append(formFields)
+  formFields.append("<br/>")
 
   formFields.append(drawIterEventLabel('picture-'+indexTmps,'Picture'))
   formFields.append(drawIterEventInput('picture-'+indexTmps,'file'))
   formFields.append(drawIterEventLabel('event-'+indexTmps,'Event'))
-  formFields.append(drawIterEventInput('event-'+indexTmps,'text', 'itineraries['+fieldIndex+'].title'))
+  formFields.append(drawIterEventInput('event-'+indexTmps,'text', 'itineraries['+curIndex+'].title'))
   formFields.append(drawIterEventLabel('description','Description'))
-  formFields.append(drawIterTextArea('description', 'itineraries['+fieldIndex+'].description'))
-  formFields.append(drawInputHidden('itineraries['+fieldIndex+'].group', indexDay))
-  formFields.append(drawInputHidden('itineraries['+fieldIndex+'].groupTitle', 'day '+indexDay))
+  formFields.append(drawIterTextArea('description', 'itineraries['+curIndex+'].description'))
+//  formFields.append(drawInputHidden('itineraries['+curIndex+'].group', indexDay))
+//  formFields.append(drawInputHidden('itineraries['+curIndex+'].groupTitle', 'day'))
   formFields.append(drawIterEventDeleteButton())
 
-
+  formGroup.append(formFields)
 }
+$(document).on("click", "#add-event", function(event) {
+    var numItems = $('.container-day').length
+    console.log($(this).parent().attr('id'))
+//    drawIterEventField($(this).parent().attr('id'));
+    drawIterField();
+    indexTmps += 1;
+    $('.itinerary-btn').removeClass('collapse')
+});
 
 function drawAddButton(){
   var button= $('<button>', {
@@ -123,11 +98,8 @@ function drawIterEventInput(label, type){
       'name': name,
     });
   }
-//  var container = $('<div>', {
-//    'class': 'col-lg-2'
-//  });
+
 return input
-//  return container.append(input);
 }
 
 
@@ -144,10 +116,6 @@ function drawInputHidden(name, value){
 }
 
 function drawIterTextArea(label,name){
-//  var container = $('<div>', {
-//    'class': 'col-lg-3'
-//  });
-
   var input = $('<textarea>', {
     'class': 'form-control',
     'id': label,
@@ -155,7 +123,6 @@ function drawIterTextArea(label,name){
     'placeholder': "Enter Description"
   });
 return input
-//  return container.append(input);
 }
 
 function drawIterDeleteButton(){

@@ -9,11 +9,12 @@ function drawField(index){
   var formField = $('<div>', {
     'id': 'tripFacility-'+indexTmp
   });
+  var labelIndex = indexTmp +1;
 
   var formGroup = $('#form-list')
   formField.append("<br/>")
-  formField.append(drawLabel('Facility-'+indexTmp))
-  formField.append(drawInput('Facility-'+indexTmp))
+  formField.append(drawLabel('Facility-'+labelIndex))
+  formField.append(drawInput('Facility-'+labelIndex))
   formField.append(drawDeleteButton())
 
   formGroup.append(formField)
@@ -22,7 +23,7 @@ function drawField(index){
 function drawLabel(label){
   var label = $('<label>',{
     'for': label,
-    'class': 'col-lg-2'
+//    'class': 'col-lg-2'
   }).text(label);
 
   return label
@@ -31,7 +32,7 @@ function drawLabel(label){
 function drawDeleteButton(){
   var button = $('<button>', {
     'id': 'delete-form',
-    'style': 'margin: 2px 15px; height: 30px;',
+    'style': 'margin: 2px 0px; height: 30px;',
     'type': 'button',
     'class': 'btn btn-default btn-sm m-bottom-xs btn-add-tab btn-del-margin',
   })
@@ -44,22 +45,22 @@ function drawDeleteButton(){
 }
 
  function drawInput(label){
+  var indexName = indexTmp-1;
   var input = $('<input>', {
     'type': 'text',
     'class': 'form-control',
-    'name': 'tripFacilities['+indexTmp-1+'].facilityName',
+    'name': 'tripFacilities['+indexName+'].facilityName',
     'id': label,
     'required': true
   });
   var inputHidden = $('<input>', {
       'type': 'hidden',
       'class': 'hidden',
-      'name': 'tripFacilities['+indexTmp-1+'].isIncluded',
+      'name': 'tripFacilities['+indexName+'].isIncluded',
       'value': false
     });
 
   var container = $('<div>', {
-    'class': 'col-lg-8'
   });
   container.append(input)
   container.append(inputHidden)

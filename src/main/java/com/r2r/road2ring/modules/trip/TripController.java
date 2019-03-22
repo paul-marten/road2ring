@@ -1,5 +1,6 @@
 package com.r2r.road2ring.modules.trip;
 
+import com.r2r.road2ring.modules.facility.Facility;
 import com.r2r.road2ring.modules.itinerary.Itinerary;
 import com.r2r.road2ring.modules.common.ResponseMessage;
 import java.security.Principal;
@@ -47,10 +48,17 @@ public class TripController {
   }
 
   @RequestMapping(value = "/{tripId}/itinerary")
-  public String editTripItinerary(@ModelAttribute Itinerary itinerary, Model model) {
+  public String viewTripItinerary(@ModelAttribute Itinerary itinerary, Model model) {
     ResponseMessage response = new ResponseMessage();
     model.addAttribute("response", response);
     return "admin/page/trip-itinerary";
+  }
+
+  @RequestMapping(value = "/{tripId}/itinerary/add")
+  public String addTripItinerary(@ModelAttribute Itinerary itinerary, Model model) {
+    ResponseMessage response = new ResponseMessage();
+    model.addAttribute("response", response);
+    return "admin/forms/trip-itinerary";
   }
 
   @RequestMapping(value = "/{tripId}/facility")
@@ -58,6 +66,13 @@ public class TripController {
     ResponseMessage response = new ResponseMessage();
     model.addAttribute("response", response);
     return "admin/page/trip-facility";
+  }
+
+  @RequestMapping(value = "/{tripId}/facility/add")
+  public String addTripFacility(@ModelAttribute Facility itinerary, Model model) {
+    ResponseMessage response = new ResponseMessage();
+    model.addAttribute("response", response);
+    return "admin/forms/trip-facility";
   }
 
 }
