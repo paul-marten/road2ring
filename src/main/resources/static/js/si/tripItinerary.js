@@ -1,11 +1,10 @@
 var indexTmps = 1;
 
 function drawIterField(){
-  var curIndex = indexTmps - 1;
+  var curIndex = indexTmps;
 
   var formFields = $('<div>', {
-    'id': 'day',
-    'class': 'box-header container-day'
+    'class': 'itinerary-event'
   });
 
   var formGroup = $('#itinerary-form')
@@ -15,21 +14,19 @@ function drawIterField(){
   formFields.append(drawIterEventInput('picture-'+indexTmps,'file'))
   formFields.append(drawIterEventLabel('event-'+indexTmps,'Event'))
   formFields.append(drawIterEventInput('event-'+indexTmps,'text', 'itineraries['+curIndex+'].title'))
-  formFields.append(drawIterEventLabel('description','Description'))
+  formFields.append(drawIterEventLabel('description-'+indexTmps,'Description'))
   formFields.append(drawIterTextArea('description', 'itineraries['+curIndex+'].description'))
-//  formFields.append(drawInputHidden('itineraries['+curIndex+'].group', indexDay))
-//  formFields.append(drawInputHidden('itineraries['+curIndex+'].groupTitle', 'day'))
+  formFields.append(drawInputHidden('itineraries['+curIndex+'].group', 'group'))
+  formFields.append(drawInputHidden('itineraries['+curIndex+'].groupTitle', 'hidden'))
+//  formFields.append(drawInputHidden('itineraries['+curIndex+'].groupTitles', 'hidden'))
+//  formFields.append(drawInputHidden('itineraries['+curIndex+'].title', $('#title').val()))
   formFields.append(drawIterEventDeleteButton())
 
   formGroup.append(formFields)
 }
 $(document).on("click", "#add-event", function(event) {
-    var numItems = $('.container-day').length
-    console.log($(this).parent().attr('id'))
-//    drawIterEventField($(this).parent().attr('id'));
     drawIterField();
     indexTmps += 1;
-    $('.itinerary-btn').removeClass('collapse')
 });
 
 function drawAddButton(){
@@ -80,7 +77,7 @@ function drawIterInput(label, type){
   return container.append(input);
 }
 
-function drawIterEventInput(label, type){
+function drawIterEventInput(label, type, name){
  var input;
  if(type == 'file'){
     input = $('<input>', {
@@ -104,12 +101,11 @@ return input
 
 
 
-function drawInputHidden(name, value){
+function drawInputHidden(name, className){
   var inputHidden = $('<input>', {
         'type': 'hidden',
-        'class': 'hidden',
+        'class': className,
         'name': name,
-        'value': value,
       });
 
       return inputHidden;
@@ -155,20 +151,30 @@ function drawIterEventDeleteButton(){
   return button.append(icon)
 }
 
-$(document).on("click", "#delete-form-itinerary", function(event) {
-   $(this).parent().remove()
-   console.log($(this).parent())
-   indexDay -= 1;
-   if(indexDay == 1){
-    $('.itinerary-btn').addClass('collapse')
-   }
- })
-
 $(document).on("click", "#delete-form-event-itinerary", function(event) {
    $(this).parent().remove()
    console.log($(this).parent())
-   indexDay -= 1;
-   if(indexDay == 1){
-    $('.itinerary-btn').addClass('collapse')
-   }
+   indexTmps -= 1;
  })
+
+ $(document).on("click", "#itinerarySaveBtn", function(event){
+    setInputHidden()
+    console.log($('#itineraryForm').serialize())
+    var uri = window.location.pathname.split('/');
+    console.log(uri[2])
+//    $("#itinerarySaveBtn").submit();
+    $.post( "/trip/"+uri[2]+ '/itinerary/save', $("#itineraryForm").serialize()).done(function(data) {
+//      location.reload("/trip/"+uri[2]+ '/itinerary");
+      window.location.href = "/trip/"+uri[2]+ '/itinerary';
+    })
+ })
+
+ function setInputHidden(){
+   $('.hidden').each(function(index){
+      $(this).val($('#title').val())
+   })
+
+   $('.group').each(function(index){
+      $(this).val($('#group').val())
+   })
+ }

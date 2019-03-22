@@ -57,6 +57,10 @@ public class TripService {
     return trip;
   }
 
+  public Trip getTripById(int id){
+    return tripRepository.findOne(id);
+  }
+
   public List<TripFacility> getTripFacility(int tripId){
     Trip trips = tripRepository.findOne(tripId);
     TripFacility tripFacility;

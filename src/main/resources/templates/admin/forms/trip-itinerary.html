@@ -9,30 +9,53 @@
     <div class="box-header with-border">
       <h1 class="box-title">Trip Itinerary Form</h1>
     </div>
-    <form role="form" th:action="@{'/trip/save'}" th:object="${response}" method="post">
+    <form role="form" id="itineraryForm" th:action="${action}" th:object="${response}" method="POST">
       <div class="box-body">
         <div class="form-group">
+          <div class="form-group">
+            <label>Day</label>
+            <select class="form-control" id="group">
+              <option>Select</option>
+              <option th:each="n : ${#numbers.sequence(1,response.object.duration)}" th:value="${n}" th:text="${n}"/>
+            </select>
+          </div>
 
           <div class="form-group">
             <label for="title">Title</label>
-            <input type="text" class="form-control" name="title" id="title" placeholder="Title eg: Day 1" required>
+            <input type="text" class="form-control" id="title" placeholder="Title ex: Day 1" required>
           </div>
 
-          <button type="button" class="btn btn-info itinerary-btn collapse" data-toggle="collapse" data-target="#itinerary-form">Simple collapsible</button>
-          <div class="form-group box box-success box-inline">
-            <div class="box-header">
-              <label for="add-event">Event</label>
+          <!--<button type="button" class="btn btn-info itinerary-btn collapse" data-toggle="collapse" data-target="#itinerary-form">Simple collapsible</button>-->
+          <!--<div class="form-group box box-success box-inline">-->
+            <!--<div class="box-header">-->
+              <label for="add-event">List Events</label>
               <button style="margin: 0px 15px; height: 30px;" id="add-event" type="button"
                       class="btn btn-default btn-sm m-bottom-sm btn-add-tab">
                 <i class="fa fa-plus fa-lg"></i>
               </button>
+            <!--</div>-->
+            <div id="itinerary-form">
+              <br/>
+              <div class="itinerary-event">
+                <label for="picture-0">Picture</label>
+                <input type="file" class="form-control" id="picture-0">
+                <label for="event-0">Event</label>
+                <input type="text" class="form-control" id="event-0" name="itineraries[0].title" placeholder="Enter Event Title ">
+                <!--<input type="text" class="form-control" id="event-0" name="itineraries[0].title" placeholder="Enter Title Description">-->
+                <label for="description-0">Description</label>
+                <textarea class="form-control" id="description-0" name="itineraries[0].description" placeholder="Enter Description"></textarea>
+                <input type="hidden" class="group" name="itineraries[0].group" value="">
+                <input type="hidden" class="hidden" name="itineraries[0].groupTitle" value="">
+                <!--<input type="hidden" class="hidden" name="itineraries[0].groupTitles" value="">-->
+                <input type="hidden" name="id" th:value="${response.object.id}">
+                <!--<input type="hidden" class="hidden" name="itineraries[0].title" value="">-->
+              </div>
             </div>
-            <div id="itinerary-form"></div>
-          </div>
+          <!--</div>-->
         </div>
       </div>
       <div class="box-footer">
-        <button type="submit" class="btn btn-primary">Submit</button>
+        <button type="button" id="itinerarySaveBtn" class="btn btn-primary">Submit</button>
       </div>
     </form>
   </div>

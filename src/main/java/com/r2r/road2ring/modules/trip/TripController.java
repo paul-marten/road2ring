@@ -3,11 +3,13 @@ package com.r2r.road2ring.modules.trip;
 import com.r2r.road2ring.modules.facility.Facility;
 import com.r2r.road2ring.modules.itinerary.Itinerary;
 import com.r2r.road2ring.modules.common.ResponseMessage;
+import com.r2r.road2ring.modules.itinerary.ItineraryService;
 import java.security.Principal;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
@@ -17,9 +19,16 @@ public class TripController {
 
   TripService tripService;
 
+  ItineraryService itineraryService;
+
   @Autowired
   public void setTripService(TripService tripService) {
     this.tripService = tripService;
+  }
+
+  @Autowired
+  public void setItineraryService(ItineraryService itineraryService) {
+    this.itineraryService = itineraryService;
   }
 
   @RequestMapping(value = "", method = RequestMethod.GET)
@@ -44,7 +53,13 @@ public class TripController {
     response.setObject(tripService.saveTrip(trip));
     model.addAttribute("response", response);
 
-    return "redirect:/home";
+    return "redirect:/trip";
+  }
+
+  @RequestMapping(value = "/{tripId}/itinerary/save")
+  public String saveTripItinerary(@PathVariable("tripId") int id, @ModelAttribute Trip trip, Model model, Principal principal){
+    itineraryService.saveListOfItinerary(trip.getItineraries(), trip);
+    return "redirect:/trip/"+id+"/itinerary";
   }
 
   @RequestMapping(value = "/{tripId}/itinerary")
@@ -55,9 +70,13 @@ public class TripController {
   }
 
   @RequestMapping(value = "/{tripId}/itinerary/add")
-  public String addTripItinerary(@ModelAttribute Itinerary itinerary, Model model) {
+  public String addTripItinerary(@PathVariable("tripId") int id, @ModelAttribute Itinerary itinerary, Model model) {
+    Trip trip = tripService.getTripById(id);
     ResponseMessage response = new ResponseMessage();
+    response.setObject(trip);
     model.addAttribute("response", response);
+    model.addAttribute("action", "/trip/"+id+"/itinerary/save");
+    model.addAttribute("tripId", id);
     return "admin/forms/trip-itinerary";
   }
 

@@ -28,22 +28,21 @@ public class ItineraryService {
     return itineraries;
   }
 
-  public Itinerary saveItinerary(Itinerary itinerary, Trip trip, List<String> groupTitle) {
+  public Itinerary saveItinerary(Itinerary itinerary, Trip trip) {
     Itinerary saved = new Itinerary();
     saved.setDescription(itinerary.getDescription());
     saved.setTitle(itinerary.getTitle());
     saved.setImageUrl(itinerary.getImageUrl());
     saved.setGroup(itinerary.getGroup());
-    saved.setGroupTitle(groupTitle.get(itinerary.getGroup()));
+    saved.setGroupTitle(itinerary.getGroupTitle());
     saved.setTrip(trip);
     return itineraryRepository.save(saved);
   }
 
-  public List<Itinerary> saveListOfItinerary(List<Itinerary> itineraries, Trip trip,
-      List<String> groupTitles) {
+  public List<Itinerary> saveListOfItinerary(List<Itinerary> itineraries, Trip trip) {
     List<Itinerary> result = new ArrayList<>();
     for (Itinerary saved : itineraries) {
-      result.add(saveItinerary(saved, trip, groupTitles));
+      result.add(saveItinerary(saved, trip));
     }
     return result;
   }
