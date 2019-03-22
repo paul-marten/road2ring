@@ -2,7 +2,9 @@ package com.r2r.road2ring.modules.trip;
 
 import com.fasterxml.jackson.annotation.JsonView;
 import com.r2r.road2ring.modules.TripFacility.TripFacility;
+import com.r2r.road2ring.modules.common.ResponseMessage;
 import com.r2r.road2ring.modules.common.ResponseView;
+import com.r2r.road2ring.modules.common.UploadService;
 import com.r2r.road2ring.modules.itinerary.Itinerary;
 import java.util.List;
 import javax.servlet.http.HttpServletRequest;
@@ -11,9 +13,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.jpa.datatables.mapping.DataTablesInput;
 import org.springframework.data.jpa.datatables.mapping.DataTablesOutput;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 
 @RestController
 @RequestMapping(value = "/api/trip")
@@ -21,9 +27,15 @@ public class TripAPIController {
 
   TripService tripService;
 
+  UploadService uploadService;
+
   @Autowired
   public void setTripService(TripService tripService) {
     this.tripService = tripService;
+  }
+
+  public void setUploadService(UploadService uploadService){
+    this.uploadService = uploadService;
   }
 
   @RequestMapping(value = "/datatable", method = RequestMethod.GET)
@@ -61,5 +73,12 @@ public class TripAPIController {
 
     return tripService.getTripItinerary(id);
   }
+
+//  @PostMapping("/test")
+//  public ResponseMessage test(@RequestParam("file") MultipartFile imageField){
+//    ResponseMessage response = new ResponseMessage();
+//    response.setObject(uploadService.uploadPicture(imageField));
+//    return response;
+//  }
 
 }

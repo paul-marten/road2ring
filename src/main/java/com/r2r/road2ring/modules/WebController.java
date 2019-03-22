@@ -9,9 +9,9 @@ import org.springframework.web.bind.annotation.GetMapping;
 @Controller
 public class WebController {
 
-  @GetMapping("/home")
+  @GetMapping("")
   public String home(){
-    return "admin/forms/trip";
+    return "admin/page/trip";
   }
 
 
