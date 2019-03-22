@@ -14,12 +14,6 @@ public class WebController {
     return "admin/page/trip";
   }
 
-  @GetMapping("/home")
-  public String home(){
-    return "admin/page/trip";
-  }
-
-
   @GetMapping("/login")
   public String login(Model model){
     Consumer consumer = new Consumer();
