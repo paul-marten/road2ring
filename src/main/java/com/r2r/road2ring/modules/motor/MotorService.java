@@ -14,6 +14,10 @@ public class MotorService {
     this.motorRepository = motorRepository;
   }
 
+  public List<Motor> getAllMotor(){
+    return motorRepository.findAll();
+  }
+
   public Motor saveMotor(Motor motor){
     Motor saved = new Motor();
     saved.setBrand(motor.getBrand());

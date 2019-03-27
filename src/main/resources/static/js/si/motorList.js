@@ -1,7 +1,7 @@
 $(document).ready( function () {
 	 var table = $('#rsp-tbl').DataTable({
 	 "dom": '<"row"<"col-sm-2"<"newRecord">><"col-sm-10"<"toolbar">>><"row"<"col-sm-12"tr>><"row"<"col-sm-6"i><"col-sm-6"p>>',
-			"sAjaxSource": "/api/trip/data",
+			"sAjaxSource": "/api/motor/data",
 			"sAjaxDataProp": "",
 			"aoColumns": [
 			    {"mData": "id",
@@ -13,8 +13,9 @@ $(document).ready( function () {
             }
           },
           { "mData": "title"},
-			    { "mData": "duration"},
-			    { "mData": "roadCaptain"},
+			    { "mData": "capacity"},
+			    { "mData": "brand"},
+			    { "mData": "price"},
 			    { "mData": "id",
             "width": "10%",
             "searchable": false,
@@ -60,13 +61,20 @@ $(document).ready( function () {
     } );
   });
 
-  var btnNew = '<a href="/trip/add" class="btn btn-default btn-sm"><span class="fa fa-plus-circle fa-lg"></span> Add New Record</a>';
-  var filterStatus = 'Filter by : <select class="form-control isPublished"><option value="">--- All Status ---</option><option value="0">Unpublish Content</option><option value="1">Published Content</option><option value="3">Scheduled</option></select>';
-  var filterCaptain = '&nbsp;<input class="form-control findCaptain" size="24" type="text" name="findCaptain" placeholder="Find Specific Captain">';
-  var filterTitle = '&nbsp;<input class="form-control findTitle" size="47" type="text" name="findTitle" placeholder="Find Specific Title">';
-  var filter = filterStatus +  filterTitle + filterCaptain;
+  var btnNew = '<a href="'+window.location.pathname+'/add" class="btn btn-default btn-sm"><span class="fa fa-plus-circle fa-lg"></span> Add New Record</a>';
+  var filterStatus = 'Filter by : <select class="form-control isIncluded"><option value="">--- All Status ---</option><option value="true">Include</option><option value="false">Not Include</option></select>';
+//  var filterCaptain = '&nbsp;<input class="form-control findCaptain" size="24" type="text" name="findCaptain" placeholder="Find Specific Captain">';
+  var filterTitle = '&nbsp;<input class="form-control findTitle" size="47" type="text" name="findTitle" placeholder="Find Specific Facility Name">';
+  var filter = filterStatus + filterTitle;
   $("div.newRecord").html(btnNew);
   $("div.toolbar").html(filter);
+
+  $('.isIncluded').on('change', function(event){
+    if ($(this).val() != "")
+        table.columns(2).search(this.value).draw();
+    else
+        table.columns(2).search('').draw();
+  })
 
   $('.findTitle').on('keyup', function(event) {
       if ($(this).val().length > 2)
@@ -92,27 +100,27 @@ $(document).ready( function () {
   var btnEdit = $('<li>').append(iconEdit).append(textEdit);
 
 //  var iconEdit = $('<span>').append($('<i>', {'class':'icon-icon_edit'}));
-  var textFacility =$('<span>').append( $('<a>', {
-                                'text':'Facility ',
-                                'href': '/trip/'+cellData+'/facility',
-                            }));
-  var btnFacility= $('<li>').append(textFacility);
-
+//  var textFacility =$('<span>').append( $('<a>', {
+//                                'text':'Facility ',
+//                                'href': '/trip/'+cellData+'/facility',
+//                            }));
+//  var btnFacility= $('<li>').append(textFacility);
+//
 
 //  var iconEdit = $('<span>').append($('<i>', {'class':'icon-icon_edit'}));
-  var textIternary =$('<span>').append( $('<a>', {
-                                'text':'Iternary ',
-                                'href': '/trip/'+cellData+'/itinerary',
-                            }));
-  var btnIternary= $('<li>').append(textIternary);
+//  var textIternary =$('<span>').append( $('<a>', {
+//                                'text':'Iternary ',
+//                                'href': '/trip/'+cellData+'/itinerary',
+//                            }));
+//  var btnIternary= $('<li>').append(textIternary);
 
   //Draw buttom Publish
-  var iconPublish =$('<span>').append($('<i>', {'class':'icon-icon_publish'}));
-  var textPublish =$('<span>').append( $('<a>', {
-                                  'text':'Publish ',
-                                  'href': '',
-                              }));
-  var btnPublish = $('<li>', {'id':'publishContent'}).append(iconPublish).append(textPublish);
+//  var iconPublish =$('<span>').append($('<i>', {'class':'icon-icon_publish'}));
+//  var textPublish =$('<span>').append( $('<a>', {
+//                                  'text':'Publish ',
+//                                  'href': '',
+//                              }));
+//  var btnPublish = $('<li>', {'id':'publishContent'}).append(iconPublish).append(textPublish);
 
   //Draw buttom Publish
   var iconUnpublish =$('<span>').append($('<i>', {'class':'icon-icon_unpublish'}));
@@ -129,7 +137,7 @@ $(document).ready( function () {
 //                                      'href': '',
 //                                      }));
 //  var btnScheduled = $('<li>', {'id':'schedule'}).append(iconScheduled).append(textScheduled);
-  var list = btnEdit.add(btnFacility).add(btnIternary).add(btnPublish);
+  var list = btnEdit;
 
   if (rowData.isPublished == "PUBLISHED" || rowData.isPublished == "EDITED") {
                   btnScheduled = $('<li>', {'style':'display: none;'});

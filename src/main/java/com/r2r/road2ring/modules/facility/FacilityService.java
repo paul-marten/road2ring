@@ -1,5 +1,6 @@
 package com.r2r.road2ring.modules.facility;
 
+import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -20,4 +21,7 @@ public class FacilityService {
     return facilityRepository.save(saved);
   }
 
+  public List<Facility> getAllFacility() {
+    return facilityRepository.findAll();
+  }
 }

@@ -115,6 +115,10 @@ public class Trip implements Serializable {
   @JsonView(ResponseView.DetailedTrip.class)
   private List<TripFacility> tripFacilities;
 
+  @Column(name = "trip_facility_not_included")
+  @JsonView(ResponseView.DefaultTrip.class)
+  private String facilityNot;
+
   @OneToMany(fetch = FetchType.LAZY, mappedBy = "trip")
   @JsonView(ResponseView.DetailedTrip.class)
   private List<Itinerary> itineraries;
