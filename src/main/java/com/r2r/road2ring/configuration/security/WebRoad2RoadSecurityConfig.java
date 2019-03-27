@@ -37,7 +37,7 @@ public class WebRoad2RoadSecurityConfig extends WebSecurityConfigurerAdapter {
           .and()
         .formLogin()
           .loginPage("/login")
-          .defaultSuccessUrl("/home")
+          .defaultSuccessUrl("/")
           .permitAll()
           .and()
         .logout()

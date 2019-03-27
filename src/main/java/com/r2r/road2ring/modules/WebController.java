@@ -10,10 +10,9 @@ import org.springframework.web.bind.annotation.GetMapping;
 public class WebController {
 
   @GetMapping("")
-  public String home(){
+  public String start(){
     return "admin/page/trip";
   }
-
 
   @GetMapping("/login")
   public String login(Model model){
