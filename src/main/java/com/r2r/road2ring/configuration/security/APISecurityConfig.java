@@ -10,7 +10,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 @Configuration
-@Order(6)
+@Order(4)
 @EnableWebSecurity
 public class APISecurityConfig extends WebSecurityConfigurerAdapter {
 
@@ -23,7 +23,7 @@ public class APISecurityConfig extends WebSecurityConfigurerAdapter {
 
         http
             .antMatcher("/api/**").authorizeRequests()
-            .antMatchers("/api/**").permitAll()
+            .antMatchers("/api/trip").hasAnyRole("ADMINISTRATOR")
             .and()
             .httpBasic();
     }

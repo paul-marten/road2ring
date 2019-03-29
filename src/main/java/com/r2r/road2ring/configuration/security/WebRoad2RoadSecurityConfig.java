@@ -20,7 +20,6 @@ public class WebRoad2RoadSecurityConfig extends WebSecurityConfigurerAdapter {
 
   @Override
   protected void configure(HttpSecurity http) throws Exception {
-
     http.csrf().disable();
     http
         .headers()
@@ -33,6 +32,7 @@ public class WebRoad2RoadSecurityConfig extends WebSecurityConfigurerAdapter {
           .antMatchers("/bootstrap/**").permitAll()
           .antMatchers("/dist/**").permitAll()
           .antMatchers("/plugins/**").permitAll()
+          .antMatchers("/img/**").permitAll()
           .antMatchers("/**").hasRole("ADMINISTRATOR")
           .and()
         .formLogin()
@@ -47,9 +47,6 @@ public class WebRoad2RoadSecurityConfig extends WebSecurityConfigurerAdapter {
 
   @Autowired
   public void configure(AuthenticationManagerBuilder auth) throws Exception{
-    auth
-        .inMemoryAuthentication()
-        .withUser("paul").password("paul").roles("ADMINISTRATOR");
     auth.userDetailsService(customConsumerDetailsService).passwordEncoder(new BCryptPasswordEncoder());
   }
 }
