@@ -7,4 +7,5 @@ import org.springframework.stereotype.Repository;
 public interface ConsumerRepository extends JpaRepository<Consumer,Integer> {
   Consumer findTopOneByEmailIgnoreCase(String email);
   Consumer findOneByEmailIgnoreCase(String email);
+  Consumer findByEmail(String email);
 }

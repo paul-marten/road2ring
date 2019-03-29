@@ -30,12 +30,8 @@ public class CustomConsumerDetailsService implements UserDetailsService {
   @Override
   public UserDetails loadUserByUsername(final String email)
       throws UsernameNotFoundException {
-    Consumer consumer = consumerRepository.findTopOneByEmailIgnoreCase(email);
-    if(consumer.getRole().getName() == null){
-      Role role = new Role();
-      role.setName("ROLE_CONSUMER");
-      consumer.getRole().setName(role.getName());
-    }
+    /*Consumer in SI*/
+    Consumer consumer = consumerRepository.findByEmail(email);
     List<GrantedAuthority> authorities = buildUserAuthority(consumer.getRole());
     return buildUserForAuthentication(consumer, authorities) ;
 
