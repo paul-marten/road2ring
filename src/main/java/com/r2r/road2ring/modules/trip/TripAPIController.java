@@ -2,13 +2,16 @@ package com.r2r.road2ring.modules.trip;
 
 import com.fasterxml.jackson.annotation.JsonView;
 import com.r2r.road2ring.modules.TripFacility.TripFacility;
+import com.r2r.road2ring.modules.common.ResponseCode;
 import com.r2r.road2ring.modules.common.ResponseMessage;
 import com.r2r.road2ring.modules.common.ResponseView;
 import com.r2r.road2ring.modules.common.UploadService;
 import com.r2r.road2ring.modules.itinerary.Itinerary;
+import java.io.IOException;
 import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
+import org.apache.tomcat.util.http.fileupload.FileUploadBase.FileSizeLimitExceededException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.jpa.datatables.mapping.DataTablesInput;
 import org.springframework.data.jpa.datatables.mapping.DataTablesOutput;
@@ -17,7 +20,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -34,6 +36,7 @@ public class TripAPIController {
     this.tripService = tripService;
   }
 
+  @Autowired
   public void setUploadService(UploadService uploadService){
     this.uploadService = uploadService;
   }
@@ -70,15 +73,25 @@ public class TripAPIController {
   @JsonView(ResponseView.DetailedTrip.class)
   public List<Itinerary> datatableItinerary(@PathVariable("tripId") int id,
       HttpServletRequest request) {
-
     return tripService.getTripItinerary(id);
   }
 
-//  @PostMapping("/test")
-//  public ResponseMessage test(@RequestParam("file") MultipartFile imageField){
-//    ResponseMessage response = new ResponseMessage();
-//    response.setObject(uploadService.uploadPicture(imageField));
-//    return response;
-//  }
+  @PostMapping("/upload_trip/{typeImage}")
+  public ResponseMessage uploadPhoto(@PathVariable String typeImage,@RequestParam("file") MultipartFile file) {
+    ResponseMessage responseMessage = new ResponseMessage();
+    try {
+      if (!file.isEmpty()) {
+        responseMessage.setCode(ResponseCode.SUCCESS.getCode());
+        responseMessage.setObject(uploadService.uploadImagePicture(file, typeImage));
+      }
+    }catch (IOException e){
+      responseMessage.setMessage(e.getMessage());
+      responseMessage.setCode(ResponseCode.INTERNAL_SERVER_ERROR.getCode());
+    }catch (FileSizeLimitExceededException e){
+      responseMessage.setMessage(e.getMessage());
+      responseMessage.setCode(ResponseCode.INTERNAL_SERVER_ERROR.getCode());
+    }
+    return responseMessage;
+  }
 
 }

@@ -127,4 +127,8 @@ public class Trip implements Serializable {
   @JsonView(ResponseView.DetailedTrip.class)
   private List<TripPrice> tripPrices;
 
+  @OneToMany(fetch = FetchType.LAZY, mappedBy = "trip")
+  @JsonView(ResponseView.DetailedTrip.class)
+  private List<RequestTrip> requestTrips;
+
 }
