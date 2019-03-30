@@ -87,7 +87,6 @@ public class TripController {
   @RequestMapping(value = "/save", method = RequestMethod.POST)
   public String save(@ModelAttribute Trip trip, Model model, Principal principal) {
     ResponseMessage response = new ResponseMessage();
-    System.out.println(trip.getId());
     response.setObject(tripService.saveTrip(trip));
     model.addAttribute("response", response);
 
@@ -102,7 +101,6 @@ public class TripController {
 
   @RequestMapping(value = "/{tripId}/facility/save")
   public String saveTripFacility(@PathVariable("tripId") int id, @ModelAttribute Trip trip, Model model, Principal principal){
-    System.out.println(trip.toString());
     tripFacilityService.saveListOfTripFacility(trip.getTripFacilities(), trip);
     return "redirect:/trip/"+id+"/facility";
   }

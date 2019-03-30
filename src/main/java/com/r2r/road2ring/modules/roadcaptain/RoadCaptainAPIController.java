@@ -1,10 +1,12 @@
 package com.r2r.road2ring.modules.roadcaptain;
 
+import com.r2r.road2ring.modules.common.ResponseMessage;
 import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
@@ -26,4 +28,13 @@ public class RoadCaptainAPIController {
     return roadCaptainService.getAllCaptain();
   }
 
+  @RequestMapping(value = "/helper", method = RequestMethod.GET)
+  public ResponseMessage helperPublished(@RequestParam("keyword") String keyword) {
+
+    ResponseMessage responseMessage = new ResponseMessage();
+    responseMessage.setObject(roadCaptainService.getAutoCompleteCaptain(keyword));
+
+    return responseMessage;
+
+  }
 }

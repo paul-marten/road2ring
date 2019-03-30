@@ -63,7 +63,7 @@ $(document).ready( function () {
   var filterStatus = 'Filter by : <select class="form-control isIncluded"><option value="">--- All Status ---</option><option value="true">Include</option><option value="false">Not Include</option></select>';
 //  var filterCaptain = '&nbsp;<input class="form-control findCaptain" size="24" type="text" name="findCaptain" placeholder="Find Specific Captain">';
   var filterTitle = '&nbsp;<input class="form-control findTitle" size="47" type="text" name="findTitle" placeholder="Find Specific Facility Name">';
-  var filter = filterStatus + filterTitle;
+  var filter = filterTitle;
   $("div.newRecord").html(btnNew);
   $("div.toolbar").html(filter);
 
@@ -93,7 +93,7 @@ $(document).ready( function () {
   var iconEdit = $('<span>').append($('<i>', {'class':'icon-icon_edit'}));
   var textEdit =$('<span>').append( $('<a>', {
                               'text':'Edit ',
-                              'href': '/trip/edit?id=' + cellData,
+                              'href': '/facility/edit?id=' + cellData,
                           }));
   var btnEdit = $('<li>').append(iconEdit).append(textEdit);
 

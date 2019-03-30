@@ -14,7 +14,13 @@ $(document).ready( function () {
           },
           { "mData": "title"},
 			    { "mData": "duration"},
-			    { "mData": "roadCaptain"},
+			    { "mData": "roadCaptain.name"},
+//          { "data": "roadCaptain.name",
+//          "width": "12%",
+//          "orderable": false,
+//          "createdCell": function(td, cellData, rowData, row, col) {
+//              $(td).attr('data-th', "Captain");
+//          }},
 			    { "mData": "id",
             "width": "10%",
             "searchable": false,
@@ -50,6 +56,13 @@ $(document).ready( function () {
         "orderable": true,
         "targets": 0
       } ],
+      "columnDefs": [{
+          "targets": 3,
+          "render": function(data, type, row) {
+              console.log(data)
+              return data != null && data != '' ? data : '' ;
+          }
+      }],
       "order": [[ 0, "asc" ]],
 
 	 });
@@ -129,7 +142,7 @@ $(document).ready( function () {
 //                                      'href': '',
 //                                      }));
 //  var btnScheduled = $('<li>', {'id':'schedule'}).append(iconScheduled).append(textScheduled);
-  var list = btnEdit.add(btnFacility).add(btnIternary).add(btnPublish);
+  var list = btnEdit.add(btnIternary).add(btnPublish);
 
   if (rowData.isPublished == "PUBLISHED" || rowData.isPublished == "EDITED") {
                   btnScheduled = $('<li>', {'style':'display: none;'});

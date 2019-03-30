@@ -1,7 +1,7 @@
 $(document).ready( function () {
 	 var table = $('#rsp-tbl').DataTable({
 	 "dom": '<"row"<"col-sm-2"<"newRecord">><"col-sm-10"<"toolbar">>><"row"<"col-sm-12"tr>><"row"<"col-sm-6"i><"col-sm-6"p>>',
-			"sAjaxSource": "/api/captain/data",
+			"sAjaxSource": "/api/accessory/data",
 			"sAjaxDataProp": "",
 			"aoColumns": [
 			    {"mData": "id",
@@ -12,8 +12,9 @@ $(document).ready( function () {
                 $(td).attr('data-th', 'No.');
             }
           },
-          { "mData": "name"},
-			    { "mData": "description"},
+          { "mData": "title"},
+			    { "mData": "price"},
+			    { "mData": "discount"},
 			    { "mData": "id",
             "width": "10%",
             "searchable": false,
@@ -62,8 +63,10 @@ $(document).ready( function () {
   var btnNew = '<a href="'+window.location.pathname+'/add" class="btn btn-default btn-sm"><span class="fa fa-plus-circle fa-lg"></span> Add New Record</a>';
   var filterStatus = 'Filter by : <select class="form-control isIncluded"><option value="">--- All Status ---</option><option value="true">Include</option><option value="false">Not Include</option></select>';
 //  var filterCaptain = '&nbsp;<input class="form-control findCaptain" size="24" type="text" name="findCaptain" placeholder="Find Specific Captain">';
-  var filterTitle = '&nbsp;<input class="form-control findTitle" size="47" type="text" name="findTitle" placeholder="Find Specific Facility Name">';
-  var filter = filterStatus + filterTitle;
+  var filterTitle = '&nbsp;<input class="form-control findTitle" size="47" type="text" name="findTitle" placeholder="Find Specific Motor Name">';
+  var filterCapacity = '&nbsp;<input class="form-control findCapacity" type="number" min="0" size="17" type="text" name="findCapacity" placeholder="Find Specific Motor Capacity">';
+  var filterPrice = '&nbsp;<input class="form-control findPrice" size="17" type="number" min="0" name="findPrice" placeholder="Find Price Below or Equal">';
+  var filter = filterTitle;
   $("div.newRecord").html(btnNew);
   $("div.toolbar").html(filter);
 
@@ -80,6 +83,36 @@ $(document).ready( function () {
       else
           table.columns(1).search('').draw();
   });
+
+$('.findCapacity').on('keyup', function(event) {
+    table.draw();
+//      if ($(this).val().length > 0)
+//          table.columns(2).search(this.value).draw();
+//      else
+//          table.columns(2).search('').draw();
+  });
+
+$.fn.dataTable.ext.search.push(
+  function(settings, data, dataIndex) {
+      var inputPrice = parseInt($('.findPrice').val());
+      var inputCapacity = parseInt($('.findCapacity').val());
+      if (isNaN(inputPrice) && isNaN(inputCapacity))  {
+        return true;
+      }
+      var price = parseFloat( data[4] ) || 0;
+      var capacities = parseFloat( data[2] ) || 0;
+      if ((inputPrice >= price) || (inputCapacity >= capacities)) {
+          return true;
+      }
+
+      return false;
+  }
+);
+
+  $('.findPrice').on('keyup', function(event) {
+      table.draw();
+  });
+
   $('.findCaptain').on('keyup', function(event) {
       if ($(this).val().length > 2)
           table.columns(3).search(this.value).draw();
@@ -93,7 +126,7 @@ $(document).ready( function () {
   var iconEdit = $('<span>').append($('<i>', {'class':'icon-icon_edit'}));
   var textEdit =$('<span>').append( $('<a>', {
                               'text':'Edit ',
-                              'href': '/captain/edit?id=' + cellData,
+                              'href': '/accessory/edit?id=' + cellData,
                           }));
   var btnEdit = $('<li>').append(iconEdit).append(textEdit);
 

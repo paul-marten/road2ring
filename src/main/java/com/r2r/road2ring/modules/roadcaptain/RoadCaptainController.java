@@ -8,6 +8,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 
 @Controller
 @RequestMapping(value = "/captain")
@@ -37,12 +38,21 @@ public class RoadCaptainController {
     return "admin/forms/roadCaptain";
   }
 
-//  @RequestMapping(value = "/save", method = RequestMethod.POST)
-//  public String save(@ModelAttribute RoadCaptain roadCaptain, Model model, Principal principal) {
-//    ResponseMessage response = new ResponseMessage();
-//    response.setObject(roadCaptainService.saveRoadCaptain(roadCaptain));
-//    model.addAttribute("response", response);
-//
-//    return "redirect:/home";
-//  }
+  @RequestMapping(value = "/edit", method = RequestMethod.GET)
+  public String edit(Model model, @RequestParam int id) {
+    ResponseMessage response = new ResponseMessage();
+    RoadCaptain roadCaptain = roadCaptainService.getCaptainById(id);
+    response.setObject(roadCaptain);
+    model.addAttribute("response", response);
+    return "admin/forms/roadCaptain";
+  }
+
+  @RequestMapping(value = "/save", method = RequestMethod.POST)
+  public String save(@ModelAttribute RoadCaptain roadCaptain, Model model, Principal principal) {
+    ResponseMessage response = new ResponseMessage();
+    response.setObject(roadCaptainService.saveRoadCaptain(roadCaptain));
+    model.addAttribute("response", response);
+
+    return "redirect:/captain";
+  }
 }

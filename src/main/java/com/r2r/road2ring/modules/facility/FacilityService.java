@@ -23,6 +23,9 @@ public class FacilityService {
 
   public Facility saveFacility(Facility facility){
     Facility saved = new Facility();
+    if(facility.getId() != 0 && facility.getId() != null){
+      saved = this.getFacilityById(facility.getId());
+    }
     saved.setImage(facility.getImage());
     saved.setName(facility.getName());
     return facilityRepository.save(saved);
@@ -31,4 +34,6 @@ public class FacilityService {
   public List<Facility> getAllFacility() {
     return facilityRepository.findAll();
   }
+
+  public Facility getFacilityById(int id){ return facilityRepository.findOne(id); }
 }

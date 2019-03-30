@@ -40,9 +40,13 @@ public class TripService {
     saved.setTerrain(trip.getTerrain());
     saved.setDuration(trip.getDuration());
     saved.setCreated(new Date());
+    if(trip.getRoadCaptain() != null && trip.getRoadCaptain().getId() != 0) {
+      saved.setRoadCaptain(trip.getRoadCaptain());
+    }
     saved.setMeetingPoint(trip.getMeetingPoint());
     saved.setUpdated(new Date());
     saved.setTag(trip.getTag());
+    saved.setFacilityNot(trip.getFacilityNot());
     saved.setTitle(trip.getTitle());
     saved.setLocation(trip.getLocation());
     saved = tripRepository.save(saved);

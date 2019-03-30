@@ -23,6 +23,9 @@ public class MotorService {
 
   public Motor saveMotor(Motor motor){
     Motor saved = new Motor();
+    if(motor.getId() != 0 && motor.getId() != null){
+      saved = motorRepository.findOne(motor.getId());
+    }
     saved.setBrand(motor.getBrand());
     saved.setCapacity(motor.getCapacity());
     saved.setDiscount(motor.getDiscount());
@@ -32,6 +35,10 @@ public class MotorService {
     saved.setBrand(motor.getBrand());
     saved.setPicture(motor.getPicture());
     return motorRepository.save(saved);
+  }
+
+  public Motor getMotoyrById(int id){
+    return motorRepository.findOne(id);
   }
 
 }

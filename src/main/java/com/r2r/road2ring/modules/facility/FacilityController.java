@@ -8,6 +8,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 
 @Controller
 @RequestMapping(value = "/facility")
@@ -36,12 +37,21 @@ public class FacilityController {
     return "admin/forms/facility";
   }
 
+  @RequestMapping(value = "/edit", method = RequestMethod.GET)
+  public String edit(Model model, @RequestParam int id) {
+    ResponseMessage response = new ResponseMessage();
+    Facility facility = facilityService.getFacilityById(id);
+    response.setObject(facility);
+    model.addAttribute("response", response);
+    return "admin/forms/facility";
+  }
+
   @RequestMapping(value = "/save", method = RequestMethod.POST)
   public String save(@ModelAttribute Facility facility, Model model, Principal principal) {
     ResponseMessage response = new ResponseMessage();
     response.setObject(facilityService.saveFacility(facility));
     model.addAttribute("response", response);
-    return "redirect:/home";
+    return "redirect:/facility";
   }
 
 }

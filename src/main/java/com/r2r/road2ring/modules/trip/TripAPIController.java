@@ -46,8 +46,6 @@ public class TripAPIController {
   public DataTablesOutput<Trip> datatable(@Valid DataTablesInput input,
       HttpServletRequest request) {
 
-    System.out.println(input);
-
     return tripService.getDatatableContents(input);
 //    return tripService.getAllTrip();
   }
@@ -64,7 +62,6 @@ public class TripAPIController {
   @JsonView(ResponseView.DetailedTrip.class)
   public List<TripFacility> datatableFacility(@PathVariable("tripId") int id,
       HttpServletRequest request) {
-    System.out.println(request.getRequestURI());
 
     return tripService.getTripFacility(id);
   }

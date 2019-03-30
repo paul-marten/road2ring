@@ -8,6 +8,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 
 @Controller
 @RequestMapping(value = "/motor")
@@ -36,13 +37,22 @@ public class MotorController {
     return "admin/forms/motor";
   }
 
+  @RequestMapping(value = "/edit", method = RequestMethod.GET)
+  public String edit(Model model, @RequestParam int id) {
+    ResponseMessage response = new ResponseMessage();
+    Motor motor = motorService.getMotoyrById(id);
+    response.setObject(motor);
+    model.addAttribute("response", response);
+    return "admin/forms/motor";
+  }
+
   @RequestMapping(value = "/save", method = RequestMethod.POST)
   public String save(@ModelAttribute Motor motor, Model model, Principal principal) {
     ResponseMessage response = new ResponseMessage();
     response.setObject(motorService.saveMotor(motor));
     model.addAttribute("response", response);
 
-    return "redirect:/home";
+    return "redirect:/motor";
   }
 
 }

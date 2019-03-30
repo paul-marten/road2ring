@@ -1,5 +1,7 @@
 package com.r2r.road2ring.modules.roadcaptain;
 
+import com.fasterxml.jackson.annotation.JsonView;
+import com.r2r.road2ring.modules.common.ResponseView;
 import com.r2r.road2ring.modules.consumer.Consumer;
 import com.r2r.road2ring.modules.trip.Trip;
 import java.io.Serializable;
@@ -28,6 +30,7 @@ public class RoadCaptain implements Serializable {
 
 //  private Consumer consumer;
   @Column(name = "road_captain_name")
+  @JsonView(ResponseView.DetailedTrip.class)
   private String name;
 
   @Column(name = "road_captain_picture_url")
