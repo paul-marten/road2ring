@@ -131,7 +131,4 @@ public class Trip implements Serializable {
   @OneToMany(fetch = FetchType.LAZY, mappedBy = "trip")
   @JsonView(ResponseView.DetailedTrip.class)
   private List<RequestTrip> requestTrips;
-
-  @Transient
-  public Integer[] facilityInclude;
 }
