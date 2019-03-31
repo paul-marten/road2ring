@@ -37,6 +37,8 @@ public class TripService {
     saved.setDescription(trip.getDescription());
     saved.setDistance(trip.getDistance());
     saved.setMaxRider(trip.getMaxRider());
+    saved.setIconCover(trip.getIconCover());
+    saved.setIconPublisher(trip.getIconPublisher());
     saved.setTerrain(trip.getTerrain());
     saved.setDuration(trip.getDuration());
     saved.setCreated(new Date());

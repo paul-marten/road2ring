@@ -65,8 +65,10 @@ public class TripController {
     Trip trip = new Trip();
     List<Facility> facilityList = facilityService.getAllFacility();
     response.setObject(trip);
+    List<Integer> checked = new ArrayList<Integer>();
     model.addAttribute("response", response);
     model.addAttribute("facilities", facilityList);
+    model.addAttribute("facilityInclude", checked);
     return "admin/forms/trip";
   }
 
@@ -80,13 +82,16 @@ public class TripController {
     response.setObject(trip);
     model.addAttribute("response", response);
     model.addAttribute("facilities", facilityList);
-    model.addAttribute("checked", checked);
+    model.addAttribute("facilityInclude", checked);
     return "admin/forms/trip";
   }
 
   @RequestMapping(value = "/save", method = RequestMethod.POST)
   public String save(@ModelAttribute Trip trip, Model model, Principal principal) {
     ResponseMessage response = new ResponseMessage();
+    System.out.println();
+    System.out.println(trip.getFacilityInclude().length);
+    System.out.println();
     response.setObject(tripService.saveTrip(trip));
     model.addAttribute("response", response);
 
