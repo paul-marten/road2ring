@@ -41,5 +41,8 @@ public class ResponseView {
   public interface DefaultTripPrice extends LimitedTripPrice{}
   public interface DetailedTripPrice extends DefaultTripPrice{}
 
+  public interface LimitedAccessory extends Base{}
+  public interface DefaultAccessory extends LimitedAccessory{}
+  public interface DetailedAccessory extends DefaultAccessory{}
 
 }
