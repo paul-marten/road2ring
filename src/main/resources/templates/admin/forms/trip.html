@@ -90,7 +90,7 @@
 
         <div class="form-group">
           <label for="captain">Captain</label>
-          <input type="text" class="form-control" id="captain" placeholder="Captain" th:value="${response.object.roadCaptain.name != null && response.object.roadCaptain.name != '' ? response.object.roadCaptain.name : ''}">
+          <input type="text" class="form-control" id="captain" placeholder="Captain" th:value="${response.object.roadCaptain != null && response.object.roadCaptain != '' ? response.object.roadCaptain.name : ''}">
           <input type="hidden" class="hidden tournamentId" name="roadCaptain" th:value="${response.object.roadCaptain != null && response.object.roadCaptain.id != 0 ? response.object.roadCaptain.id : 0}">
         </div>
 
