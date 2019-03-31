@@ -29,7 +29,7 @@ public class AccessoryService {
     saved.setPicture(accessory.getPicture());
     saved.setPrice(accessory.getPrice());
     saved.setTitle(accessory.getTitle());
-
+    saved.setAccessoryCategory(accessory.getAccessoryCategory());
     return accessoryRepository.save(saved);
   }
 
