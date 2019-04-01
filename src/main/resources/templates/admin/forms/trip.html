@@ -116,10 +116,10 @@
         <div id="input-list-tab" class="m-top-xs form-group" style="display: flow-root" th:value="${facilities}">
           <div th:each="facility, iterStat:${facilities}" th:id="warper-+${iterStat.index}+.id" class="m-bottom-xs warpers">
             <div class="col-sm-4">
-              <input type="checkbox" class="check-facility" th:value="${facility.id}" th:text="' ' + ${facility.name}" th:checked="${checked != udefined ? #lists.contains(checked, facility.id) : false}" > <br>
+              <input type="checkbox" class="check-facility" th:value="${facility.id}" th:text="' ' + ${facility.name}" th:checked="${response.object.facilityInclude != udefined ? #lists.contains(response.object.facilityInclude, facility.id) : false}" > <br>
             </div>
           </div>
-          <!--<input type="hidden" name="facilityInclude" id="trip-facility">-->
+          <input type="hidden" name="facilityInclude" id="trip-facility" th:value="${response.object.facilityInclude}">
         </div>
         <div class="form-group">
           <label for="facility-not">Facility(not include)</label>
@@ -187,7 +187,7 @@ $(function() {
         }
 
         console.log(array);
-        $('#trip-facility').val(JSON.stringify(array));
+        $('#trip-facility').val(array);
      });
 
     $('#tag').tokenfield({
