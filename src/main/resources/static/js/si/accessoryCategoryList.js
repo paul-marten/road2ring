@@ -124,7 +124,7 @@ $.fn.dataTable.ext.search.push(
   var iconEdit = $('<span>').append($('<i>', {'class':'icon-icon_edit'}));
   var textEdit =$('<span>').append( $('<a>', {
                               'text':'Edit ',
-                              'href': '/accessory/edit?id=' + cellData,
+                              'href': '/accessory-category/edit?id=' + cellData,
                           }));
   var btnEdit = $('<li>').append(iconEdit).append(textEdit);
 
