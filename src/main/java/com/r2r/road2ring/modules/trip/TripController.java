@@ -63,12 +63,12 @@ public class TripController {
   public String add(Model model) {
     ResponseMessage response = new ResponseMessage();
     Trip trip = new Trip();
-    List<Facility> facilityList = facilityService.getAllFacility();
     response.setObject(trip);
-    List<Integer> checked = new ArrayList<Integer>();
+
+    List<Facility> facilityList = facilityService.getAllFacility();
+
     model.addAttribute("response", response);
     model.addAttribute("facilities", facilityList);
-    model.addAttribute("facilityInclude", checked);
     return "admin/forms/trip";
   }
 
@@ -76,24 +76,16 @@ public class TripController {
   public String edit(Model model, @RequestParam int id) {
     ResponseMessage response = new ResponseMessage();
     Trip trip = tripService.getTripById(id);
-//    List<TripFacility> tripFacilities = tripFacilityService.getTripFacilityOnTrip(id);
     List<Facility> facilityList = facilityService.getAllFacility();
-    List<Integer> checked = new ArrayList<Integer>(Arrays.asList(10,3));
-
-    trip.setFacilityInclude(checked);
 
     response.setObject(trip);
     model.addAttribute("response", response);
     model.addAttribute("facilities", facilityList);
-//    model.addAttribute("facilityInclude", checked);
     return "admin/forms/trip";
   }
 
   @RequestMapping(value = "/save", method = RequestMethod.POST)
   public String save(@ModelAttribute Trip trip, Model model, Principal principal) {
-    System.out.println();
-    System.out.println(trip.getFacilityInclude().size());
-    System.out.println();
     ResponseMessage response = new ResponseMessage();
     response.setObject(tripService.saveTrip(trip));
     model.addAttribute("response", response);
@@ -106,12 +98,6 @@ public class TripController {
     itineraryService.saveListOfItinerary(trip.getItineraries(), trip);
     return "redirect:/trip/"+id+"/itinerary";
   }
-
-//  @RequestMapping(value = "/{tripId}/facility/save")
-//  public String saveTripFacility(@PathVariable("tripId") int id, @ModelAttribute Trip trip, Model model, Principal principal){
-//    tripFacilityService.saveListOfTripFacility(trip.getTripFacilities(), trip);
-//    return "redirect:/trip/"+id+"/facility";
-//  }
 
   @RequestMapping(value = "/{tripId}/itinerary")
   public String viewTripItinerary(@ModelAttribute Itinerary itinerary, Model model) {

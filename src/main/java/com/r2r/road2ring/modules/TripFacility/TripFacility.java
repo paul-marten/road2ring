@@ -40,8 +40,8 @@ public class TripFacility {
   private String facilityImage;
 
   @JsonView(ResponseView.DefaultTripFacility.class)
-  @Column(name = "trip_facility_is_included")
-  private Boolean isIncluded;
+  @Column(name = "trip_facility_facility_id")
+  private Integer facilityId;
 
   @Column(name = "trip_facility_language")
   @JsonView(ResponseView.DefaultTrip.class)

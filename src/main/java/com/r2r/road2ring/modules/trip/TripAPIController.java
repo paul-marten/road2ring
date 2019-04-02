@@ -58,14 +58,6 @@ public class TripAPIController {
     return tripService.getAllTrip();
   }
 
-  @RequestMapping(value = "/{tripId}/facility/data", method = RequestMethod.GET)
-  @JsonView(ResponseView.DetailedTrip.class)
-  public List<TripFacility> datatableFacility(@PathVariable("tripId") int id,
-      HttpServletRequest request) {
-
-    return tripService.getTripFacility(id);
-  }
-
   @RequestMapping(value = "/{tripId}/itinerary/data", method = RequestMethod.GET)
   @JsonView(ResponseView.DetailedTrip.class)
   public List<Itinerary> datatableItinerary(@PathVariable("tripId") int id,

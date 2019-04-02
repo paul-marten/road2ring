@@ -4,6 +4,7 @@ import com.r2r.road2ring.modules.TripFacility.TripFacility;
 import com.r2r.road2ring.modules.TripFacility.TripFacilityService;
 import com.r2r.road2ring.modules.itinerary.Itinerary;
 import com.r2r.road2ring.modules.itinerary.ItineraryService;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
@@ -39,8 +40,12 @@ public class TripService {
 
   public Trip saveTrip(Trip trip){
     Trip saved = new Trip();
+    Boolean checkNewTrip = false;
     if(trip.getId() != null && trip.getId() != 0) {
+      checkNewTrip = true;
       saved = tripRepository.findOne(trip.getId());
+    } else {
+      saved.setCreated(new Date());
     }
     saved.setDescription(trip.getDescription());
     saved.setDistance(trip.getDistance());
@@ -49,7 +54,6 @@ public class TripService {
     saved.setIconPublisher(trip.getIconPublisher());
     saved.setTerrain(trip.getTerrain());
     saved.setDuration(trip.getDuration());
-    saved.setCreated(new Date());
     if(trip.getRoadCaptain() != null && trip.getRoadCaptain().getId() != 0) {
       saved.setRoadCaptain(trip.getRoadCaptain());
     }
@@ -62,17 +66,13 @@ public class TripService {
     saved = tripRepository.save(saved);
 
     if( saved != null){
-//      itineraryService.saveListOfItinerary(trip.getItineraries(),saved, trip.getGroupTitle());
       Trip tripSaved;
-      if(trip.getId() != 0 || trip.getId() != null){
+      if(checkNewTrip != false){
         tripSaved = tripRepository.findOne(trip.getId());
       }else {
         tripSaved = tripRepository.findByCreated(saved.getCreated());
       }
-      System.out.println("aaaaa");
-      System.out.println(tripSaved.getId());
-      System.out.println("aaaaa");
-//      tripFacilityService.saveListOfTripFacilityByInteger(new ArrayList<Integer>(Arrays.asList(1,2,3)),tripSaved);
+      tripFacilityService.saveListOfTripFacilityByInteger(trip.getFacilityInclude(),tripSaved);
 
     }
     return saved;
@@ -88,22 +88,22 @@ public class TripService {
   }
 
   public Trip getTripById(int id){
-    return tripRepository.findOne(id);
-  }
-
-  public List<TripFacility> getTripFacility(int tripId){
-    Trip trips = tripRepository.findOne(tripId);
-    TripFacility tripFacility;
-    List<TripFacility> result = new ArrayList<TripFacility>();
-    result = trips.getTripFacilities();
-    return result;
+    Trip trip = tripRepository.findOne(id);
+    trip.setFacilityInclude(this.getTripFacilityInTrip(trip.getTripFacilities()));
+    return trip;
   }
 
   public List<Itinerary> getTripItinerary(int tripId){
     Trip trips = tripRepository.findOne(tripId);
-    TripFacility tripFacility;
-    List<Itinerary> result = new ArrayList<Itinerary>();
-    result = trips.getItineraries();
+    List<Itinerary> result = trips.getItineraries();
+    return result;
+  }
+
+  private List<Integer> getTripFacilityInTrip(List<TripFacility> tripFacilities){
+    List<Integer> result = new ArrayList<>();
+    for(TripFacility tripFacility : tripFacilities){
+      result.add(tripFacility.getFacilityId());
+    }
     return result;
   }
 }
