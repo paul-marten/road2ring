@@ -39,12 +39,14 @@ public class TripService {
 
   public Trip saveTrip(Trip trip){
     Trip saved = new Trip();
-    if(trip.getId() != 0 && trip.getId() != null) {
+    if(trip.getId() != null && trip.getId() != 0) {
       saved = tripRepository.findOne(trip.getId());
     }
     saved.setDescription(trip.getDescription());
     saved.setDistance(trip.getDistance());
     saved.setMaxRider(trip.getMaxRider());
+    saved.setIconCover(trip.getIconCover());
+    saved.setIconPublisher(trip.getIconPublisher());
     saved.setTerrain(trip.getTerrain());
     saved.setDuration(trip.getDuration());
     saved.setCreated(new Date());

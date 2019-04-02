@@ -49,6 +49,12 @@ $(document).ready( function () {
         "orderable": true,
         "targets": 0
       } ],
+      "columnDefs": [{
+           "targets": 2,
+           "render": function(data, type, row) {
+               return '<img src="'+ data +'" width="40px" height="40px" style="margin-left: auto; margin-right: auto; display:block;">'
+           }
+       }],
       "order": [[ 0, "asc" ]],
 
 	 });

@@ -31,9 +31,28 @@
 
         <div class="form-group">
           <label for="image">Image</label>
-          <input type="file" id="image">
-
-          <!--<p class="help-block">Example block-level help text here.</p>-->
+          <div class="wrap-file">
+            <input type="file" id="image">
+          </div>
+          <input type="hidden" id="hidden_image" name="image"
+                 th:value="${response.object.image}">
+          <!-- <input type="hidden" id="hidden_upload_thumb" name="thumbnail" th:value="${response.object.thumbnail}"> -->
+          <div class="wrap_image collapse">
+            <div class="progress">
+              <div class="progress-bar progress-bar-info progress-bar-striped"
+                   role="progressbar" aria-valuenow="" aria-valuemin="0" aria-valuemax="100"
+                   style="">
+              </div>
+            </div>
+            <div class="msg collapse text-info"><i class="fa fa-check"></i> Upload Succeed</div>
+            <div class="pre_img">
+              <img src="" alt="">
+            </div>
+          </div>
+          <div th:if="${not #strings.isEmpty(response.object.image)}"
+               class="wrap-img-image p-top-sm">
+            <img th:src="${response.object.image}"/>
+          </div>
         </div>
       </div>
       <div class="box-footer">
@@ -42,6 +61,12 @@
     </form>
   </div>
 </div>
-
+<th:block layout:fragment="footer-js">
+  <script src="../../js/si/jquery.html5uploader.min.js"></script>
+  <script src="../../js/si/upload.js"></script>
+  <script>
+    upload_trip("/api/trip/upload_trip", "image","#image", "#hidden_image",640,640, "landscape");
+  </script>
+</th:block>
 </body>
 </html>
