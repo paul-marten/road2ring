@@ -1,5 +1,7 @@
 package com.r2r.road2ring.modules.accessory;
 
+import com.fasterxml.jackson.annotation.JsonView;
+import com.r2r.road2ring.modules.common.ResponseView;
 import com.r2r.road2ring.modules.facility.Facility;
 import java.util.List;
 import javax.servlet.http.HttpServletRequest;
@@ -20,6 +22,7 @@ public class AccessoryAPIController {
   }
 
   @RequestMapping(value = "/data", method = RequestMethod.GET)
+  @JsonView(ResponseView.DefaultAccessory.class)
   public List<Accessory> datatable(
       HttpServletRequest request) {
 

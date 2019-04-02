@@ -1,9 +1,6 @@
-package com.r2r.road2ring.modules.accessory;
+package com.r2r.road2ring.modules.accessorycategory;
 
-import com.r2r.road2ring.modules.accessorycategory.AccessoryCategory;
-import com.r2r.road2ring.modules.accessorycategory.AccessoryCategoryService;
 import com.r2r.road2ring.modules.common.ResponseMessage;
-import com.r2r.road2ring.modules.facility.Facility;
 import java.security.Principal;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -14,16 +11,10 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
 @Controller
-@RequestMapping(value = "/accessory")
-public class AccessoryController {
-  AccessoryService accessoryService;
+@RequestMapping("/accessory-category")
+public class AccessoryCategoryController {
 
   AccessoryCategoryService accessoryCategoryService;
-
-  @Autowired
-  public void setAccessoryService(AccessoryService accessoryService) {
-    this.accessoryService = accessoryService;
-  }
 
   @Autowired
   public void setAccessoryCategoryService(AccessoryCategoryService accessoryCategoryService){
@@ -34,35 +25,34 @@ public class AccessoryController {
   public String index(Model model) {
     ResponseMessage response = new ResponseMessage();
     model.addAttribute("response", response);
-    return "admin/page/accessory";
+    return "admin/page/accessory-category";
   }
 
   @RequestMapping(value = "/add", method = RequestMethod.GET)
   public String add(Model model) {
     ResponseMessage response = new ResponseMessage();
-    Accessory facility = new Accessory();
-    facility.setAccessoryCategory(new AccessoryCategory());
-    response.setObject(facility);
-    model.addAttribute("categories", accessoryCategoryService.getAccessoryCategories());
+    AccessoryCategory accessoryCategory = new AccessoryCategory();
+    response.setObject(accessoryCategory);
     model.addAttribute("response", response);
-    return "admin/forms/accessory";
+    return "admin/forms/accessory-category";
   }
 
   @RequestMapping(value = "/edit", method = RequestMethod.GET)
   public String edit(Model model, @RequestParam int id) {
     ResponseMessage response = new ResponseMessage();
-    Accessory accessory = accessoryService.getAccessoryById(id);
-    response.setObject(accessory);
-    model.addAttribute("categories", accessoryCategoryService.getAccessoryCategories());
+    AccessoryCategory accessoryCategory = accessoryCategoryService.getAccessoryCategoryById(id);
+    response.setObject(accessoryCategory);
     model.addAttribute("response", response);
-    return "admin/forms/accessory";
+    return "admin/forms/accessory-category";
   }
 
   @RequestMapping(value = "/save", method = RequestMethod.POST)
-  public String save(@ModelAttribute Accessory accessory, Model model, Principal principal) {
+  public String save(@ModelAttribute AccessoryCategory accessoryCategory, Model model, Principal principal) {
     ResponseMessage response = new ResponseMessage();
-    response.setObject(accessoryService.saveAccessory(accessory));
+    response.setObject(accessoryCategoryService.saveAccessoryCategory(accessoryCategory));
     model.addAttribute("response", response);
-    return "redirect:/accessory";
+
+    return "redirect:/accessory-category";
   }
+
 }

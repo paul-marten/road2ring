@@ -23,10 +23,20 @@
     </div>
     <form role="form" th:action="@{'/accessory/save'}" th:object="${response}" method="post">
       <div class="box-body">
-        <input id="object_id" type="hidden" name="id" th:if="${response.object.id != 0}" th:value="${response.object.id != null && response.object.id != 0 ? response.object.id : 0}">
+        <input id="object_id" type="hidden" name="id" th:if="${response.object.id != null}" th:value="${response.object.id != null && response.object.id != 0 ? response.object.id : 0}">
         <div class="form-group">
           <label for="title">Accessory Title</label>
           <input type="text" class="form-control" name="title" id="title" placeholder="Accessory Name" th:value="${response.object.title}" required>
+        </div>
+
+        <div class="form-group">
+          <label>Accessory Category</label>
+          <div>
+            <select name="accessoryCategory.id" class="form-control" data-parsley-required="true">
+              <option value="">---- Pilih Category---</option>
+              <option th:each="accessoryCategory, iterStat : ${categories}" th:value="${accessoryCategory.id}" th:text="${accessoryCategory.title}" th:selected="${accessoryCategory.id == response.object.accessoryCategory.id}"></option>
+            </select>
+          </div>
         </div>
 
         <div class="form-group">

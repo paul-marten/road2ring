@@ -133,5 +133,6 @@ public class Trip implements Serializable {
   private List<RequestTrip> requestTrips;
 
   @Transient
-  public List<Integer> facilityInclude;
+  private List<Integer> facilityInclude;
+
 }

@@ -1,9 +1,11 @@
 package com.r2r.road2ring.modules.trip;
 
 import com.r2r.road2ring.modules.TripFacility.TripFacility;
+import com.r2r.road2ring.modules.TripFacility.TripFacilityService;
 import com.r2r.road2ring.modules.itinerary.Itinerary;
 import com.r2r.road2ring.modules.itinerary.ItineraryService;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,6 +20,8 @@ public class TripService {
 
   ItineraryService itineraryService;
 
+  TripFacilityService tripFacilityService;
+
   @Autowired
   public void setTripRepository(TripRepository tripRepository){
     this.tripRepository = tripRepository;
@@ -28,9 +32,13 @@ public class TripService {
     this.itineraryService = itineraryService;
   }
 
+  @Autowired
+  public void setTripFacilityService(TripFacilityService tripFacilityService){
+    this.tripFacilityService = tripFacilityService;
+  }
+
   public Trip saveTrip(Trip trip){
     Trip saved = new Trip();
-
     if(trip.getId() != null && trip.getId() != 0) {
       saved = tripRepository.findOne(trip.getId());
     }
@@ -52,9 +60,21 @@ public class TripService {
     saved.setTitle(trip.getTitle());
     saved.setLocation(trip.getLocation());
     saved = tripRepository.save(saved);
-//    if( saved != null){
+
+    if( saved != null){
 //      itineraryService.saveListOfItinerary(trip.getItineraries(),saved, trip.getGroupTitle());
-//    }
+      Trip tripSaved;
+      if(trip.getId() != 0 || trip.getId() != null){
+        tripSaved = tripRepository.findOne(trip.getId());
+      }else {
+        tripSaved = tripRepository.findByCreated(saved.getCreated());
+      }
+      System.out.println("aaaaa");
+      System.out.println(tripSaved.getId());
+      System.out.println("aaaaa");
+//      tripFacilityService.saveListOfTripFacilityByInteger(new ArrayList<Integer>(Arrays.asList(1,2,3)),tripSaved);
+
+    }
     return saved;
   }
 
