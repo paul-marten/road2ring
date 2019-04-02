@@ -74,6 +74,7 @@ public class TripController {
   public String edit(Model model, @RequestParam int id) {
     ResponseMessage response = new ResponseMessage();
     Trip trip = tripService.getTripById(id);
+//    List<TripFacility> tripFacilities = tripFacilityService.getTripFacilityOnTrip(id);
     List<Facility> facilityList = facilityService.getAllFacility();
     List<Integer> checked = new ArrayList<Integer>(Arrays.asList(10,3));
 
@@ -99,11 +100,11 @@ public class TripController {
     return "redirect:/trip/"+id+"/itinerary";
   }
 
-  @RequestMapping(value = "/{tripId}/facility/save")
-  public String saveTripFacility(@PathVariable("tripId") int id, @ModelAttribute Trip trip, Model model, Principal principal){
-    tripFacilityService.saveListOfTripFacility(trip.getTripFacilities(), trip);
-    return "redirect:/trip/"+id+"/facility";
-  }
+//  @RequestMapping(value = "/{tripId}/facility/save")
+//  public String saveTripFacility(@PathVariable("tripId") int id, @ModelAttribute Trip trip, Model model, Principal principal){
+//    tripFacilityService.saveListOfTripFacility(trip.getTripFacilities(), trip);
+//    return "redirect:/trip/"+id+"/facility";
+//  }
 
   @RequestMapping(value = "/{tripId}/itinerary")
   public String viewTripItinerary(@ModelAttribute Itinerary itinerary, Model model) {

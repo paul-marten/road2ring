@@ -19,6 +19,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 import lombok.Data;
 
 @Entity
@@ -130,5 +131,8 @@ public class Trip implements Serializable {
   @OneToMany(fetch = FetchType.LAZY, mappedBy = "trip")
   @JsonView(ResponseView.DetailedTrip.class)
   private List<RequestTrip> requestTrips;
+
+  @Transient
+  private List<Integer> facilityInclude;
 
 }
