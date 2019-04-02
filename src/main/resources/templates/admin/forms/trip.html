@@ -168,13 +168,13 @@ $(function() {
       upload_trip("/api/trip/upload_trip", "icon_publisher","#icon_publisher", "#hidden_icon_publisher",640,640, "potrait");
       });
  });
-    var array = []
+
+    var checked = $('#trip-facility').val() != null && $('#trip-facility').val() != "" ? $('#trip-facility').val() : []
+    var array = JSON.parse( checked.length != 0 ? $('#trip-facility').val() : "[]" );
 
     $('.check-facility').change(function () {
-        var checked = $('#trip-facility').val()
-        if(checked != ''){
-          array = JSON.parse( checked );
-        }
+
+
         var $this = $(this);
 
         if ($this.is(":checked"))
@@ -186,8 +186,8 @@ $(function() {
           array = array.filter(x => x != $this.val());
         }
 
-        console.log(array);
-        $('#trip-facility').val(array);
+
+        $('#trip-facility').val(array)
      });
 
     $('#tag').tokenfield({
