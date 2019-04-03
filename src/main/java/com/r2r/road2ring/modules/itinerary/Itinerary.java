@@ -66,4 +66,7 @@ public class Itinerary implements Serializable {
   @JoinColumn(name = "itinerary_trip_id" , nullable = true)
   @JsonView(ResponseView.DetailedItinerary.class)
   private Trip trip;
+
+  @Transient
+  private int countEvent;
 }

@@ -65,6 +65,13 @@ public class TripAPIController {
     return tripService.getTripItinerary(id);
   }
 
+  @RequestMapping(value = "/{tripId}/price-list/data", method = RequestMethod.GET)
+  @JsonView(ResponseView.DetailedTrip.class)
+  public List<TripPrice> datatablePriceList(@PathVariable("tripId") int id,
+      HttpServletRequest request) {
+    return tripService.getTripPriceList(id);
+  }
+
   @PostMapping("/upload_trip/{typeImage}")
   public ResponseMessage uploadPhoto(@PathVariable String typeImage,@RequestParam("file") MultipartFile file) {
     System.out.println("@here we are right now");

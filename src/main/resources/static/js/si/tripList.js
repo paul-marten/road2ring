@@ -105,11 +105,11 @@ $(document).ready( function () {
   var btnEdit = $('<li>').append(iconEdit).append(textEdit);
 
 //  var iconEdit = $('<span>').append($('<i>', {'class':'icon-icon_edit'}));
-  var textFacility =$('<span>').append( $('<a>', {
-                                'text':'Facility ',
-                                'href': '/trip/'+cellData+'/facility',
+  var textPriceList =$('<span>').append( $('<a>', {
+                                'text':'Price List ',
+                                'href': '/trip/'+cellData+'/price-list',
                             }));
-  var btnFacility= $('<li>').append(textFacility);
+  var btnPriceList= $('<li>').append(textPriceList);
 
 
 //  var iconEdit = $('<span>').append($('<i>', {'class':'icon-icon_edit'}));
@@ -142,7 +142,7 @@ $(document).ready( function () {
 //                                      'href': '',
 //                                      }));
 //  var btnScheduled = $('<li>', {'id':'schedule'}).append(iconScheduled).append(textScheduled);
-  var list = btnEdit.add(btnIternary).add(btnPublish);
+  var list = btnEdit.add(btnIternary).add(btnPriceList).add(btnPublish);
 
   if (rowData.isPublished == "PUBLISHED" || rowData.isPublished == "EDITED") {
                   btnScheduled = $('<li>', {'style':'display: none;'});
