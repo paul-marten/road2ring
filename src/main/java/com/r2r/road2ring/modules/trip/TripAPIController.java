@@ -65,6 +65,11 @@ public class TripAPIController {
     return tripService.getTripItinerary(id);
   }
 
+  @RequestMapping(value = "/test")
+  public List<Itinerary> test(HttpServletRequest request) {
+    return tripService.test(1);
+  }
+
   @RequestMapping(value = "/{tripId}/price-list/data", method = RequestMethod.GET)
   @JsonView(ResponseView.DetailedTrip.class)
   public List<TripPrice> datatablePriceList(@PathVariable("tripId") int id,

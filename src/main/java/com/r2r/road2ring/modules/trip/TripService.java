@@ -143,4 +143,8 @@ public class TripService {
   public TripPrice getTripPriceById(int tripPricId){
     return tripPriceRepository.findOne(tripPricId);
   }
+
+  public List<Itinerary> test(int tripId){
+    return tripRepository.groupByItineraryGroup(tripId);
+  }
 }
