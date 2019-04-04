@@ -45,7 +45,7 @@ public class OAuthServerConfiguration {
       http
           .antMatcher("/m/api/**").authorizeRequests()
           .antMatchers("/oauth2").permitAll()
-          .antMatchers("/m/api/consumer**").permitAll();
+          .antMatchers("/m/api/user**").permitAll();
       // @formatter:on
     }
 
