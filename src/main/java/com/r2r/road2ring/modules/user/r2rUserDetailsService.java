@@ -1,11 +1,7 @@
-package com.r2r.road2ring.component;
+package com.r2r.road2ring.modules.user;
 
 import com.google.common.base.Splitter;
-import com.r2r.road2ring.modules.consumer.Consumer;
-import com.r2r.road2ring.modules.consumer.ConsumerRepository;
 import com.r2r.road2ring.modules.role.Role;
-import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -20,8 +16,6 @@ import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -31,18 +25,18 @@ public class r2rUserDetailsService implements UserDetailsService {
 
   protected final Logger logger = LoggerFactory.getLogger(getClass());
 
-  ConsumerRepository consumerRepository;
+  UserRepository userRepository;
 
   @Autowired
-  public void setConsumerRepository(ConsumerRepository consumerRepository){
-    this.consumerRepository = consumerRepository;
+  public void setUserRepository(UserRepository userRepository){
+    this.userRepository = userRepository;
   }
 
   @Override
   public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException, DataAccessException {
     int i = 0;
     String via = "", userId = "";
-    Consumer consumer;
+    com.r2r.road2ring.modules.user.User consumer;
     List<GrantedAuthority> authorities;
     UserDetails user;
 
@@ -57,7 +51,7 @@ public class r2rUserDetailsService implements UserDetailsService {
     }
 
     try {
-      consumer = consumerRepository.findOneByEmailIgnoreCase(userId);
+      consumer = userRepository.findOneByEmailIgnoreCase(userId);
       authorities = buildUserAuthority(consumer.getRole());
       user = new User(consumer.getEmail(), consumer.getPassword(), authorities);
     } catch (Exception e) {
