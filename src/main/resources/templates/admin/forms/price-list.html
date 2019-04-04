@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorator="admin/layout">
+<head>
+  <title>R2R-Trip Price Form</title>
+  <link type="text/css" href="../../css/jquery-ui-1.10.0.custom.css" rel="stylesheet"/>
+  <link type="text/css" href="../../css/bootstrap-tokenfield.min.css" rel="stylesheet"/>
+  <style>
+.ck-editor__editable {
+    min-height: 200px;
+}
+
+.box-inline{
+      box-shadow: 0 1px 1px rgba(0,0,0,0.5) !important;
+      padding: 5px 10px;
+}
+</style>
+</head>
+<body>
+<div layout:fragment="content">
+  <div class="box box-primary">
+    <div class="box-header with-border">
+      <h1 class="box-title">Trip Price Form</h1>
+    </div>
+    <form role="form" th:action="${action}" th:object="${response}" method="post">
+      <div class="box-body">
+        <input id="object_id" type="hidden" name="id" th:if="${response.object.id != 0}" th:value="${response.object.id != null && response.object.id != 0 ? response.object.id : 0}">
+        <div class="form-group">
+          <label>Pick Start Date:</label>
+
+          <div class="input-group date">
+            <div class="input-group-addon">
+              <i class="fa fa-calendar"></i>
+            </div>
+            <input type="text" class="form-control pull-right" name="startTrip" id="datepicker" th:value="${response.object.startTrip != null && response.object.startTrip != '' ? #dates.format(response.object.startTrip, 'MM/dd/yyyy') : ''}" required/>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="price">Price</label>
+          <div class="input-group" id="price">
+            <input type="number" min="0" name="personPaid" class="form-control" placeholder="Price" th:value="${response.object.personPaid}" required>
+            <span class="input-group-addon">$ /person</span>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label>Status</label>
+          <select class="form-control" name="status" th:value="${response.object.status}">
+            <option value="">--- Select Status ---</option>
+            <option th:each="status : ${T(com.r2r.road2ring.modules.trip.TripPriceStatus).values()}" th:selected="${status == response.object.status}" th:value="${status}" th:text="${status}">
+            </option>
+            </option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label for="discount">Discount</label>
+          <div class="input-group" id="discount">
+            <input type="number" min="0" name="discount" class="form-control" placeholder="Discount" th:value="${response.object.discount}" required>
+            <span class="input-group-addon">%</span>
+          </div>
+        </div>
+      </div>
+      <div class="box-footer">
+        <button type="submit" class="btn btn-primary">Submit</button>
+      </div>
+    </form>
+  </div>
+</div>
+<th:block layout:fragment="footer-js">
+  <script>
+  $('#datepicker').datepicker({
+    format: 'mm/dd/yyyy',
+    startDate: new Date(),
+  });
+  </script>
+</th:block>
+
+</body>
+</html>

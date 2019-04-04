@@ -8,8 +8,11 @@ import com.r2r.road2ring.modules.itinerary.Itinerary;
 import com.r2r.road2ring.modules.common.ResponseMessage;
 import com.r2r.road2ring.modules.itinerary.ItineraryService;
 import java.security.Principal;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -100,8 +103,10 @@ public class TripController {
   }
 
   @RequestMapping(value = "/{tripId}/itinerary")
-  public String viewTripItinerary(@ModelAttribute Itinerary itinerary, Model model) {
+  public String viewTripItinerary(@PathVariable("tripId") int id, @ModelAttribute Itinerary itinerary, Model model) {
+    Trip trip = tripService.getTripById(id);
     ResponseMessage response = new ResponseMessage();
+    response.setObject(trip);
     model.addAttribute("response", response);
     return "admin/page/trip-itinerary";
   }
@@ -145,4 +150,47 @@ public class TripController {
     return "admin/forms/trip-facility";
   }
 
+  @RequestMapping(value = "/{tripId}/price-list")
+  public String viewTripPriceList(@PathVariable("tripId") int id, @ModelAttribute TripPrice tripPrice, Model model) {
+    ResponseMessage response = new ResponseMessage();
+    model.addAttribute("response", response);
+    return "admin/page/price-list";
+  }
+
+  @RequestMapping(value = "/{tripId}/price-list/add")
+  public String addTripPriceList(@PathVariable("tripId") int id, @ModelAttribute TripPrice tripPrice, Model model) {
+    TripPrice price = new TripPrice();
+    ResponseMessage response = new ResponseMessage();
+    response.setObject(price);
+    model.addAttribute("response", response);
+    model.addAttribute("action", "/trip/"+id+"/price-list/save");
+    model.addAttribute("tripId", id);
+    return "admin/forms/price-list";
+  }
+
+  @RequestMapping(value = "/{tripId}/price-list/save")
+  public String saveTripPriceList(@PathVariable("tripId") int id, @ModelAttribute TripPrice tripPrice, Model model) {
+    ResponseMessage response = new ResponseMessage();
+    model.addAttribute("response", response);
+    Trip trip = tripService.getTripById(id);
+    SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+    Calendar cal = Calendar.getInstance();
+    cal.setTime(tripPrice.getStartTrip());
+    cal.add(Calendar.DAY_OF_MONTH, trip.getDuration());
+    Date newDate = cal.getTime();
+    tripPrice.setFinishTrip(newDate);
+
+    tripService.saveTripPrice(id, tripPrice);
+    return "redirect:/trip/"+id+"/price-list";
+  }
+
+  @RequestMapping(value = "/{tripId}/price-list/edit")
+  public String editTripPrice(@PathVariable("tripId") int tripId, @RequestParam int id, @ModelAttribute Itinerary itinerary, Model model) {
+    TripPrice tripPrice = tripService.getTripPriceById(id);
+    ResponseMessage response = new ResponseMessage();
+    response.setObject(tripPrice);
+    model.addAttribute("response", response);
+    model.addAttribute("action", "/trip/"+tripId+"/price-list/save");
+    return "admin/forms/price-list";
+  }
 }

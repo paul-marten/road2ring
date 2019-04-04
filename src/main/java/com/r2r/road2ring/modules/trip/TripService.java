@@ -7,6 +7,8 @@ import com.r2r.road2ring.modules.itinerary.ItineraryService;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.jpa.datatables.mapping.DataTablesInput;
 import org.springframework.data.jpa.datatables.mapping.DataTablesOutput;
@@ -24,6 +26,8 @@ public class TripService {
 
   TripFacilityService tripFacilityService;
 
+  TripPriceRepository tripPriceRepository;
+
   @Autowired
   public void setTripRepository(TripRepository tripRepository){
     this.tripRepository = tripRepository;
@@ -37,6 +41,12 @@ public class TripService {
   @Autowired
   public void setTripFacilityService(TripFacilityService tripFacilityService){
     this.tripFacilityService = tripFacilityService;
+  }
+
+  @Autowired
+  public void setTripPriceRepository(
+      TripPriceRepository tripPriceRepository) {
+    this.tripPriceRepository = tripPriceRepository;
   }
 
   public Trip saveTrip(Trip trip){
@@ -100,6 +110,12 @@ public class TripService {
     return result;
   }
 
+  public List<TripPrice> getTripPriceList(int tripId){
+    Trip trips = tripRepository.findOne(tripId);
+    List<TripPrice> result = trips.getTripPrices();
+    return result;
+  }
+
   private List<Integer> getTripFacilityInTrip(List<TripFacility> tripFacilities){
     List<Integer> result = new ArrayList<>();
     for(TripFacility tripFacility : tripFacilities){
@@ -108,9 +124,30 @@ public class TripService {
     return result;
   }
 
-  public List<Trip> findTripPageable(Integer page, Integer limit){
-    Pageable pageable = new PageRequest(page,limit);
+  public List<Trip> findTripPageable(Integer page, Integer limit) {
+    Pageable pageable = new PageRequest(page, limit);
     List<Trip> result = tripRepository.findAllByOrderByIdAsc(pageable);
     return result;
+  }
+
+  public TripPrice saveTripPrice(int tripId, TripPrice tripPrice){
+    TripPrice saved = new TripPrice();
+
+    if(tripPrice.getId() != null && tripPrice.getId() != 0){
+      saved = tripPriceRepository.findOne(tripPrice.getId());
+    }
+
+    saved.setDiscount(tripPrice.getDiscount());
+    saved.setFinishTrip(tripPrice.getFinishTrip());
+    saved.setStartTrip(tripPrice.getStartTrip());
+    saved.setPersonPaid(tripPrice.getPersonPaid());
+    saved.setStatus(tripPrice.getStatus());
+    saved.setTrip(tripRepository.findOne(tripId));
+
+    return tripPriceRepository.save(saved);
+  }
+
+  public TripPrice getTripPriceById(int tripPricId){
+    return tripPriceRepository.findOne(tripPricId);
   }
 }
