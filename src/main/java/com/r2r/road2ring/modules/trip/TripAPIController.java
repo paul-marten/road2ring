@@ -1,7 +1,10 @@
 package com.r2r.road2ring.modules.trip;
 
+import static com.r2r.road2ring.modules.common.Static.API;
+import static com.r2r.road2ring.modules.common.Static.M_API;
+import static com.r2r.road2ring.modules.common.Static.TRIP;
+
 import com.fasterxml.jackson.annotation.JsonView;
-import com.r2r.road2ring.modules.TripFacility.TripFacility;
 import com.r2r.road2ring.modules.common.ResponseCode;
 import com.r2r.road2ring.modules.common.ResponseMessage;
 import com.r2r.road2ring.modules.common.ResponseView;
@@ -24,7 +27,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
 @RestController
-@RequestMapping(value = "/api/trip")
+@RequestMapping(value = API + TRIP)
 public class TripAPIController {
 
   TripService tripService;

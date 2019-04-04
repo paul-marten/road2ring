@@ -4,15 +4,16 @@ import com.r2r.road2ring.modules.TripFacility.TripFacility;
 import com.r2r.road2ring.modules.TripFacility.TripFacilityService;
 import com.r2r.road2ring.modules.itinerary.Itinerary;
 import com.r2r.road2ring.modules.itinerary.ItineraryService;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.jpa.datatables.mapping.DataTablesInput;
 import org.springframework.data.jpa.datatables.mapping.DataTablesOutput;
 import org.springframework.stereotype.Service;
+
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 
 @Service
 public class TripService {
@@ -104,6 +105,12 @@ public class TripService {
     for(TripFacility tripFacility : tripFacilities){
       result.add(tripFacility.getFacilityId());
     }
+    return result;
+  }
+
+  public List<Trip> findTripPageable(Integer page, Integer limit){
+    Pageable pageable = new PageRequest(page,limit);
+    List<Trip> result = tripRepository.findAllByOrderByIdAsc(pageable);
     return result;
   }
 }
