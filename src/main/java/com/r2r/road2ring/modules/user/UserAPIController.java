@@ -1,12 +1,12 @@
 package com.r2r.road2ring.modules.user;
 
-import static com.r2r.road2ring.modules.common.Static.API;
 import static com.r2r.road2ring.modules.common.Static.M_API;
 import static com.r2r.road2ring.modules.common.Static.USER;
 
 import com.r2r.road2ring.modules.common.ResponseMessage;
 import javax.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping(value = M_API + USER)
+@CrossOrigin
 public class UserAPIController {
 
   UserService userService;
