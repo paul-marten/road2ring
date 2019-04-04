@@ -10,6 +10,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.data.jpa.datatables.mapping.DataTablesInput;
 import org.springframework.data.jpa.datatables.mapping.DataTablesOutput;
 import org.springframework.stereotype.Service;
@@ -124,9 +125,15 @@ public class TripService {
     return result;
   }
 
-  public List<Trip> findTripPageable(Integer page, Integer limit) {
+//  public List<Trip> findTripPageable(Integer page, Integer limit) {
+//    Pageable pageable = new PageRequest(page, limit);
+//    List<Trip> result = tripRepository.findAllByOrderByIdAsc(pageable);
+//    return result;
+//  }
+
+  public Page<Trip> findTripPageablePage(Integer page, Integer limit) {
     Pageable pageable = new PageRequest(page, limit);
-    List<Trip> result = tripRepository.findAllByOrderByIdAsc(pageable);
+    Page<Trip> result = tripRepository.findAllByOrderByIdDesc(pageable);
     return result;
   }
 

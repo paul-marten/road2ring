@@ -12,6 +12,10 @@ public final class Static {
   public static final Integer SIZE_100KB = 102401;
   public static final Integer SIZE_150KB = 153601;
 
+  public static final String M_API = "/m/api";
+  public static final String API = "/api";
 
+  public static final String TRIP = "/trip";
+  public static final String USER = "/user";
 
 }
