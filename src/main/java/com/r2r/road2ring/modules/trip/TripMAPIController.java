@@ -20,9 +20,16 @@ public class TripMAPIController {
 
   TripViewService tripViewService;
 
+  TripPriceService tripPriceService;
+
   @Autowired
   public void setTripViewService(TripViewService tripViewService) {
     this.tripViewService = tripViewService;
+  }
+
+  @Autowired
+  public void setTripPriceService(TripPriceService tripPriceService){
+    this.tripPriceService = tripPriceService;
   }
 
   @GetMapping("/list-trip/{page}/{limit}")
@@ -57,4 +64,19 @@ public class TripMAPIController {
     return responseMessage;
   }
 
+  @GetMapping("/price/{tripId}")
+  public ResponseMessage getAllTripPrice(
+      @PathVariable("tripId") Integer tripId,
+      Principal principal) {
+
+    if (principal != null) {
+      Authentication auth = (Authentication) principal;
+      UserDetails currentConsumer = (UserDetails) auth.getPrincipal();
+      System.out.println(currentConsumer.getUsername());
+    }
+
+    ResponseMessage responseMessage = new ResponseMessage();
+    responseMessage.setObject(tripPriceService.bindListTripPriceView(tripId));
+    return responseMessage;
+  }
 }

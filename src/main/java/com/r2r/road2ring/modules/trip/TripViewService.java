@@ -17,6 +17,8 @@ public class TripViewService {
 
   ItineraryService itineraryService;
 
+  TripPriceRepository tripPriceRepository;
+
   @Autowired
   public void setTripService(TripService tripService){
     this.tripService = tripService;
@@ -25,6 +27,11 @@ public class TripViewService {
   @Autowired
   public void setItineraryService(ItineraryService itineraryService){
     this.itineraryService = itineraryService;
+  }
+
+  @Autowired
+  public void setTripPriceRepository(TripPriceRepository tripPriceRepository) {
+    this.tripPriceRepository = tripPriceRepository;
   }
 
 //  public List<TripView> getListTripView(Integer page, Integer limit){
@@ -70,19 +77,19 @@ public class TripViewService {
     tripViewDetail.setId(trip.getId());
     tripViewDetail.setTitle(trip.getTitle());
     tripViewDetail.setDuration(trip.getDuration());
-    tripViewDetail.setCoverLandscape(faker.internet().image());
-    tripViewDetail.setIconPublisher(faker.internet().image());
-    tripViewDetail.setTripPrice(faker.number().randomDigit());
+    tripViewDetail.setCoverLandscape(trip.getCoverLandscape());
+    tripViewDetail.setIconPublisher(trip.getIconPublisher());
+    tripViewDetail.setTripPrice(
+        tripPriceRepository.findAllByTripIdOrderByStartTripAsc(tripId).get(0).getPrice());
 
-
-    tripViewDetail.setCoverPotrait(faker.internet().image());
+    tripViewDetail.setCoverPotrait(trip.getCoverPotrait());
     tripViewDetail.setDescription(trip.getDescription());
     tripViewDetail.setDistance(trip.getDistance());
-    tripViewDetail.setIconCover(faker.internet().image());
+    tripViewDetail.setIconCover(trip.getIconCover());
     tripViewDetail.setMaxRider(trip.getMaxRider());
     tripViewDetail.setTerrain(trip.getTerrain());
     tripViewDetail.setRoadCaptainDescription(trip.getRoadCaptain().getDescription());
-    tripViewDetail.setImageRoadCaptain(faker.internet().image());
+    tripViewDetail.setImageRoadCaptain(trip.getRoadCaptain().getPictureUrl());
     tripViewDetail.setFacilityNotIncluded(trip.getFacilityNot());
 
     tripViewDetail.setItineraries(this.getListItineraryTrip(trip.getId()));
@@ -102,7 +109,7 @@ public class TripViewService {
       ItineraryDetail itineraryDetail = new ItineraryDetail();
       itineraryDetail.setTitle(itinerary.getTitle());
       itineraryDetail.setDescription(itinerary.getDescription());
-      itineraryDetail.setImageItinerary(faker.internet().image());
+      itineraryDetail.setImageItinerary(itinerary.getImageUrl());
       itineraryDetails.add(itineraryDetail);
       tripViewItinerary.setGroupTitle(itinerary.getGroupTitle());
     }
