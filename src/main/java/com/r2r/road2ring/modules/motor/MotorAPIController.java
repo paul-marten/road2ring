@@ -23,10 +23,8 @@ public class MotorAPIController {
   }
 
   @RequestMapping(value = "/data", method = RequestMethod.GET)
-//  @JsonView(ResponseView..class)
   public List<Motor> datatable(
       HttpServletRequest request) {
-
     return motorService.getAllMotor();
   }
 }

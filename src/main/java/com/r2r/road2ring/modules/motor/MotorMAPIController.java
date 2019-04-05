@@ -26,10 +26,8 @@ public class MotorMAPIController {
     this.motorService = motorService;
   }
 
-  @GetMapping("/list-motor/{page}/{limit}")
+  @GetMapping("/list-motor")
   public ResponseMessage getAllMotor(
-      @PathVariable(value = "page") Integer page,
-      @PathVariable(value = "limit") Integer limit,
       Principal principal) {
 
     if (principal != null) {
@@ -39,7 +37,7 @@ public class MotorMAPIController {
     }
 
     ResponseMessage responseMessage = new ResponseMessage();
-    responseMessage.setObject(motorService.getListMotor(page,limit));
+    responseMessage.setObject(motorService.getAllMotor());
     return responseMessage;
   }
 
