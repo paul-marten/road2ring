@@ -87,6 +87,10 @@ public class Trip implements Serializable {
   @JsonView(ResponseView.DefaultTrip.class)
   private String tag;
 
+  @Column(name = "trip_map")
+  @JsonView(ResponseView.DefaultTrip.class)
+  private String map;
+
   @Column(name = "trip_created")
   @JsonView(ResponseView.DefaultTrip.class)
   private Date created;
