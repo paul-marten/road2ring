@@ -8,4 +8,5 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface AccessoryRepository extends DataTablesRepository<Accessory,Integer> {
   List<Accessory> findAll();
+  List<Accessory> findAllByAccessoryCategoryIdOrderByIdAsc(Integer tripId);
 }

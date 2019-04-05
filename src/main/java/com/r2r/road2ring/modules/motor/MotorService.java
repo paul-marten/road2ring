@@ -3,6 +3,8 @@ package com.r2r.road2ring.modules.motor;
 import java.util.List;
 import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.datatables.mapping.DataTablesInput;
 import org.springframework.data.jpa.datatables.mapping.DataTablesOutput;
 import org.springframework.stereotype.Service;
@@ -39,6 +41,12 @@ public class MotorService {
 
   public Motor getMotoyrById(int id){
     return motorRepository.findOne(id);
+  }
+
+  public List<Motor> getListMotor(Integer page, Integer limit){
+    Pageable pageable = new PageRequest(page, limit);
+    List<Motor> result = motorRepository.findAllByOrderByIdDesc(pageable);
+    return result;
   }
 
 }

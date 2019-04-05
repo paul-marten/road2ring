@@ -17,5 +17,8 @@ public final class Static {
 
   public static final String TRIP = "/trip";
   public static final String USER = "/user";
+  public static final String MOTOR = "/motor";
+  public static final String ACCESSORY = "/accessory";
+
 
 }

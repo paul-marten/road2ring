@@ -150,6 +150,7 @@ public class TripService {
     saved.setStartTrip(tripPrice.getStartTrip());
     saved.setPersonPaid(tripPrice.getPersonPaid());
     saved.setStatus(tripPrice.getStatus());
+    saved.setPrice(tripPrice.getPrice());
     saved.setTrip(tripRepository.findOne(tripId));
 
     return tripPriceRepository.save(saved);

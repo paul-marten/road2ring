@@ -36,4 +36,8 @@ public class AccessoryService {
   public List<Accessory> getAllAccessory(){
     return accessoryRepository.findAll();
   }
+
+  public List<Accessory> getAllAccessoryByCategory(Integer accessoryCategory){
+    return accessoryRepository.findAllByAccessoryCategoryIdOrderByIdAsc(accessoryCategory);
+  }
 }
