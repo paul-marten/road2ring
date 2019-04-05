@@ -47,4 +47,14 @@ public class ItineraryService {
     return result;
   }
 
+  public List<Integer> getItineraryGroupInTrip(Integer tripId){
+    List<Integer> result = itineraryRepository.findAllItineraryGroup(tripId);
+    return result;
+  }
+
+  public List<Itinerary> getItineraryTripByGroup(Integer groupId, Integer tripId){
+    List<Itinerary> result = itineraryRepository.findAllByGroupAndTripIdOrderByIdAsc(groupId,tripId);
+    return result;
+  }
+
 }
