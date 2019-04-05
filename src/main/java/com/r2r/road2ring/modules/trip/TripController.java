@@ -19,9 +19,11 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 @Controller
 @RequestMapping(value = "/trip")
@@ -96,9 +98,14 @@ public class TripController {
     return "redirect:/trip";
   }
 
-  @RequestMapping(value = "/{tripId}/itinerary/save")
-  public String saveTripItinerary(@PathVariable("tripId") int id, @ModelAttribute Trip trip, Model model, Principal principal){
-    itineraryService.saveListOfItinerary(trip.getItineraries(), trip);
+  @RequestMapping(value = "/{tripId}/itinerary/save", method = RequestMethod.POST)
+  @ResponseBody
+  public String saveTripItinerary(@PathVariable("tripId") int id, @RequestBody List<Itinerary> itineraryList, Model model, Principal principal){
+    Trip trip = tripService.getTripById(id);
+    for(Itinerary a : itineraryList){
+      System.out.println(a.toString());
+    }
+//    itineraryService.saveListOfItinerary(itineraryList, trip);
     return "redirect:/trip/"+id+"/itinerary";
   }
 
@@ -114,22 +121,24 @@ public class TripController {
   @RequestMapping(value = "/{tripId}/itinerary/add")
   public String addTripItinerary(@PathVariable("tripId") int id, @ModelAttribute Itinerary itinerary, Model model) {
     Trip trip = tripService.getTripById(id);
+    List<Itinerary> itineraryList = new ArrayList<>();
     ResponseMessage response = new ResponseMessage();
-    response.setObject(trip);
+    response.setObject(itineraryList);
     model.addAttribute("response", response);
     model.addAttribute("action", "/trip/"+id+"/itinerary/save");
-    model.addAttribute("tripId", id);
+    model.addAttribute("duration", trip.getDuration());
     return "admin/forms/trip-itinerary";
   }
 
   @RequestMapping(value = "/{tripId}/itinerary/edit")
-  public String editTripItinerary(@PathVariable("tripId") int id, @ModelAttribute Itinerary itinerary, Model model) {
+  public String editTripItinerary(@PathVariable("tripId") int tripId, @RequestParam int id, @ModelAttribute Itinerary itinerary, Model model) {
+    List<Itinerary> itineraryList = itineraryService.getItineraryByGroupAndTrip(id, tripId);
     Trip trip = tripService.getTripById(id);
     ResponseMessage response = new ResponseMessage();
-    response.setObject(trip);
+    response.setObject(itineraryList);
     model.addAttribute("response", response);
-    model.addAttribute("action", "/trip/"+id+"/itinerary/save");
-    model.addAttribute("tripId", id);
+    model.addAttribute("action", "/trip/"+tripId+"/itinerary/save");
+    model.addAttribute("duration", trip.getDuration());
     return "admin/forms/trip-itinerary";
   }
 

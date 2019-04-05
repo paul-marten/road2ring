@@ -4,17 +4,20 @@ import com.r2r.road2ring.modules.TripFacility.TripFacility;
 import com.r2r.road2ring.modules.TripFacility.TripFacilityService;
 import com.r2r.road2ring.modules.itinerary.Itinerary;
 import com.r2r.road2ring.modules.itinerary.ItineraryService;
-import java.text.SimpleDateFormat;
+import java.math.BigInteger;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.data.jpa.datatables.mapping.DataTablesInput;
 import org.springframework.data.jpa.datatables.mapping.DataTablesOutput;
 import org.springframework.stereotype.Service;
+
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 
 @Service
 public class TripService {
@@ -123,6 +126,18 @@ public class TripService {
     return result;
   }
 
+//  public List<Trip> findTripPageable(Integer page, Integer limit) {
+//    Pageable pageable = new PageRequest(page, limit);
+//    List<Trip> result = tripRepository.findAllByOrderByIdAsc(pageable);
+//    return result;
+//  }
+
+  public Page<Trip> findTripPageablePage(Integer page, Integer limit) {
+    Pageable pageable = new PageRequest(page, limit);
+    Page<Trip> result = tripRepository.findAllByOrderByIdDesc(pageable);
+    return result;
+  }
+
   public TripPrice saveTripPrice(int tripId, TripPrice tripPrice){
     TripPrice saved = new TripPrice();
 
@@ -144,7 +159,21 @@ public class TripService {
     return tripPriceRepository.findOne(tripPricId);
   }
 
-  public List<Itinerary> test(int tripId){
-    return tripRepository.groupByItineraryGroup(tripId);
+  public List<TripItineraryDataView> getTripItineraryGroup(int tripId){
+    List<Object[]> a = tripRepository.groupByItineraryGroup(tripId);
+    System.out.println(a.size());
+    TripItineraryDataView tripItineraryDataView;
+    List<TripItineraryDataView> list = new ArrayList<>();
+    int index = 1;
+    for(Object[] s : a){
+      tripItineraryDataView = new TripItineraryDataView();
+      tripItineraryDataView.setId(index);
+      tripItineraryDataView.setCountEvent(((BigInteger)s[0]).intValue());
+      tripItineraryDataView.setGroupEvent((int)s[1]);
+      tripItineraryDataView.setGroupTitleEvent((String)s[2]);
+      list.add(tripItineraryDataView);
+      index++;
+    }
+    return list;
   }
 }

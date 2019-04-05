@@ -9,4 +9,5 @@ public class ResponseMessage {
   private int code;
   private String message;
   private Object object;
+  private int totalPage;
 }

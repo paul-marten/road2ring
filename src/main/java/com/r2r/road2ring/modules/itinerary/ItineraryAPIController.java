@@ -2,6 +2,7 @@ package com.r2r.road2ring.modules.itinerary;
 
 import com.fasterxml.jackson.annotation.JsonView;
 import com.r2r.road2ring.modules.common.ResponseView;
+import java.util.List;
 import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.jpa.datatables.mapping.DataTablesInput;
@@ -25,6 +26,12 @@ public class ItineraryAPIController {
   @RequestMapping(value = "/datatable", method = RequestMethod.GET)
   public DataTablesOutput<Itinerary> datatable(@Valid DataTablesInput input) {
     return itineraryService.getDatatableItinerary(input);
+  }
+
+  @RequestMapping(value = "/test")
+  @JsonView(ResponseView.DetailedTrip.class)
+  public List<Itinerary> test(){
+    return itineraryService.getItineraryByGroupAndTrip(1,1);
   }
 
 }

@@ -3,8 +3,9 @@ package com.r2r.road2ring.modules.trip;
 import com.r2r.road2ring.modules.itinerary.Itinerary;
 import java.util.Date;
 import java.util.List;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.datatables.repository.DataTablesRepository;
-import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
@@ -13,9 +14,17 @@ import org.springframework.stereotype.Repository;
 public interface TripRepository extends DataTablesRepository<Trip,Integer> {
   List<Trip> findAll();
   Trip findByCreated(Date date);
-  @Query(value = "select count(itinerary_id), itinerary_group, itinerary_group_title "
+
+  @Query(value = "select count(itinerary_id) as countEvent, itinerary_group as groupEvent, itinerary_group_title as groupTitleEvent "
       + "from itinerary where itinerary_trip_id = :tripId "
-      + "group by itinerary_group, itinerary_group_title order by itinerary_group asc",
+      + "group by groupEvent, groupTitleEvent order by groupEvent asc",
       nativeQuery = true)
-  List<Itinerary> groupByItineraryGroup(@Param("tripId") int tripId);
+  List<Object[]> groupByItineraryGroup(@Param("tripId") int tripId);
+
+  /*Trip Pageable*/
+//  List<Trip>findAllByOrderByIdAsc(Pageable pageable);
+
+//  Page<Trip> findAllByOrderByIdAsc(Pageable pageable);
+
+  Page<Trip> findAllByOrderByIdDesc(Pageable pageable);
 }

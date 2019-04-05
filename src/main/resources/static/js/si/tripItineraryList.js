@@ -4,6 +4,7 @@ $(document).ready( function () {
 	 var table = $('#rsp-tbl').DataTable({
 	 "dom": '<"row"<"col-sm-2"<"newRecord">><"col-sm-10"<"toolbar">>><"row"<"col-sm-12"tr>><"row"<"col-sm-6"i><"col-sm-6"p>>',
 			"sAjaxSource": "/api/trip/"+tripId[2]+"/itinerary/data",
+//			"sAjaxSource": "/api/trip/test",
 			"sAjaxDataProp": "",
 			"aoColumns": [
 			    {"mData": "id",
@@ -14,10 +15,10 @@ $(document).ready( function () {
                 $(td).attr('data-th', 'No.');
             }
           },
-          { "mData": "title"},
-			    { "mData": "description"},
-			    { "mData": "groupTitle"},
-			    { "mData": "id",
+          { "mData": "groupTitleEvent"},
+			    { "mData": "countEvent"},
+//			    { "mData": "groupTitle"},
+			    { "mData": "groupEvent",
             "width": "10%",
             "searchable": false,
             "orderable": false,
@@ -89,7 +90,7 @@ $(document).ready( function () {
   var iconEdit = $('<span>').append($('<i>', {'class':'icon-icon_edit'}));
   var textEdit =$('<span>').append( $('<a>', {
                               'text':'Edit ',
-                              'href': '/trip/edit?id=' + cellData,
+                              'href': window.location.pathname + '/edit?id=' + cellData,
                           }));
   var btnEdit = $('<li>').append(iconEdit).append(textEdit);
 

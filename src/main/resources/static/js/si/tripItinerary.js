@@ -162,7 +162,7 @@ $(document).on("click", "#delete-form-event-itinerary", function(event) {
     console.log($('#itineraryForm').serialize())
     var uri = window.location.pathname.split('/');
     console.log(uri[2])
-//    $("#itinerarySaveBtn").submit();
+////    $("#itinerarySaveBtn").submit();
     $.post( "/trip/"+uri[2]+ '/itinerary/save', $("#itineraryForm").serialize()).done(function(data) {
 //      location.reload("/trip/"+uri[2]+ '/itinerary");
       window.location.href = "/trip/"+uri[2]+ '/itinerary';

@@ -1,6 +1,7 @@
 package com.r2r.road2ring.modules.itinerary;
 
 import com.r2r.road2ring.modules.trip.Trip;
+import com.r2r.road2ring.modules.trip.TripService;
 import java.util.ArrayList;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,11 +14,17 @@ public class ItineraryService {
 
   ItineraryRepository itineraryRepository;
 
+  TripService tripService;
+
   @Autowired
   public void setItineraryRepository(ItineraryRepository itineraryRepository) {
     this.itineraryRepository = itineraryRepository;
   }
 
+  @Autowired
+  public void setTripService(TripService tripService) {
+    this.tripService = tripService;
+  }
 
   public DataTablesOutput<Itinerary> getDatatableItinerary(DataTablesInput input) {
     DataTablesOutput<Itinerary> itineraries = itineraryRepository.findAll(input);
@@ -47,4 +54,8 @@ public class ItineraryService {
     return result;
   }
 
+  public List<Itinerary> getItineraryByGroupAndTrip(int group, int tripId){
+    Trip trip = tripService.getTripById(tripId);
+    return itineraryRepository.findAllByGroupAndTripOrderByIdAsc(group, trip);
+  }
 }

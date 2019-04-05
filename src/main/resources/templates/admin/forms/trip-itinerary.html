@@ -16,13 +16,13 @@
             <label>Day</label>
             <select class="form-control" id="group">
               <option>Select</option>
-              <option th:each="n : ${#numbers.sequence(1,response.object.duration)}" th:value="${n}" th:text="${n}"/>
+              <option th:each="n : ${#numbers.sequence(1, duration)}" th:value="${n}" th:text="${n}" th:selected="${#lists.size(response.object) != 0 ? n == response.object[0].group : false}"/>
             </select>
           </div>
 
           <div class="form-group">
             <label for="title">Title</label>
-            <input type="text" class="form-control" id="title" placeholder="Title ex: Day 1" required>
+            <input type="text" class="form-control" id="title" placeholder="Title ex: Day 1" th:value="${#lists.size(response.object) != 0 ? response.object[0].groupTitle : ''}" required>
           </div>
 
           <!--<button type="button" class="btn btn-info itinerary-btn collapse" data-toggle="collapse" data-target="#itinerary-form">Simple collapsible</button>-->
@@ -35,27 +35,35 @@
               </button>
             <!--</div>-->
             <div id="itinerary-form">
-              <br/>
-              <div class="itinerary-event">
-                <label for="picture-0">Picture</label>
-                <input type="file" class="form-control" id="picture-0">
-                <label for="event-0">Event</label>
-                <input type="text" class="form-control" id="event-0" name="itineraries[0].title" placeholder="Enter Event Title ">
-                <!--<input type="text" class="form-control" id="event-0" name="itineraries[0].title" placeholder="Enter Title Description">-->
-                <label for="description-0">Description</label>
-                <textarea class="form-control" id="description-0" name="itineraries[0].description" placeholder="Enter Description"></textarea>
-                <input type="hidden" class="group" name="itineraries[0].group" value="">
-                <input type="hidden" class="hidden" name="itineraries[0].groupTitle" value="">
-                <!--<input type="hidden" class="hidden" name="itineraries[0].groupTitles" value="">-->
-                <input type="hidden" name="id" th:value="${response.object.id}">
-                <!--<input type="hidden" class="hidden" name="itineraries[0].title" value="">-->
-              </div>
+              <div th:each="model, iterStat:${response.object}" th:id="warper-+${iterStat.index}+.id" class="m-bottom-xs warpers" style="width : 100%" >
+                <input type="hidden" th:id="id[+${iterStat.index}+]"
+                       class="tab_id" th:name="model[+${iterStat.index}+].id"
+                       th:value="${model.id}"
+                       th:if="${model.id != 0}">
+                <div id="add-tab-field-title" class="m-bottom-xs" style="width : 100%">
+                  <br/>
+                  <div class="itinerary-event">
+                    <label for="picture-0">Picture</label>
+                    <input type="file" class="form-control" id="picture-0">
+                    <label for="event-0">Event</label>
+                    <input type="text" class="form-control" id="event-0" name="model[+${iterStat.index}+].title" placeholder="Enter Event Title"
+                           th:value="${model.title}">
+                    <!--<input type="text" class="form-control" id="event-0" name="itineraries[0].title" placeholder="Enter Title Description">-->
+                    <label for="description-0">Description</label>
+                    <textarea class="form-control" id="description-0" name="model[+${iterStat.index}+].description" th:text="${model.description}" placeholder="Enter Description"></textarea>
+                    <input type="hidden" class="group" name="model[+${iterStat.index}+].group" value="">
+                    <input type="hidden" class="hidden" name="model[+${iterStat.index}+].groupTitle" value="">
+                    <!--<input type="hidden" class="hidden" name="itineraries[0].groupTitles" value="">-->
+                    <!--<input type="hidden" name="id" th:value="${response.object[0].id}">-->
+                    <!--<input type="hidden" class="hidden" name="itineraries[0].title" value="">-->
+                  </div>
+                </div>
             </div>
-          <!--</div>-->
+          </div>
         </div>
       </div>
       <div class="box-footer">
-        <button type="button" id="itinerarySaveBtn" class="btn btn-primary">Submit</button>
+        <button th:if="${#lists.size(response.object) != 0}" type="button" id="itinerarySaveBtn" class="btn btn-primary">Submit</button>
       </div>
     </form>
   </div>

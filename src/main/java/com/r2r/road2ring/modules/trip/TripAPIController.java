@@ -1,7 +1,10 @@
 package com.r2r.road2ring.modules.trip;
 
+import static com.r2r.road2ring.modules.common.Static.API;
+import static com.r2r.road2ring.modules.common.Static.M_API;
+import static com.r2r.road2ring.modules.common.Static.TRIP;
+
 import com.fasterxml.jackson.annotation.JsonView;
-import com.r2r.road2ring.modules.TripFacility.TripFacility;
 import com.r2r.road2ring.modules.common.ResponseCode;
 import com.r2r.road2ring.modules.common.ResponseMessage;
 import com.r2r.road2ring.modules.common.ResponseView;
@@ -24,7 +27,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
 @RestController
-@RequestMapping(value = "/api/trip")
+@RequestMapping(value = API + TRIP)
 public class TripAPIController {
 
   TripService tripService;
@@ -59,16 +62,15 @@ public class TripAPIController {
   }
 
   @RequestMapping(value = "/{tripId}/itinerary/data", method = RequestMethod.GET)
-  @JsonView(ResponseView.DetailedTrip.class)
-  public List<Itinerary> datatableItinerary(@PathVariable("tripId") int id,
+//  @JsonView(ResponseView.DetailedTrip.class)
+  public List<TripItineraryDataView> datatableItinerary(@PathVariable("tripId") int id,
       HttpServletRequest request) {
-    return tripService.getTripItinerary(id);
+    System.out.println();
+    System.out.println(id);
+    System.out.println();
+    return tripService.getTripItineraryGroup(id);
   }
 
-  @RequestMapping(value = "/test")
-  public List<Itinerary> test(HttpServletRequest request) {
-    return tripService.test(1);
-  }
 
   @RequestMapping(value = "/{tripId}/price-list/data", method = RequestMethod.GET)
   @JsonView(ResponseView.DetailedTrip.class)
@@ -79,7 +81,6 @@ public class TripAPIController {
 
   @PostMapping("/upload_trip/{typeImage}")
   public ResponseMessage uploadPhoto(@PathVariable String typeImage,@RequestParam("file") MultipartFile file) {
-    System.out.println("@here we are right now");
     ResponseMessage responseMessage = new ResponseMessage();
     try {
       if (!file.isEmpty()) {

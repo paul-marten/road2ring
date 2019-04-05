@@ -35,5 +35,7 @@ public class FacilityService {
     return facilityRepository.findAll();
   }
 
-  public Facility getFacilityById(int id){ return facilityRepository.findOne(id); }
+  public Facility getFacilityById(int id){
+    return facilityRepository.findOne(id);
+  }
 }
