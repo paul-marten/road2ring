@@ -8,4 +8,7 @@ public class TripView extends BaseView {
   private String coverLandscape;
   private Integer duration;
   private String location;
+  private String iconPublisher;
+  private Integer tripPrice;
+
 }

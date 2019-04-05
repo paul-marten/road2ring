@@ -7,4 +7,5 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface TripPriceRepository extends DataTablesRepository<TripPrice, Integer>{
   List<TripPrice> findAll();
+
 }
