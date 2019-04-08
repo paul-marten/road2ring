@@ -1,6 +1,6 @@
 package com.r2r.road2ring.modules.accessory;
 
-import static com.r2r.road2ring.modules.common.Static.ACCESSORY;
+import static com.r2r.road2ring.modules.common.Static.ACCESSORIES;
 import static com.r2r.road2ring.modules.common.Static.M_API;
 
 import com.r2r.road2ring.modules.common.ResponseMessage;
@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping(value = M_API + ACCESSORY)
+@RequestMapping(value = M_API)
 public class AccessoryMAPIController {
 
   AccessoryViewService accessoryViewService;
@@ -21,7 +21,7 @@ public class AccessoryMAPIController {
     this.accessoryViewService = accessoryViewService;
   }
 
-  @GetMapping("/helm")
+  @GetMapping( ACCESSORIES + "/helm")
   public ResponseMessage getAllHelmet(Principal principal) {
     ResponseMessage responseMessage = new ResponseMessage();
     responseMessage.setObject(accessoryViewService.getListAccessories(2));

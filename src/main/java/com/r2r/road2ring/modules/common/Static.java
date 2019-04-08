@@ -16,9 +16,11 @@ public final class Static {
   public static final String API = "/api";
 
   public static final String TRIP = "/trip";
+  public static final String TRIPS = "/trips";
   public static final String USER = "/user";
   public static final String MOTOR = "/motor";
-  public static final String ACCESSORY = "/accessory";
+  public static final String MOTORS = "/motors";
+  public static final String ACCESSORIES = "/accessories";
 
 
 }

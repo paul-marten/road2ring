@@ -11,7 +11,9 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 
 @RestController
 @RequestMapping(value = M_API + USER)
@@ -41,5 +43,39 @@ public class UserAPIController {
     return responseMessage;
 
   }
+
+//  @RequestMapping(value = "/registration", method = RequestMethod.POST)
+//  public ResponseMessage registerRefresh(
+//      @RequestHeader(value = "X-User-Agent", required = false) String userAgent,
+//      @RequestParam(value = "picture", required = false) MultipartFile file,
+//      @ModelAttribute(value = "user") User user, HttpServletRequest request) {
+//    ResponseMessage response = new ResponseMessage();
+//    User userPicture = null;
+//    String baseUrl = webService.getBaseUrl(request);
+//
+//    try {
+//      if (consumer.getEmail() != null && consumer.getUsername() != null) {
+//        if (file != null) {
+//          consumerPicture = uploadService.uploadConsumer(file);
+//        }
+//        consumerService.register(consumer, consumerPicture, baseUrl);
+//        response.setObject(consumerService.login(consumer,userAgent,baseUrl));
+//      } else {
+//        response.setCode(703);
+//        response.setMessage("Missing email or username parameter");
+//      }
+//    } catch (DataIntegrityViolationException e) {
+//      response.setCode(703);
+//      response.setMessage("Email or username duplicate");
+//    } catch (FileSizeLimitExceededException e) {
+//      response.setCode(800);
+//      response.setMessage("File too big");
+//    } catch (BolalobException e) {
+//      response.setCode(e.getCode());
+//      response.setMessage(e.getMessage());
+//    }
+//
+//    return response;
+//  }
 
 }

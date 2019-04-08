@@ -1,6 +1,6 @@
 package com.r2r.road2ring.modules.motor;
 
-import static com.r2r.road2ring.modules.common.Static.MOTOR;
+import static com.r2r.road2ring.modules.common.Static.MOTORS;
 import static com.r2r.road2ring.modules.common.Static.M_API;
 
 import com.r2r.road2ring.modules.common.ResponseMessage;
@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping(value = M_API + MOTOR)
+@RequestMapping(value = M_API)
 public class MotorMAPIController {
 
   MotorService motorService;
@@ -26,7 +26,7 @@ public class MotorMAPIController {
     this.motorService = motorService;
   }
 
-  @GetMapping("/list-motor")
+  @GetMapping(MOTORS)
   public ResponseMessage getAllMotor(
       Principal principal) {
 

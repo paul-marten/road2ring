@@ -2,6 +2,7 @@ package com.r2r.road2ring.modules.trip;
 
 import static com.r2r.road2ring.modules.common.Static.M_API;
 import static com.r2r.road2ring.modules.common.Static.TRIP;
+import static com.r2r.road2ring.modules.common.Static.TRIPS;
 
 import com.r2r.road2ring.modules.common.ResponseMessage;
 import java.security.Principal;
@@ -15,7 +16,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping(value = M_API + TRIP)
+@RequestMapping(value = M_API)
 public class TripMAPIController {
 
   TripViewService tripViewService;
@@ -32,7 +33,7 @@ public class TripMAPIController {
     this.tripPriceService = tripPriceService;
   }
 
-  @GetMapping("/list-trip/{page}/{limit}")
+  @GetMapping( TRIPS + "/{page}/{limit}")
   public ResponseMessage getAllTrip(
       @PathVariable(value = "page") Integer page,
       @PathVariable(value = "limit") Integer limit,
@@ -48,7 +49,7 @@ public class TripMAPIController {
     return responseMessage;
   }
 
-  @GetMapping("/detail-trip/{tripId}")
+  @GetMapping(TRIP + "/{tripId}")
   public ResponseMessage getAllTrip(
       @PathVariable("tripId") Integer tripId,
       Principal principal) {
