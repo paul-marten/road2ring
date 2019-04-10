@@ -22,5 +22,5 @@ public final class Static {
   public static final String MOTORS = "/motors";
   public static final String ACCESSORIES = "/accessories";
 
-
+  public static final Integer ROLE_ID = 2;
 }
