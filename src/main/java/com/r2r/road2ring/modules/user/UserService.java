@@ -112,14 +112,11 @@ public class UserService {
   public User register(User user, User userPicture)
       throws Road2RingException {
 
-    if(!isUsernameValid(user.getUsername())){
-      throw new Road2RingException("Username_Invalid", 703);
-    }
     if(!isEmailValid(user.getEmail())){
       throw new Road2RingException("Email_Invalid", 703);
     }
-    if(!isEmailAvailable(user) && !isUsernameAvailable(user)){
-      throw new Road2RingException("Username atau Email telah terdaftar.", 708);
+    if(!isEmailAvailable(user)){
+      throw new Road2RingException("Email telah terdaftar.", 708);
     }
 
     User saved = new User();
@@ -127,41 +124,14 @@ public class UserService {
     role.setId(ROLE_ID);
 
     saved.setRole(role);
-    saved.setUsername(user.getUsername());
+    saved.setBirthday(user.getBirthday());
     saved.setPassword(r2rTools.hashingPassword(user.getPassword()));
 
     saved.setEmail(user.getEmail());
     saved.setRegisterDate(new Date());
 
-    // TODO:Unverified when netcore deal
-
-//    if (userPicture != null) {
-//      saved.setPictureLarge(consumerPicture.getPictureLarge());
-//      saved.setPictureMedium(consumerPicture.getPictureMedium());
-//      saved.setPictureSmall(consumerPicture.getPictureSmall());
-//    } else {
-//      saved.setPictureLarge(consumer.getPictureLarge());
-//      saved.setPictureMedium(consumer.getPictureMedium());
-//      saved.setPictureSmall(consumer.getPictureSmall());
-
-      // app
-      // saved.setPictureSmall(GlobalVar.DEFAULT_PICTURE_SMALL);
-      // saved.setPictureMedium(GlobalVar.DEFAULT_PICTURE_MEDIUM);
-      // saved.setPictureLarge(GlobalVar.DEFAULT_PICTURE_LARGE);
-
-//    }
-
     saved = userRepository.save(saved);
     return saved;
-  }
-
-  public boolean isUsernameValid(String username){
-    boolean result = false;
-    Pattern pattern = Pattern.compile("[a-zA-Z0-9._-]{3,16}");
-    if(!username.isEmpty() && username != null && pattern.matcher(username).matches()){
-      result= true;
-    }
-    return result;
   }
 
   public boolean isEmailValid(String email){
@@ -175,10 +145,6 @@ public class UserService {
 
   public boolean isEmailAvailable(User user) {
     return userRepository.findTopOneByEmailIgnoreCase(user.getEmail()) == null;
-  }
-
-  public boolean isUsernameAvailable(User user) {
-    return userRepository.findTopOneByUsernameIgnoreCase(user.getUsername()) == null;
   }
 
 }

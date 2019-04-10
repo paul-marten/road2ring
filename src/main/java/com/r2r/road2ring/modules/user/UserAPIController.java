@@ -58,15 +58,10 @@ public class UserAPIController {
   @RequestMapping(value = "/registration", method = RequestMethod.POST)
   public ResponseMessage registerRefresh(
       @RequestHeader(value = "X-User-Agent", required = false) String userAgent,
-      @RequestParam(value = "file", required = false) MultipartFile file,
       @ModelAttribute(value = "user") User user, HttpServletRequest request) {
     ResponseMessage response = new ResponseMessage();
-    User userPicture = null;
     try {
-      if (user.getEmail() != null && user.getUsername() != null) {
-        if (file != null) {
-          //TODO this is upload picture
-        }
+      if (user.getEmail() != null) {
         userService.register(user, user);
 //        response.setObject(userService.login(user,userAgent));
       } else {
@@ -76,10 +71,6 @@ public class UserAPIController {
     } catch (DataIntegrityViolationException e) {
       response.setCode(703);
       response.setMessage("Email or username duplicate");
-//    } catch (FileSizeLimitExceededException e) {
-//      response.setCode(800);
-//      response.setMessage("File too big");
-//    }
     }catch (Road2RingException e) {
       response.setCode(e.getCode());
       response.setMessage(e.getMessage());
