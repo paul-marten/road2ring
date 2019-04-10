@@ -32,8 +32,17 @@ public class AccessoryCategoryService {
     return accessoryCategoryRepository.findOne(id);
   }
 
+  public AccessoryCategory getAccessoryCategoryByTitle(String title){
+    return accessoryCategoryRepository.findOneByTitleIgnoreCase(title);
+  }
+
   public List<AccessoryCategory> getAccessoryCategories(){
     return accessoryCategoryRepository.findAllByOrderByIdAsc();
+  }
+
+  public List<AccessoryCategory> getAccessoryCategoriesIdNotContaionHelm(){
+    List<AccessoryCategory> result = accessoryCategoryRepository.findAllByTitleIgnoreCaseNotLike("helm");
+    return result;
   }
 
 }
