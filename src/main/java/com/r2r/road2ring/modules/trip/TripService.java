@@ -162,7 +162,6 @@ public class TripService {
 
   public List<TripItineraryDataView> getTripItineraryGroup(int tripId){
     List<Object[]> a = tripRepository.groupByItineraryGroup(tripId);
-    System.out.println(a.size());
     TripItineraryDataView tripItineraryDataView;
     List<TripItineraryDataView> list = new ArrayList<>();
     int index = 1;

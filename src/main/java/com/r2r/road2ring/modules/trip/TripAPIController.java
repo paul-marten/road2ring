@@ -65,9 +65,6 @@ public class TripAPIController {
 //  @JsonView(ResponseView.DetailedTrip.class)
   public List<TripItineraryDataView> datatableItinerary(@PathVariable("tripId") int id,
       HttpServletRequest request) {
-    System.out.println();
-    System.out.println(id);
-    System.out.println();
     return tripService.getTripItineraryGroup(id);
   }
 
