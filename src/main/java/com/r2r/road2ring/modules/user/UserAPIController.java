@@ -7,9 +7,11 @@ import com.r2r.road2ring.modules.common.ResponseMessage;
 import com.r2r.road2ring.modules.common.Road2RingException;
 import com.r2r.road2ring.modules.common.UploadService;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import org.apache.tomcat.util.http.fileupload.FileUploadBase.FileSizeLimitExceededException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestHeader;
@@ -41,12 +43,15 @@ public class UserAPIController {
   @RequestMapping(value = "/auth/basic", method = RequestMethod.POST)
   public ResponseMessage login(
       @RequestHeader(value = "X-User-Agent", required = false) String userAgent,
-      @ModelAttribute User user, HttpServletRequest request) {
+      @ModelAttribute User user, HttpServletRequest request,
+      HttpServletResponse httpResponse) {
 
     ResponseMessage responseMessage = new ResponseMessage();
     try {
       responseMessage.setObject(userService.login(user, userAgent));
+      httpResponse.setStatus(HttpStatus.OK.value());
     } catch (Exception e) {
+      httpResponse.setStatus(HttpStatus.BAD_REQUEST.value());
       responseMessage.setCode(800);
       responseMessage.setMessage("Email atau Password anda salah");
     }
@@ -58,20 +63,24 @@ public class UserAPIController {
   @RequestMapping(value = "/registration", method = RequestMethod.POST)
   public ResponseMessage registerRefresh(
       @RequestHeader(value = "X-User-Agent", required = false) String userAgent,
-      @ModelAttribute(value = "user") User user, HttpServletRequest request) {
+      @ModelAttribute(value = "user") User user, HttpServletRequest request,
+      HttpServletResponse httpStatus) {
     ResponseMessage response = new ResponseMessage();
     try {
       if (user.getEmail() != null) {
         userService.register(user, user);
-//        response.setObject(userService.login(user,userAgent));
+        httpStatus.setStatus(HttpStatus.OK.value());
       } else {
+        httpStatus.setStatus(HttpStatus.BAD_REQUEST.value());
         response.setCode(703);
         response.setMessage("Missing email or username parameter");
       }
     } catch (DataIntegrityViolationException e) {
+      httpStatus.setStatus(HttpStatus.CONFLICT.value());
       response.setCode(703);
       response.setMessage("Email or username duplicate");
     }catch (Road2RingException e) {
+      httpStatus.setStatus(HttpStatus.CONFLICT.value());
       response.setCode(e.getCode());
       response.setMessage(e.getMessage());
     }

@@ -113,7 +113,7 @@ public class UserService {
       throws Road2RingException {
 
     if(!isEmailValid(user.getEmail())){
-      throw new Road2RingException("Email_Invalid", 703);
+      throw new Road2RingException("Email invalid", 703);
     }
     if(!isEmailAvailable(user)){
       throw new Road2RingException("Email telah terdaftar.", 708);
