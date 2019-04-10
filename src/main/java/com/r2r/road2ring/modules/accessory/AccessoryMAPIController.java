@@ -7,6 +7,7 @@ import com.r2r.road2ring.modules.common.ResponseMessage;
 import java.security.Principal;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -21,10 +22,18 @@ public class AccessoryMAPIController {
     this.accessoryViewService = accessoryViewService;
   }
 
-  @GetMapping( ACCESSORIES + "/helm")
-  public ResponseMessage getAllHelmet(Principal principal) {
+//  @GetMapping( ACCESSORIES + "/helm")
+//  public ResponseMessage getAllHelmet(Principal principal) {
+//    ResponseMessage responseMessage = new ResponseMessage();
+//    responseMessage.setObject(accessoryViewService.getListAccessories(2));
+//    return responseMessage;
+//  }
+
+  @GetMapping (ACCESSORIES + "/{titleAccessoryCategory}")
+  public ResponseMessage getAccessoryByCategory(Principal principal,
+      @PathVariable("titleAccessoryCategory") String title){
     ResponseMessage responseMessage = new ResponseMessage();
-    responseMessage.setObject(accessoryViewService.getListAccessories(2));
+    responseMessage.setObject(accessoryViewService.getListAccessoriesByCategoryName(title));
     return responseMessage;
   }
 
