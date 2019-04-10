@@ -13,16 +13,18 @@ import java.util.Date;
 import javax.imageio.ImageIO;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.apache.tomcat.util.http.fileupload.FileUploadBase.FileSizeLimitExceededException;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 @Service
 public class UploadService {
 
-  public String generateRandomCode(int length) {
-    String key = RandomStringUtils
-        .random(length, "34i12q23lea0ug9ab0adji05r9lw8j91kyzd1r27icq3kdfadftp448dsaqwd75y785t".toCharArray());
-    return key;
+  R2rTools r2rTools;
+
+  @Autowired
+  public void setR2rTools(R2rTools r2rTools){
+    this.r2rTools = r2rTools;
   }
 
   public String uploadImagePicture(MultipartFile file, String typeImage)
@@ -35,7 +37,7 @@ public class UploadService {
     if (file.getSize() > SIZE_100KB) {
       throw new FileSizeLimitExceededException("File is too Big", file.getSize(), SIZE_100KB);
     }
-    linkUrl = date + this.generateRandomCode(8);
+    linkUrl = date + r2rTools.generateRandomCode(8);
     File picture = new File(linkUrl + ".jpg");
     bytes = file.getBytes();
 

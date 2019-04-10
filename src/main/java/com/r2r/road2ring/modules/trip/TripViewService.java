@@ -1,6 +1,8 @@
 package com.r2r.road2ring.modules.trip;
 
 import com.github.javafaker.Faker;
+import com.r2r.road2ring.modules.TripFacility.TripFacility;
+import com.r2r.road2ring.modules.TripFacility.TripFacilityService;
 import com.r2r.road2ring.modules.common.ResponseMessage;
 import com.r2r.road2ring.modules.itinerary.Itinerary;
 import com.r2r.road2ring.modules.itinerary.ItineraryService;
@@ -19,6 +21,8 @@ public class TripViewService {
 
   TripPriceRepository tripPriceRepository;
 
+  TripFacilityService tripFacilityService;
+
   @Autowired
   public void setTripService(TripService tripService){
     this.tripService = tripService;
@@ -32,6 +36,11 @@ public class TripViewService {
   @Autowired
   public void setTripPriceRepository(TripPriceRepository tripPriceRepository) {
     this.tripPriceRepository = tripPriceRepository;
+  }
+
+  @Autowired
+  public void setTripFacilityService(TripFacilityService tripFacilityService){
+    this.tripFacilityService = tripFacilityService;
   }
 
 //  public List<TripView> getListTripView(Integer page, Integer limit){
@@ -91,10 +100,22 @@ public class TripViewService {
     tripViewDetail.setRoadCaptainDescription(trip.getRoadCaptain().getDescription());
     tripViewDetail.setImageRoadCaptain(trip.getRoadCaptain().getPictureUrl());
     tripViewDetail.setFacilityNotIncluded(trip.getFacilityNot());
-
+    tripViewDetail.setFacilities(getTripFacilityView(trip.getId()));
     tripViewDetail.setItineraries(this.getListItineraryTrip(trip.getId()));
 
     return tripViewDetail;
+  }
+
+  private List<TripViewFacility> getTripFacilityView(Integer tripId){
+    List<TripViewFacility> tripViewFacilities = new ArrayList<>();
+    List<TripFacility> tripFacilities = tripFacilityService.getTripFacilityOnTrip(tripId);
+    for(TripFacility tripFacility : tripFacilities){
+      TripViewFacility saved = new TripViewFacility();
+      saved.setPicture(tripFacility.getFacilityImage());
+      saved.setTitle(tripFacility.getFacilityName());
+      tripViewFacilities.add(saved);
+    }
+    return tripViewFacilities;
   }
 
   private TripViewItinerary getItineraryTrip(Integer tripId, Integer groupId){

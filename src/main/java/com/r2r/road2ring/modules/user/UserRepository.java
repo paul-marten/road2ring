@@ -6,4 +6,5 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface UserRepository extends JpaRepository<User,Integer> {
   User findOneByEmailIgnoreCase(String email);
+  User findTopOneByEmailIgnoreCase(String email);
 }

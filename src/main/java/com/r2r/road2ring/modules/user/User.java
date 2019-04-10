@@ -2,6 +2,7 @@ package com.r2r.road2ring.modules.user;
 
 import com.r2r.road2ring.modules.role.Role;
 import java.io.Serializable;
+import java.util.Date;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -25,8 +26,8 @@ public class User implements Serializable {
   @Column(name = "user_id")
   private Integer id;
 
-  @Column(name = "user_username")
-  private String username;
+  @Column(name = "user_birthday")
+  private Date birthday;
 
   @Column(name = "user_password")
   private String password;
@@ -40,6 +41,15 @@ public class User implements Serializable {
 
   @Column(name = "user_ktp_number")
   private Long ktpNumber;
+
+  @Column(name = "user_register_date")
+  private Date registerDate;
+
+  @Column(name = "user_full_name")
+  private String fullName;
+
+  @Column(name = "user_picture")
+  private String picture;
 
 //  private String facebookPageID;
 //  private String twitterPageID;

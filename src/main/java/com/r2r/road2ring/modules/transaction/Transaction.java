@@ -52,6 +52,9 @@
 //  @Column(name = "transaction_trip_id")
 //  private Trip trip;
 //
+//  @Column(name = "transaction_start_date")
+//  private Date startDate;
+//
 //  @Column(name = "transaction_motor_id")
 //  private Motor motor;
 //

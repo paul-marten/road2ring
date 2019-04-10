@@ -8,4 +8,6 @@ import org.springframework.stereotype.Repository;
 public interface AccessoryCategoryRepository extends DataTablesRepository<AccessoryCategory, Integer> {
   List<AccessoryCategory> findAll();
   List<AccessoryCategory> findAllByOrderByIdAsc();
+  List<AccessoryCategory> findAllByTitleIgnoreCaseNotLike(String title);
+  AccessoryCategory findOneByTitleIgnoreCase(String title);
 }
