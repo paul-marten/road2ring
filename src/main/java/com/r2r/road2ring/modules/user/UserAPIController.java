@@ -4,8 +4,12 @@ import static com.r2r.road2ring.modules.common.Static.M_API;
 import static com.r2r.road2ring.modules.common.Static.USER;
 
 import com.r2r.road2ring.modules.common.ResponseMessage;
+import com.r2r.road2ring.modules.common.Road2RingException;
+import com.r2r.road2ring.modules.common.UploadService;
 import javax.servlet.http.HttpServletRequest;
+import org.apache.tomcat.util.http.fileupload.FileUploadBase.FileSizeLimitExceededException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestHeader;
@@ -22,9 +26,16 @@ public class UserAPIController {
 
   UserService userService;
 
+  UploadService uploadService;
+
   @Autowired
   public void setUserService(UserService userService){
     this.userService = userService;
+  }
+
+  @Autowired
+  public void setUploadService(UploadService uploadService){
+    this.uploadService = uploadService;
   }
 
   @RequestMapping(value = "/auth/basic", method = RequestMethod.POST)
@@ -44,38 +55,37 @@ public class UserAPIController {
 
   }
 
-//  @RequestMapping(value = "/registration", method = RequestMethod.POST)
-//  public ResponseMessage registerRefresh(
-//      @RequestHeader(value = "X-User-Agent", required = false) String userAgent,
-//      @RequestParam(value = "picture", required = false) MultipartFile file,
-//      @ModelAttribute(value = "user") User user, HttpServletRequest request) {
-//    ResponseMessage response = new ResponseMessage();
-//    User userPicture = null;
-//    String baseUrl = webService.getBaseUrl(request);
-//
-//    try {
-//      if (consumer.getEmail() != null && consumer.getUsername() != null) {
-//        if (file != null) {
-//          consumerPicture = uploadService.uploadConsumer(file);
-//        }
-//        consumerService.register(consumer, consumerPicture, baseUrl);
-//        response.setObject(consumerService.login(consumer,userAgent,baseUrl));
-//      } else {
-//        response.setCode(703);
-//        response.setMessage("Missing email or username parameter");
-//      }
-//    } catch (DataIntegrityViolationException e) {
-//      response.setCode(703);
-//      response.setMessage("Email or username duplicate");
+  @RequestMapping(value = "/registration", method = RequestMethod.POST)
+  public ResponseMessage registerRefresh(
+      @RequestHeader(value = "X-User-Agent", required = false) String userAgent,
+      @RequestParam(value = "file", required = false) MultipartFile file,
+      @ModelAttribute(value = "user") User user, HttpServletRequest request) {
+    ResponseMessage response = new ResponseMessage();
+    User userPicture = null;
+    try {
+      if (user.getEmail() != null && user.getUsername() != null) {
+        if (file != null) {
+          //TODO this is upload picture
+        }
+        userService.register(user, user);
+//        response.setObject(userService.login(user,userAgent));
+      } else {
+        response.setCode(703);
+        response.setMessage("Missing email or username parameter");
+      }
+    } catch (DataIntegrityViolationException e) {
+      response.setCode(703);
+      response.setMessage("Email or username duplicate");
 //    } catch (FileSizeLimitExceededException e) {
 //      response.setCode(800);
 //      response.setMessage("File too big");
-//    } catch (BolalobException e) {
-//      response.setCode(e.getCode());
-//      response.setMessage(e.getMessage());
 //    }
-//
-//    return response;
-//  }
+    }catch (Road2RingException e) {
+      response.setCode(e.getCode());
+      response.setMessage(e.getMessage());
+    }
+
+    return response;
+  }
 
 }
