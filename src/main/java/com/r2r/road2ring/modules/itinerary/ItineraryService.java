@@ -3,6 +3,7 @@ package com.r2r.road2ring.modules.itinerary;
 import com.r2r.road2ring.modules.trip.Trip;
 import com.r2r.road2ring.modules.trip.TripService;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.jpa.datatables.mapping.DataTablesInput;
@@ -37,6 +38,9 @@ public class ItineraryService {
 
   public Itinerary saveItinerary(Itinerary itinerary, Trip trip) {
     Itinerary saved = new Itinerary();
+    if(itinerary.getId() != 0){
+      saved = itineraryRepository.findOne(itinerary.getId());
+    }
     saved.setDescription(itinerary.getDescription());
     saved.setTitle(itinerary.getTitle());
     saved.setImageUrl(itinerary.getImageUrl());
@@ -46,8 +50,21 @@ public class ItineraryService {
     return itineraryRepository.save(saved);
   }
 
+  public void removeTab(Integer id) {
+    itineraryRepository.delete(id);
+  }
+
   public List<Itinerary> saveListOfItinerary(List<Itinerary> itineraries, Trip trip) {
     List<Itinerary> result = new ArrayList<>();
+    List<Itinerary> deletedItineraries = trip.getDeletedItinerary();
+
+    if (deletedItineraries != null && deletedItineraries.size() != 0) {
+      System.out.println("here");
+      System.out.println(deletedItineraries.size());
+      for (Itinerary deletedItinerary : deletedItineraries) {
+          removeTab(deletedItinerary.getId());
+      }
+    }
     for (Itinerary saved : itineraries) {
       result.add(saveItinerary(saved, trip));
     }

@@ -51,9 +51,6 @@ public class Itinerary implements Serializable {
   @JsonView(ResponseView.DefaultItinerary.class)
   private String groupTitle;
 
-  @Transient
-  private List<String> groupTitles;
-
   @Column(name = "itinerary_language")
   @JsonView(ResponseView.DefaultTrip.class)
   private Language language;
@@ -67,6 +64,4 @@ public class Itinerary implements Serializable {
   @JsonView(ResponseView.DetailedItinerary.class)
   private Trip trip;
 
-  @Transient
-  private int countEvent;
 }

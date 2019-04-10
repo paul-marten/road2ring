@@ -139,4 +139,7 @@ public class Trip implements Serializable {
   @Transient
   private List<Integer> facilityInclude;
 
+  @Transient
+  public List<Itinerary> deletedItinerary;
+
 }

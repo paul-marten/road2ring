@@ -48,6 +48,9 @@ function upload_trip(url_upload, section,image_field, hidden_field,width,height,
             if (responseText != "") {
                 hidden_val = json.object;
 
+                console.log($('.wrap_'+section+' .pre_img img'))
+                console.log('/img/assets/'+json.object+'.jpg')
+
                 $('.wrap_'+section+' .pre_img img').attr('src', '/img/assets/'+json.object+'.jpg');
             }
 
