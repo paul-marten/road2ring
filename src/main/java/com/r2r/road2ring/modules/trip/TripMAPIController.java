@@ -65,7 +65,7 @@ public class TripMAPIController {
     return responseMessage;
   }
 
-  @GetMapping("/price/{tripId}")
+  @GetMapping(TRIP + "/{tripId}/price")
   public ResponseMessage getAllTripPrice(
       @PathVariable("tripId") Integer tripId,
       Principal principal) {
