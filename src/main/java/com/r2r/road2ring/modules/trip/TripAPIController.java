@@ -10,6 +10,7 @@ import com.r2r.road2ring.modules.common.ResponseMessage;
 import com.r2r.road2ring.modules.common.ResponseView;
 import com.r2r.road2ring.modules.common.UploadService;
 import com.r2r.road2ring.modules.itinerary.Itinerary;
+import com.r2r.road2ring.modules.itinerary.ItineraryService;
 import java.io.IOException;
 import java.util.List;
 import javax.servlet.http.HttpServletRequest;
@@ -33,6 +34,13 @@ public class TripAPIController {
   TripService tripService;
 
   UploadService uploadService;
+
+  ItineraryService itineraryService;
+
+  @Autowired
+  public void setItineraryService(ItineraryService itineraryService) {
+    this.itineraryService = itineraryService;
+  }
 
   @Autowired
   public void setTripService(TripService tripService) {
@@ -66,6 +74,14 @@ public class TripAPIController {
   public List<TripItineraryDataView> datatableItinerary(@PathVariable("tripId") int id,
       HttpServletRequest request) {
     return tripService.getTripItineraryGroup(id);
+  }
+
+  @RequestMapping(value = "/{tripId}/itinerary/{group}", method = RequestMethod.GET)
+  @JsonView(ResponseView.DetailedTrip.class)
+  public List<Itinerary> itineraryByGroup(@PathVariable("tripId") int tripId, @PathVariable("group") int group,
+      HttpServletRequest request) {
+    List<Itinerary> itineraryList = itineraryService.getItineraryByGroupAndTrip(group, tripId);
+    return itineraryList;
   }
 
 

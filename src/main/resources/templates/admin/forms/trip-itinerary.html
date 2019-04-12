@@ -11,12 +11,11 @@
     </div>
     <form role="form" id="itineraryForm" th:action="${action}" th:object="${response}" method="POST">
       <div class="box-body">
-        <div class="form-group">
           <div class="form-group">
             <label>Day</label>
             <select class="form-control" id="group">
               <option>Select</option>
-              <option th:each="n : ${#numbers.sequence(1, duration)}" th:value="${n}" th:text="${n}" th:selected="${#lists.size(response.object) != 0 ? n == response.object[0].group : false}"/>
+              <option th:each="n : ${#numbers.sequence(1, trip.duration)}" th:value="${n}" th:text="${n}" th:selected="${#lists.size(response.object) != 0 ? n == response.object[0].group : false}"/>
             </select>
           </div>
 
@@ -35,41 +34,83 @@
               </button>
             <!--</div>-->
             <div id="itinerary-form">
-              <div th:each="model, iterStat:${response.object}" th:id="warper-+${iterStat.index}+.id" class="m-bottom-xs warpers" style="width : 100%" >
-                <input type="hidden" th:id="id[+${iterStat.index}+]"
-                       class="tab_id" th:name="model[+${iterStat.index}+].id"
-                       th:value="${model.id}"
-                       th:if="${model.id != 0}">
-                <div id="add-tab-field-title" class="m-bottom-xs" style="width : 100%">
-                  <br/>
-                  <div class="itinerary-event">
-                    <label for="picture-0">Picture</label>
-                    <input type="file" class="form-control" id="picture-0">
-                    <label for="event-0">Event</label>
-                    <input type="text" class="form-control" id="event-0" name="model[+${iterStat.index}+].title" placeholder="Enter Event Title"
-                           th:value="${model.title}">
-                    <!--<input type="text" class="form-control" id="event-0" name="itineraries[0].title" placeholder="Enter Title Description">-->
-                    <label for="description-0">Description</label>
-                    <textarea class="form-control" id="description-0" name="model[+${iterStat.index}+].description" th:text="${model.description}" placeholder="Enter Description"></textarea>
-                    <input type="hidden" class="group" name="model[+${iterStat.index}+].group" value="">
-                    <input type="hidden" class="hidden" name="model[+${iterStat.index}+].groupTitle" value="">
-                    <!--<input type="hidden" class="hidden" name="itineraries[0].groupTitles" value="">-->
-                    <!--<input type="hidden" name="id" th:value="${response.object[0].id}">-->
-                    <!--<input type="hidden" class="hidden" name="itineraries[0].title" value="">-->
+              <br />
+              <div th:each="itineraries, iterStat:${response.object}" class="itinerary-event" >
+
+                <input type="hidden" th:id="id[+${iterStat.index}+]" th:name="itineraries[+${iterStat.index}+].id" th:value="${response.object[iterStat.index].id}" th:if="${itineraries.id != 0}">
+
+                <div class="form-group">
+                  <label th:for="picture-+${iterStat.index}">Picture</label>
+                  <div class="wrap-file">
+                    <input type="file" th:id="picture-+${iterStat.index}">
+                  </div>
+                  <input type="hidden" th:id="hidden_picture-+${iterStat.index}" th:name="itineraries[+${iterStat.index}+].imageUrl"
+                         th:value="${response.object[iterStat.index].imageUrl}">
+                  <div th:class="wrap_picture-+${iterStat.index}+' collapse'">
+                    <div class="progress">
+                      <div class="progress-bar progress-bar-info progress-bar-striped"
+                           role="progressbar" aria-valuenow="" aria-valuemin="0" aria-valuemax="100"
+                           style="">
+                      </div>
+                    </div>
+                    <div class="msg collapse text-info"><i class="fa fa-check"></i> Upload Succeed</div>
+                    <div class="pre_img">
+                      <img src="" alt="">
+                    </div>
+                  </div>
+                  <div th:if="${not #strings.isEmpty(response.object[iterStat.index].imageUrl)}"
+                       th:class="wrap-img-picture-+${iterStat.index}+' p-top-sm'">
+                    <img th:src="${response.object[iterStat.index].imageUrl}"/>
                   </div>
                 </div>
+
+                <div class="form-group">
+                <label th:for="event-+${iterStat.index}">Event</label>
+                <input type="text" class="form-control" th:id="event-+${iterStat.index}" th:name="itineraries[+${iterStat.index}+].title" placeholder="Enter Event Title"
+                       th:value="${response.object[iterStat.index].title}">
+                </div>
+
+                <div class="form-group">
+                  <label th:for="description-+${iterStat.index}">Description</label>
+                  <textarea class="form-control" th:id="description-+${iterStat.index}" th:name="itineraries[+${iterStat.index}+].description" th:text="${response.object[iterStat.index].description}" placeholder="Enter Description"></textarea>
+                </div>
+
+                <input type="hidden" class="group" th:name="itineraries[+${iterStat.index}+].group" th:value="${response.object[iterStat.index].group}">
+                <input type="hidden" class="groupTitle" th:name="itineraries[+${iterStat.index}+].groupTitle" th:value="${response.object[iterStat.index].groupTitle}">
+
+                <button th:if="${iterStat.index != 0}" id="delete-form" style="margin: 2px 0px; height: 30px;" type="button" class="btn btn-default btn-sm m-bottom-xs btn-add-tab btn-del-margin"><i class="fa fa-minus fa-lg"></i></button>
+
+                <hr style="border: none !important;"/>
+              </div>
             </div>
           </div>
-        </div>
-      </div>
+
+      <div class="list-del collapse"> </div>
       <div class="box-footer">
-        <button th:if="${#lists.size(response.object) != 0}" type="button" id="itinerarySaveBtn" class="btn btn-primary">Submit</button>
+        <button type="button" id="itinerarySaveBtn" th:class="${#lists.size(response.object) != 0 ? 'btn btn-primary' : 'btn btn-primary collapse'}">Submit</button>
       </div>
     </form>
   </div>
 </div>
 <th:block layout:fragment="footer-js">
   <script src="/js/si/tripItinerary.js"></script>
+  <script src="/js/si/upload.js"></script>
+  <script src="/js/si/jquery.html5uploader.min.js"></script>
+  <script>
+  $(function() {
+    $(document).ready(function () {
+      if($('#group').val() != "Select"){
+        $('#group').prop( "disabled", true );
+      }
+      var events = $('.itinerary-event').length != 0 ? $('.itinerary-event').length : 0;
+      if(events != 0){
+      for(i = 0; i < events; i++){
+        upload_trip("/api/trip/upload_trip", "picture-"+i,"#picture-"+i, "#hidden_picture-"+i,640,640, "potrait");
+        }
+      }
+    });
+  })
+  </script>
 </th:block>
 </body>
 </html>
