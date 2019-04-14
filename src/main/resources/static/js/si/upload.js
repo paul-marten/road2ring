@@ -49,12 +49,12 @@ function upload_trip(url_upload, section,image_field, hidden_field,width,height,
                 hidden_val = json.object;
 
                 console.log($('.wrap_'+section+' .pre_img img'))
-                console.log('/img/assets/'+json.object+'.jpg')
+                console.log('/img/assets/'+json.object)
 
-                $('.wrap_'+section+' .pre_img img').attr('src', '/img/assets/'+json.object+'.jpg');
+                $('.wrap_'+section+' .pre_img img').attr('src', '/img/assets/'+json.object);
             }
 
-            $(hidden_field).val('/img/assets/' + hidden_val + '.jpg');
+            $(hidden_field).val('/img/assets/' + hidden_val);
 
         }
     });
