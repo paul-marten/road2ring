@@ -93,6 +93,32 @@
         </div>
 
         <div class="form-group">
+          <label for="cover_trip">Cover</label>
+          <div class="wrap-file">
+            <input type="file" id="cover_trip">
+          </div>
+          <input type="hidden" id="hidden_cover_trip" name="coverLandscape"
+                 th:value="${response.object.coverLandscape}">
+          <!-- <input type="hidden" id="hidden_upload_thumb" name="thumbnail" th:value="${response.object.thumbnail}"> -->
+          <div class="wrap_cover_trip collapse">
+            <div class="progress">
+              <div class="progress-bar progress-bar-info progress-bar-striped"
+                   role="progressbar" aria-valuenow="" aria-valuemin="0" aria-valuemax="100"
+                   style="">
+              </div>
+            </div>
+            <div class="msg collapse text-info"><i class="fa fa-check"></i> Upload Succeed</div>
+            <div class="pre_img">
+              <img src="" alt="">
+            </div>
+          </div>
+          <div th:if="${not #strings.isEmpty(response.object.coverLandscape)}"
+               class="wrap-img-cover_trip p-top-sm">
+            <img th:src="${response.object.coverLandscape}"/>
+          </div>
+        </div>
+
+        <div class="form-group">
           <label for="max-rider">Max Rider</label>
           <input type="number" min="0" name="maxRider" id="max-rider" class="form-control" placeholder="Max Rider" th:value="${response.object.maxRider}" required>
         </div>
@@ -146,6 +172,37 @@
           <label for="terran">Terrain</label>
           <input type="text" class="form-control" name="terrain" id="terran" placeholder="Terrain" th:value="${response.object.terrain}" required>
         </div>
+
+        <div class="form-group">
+          <label for="location">Location</label>
+          <input type="text" class="form-control" name="location" id="location" placeholder="Location" th:value="${response.object.location}" required>
+        </div>
+
+        <div class="form-group">
+          <label for="map">Map</label>
+          <div class="wrap-file">
+            <input type="file" id="map">
+          </div>
+          <input type="hidden" id="hidden_map" name="map"
+                 th:value="${response.object.map}">
+          <!-- <input type="hidden" id="hidden_upload_thumb" name="thumbnail" th:value="${response.object.thumbnail}"> -->
+          <div class="wrap_map collapse">
+            <div class="progress">
+              <div class="progress-bar progress-bar-info progress-bar-striped"
+                   role="progressbar" aria-valuenow="" aria-valuemin="0" aria-valuemax="100"
+                   style="">
+              </div>
+            </div>
+            <div class="msg collapse text-info"><i class="fa fa-check"></i> Upload Succeed</div>
+            <div class="pre_img">
+              <img src="" alt="">
+            </div>
+          </div>
+          <div th:if="${not #strings.isEmpty(response.object.map)}"
+               class="wrap-img-map p-top-sm">
+            <img th:src="${response.object.map}"/>
+          </div>
+        </div>
       </div>
       <div class="box-footer">
         <button type="submit" class="btn btn-primary">Submit</button>
@@ -164,8 +221,10 @@
   <script>
 $(function() {
   $(document).ready(function () {
-      upload_trip("/api/trip/upload_trip", "icon_cover","#icon_cover", "#hidden_icon_cover",640,640, "landscape");
-      upload_trip("/api/trip/upload_trip", "icon_publisher","#icon_publisher", "#hidden_icon_publisher",640,640, "potrait");
+      upload_trip("/api/trip/upload_icon", "icon_cover","#icon_cover", "#hidden_icon_cover",640,640, "landscape");
+      upload_trip("/api/trip/upload_icon", "icon_publisher","#icon_publisher", "#hidden_icon_publisher",640,640, "potrait");
+      upload_trip("/api/trip/upload_trip", "cover_trip","#cover_trip", "#hidden_cover_trip",640,640, "potrait");
+      upload_trip("/api/trip/upload_trip", "map","#map", "#hidden_map",640,640, "potrait");
       });
  });
 

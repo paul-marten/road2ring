@@ -30,6 +30,7 @@ public class UploadService {
   public String uploadImagePicture(MultipartFile file, String typeImage)
       throws IOException, FileSizeLimitExceededException {
     String linkUrl;
+    String type = file.getContentType().split("/")[1];
     Long date = new Date().getTime();
 
     byte[] bytes;
@@ -37,15 +38,15 @@ public class UploadService {
     if (file.getSize() > SIZE_100KB) {
       throw new FileSizeLimitExceededException("File is too Big", file.getSize(), SIZE_100KB);
     }
-    linkUrl = date + r2rTools.generateRandomCode(8);
-    File picture = new File(linkUrl + ".jpg");
+    linkUrl = date + r2rTools.generateRandomCode(8) + "." + type;
+    File picture = new File(linkUrl);
     bytes = file.getBytes();
 
     BufferedOutputStream stream = new BufferedOutputStream(new FileOutputStream(picture));
     stream.write(bytes);
     stream.close();
 
-    this.uploadImagePicture(linkUrl+".jpg", 600,400);
+    this.uploadImagePicture(linkUrl, 600,400);
 
     return linkUrl;
 
@@ -63,6 +64,56 @@ public class UploadService {
     // scales the input image to the output image
     Graphics2D g2d = outputImage.createGraphics();
     g2d.drawImage(inputImage, 0, 0, imgWitdh , imgHeight, null);
+    g2d.dispose();
+
+    // extracts extension of output file
+    String formatName = outputImagePath.substring(outputImagePath
+        .lastIndexOf(".") + 1);
+
+    // writes to output file
+    ImageIO.write(outputImage, formatName, new File(outputImagePath));
+  }
+
+  public String uploadIconPicture(MultipartFile file, String typeImage)
+      throws IOException, FileSizeLimitExceededException {
+    String linkUrl;
+    String type = file.getContentType().split("/")[1];
+    Long date = new Date().getTime();
+
+    byte[] bytes;
+
+//    if (file.getSize() > SIZE_100KB) {
+//      throw new FileSizeLimitExceededException("File is too Big", file.getSize(), SIZE_100KB);
+//    }
+    linkUrl = date + r2rTools.generateRandomCode(8)+"."+type;
+    System.out.println();
+    System.out.println(type);
+    System.out.println(linkUrl);
+    System.out.println();
+    File picture = new File(linkUrl);
+    bytes = file.getBytes();
+
+    BufferedOutputStream stream = new BufferedOutputStream(new FileOutputStream(picture));
+    stream.write(bytes);
+    stream.close();
+
+    this.uploadIconPicture(linkUrl);
+
+    return linkUrl;
+  }
+
+  private void uploadIconPicture(String name) throws IOException {
+    File inputFile = new File(name);
+    BufferedImage inputImage = ImageIO.read(inputFile);
+    String outputImagePath = IMAGE_ASSETS +name;
+
+    // creates output image
+    BufferedImage outputImage = new BufferedImage(inputImage.getWidth(),
+        inputImage.getHeight(), inputImage.getType());
+
+    // scales the input image to the output image
+    Graphics2D g2d = outputImage.createGraphics();
+    g2d.drawImage(inputImage, 0, 0, inputImage.getWidth() , inputImage.getHeight(), null);
     g2d.dispose();
 
     // extracts extension of output file
