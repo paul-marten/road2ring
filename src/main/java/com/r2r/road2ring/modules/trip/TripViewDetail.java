@@ -13,6 +13,7 @@ public class TripViewDetail extends TripView {
   private String iconCover;
   private String description;
   private String imageRoadCaptain;
+  private String roadCaptainName;
   private String roadCaptainDescription;
   private String facilityNotIncluded;
   private List<TripViewFacility> facilities;

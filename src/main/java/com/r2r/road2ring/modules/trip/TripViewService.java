@@ -98,6 +98,7 @@ public class TripViewService {
     tripViewDetail.setMaxRider(trip.getMaxRider());
     tripViewDetail.setTerrain(trip.getTerrain());
     tripViewDetail.setRoadCaptainDescription(trip.getRoadCaptain().getDescription());
+    tripViewDetail.setRoadCaptainName(trip.getRoadCaptain().getName());
     tripViewDetail.setImageRoadCaptain(trip.getRoadCaptain().getPictureUrl());
     tripViewDetail.setFacilityNotIncluded(trip.getFacilityNot());
     tripViewDetail.setFacilities(getTripFacilityView(trip.getId()));
