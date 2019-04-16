@@ -59,8 +59,6 @@ public class ItineraryService {
     List<Itinerary> deletedItineraries = trip.getDeletedItinerary();
 
     if (deletedItineraries != null && deletedItineraries.size() != 0) {
-      System.out.println("here");
-      System.out.println(deletedItineraries.size());
       for (Itinerary deletedItinerary : deletedItineraries) {
           removeTab(deletedItinerary.getId());
       }

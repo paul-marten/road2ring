@@ -97,9 +97,6 @@ public class TripController {
 
   @RequestMapping(value = "/{tripId}/itinerary/save")
   public String saveTripItinerary(@PathVariable("tripId") int id, @ModelAttribute Trip trip, Model model, Principal principal){
-    System.out.println();
-    System.out.println(trip.toString());
-    System.out.println();
     Trip theTrip = tripService.getTripById(id);
     theTrip.setItineraries(trip.getItineraries());
     theTrip.setDeletedItinerary(trip.getDeletedItinerary());
@@ -123,10 +120,6 @@ public class TripController {
         }
       }
     }
-
-    System.out.println();
-    System.out.println(theTrip.toString());
-    System.out.println();
 
     itineraryService.saveListOfItinerary(theTrip.getItineraries(), theTrip);
     return "redirect:/trip/"+id+"/itinerary";
@@ -205,7 +198,6 @@ public class TripController {
     ResponseMessage response = new ResponseMessage();
     model.addAttribute("response", response);
     Trip trip = tripService.getTripById(id);
-    SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
     Calendar cal = Calendar.getInstance();
     cal.setTime(tripPrice.getStartTrip());
     cal.add(Calendar.DAY_OF_MONTH, trip.getDuration());

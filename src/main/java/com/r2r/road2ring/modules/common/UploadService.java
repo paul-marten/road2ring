@@ -86,10 +86,6 @@ public class UploadService {
 //      throw new FileSizeLimitExceededException("File is too Big", file.getSize(), SIZE_100KB);
 //    }
     linkUrl = date + r2rTools.generateRandomCode(8)+"."+type;
-    System.out.println();
-    System.out.println(type);
-    System.out.println(linkUrl);
-    System.out.println();
     File picture = new File(linkUrl);
     bytes = file.getBytes();
 
