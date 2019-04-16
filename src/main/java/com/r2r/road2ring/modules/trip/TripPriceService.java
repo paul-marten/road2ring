@@ -1,6 +1,7 @@
 package com.r2r.road2ring.modules.trip;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -33,5 +34,17 @@ public class TripPriceService {
       tripPriceViews.add(this.bindTripPriceView(tripPrice));
     }
     return tripPriceViews;
+  }
+
+  public void addPersonTripPrice(Integer tripId, Date startDate){
+    TripPrice saved = tripPriceRepository.findOneByTripIdAndStartTrip(tripId,startDate);
+    saved.setPersonPaid(saved.getPersonPaid()+1);
+    tripPriceRepository.save(saved);
+  }
+
+  public void minPersonTripPrice(Integer tripId, Date startDate){
+    TripPrice saved = tripPriceRepository.findOneByTripIdAndStartTrip(tripId,startDate);
+    saved.setPersonPaid(saved.getPersonPaid()-1);
+    tripPriceRepository.save(saved);
   }
 }
