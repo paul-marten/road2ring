@@ -147,4 +147,8 @@ public class UserService {
     return userRepository.findTopOneByEmailIgnoreCase(user.getEmail()) == null;
   }
 
+  public User findUserByEmail(String email){
+    return userRepository.findOneByEmailIgnoreCase(email);
+  }
+
 }

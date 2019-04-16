@@ -13,6 +13,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 import lombok.Data;
 
 @Entity
@@ -52,4 +53,7 @@ public class Accessory implements Serializable {
   @JoinColumn(name = "accessory_accessory_category" , nullable = true)
   @JsonView(ResponseView.DetailedAccessory.class)
   private AccessoryCategory accessoryCategory;
+
+  @Transient
+  private String size;
 }

@@ -45,4 +45,8 @@ public class ResponseView {
   public interface DefaultAccessory extends LimitedAccessory{}
   public interface DetailedAccessory extends DefaultAccessory{}
 
+  public interface LimitedTransaction extends Base{}
+  public interface DefaultTransaction extends LimitedTransaction{}
+  public interface DetailedTransaction extends DefaultTransaction, DefaultTrip{}
+
 }
