@@ -6,7 +6,6 @@ import com.r2r.road2ring.modules.common.TripStatus;
 import com.r2r.road2ring.modules.trip.TripPriceService;
 import com.r2r.road2ring.modules.user.User;
 import java.sql.Timestamp;
-import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
@@ -27,6 +26,8 @@ public class TransactionService {
   TransactionDetailService transactionDetailService;
 
   TransactionViewService transactionViewService;
+
+  TransactionDetailRepository transactionDetailRepository;
 
   @Autowired
   public void setTransactionRepository(TransactionRepository transactionRepository){
@@ -51,6 +52,11 @@ public class TransactionService {
   @Autowired
   public void setTransactionViewService(TransactionViewService transactionViewService){
     this.transactionViewService = transactionViewService;
+  }
+
+  @Autowired
+  public void setTransactionDetailRepository(TransactionDetailRepository transactionDetailRepository){
+    this.transactionDetailRepository = transactionDetailRepository;
   }
 
   public void createTransaction(Transaction transaction, User user){
@@ -78,8 +84,8 @@ public class TransactionService {
     if(transactionRepository.save(result)!=null){
       tripPriceService.addPersonTripPrice(transaction.getTrip().getId(),transaction.getStartDate());
       Transaction transactionSaved = transactionRepository.findOneByCode(result.getCode());
-      transactionDetailService.saveListTransactionalAccessory(transaction.getAccessories(),transactionSaved);
       transactionDetailService.saveMotor(transaction.getMotor(),transactionSaved);
+      transactionDetailService.saveListTransactionalAccessory(transaction.getAccessories(),transactionSaved);
     }
   }
 
@@ -105,6 +111,14 @@ public class TransactionService {
     Pageable pageable = new PageRequest(pageId, limit);
     List<Transaction> transactions = transactionRepository.findAllByUserIdOrderByCreatedDesc(user.getId(),pageable);
     List<TransactionView> result = transactionViewService.bindListTransactionView(transactions);
+    return result;
+  }
+
+  public TransactionalDetailView getMyTransactionDetail(User user, int transactionId){
+    TransactionalDetailView result;
+    Transaction transaction = transactionRepository.findOneByIdAndUserId(transactionId, user.getId());
+    List<TransactionDetail> transactionDetails = transactionDetailRepository.findAllByTransactionIdOrderByIdDesc(transactionId);
+    result = transactionViewService.bindTransactionDetail(transaction,transactionDetails);
     return result;
   }
 
