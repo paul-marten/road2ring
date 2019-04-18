@@ -42,6 +42,9 @@ public class User implements Serializable {
   @Column(name = "user_ktp_number")
   private Long ktpNumber;
 
+  @Column(name = "user_ktp_picture")
+  private String ktpPicture;
+
   @Column(name = "user_register_date")
   private Date registerDate;
 
