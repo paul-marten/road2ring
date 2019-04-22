@@ -176,4 +176,17 @@ public class TripService {
     }
     return list;
   }
+
+  public List<Trip> getListTripByTag(String tag, int tripId){
+    List<Trip> trips = new ArrayList<>();
+    List<String> tags = new ArrayList<>();
+    for(String resultTag  : tag.split(",")){
+      tags.add(resultTag);
+    }
+    tag = tag.replaceAll(",", ",)|(");
+    tag = "(" + tag.substring(0, tag.length() - 2);
+
+    trips.addAll(tripRepository.findAllByTagInOrderByIdDesc(tripId,tag));
+    return trips;
+  }
 }

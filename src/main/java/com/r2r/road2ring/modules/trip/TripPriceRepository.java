@@ -11,4 +11,7 @@ public interface TripPriceRepository extends DataTablesRepository<TripPrice, Int
   List<TripPrice> findAll();
   List<TripPrice> findAllByTripIdOrderByStartTripAsc(Integer id);
   TripPrice findOneByTripIdAndStartTrip(Integer tripId, Date startDate);
+
+  /*Find cheapest trip price*/
+  TripPrice findTop1ByTripIdAndStartTripGreaterThanOrderByPriceAsc(Integer id, Date startDate);
 }
