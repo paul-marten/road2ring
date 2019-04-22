@@ -47,7 +47,7 @@ public class TransactionMAPIController {
       Authentication auth = (Authentication) principal;
       UserDetails currentConsumer = (UserDetails) auth.getPrincipal();
       User user = userService.findUserByEmail(currentConsumer.getUsername());
-      transactionService.createTransaction(transaction, user);
+      responseMessage.setObject(transactionService.createTransaction(transaction, user));
       responseMessage.setCode(200);
       httpStatus.setStatus(HttpStatus.OK.value());
       responseMessage.setMessage("Transaction created");

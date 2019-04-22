@@ -59,7 +59,7 @@ public class TransactionService {
     this.transactionDetailRepository = transactionDetailRepository;
   }
 
-  public void createTransaction(Transaction transaction, User user){
+  public TransactionCreateView createTransaction(Transaction transaction, User user){
     Transaction result = new Transaction();
     Date created  = new Date();
 
@@ -87,6 +87,13 @@ public class TransactionService {
       transactionDetailService.saveMotor(transaction.getMotor(),transactionSaved);
       transactionDetailService.saveListTransactionalAccessory(transaction.getAccessories(),transactionSaved);
     }
+
+    TransactionCreateView view = new TransactionCreateView();
+    view.setLastPayment(newDate);
+    view.setTotalPrice(result.getPrice());
+    view.setTransactionCodeId(result.getCode());
+    return view;
+
   }
 
   public void acceptPayment(Transaction transaction){
