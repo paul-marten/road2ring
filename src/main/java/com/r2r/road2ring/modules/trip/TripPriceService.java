@@ -29,7 +29,8 @@ public class TripPriceService {
 
   public List<TripPriceView> bindListTripPriceView(Integer tripId){
     List<TripPriceView> tripPriceViews = new ArrayList<>();
-    List<TripPrice> tripPrices = tripPriceRepository.findAllByTripIdOrderByStartTripAsc(tripId);
+    List<TripPrice> tripPrices = tripPriceRepository.
+        findAllByTripIdAndStartTripGreaterThanOrderByStartTripAsc(tripId, new Date());
     for(TripPrice tripPrice : tripPrices){
       tripPriceViews.add(this.bindTripPriceView(tripPrice));
     }

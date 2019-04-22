@@ -10,6 +10,9 @@ import org.springframework.stereotype.Repository;
 public interface TripPriceRepository extends DataTablesRepository<TripPrice, Integer>{
   List<TripPrice> findAll();
   List<TripPrice> findAllByTripIdOrderByStartTripAsc(Integer id);
+
+  List<TripPrice> findAllByTripIdAndStartTripGreaterThanOrderByStartTripAsc(Integer id, Date startDate);
+
   TripPrice findOneByTripIdAndStartTrip(Integer tripId, Date startDate);
 
   /*Find cheapest trip price*/
