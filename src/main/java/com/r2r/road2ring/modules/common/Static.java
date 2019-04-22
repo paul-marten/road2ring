@@ -4,6 +4,7 @@ public final class Static {
   /*Image Upload Directory*/
   public static final String IMAGE_ASSETS = "src/main/resources/static/img/assets/";
   public static final String IMAGE_STATIC = "src/main/resources/static/img/static/";
+  public static final String IMAGE_ASSETS_URL = "/img/assets/";
 
   /*Image Upload Save*/
   public static final Integer WITDH_LARGE = 1024;
