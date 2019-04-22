@@ -47,9 +47,15 @@ public class UploadService {
     stream.close();
 
     this.uploadImagePicture(linkUrl, 600,400);
+    this.deleteBaseImage(linkUrl);
 
     return linkUrl;
 
+  }
+
+  private void deleteBaseImage(String name){
+    File file = new File(name);
+    file.delete();
   }
 
   private void uploadImagePicture(String name, Integer imgWitdh, Integer imgHeight) throws IOException {
