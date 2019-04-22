@@ -22,6 +22,7 @@ public final class Static {
   public static final String MOTORS = "/motors";
   public static final String ACCESSORIES = "/accessories";
   public static final String TRANSACTION = "/transaction";
+  public static final String CONFIRMATION = "/confirmation";
 
   public static final Integer ROLE_ID = 2;
 }
