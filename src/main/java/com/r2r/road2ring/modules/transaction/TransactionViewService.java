@@ -32,6 +32,8 @@ public class TransactionViewService {
 
   public TransactionalDetailView bindTransactionDetail(Transaction transaction, List<TransactionDetail> transactionDetails){
     TransactionalDetailView result = new TransactionalDetailView();
+    result.setId(transaction.getId());
+    result.setTitle(transaction.getTrip().getTitle());
     result.setTripStatus(transaction.getTripStatus());
     result.setDuration(transaction.getTrip().getDuration());
     result.setStartDate(transaction.getStartDate());
