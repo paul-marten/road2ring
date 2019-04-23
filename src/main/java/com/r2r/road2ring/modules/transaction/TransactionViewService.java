@@ -39,6 +39,7 @@ public class TransactionViewService {
     result.setStartDate(transaction.getStartDate());
     result.setFinishDate(this.getFinishTripDuration(transaction.getStartDate(),transaction.getTrip().getDuration()));
     result.setPrice(transaction.getPrice());
+    result.setCode(transaction.getCode());
     result.setCreated(transaction.getCreated());
     result.setPaymentStatus(transaction.getPaymentStatus());
     result.setNotes(transaction.getNotes());

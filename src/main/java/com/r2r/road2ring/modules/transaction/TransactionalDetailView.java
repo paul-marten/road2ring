@@ -11,6 +11,7 @@ public class TransactionalDetailView extends TransactionView{
   private Date created;
   private String notes;
   private Integer price;
+  private String code;
   private Date finishDate;
   private String meetingPoint;
   private List<TransactionDetailAccessoryView> accessoryViews;
