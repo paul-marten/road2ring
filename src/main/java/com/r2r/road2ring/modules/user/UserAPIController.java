@@ -3,16 +3,22 @@ package com.r2r.road2ring.modules.user;
 import static com.r2r.road2ring.modules.common.Static.M_API;
 import static com.r2r.road2ring.modules.common.Static.USER;
 
+import com.fasterxml.jackson.annotation.JsonView;
 import com.r2r.road2ring.modules.common.ResponseMessage;
+import com.r2r.road2ring.modules.common.ResponseView;
 import com.r2r.road2ring.modules.common.Road2RingException;
 import com.r2r.road2ring.modules.common.UploadService;
+import java.security.Principal;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import org.apache.tomcat.util.http.fileupload.FileUploadBase.FileSizeLimitExceededException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -30,6 +36,8 @@ public class UserAPIController {
 
   UploadService uploadService;
 
+  UserViewService userViewService;
+
   @Autowired
   public void setUserService(UserService userService){
     this.userService = userService;
@@ -38,6 +46,11 @@ public class UserAPIController {
   @Autowired
   public void setUploadService(UploadService uploadService){
     this.uploadService = uploadService;
+  }
+
+  @Autowired
+  public void setUserViewService(UserViewService userViewService){
+    this.userViewService = userViewService;
   }
 
   @RequestMapping(value = "/auth/basic", method = RequestMethod.POST)
@@ -85,6 +98,25 @@ public class UserAPIController {
       response.setMessage(e.getMessage());
     }
 
+    return response;
+  }
+
+  @GetMapping(value = "/profile")
+  public ResponseMessage getProfileUser(Principal principal,
+      HttpServletResponse httpStatus){
+    ResponseMessage response = new ResponseMessage();
+    if(principal != null ){
+      Authentication auth = (Authentication) principal;
+      UserDetails currentConsumer = (UserDetails) auth.getPrincipal();
+      User user = userService.findUserByEmail(currentConsumer.getUsername());
+      response.setCode(200);
+      response.setObject(userViewService.bindUserViewDetail(user));
+      httpStatus.setStatus(HttpStatus.OK.value());
+    }else {
+      httpStatus.setStatus(HttpStatus.BAD_REQUEST.value());
+      response.setCode(703);
+      response.setMessage("Please login first");
+    }
     return response;
   }
 
