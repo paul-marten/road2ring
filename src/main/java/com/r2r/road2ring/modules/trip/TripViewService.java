@@ -106,13 +106,14 @@ public class TripViewService {
     tripViewDetail.setIconCover(trip.getIconCover());
     tripViewDetail.setMaxRider(trip.getMaxRider());
     tripViewDetail.setTerrain(trip.getTerrain());
+    tripViewDetail.setLocation(trip.getLocation());
+    tripViewDetail.setMeetingPoint(trip.getMeetingPoint());
     tripViewDetail.setRoadCaptainDescription(trip.getRoadCaptain().getDescription());
     tripViewDetail.setRoadCaptainName(trip.getRoadCaptain().getName());
     tripViewDetail.setImageRoadCaptain(trip.getRoadCaptain().getPictureUrl());
     tripViewDetail.setFacilityNotIncluded(trip.getFacilityNot());
     tripViewDetail.setFacilities(getTripFacilityView(trip.getId()));
     tripViewDetail.setItineraries(this.getListItineraryTrip(trip.getId()));
-
     return tripViewDetail;
   }
 
