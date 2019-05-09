@@ -21,7 +21,7 @@
     <div class="box-header with-border">
       <h1 class="box-title">Motor Form</h1>
     </div>
-    <form role="form" th:action="@{'/motor/save'}" th:object="${response}" method="post">
+    <form role="form" th:action="@{'/motor/save'}" th:object="${response}" method="post" data-parsley-validate>
       <div class="box-body">
         <input id="object_id" type="hidden" name="id" th:if="${response.object.id != 0}" th:value="${response.object.id != null && response.object.id != 0 ? response.object.id : 0}">
         <div class="form-group">
@@ -40,7 +40,7 @@
         <div class="form-group">
           <label for="image">Picture</label>
           <div class="wrap-file">
-            <input type="file" id="image">
+            <input type="file" id="image" required>
           </div>
           <input type="hidden" id="hidden_image" name="picture"
                  th:value="${response.object.picture}">
@@ -64,7 +64,7 @@
 
         <div class="form-group">
           <label for="brand">Brand</label>
-          <input type="text" id="brand" name="brand" class="form-control" placeholder="Motor Brand" th:value="${response.object.brand}" required>
+          <input type="text" id="brand" name="brand" class="form-control" placeholder="Motor Brand" th:value="${response.object.brand}">
         </div>
 
         <div class="form-group">
@@ -83,7 +83,7 @@
         <div class="form-group">
           <label for="discount">Discount</label>
           <div class="input-group" id="discount">
-            <input type="number" min="0" name="discount" class="form-control" placeholder="Discount" th:value="${response.object.discount}" required>
+            <input type="number" min="0" name="discount" class="form-control" placeholder="Discount" th:value="${response.object.discount}">
             <span class="input-group-addon">%</span>
           </div>
         </div>
@@ -97,6 +97,7 @@
 <th:block layout:fragment="footer-js">
   <script src="../../js/si/jquery.html5uploader.min.js"></script>
   <script src="../../js/si/upload.js"></script>
+  <script src="../../js/si/parsley.min.js"></script>
   <script>
     upload_trip("/api/trip/upload_icon", "image","#image", "#hidden_image",640,640, "landscape");
   </script>

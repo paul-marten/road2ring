@@ -21,7 +21,7 @@
     <div class="box-header with-border">
       <h1 class="box-title">Facility Form</h1>
     </div>
-    <form role="form" th:action="@{'/facility/save'}" th:object="${response}" method="post">
+    <form role="form" th:action="@{'/facility/save'}" th:object="${response}" method="post" data-parsley-validate>
       <div class="box-body">
         <input id="object_id" type="hidden" name="id" th:if="${response.object.id != 0}" th:value="${response.object.id != null && response.object.id != 0 ? response.object.id : 0}">
         <div class="form-group">
@@ -32,7 +32,7 @@
         <div class="form-group">
           <label for="image">Image</label>
           <div class="wrap-file">
-            <input type="file" id="image">
+            <input type="file" id="image" required>
           </div>
           <input type="hidden" id="hidden_image" name="image"
                  th:value="${response.object.image}">
@@ -64,6 +64,7 @@
 <th:block layout:fragment="footer-js">
   <script src="../../js/si/jquery.html5uploader.min.js"></script>
   <script src="../../js/si/upload.js"></script>
+  <script src="../../js/si/parsley.min.js"></script>
   <script>
     upload_trip("/api/trip/upload_icon", "image","#image", "#hidden_image",640,640, "landscape");
   </script>
