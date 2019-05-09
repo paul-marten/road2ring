@@ -39,8 +39,11 @@ public class User implements Serializable {
   @Column(name = "user_email")
   private String email;
 
-  @Column(name = "user_ktp_number")
-  private Long ktpNumber;
+  @Column(name = "user_driving_license_number")
+  private Long driverLicenseNumber;
+
+  @Column(name = "user_driving_license_picture")
+  private String driverLicensePicture;
 
   @Column(name = "user_register_date")
   private Date registerDate;
@@ -50,6 +53,15 @@ public class User implements Serializable {
 
   @Column(name = "user_picture")
   private String picture;
+
+  @Column(name = "user_identity")
+  private UserIdentity userIdentity;
+
+  @Column(name = "user_identity_number")
+  private Long userIdentitiyNumber;
+
+  @Column(name = "user_identity_picture")
+  private String userIdentityPicture;
 
 //  private String facebookPageID;
 //  private String twitterPageID;

@@ -6,6 +6,8 @@ import static com.r2r.road2ring.modules.common.Static.TRIPS;
 
 import com.r2r.road2ring.modules.common.ResponseMessage;
 import java.security.Principal;
+import java.util.List;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -23,6 +25,8 @@ public class TripMAPIController {
 
   TripPriceService tripPriceService;
 
+  TripService tripService;
+
   @Autowired
   public void setTripViewService(TripViewService tripViewService) {
     this.tripViewService = tripViewService;
@@ -31,6 +35,11 @@ public class TripMAPIController {
   @Autowired
   public void setTripPriceService(TripPriceService tripPriceService){
     this.tripPriceService = tripPriceService;
+  }
+
+  @Autowired
+  public void setTripService(TripService tripService){
+    this.tripService = tripService;
   }
 
   @GetMapping( TRIPS + "/{page}/{limit}")
@@ -78,6 +87,18 @@ public class TripMAPIController {
 
     ResponseMessage responseMessage = new ResponseMessage();
     responseMessage.setObject(tripPriceService.bindListTripPriceView(tripId));
+    return responseMessage;
+  }
+
+  @GetMapping(TRIP + "/related")
+  public ResponseMessage getRelatedTrip(
+      @RequestParam(value = "tag") List<String> listTags,
+      @RequestParam(value = "id") int tripId){
+    ResponseMessage responseMessage = new ResponseMessage();
+    String contentTags = StringUtils.join(listTags, ",");
+
+    List<Trip> trips = tripService.getListTripByTag(contentTags+",", tripId);
+    responseMessage.setObject(tripViewService.bindListTripView(trips));
     return responseMessage;
   }
 }

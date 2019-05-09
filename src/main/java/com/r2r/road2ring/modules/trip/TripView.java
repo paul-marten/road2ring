@@ -6,9 +6,10 @@ import lombok.Data;
 @Data
 public class TripView extends BaseView {
   private String coverLandscape;
+  private String coverPortrait;
   private Integer duration;
   private String location;
   private String iconPublisher;
   private Integer tripPrice;
-
+  private String iconCover;
 }

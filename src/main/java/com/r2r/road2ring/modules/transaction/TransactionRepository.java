@@ -12,4 +12,5 @@ public interface TransactionRepository extends JpaRepository<Transaction, Intege
   Transaction findOneByCode(String code);
   List<Transaction> findAllByPaymentStatusAndExpiredPaymentDateLessThan(PaymentStatus paymentStatus, Date paydate);
   List<Transaction> findAllByUserIdOrderByCreatedDesc(Integer userId, Pageable pageable);
+  Transaction findOneByIdAndUserId(int id, int userId);
 }

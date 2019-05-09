@@ -27,4 +27,14 @@ public interface TripRepository extends DataTablesRepository<Trip,Integer> {
 //  Page<Trip> findAllByOrderByIdAsc(Pageable pageable);
 
   Page<Trip> findAllByOrderByIdDesc(Pageable pageable);
+
+  @Query(value = "SELECT * " +
+      "FROM trip " +
+      "WHERE trip_tag ~ :tags " +
+      "AND trip_id != :id " +
+      "ORDER BY trip_id ASC " +
+      "lIMIT 10", nativeQuery = true)
+  List<Trip> findAllByTagInOrderByIdDesc(
+      @Param("id")int id,
+      @Param("tags")String tags);
 }

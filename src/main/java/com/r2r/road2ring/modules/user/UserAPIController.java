@@ -1,19 +1,26 @@
 package com.r2r.road2ring.modules.user;
 
+import static com.r2r.road2ring.modules.common.Static.IMAGE_ASSETS_URL;
 import static com.r2r.road2ring.modules.common.Static.M_API;
 import static com.r2r.road2ring.modules.common.Static.USER;
 
 import com.r2r.road2ring.modules.common.ResponseMessage;
 import com.r2r.road2ring.modules.common.Road2RingException;
 import com.r2r.road2ring.modules.common.UploadService;
+import java.io.IOException;
+import java.security.Principal;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import org.apache.tomcat.util.http.fileupload.FileUploadBase.FileSizeLimitExceededException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -30,6 +37,8 @@ public class UserAPIController {
 
   UploadService uploadService;
 
+  UserViewService userViewService;
+
   @Autowired
   public void setUserService(UserService userService){
     this.userService = userService;
@@ -38,6 +47,11 @@ public class UserAPIController {
   @Autowired
   public void setUploadService(UploadService uploadService){
     this.uploadService = uploadService;
+  }
+
+  @Autowired
+  public void setUserViewService(UserViewService userViewService){
+    this.userViewService = userViewService;
   }
 
   @RequestMapping(value = "/auth/basic", method = RequestMethod.POST)
@@ -88,4 +102,58 @@ public class UserAPIController {
     return response;
   }
 
+  @GetMapping(value = "/profile")
+  public ResponseMessage getProfileUser(Principal principal,
+      HttpServletResponse httpStatus){
+    ResponseMessage response = new ResponseMessage();
+    if(principal != null ){
+      Authentication auth = (Authentication) principal;
+      UserDetails currentConsumer = (UserDetails) auth.getPrincipal();
+      User user = userService.findUserByEmail(currentConsumer.getUsername());
+      response.setCode(200);
+      response.setObject(userViewService.bindUserViewDetail(user));
+      httpStatus.setStatus(HttpStatus.OK.value());
+    }else {
+      httpStatus.setStatus(HttpStatus.BAD_REQUEST.value());
+      response.setCode(703);
+      response.setMessage("Please login first");
+    }
+    return response;
+  }
+
+  @PostMapping(value = "/profile")
+  public ResponseMessage saveProfileUser(@ModelAttribute (value = "user") User user,
+  Principal principal, HttpServletResponse httpStatus,
+  @RequestParam(value = "user", required = false) MultipartFile userIdentitiy,
+  @RequestParam(value = "driver", required = false) MultipartFile driverLicense,
+  @RequestParam(value = "userPicture", required = false) MultipartFile pictureUser)
+      throws IOException, FileSizeLimitExceededException {
+    ResponseMessage responseMessage = new ResponseMessage();
+    if(principal != null ){
+      String userIdentityUrl = null;
+      String driverLicenseUrl = null;
+      String pictureUserUrl = null;
+      if(userIdentitiy != null) {
+        userIdentityUrl = uploadService.uploadImagePicture(userIdentitiy, "jpeg");
+      }
+      if(driverLicense != null){
+        driverLicenseUrl = uploadService.uploadImagePicture(driverLicense, "jpeg");
+      }
+      if(pictureUser != null){
+        pictureUserUrl = uploadService.uploadImagePicture(pictureUser, "jpeg");
+      }
+
+      user.setDriverLicensePicture(IMAGE_ASSETS_URL + driverLicenseUrl);
+      user.setUserIdentityPicture(IMAGE_ASSETS_URL + userIdentityUrl);
+      user.setPicture(IMAGE_ASSETS_URL + pictureUserUrl);
+      responseMessage.setCode(200);
+      responseMessage.setObject(userViewService.bindUserViewDetail(userService.saveUserProfile(user)));
+      httpStatus.setStatus(HttpStatus.OK.value());
+    }else {
+      httpStatus.setStatus(HttpStatus.BAD_REQUEST.value());
+      responseMessage.setCode(703);
+      responseMessage.setMessage("Please login first");
+    }
+    return responseMessage;
+  }
 }

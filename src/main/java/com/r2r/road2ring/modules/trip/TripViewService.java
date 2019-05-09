@@ -1,12 +1,12 @@
 package com.r2r.road2ring.modules.trip;
 
-import com.github.javafaker.Faker;
 import com.r2r.road2ring.modules.TripFacility.TripFacility;
 import com.r2r.road2ring.modules.TripFacility.TripFacilityService;
 import com.r2r.road2ring.modules.common.ResponseMessage;
 import com.r2r.road2ring.modules.itinerary.Itinerary;
 import com.r2r.road2ring.modules.itinerary.ItineraryService;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -64,22 +64,32 @@ public class TripViewService {
     return responseMessage;
   }
 
+  public List<TripView> bindListTripView(List<Trip> trips){
+    List<TripView> tripViews = new ArrayList<>();
+    for(Trip trip : trips){
+      tripViews.add(this.getTripView(trip));
+    }
+    return tripViews;
+  }
 
   public TripView getTripView(Trip trip){
-    Faker faker = new Faker();
     TripView tripView = new TripView();
     tripView.setId(trip.getId());
     tripView.setTitle(trip.getTitle());
     tripView.setDuration(trip.getDuration());
-    tripView.setCoverLandscape(faker.internet().image());
-    tripView.setIconPublisher(faker.internet().image());
-    tripView.setTripPrice(faker.number().randomDigit());
+
+    // TODO: CHANGE FAKER
+    tripView.setCoverLandscape(trip.getCoverLandscape());
+    tripView.setIconPublisher(trip.getIconPublisher());
+    tripView.setCoverPortrait(trip.getCoverPotrait());
+    tripView.setIconCover(trip.getIconCover());
+    // TODO: CHANGE ID TRIP
+    tripView.setTripPrice(tripPriceRepository.
+        findTop1ByTripIdAndStartTripGreaterThanOrderByPriceAsc(1, new Date()).getPrice());
     return tripView;
   }
 
   public TripViewDetail getDetailTripView(Integer tripId){
-    Faker faker = new Faker();
-
     Trip trip = tripService.getTripById(tripId);
 
     TripViewDetail tripViewDetail = new TripViewDetail();
@@ -88,22 +98,22 @@ public class TripViewService {
     tripViewDetail.setDuration(trip.getDuration());
     tripViewDetail.setCoverLandscape(trip.getCoverLandscape());
     tripViewDetail.setIconPublisher(trip.getIconPublisher());
-    tripViewDetail.setTripPrice(
-        tripPriceRepository.findAllByTripIdOrderByStartTripAsc(tripId).get(0).getPrice());
-
+    tripViewDetail.setTripPrice(tripPriceRepository.
+        findTop1ByTripIdAndStartTripGreaterThanOrderByPriceAsc(tripId, new Date()).getPrice());
     tripViewDetail.setCoverPotrait(trip.getCoverPotrait());
     tripViewDetail.setDescription(trip.getDescription());
     tripViewDetail.setDistance(trip.getDistance());
     tripViewDetail.setIconCover(trip.getIconCover());
     tripViewDetail.setMaxRider(trip.getMaxRider());
     tripViewDetail.setTerrain(trip.getTerrain());
+    tripViewDetail.setLocation(trip.getLocation());
+    tripViewDetail.setMeetingPoint(trip.getMeetingPoint());
     tripViewDetail.setRoadCaptainDescription(trip.getRoadCaptain().getDescription());
     tripViewDetail.setRoadCaptainName(trip.getRoadCaptain().getName());
     tripViewDetail.setImageRoadCaptain(trip.getRoadCaptain().getPictureUrl());
     tripViewDetail.setFacilityNotIncluded(trip.getFacilityNot());
     tripViewDetail.setFacilities(getTripFacilityView(trip.getId()));
     tripViewDetail.setItineraries(this.getListItineraryTrip(trip.getId()));
-
     return tripViewDetail;
   }
 
@@ -124,8 +134,6 @@ public class TripViewService {
     List<Itinerary> itineraries = itineraryService.getItineraryTripByGroup(groupId,tripId);
 
     List<ItineraryDetail> itineraryDetails = new ArrayList<>();
-
-    Faker faker = new Faker();
 
     for(Itinerary itinerary : itineraries){
       ItineraryDetail itineraryDetail = new ItineraryDetail();

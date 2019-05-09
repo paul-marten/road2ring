@@ -151,4 +151,20 @@ public class UserService {
     return userRepository.findOneByEmailIgnoreCase(email);
   }
 
+  public User saveUserProfile(User user){
+    User saved = userRepository.findOneByEmailIgnoreCase(user.getEmail());
+    saved.setBirthday(user.getBirthday());
+    saved.setDriverLicensePicture(user.getDriverLicensePicture() != null ?
+        user.getDriverLicensePicture() : saved.getDriverLicensePicture());
+    saved.setDriverLicenseNumber(user.getDriverLicenseNumber());
+    saved.setFullName(user.getFullName());
+    saved.setUserIdentity(user.getUserIdentity());
+    saved.setUserIdentitiyNumber(user.getUserIdentitiyNumber());
+    saved.setUserIdentityPicture(user.getUserIdentityPicture() != null ?
+        user.getUserIdentityPicture() : saved.getUserIdentityPicture());
+    saved.setPicture(user.getPicture() != null ?
+        user.getPicture() : saved.getPicture());
+    return userRepository.save(saved);
+  }
+
 }
