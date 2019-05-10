@@ -146,12 +146,13 @@ public class TripService {
 
     if(tripPrice.getId() != null && tripPrice.getId() != 0){
       saved = tripPriceRepository.findOne(tripPrice.getId());
+    } else {
+      saved.setPersonPaid(0);
     }
 
     saved.setDiscount(tripPrice.getDiscount());
     saved.setFinishTrip(tripPrice.getFinishTrip());
     saved.setStartTrip(tripPrice.getStartTrip());
-    saved.setPersonPaid(tripPrice.getPersonPaid());
     saved.setStatus(tripPrice.getStatus());
     saved.setPrice(tripPrice.getPrice());
     saved.setTrip(tripRepository.findOne(tripId));
