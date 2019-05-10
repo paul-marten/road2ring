@@ -100,7 +100,7 @@ public class UploadService {
     stream.close();
 
     this.uploadIconPicture(linkUrl);
-
+    this.deleteBaseImage(linkUrl);
     return linkUrl;
   }
 
