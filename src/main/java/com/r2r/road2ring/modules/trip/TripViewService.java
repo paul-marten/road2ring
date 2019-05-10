@@ -77,7 +77,7 @@ public class TripViewService {
     tripView.setId(trip.getId());
     tripView.setTitle(trip.getTitle());
     tripView.setDuration(trip.getDuration());
-
+    tripView.setLocation(trip.getLocation());
     // TODO: CHANGE FAKER
     tripView.setCoverLandscape(trip.getCoverLandscape());
     tripView.setIconPublisher(trip.getIconPublisher());
