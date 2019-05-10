@@ -67,6 +67,9 @@ public class TripService {
     saved.setIconPublisher(trip.getIconPublisher());
     saved.setTerrain(trip.getTerrain());
     saved.setDuration(trip.getDuration());
+    saved.setCoverLandscape(trip.getCoverLandscape());
+    saved.setCoverPotrait(trip.getCoverLandscape());
+    saved.setMap(trip.getMap());
     if(trip.getRoadCaptain() != null && trip.getRoadCaptain().getId() != 0) {
       saved.setRoadCaptain(trip.getRoadCaptain());
     }

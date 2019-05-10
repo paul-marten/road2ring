@@ -176,4 +176,12 @@ public class TransactionService {
     return result;
   }
 
+  public TransactionalDetailView getTransactionDetailByCode(String transactionCodeId){
+    TransactionalDetailView result;
+    Transaction transaction = transactionRepository.findOneByCode(transactionCodeId);
+    List<TransactionDetail> transactionDetails = transactionDetailRepository.findAllByTransactionIdOrderByIdDesc(transaction.getId());
+    result = transactionViewService.bindTransactionDetail(transaction,transactionDetails);
+    return result;
+  }
+
 }

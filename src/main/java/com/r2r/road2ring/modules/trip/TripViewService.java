@@ -100,7 +100,8 @@ public class TripViewService {
     tripViewDetail.setIconPublisher(trip.getIconPublisher());
     tripViewDetail.setTripPrice(tripPriceRepository.
         findTop1ByTripIdAndStartTripGreaterThanOrderByPriceAsc(tripId, new Date()).getPrice());
-    tripViewDetail.setCoverPotrait(trip.getCoverPotrait());
+    tripViewDetail.setCoverPortrait(trip.getCoverPotrait());
+    tripViewDetail.setMap(trip.getMap());
     tripViewDetail.setDescription(trip.getDescription());
     tripViewDetail.setDistance(trip.getDistance());
     tripViewDetail.setIconCover(trip.getIconCover());
