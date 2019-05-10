@@ -78,9 +78,10 @@ public class TripController {
   public String edit(Model model, @RequestParam int id) {
     ResponseMessage response = new ResponseMessage();
     Trip trip = tripService.getTripById(id);
+    response.setObject(trip);
+
     List<Facility> facilityList = facilityService.getAllFacility();
 
-    response.setObject(trip);
     model.addAttribute("response", response);
     model.addAttribute("facilities", facilityList);
     return "admin/forms/trip";
@@ -88,6 +89,10 @@ public class TripController {
 
   @RequestMapping(value = "/save", method = RequestMethod.POST)
   public String save(@ModelAttribute Trip trip, Model model, Principal principal) {
+    System.out.println("disini");
+    System.out.println();
+    System.out.println(trip.toString());
+    System.out.println();
     ResponseMessage response = new ResponseMessage();
     response.setObject(tripService.saveTrip(trip));
     model.addAttribute("response", response);

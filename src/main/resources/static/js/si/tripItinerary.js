@@ -97,7 +97,6 @@ function drawPictureField(section, value) {
   var inputFile = $('<input>', {
     'type': 'file',
     'id': section,
-    'required': true
   })
 
   wrapFile.append(inputFile)
