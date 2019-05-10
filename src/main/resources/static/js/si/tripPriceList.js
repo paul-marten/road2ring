@@ -16,7 +16,7 @@ $(document).ready( function () {
           },
           { "mData": "startTrip"},
 			    { "mData": "finishTrip"},
-			    { "mData": "personPaid"},
+			    { "mData": "price"},
 			    { "mData": "status"},
 			    { "mData": "discount"},
 //          { "data": "roadCaptain.name",

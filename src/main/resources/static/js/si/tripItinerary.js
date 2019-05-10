@@ -26,10 +26,11 @@ $(document).on("change", "#group", function(event) {
  $(document).on("click", "#itinerarySaveBtn", function(event){
     setInputHidden()
     var uri = window.location.pathname.split('/');
-
-    $.post( "/trip/"+uri[2]+ '/itinerary/save', $("#itineraryForm").serialize()).done(function(data) {
-      window.location.href = "/trip/"+uri[2]+ '/itinerary';
-    })
+    if($("#itineraryForm").parsley().validate() === true){
+      $.post( "/trip/"+uri[2]+ '/itinerary/save', $("#itineraryForm").serialize()).done(function(data) {
+        window.location.href = "/trip/"+uri[2]+ '/itinerary';
+      })
+    }
  })
 
 $(document).on("click", "#add-event", function(event) {
@@ -95,7 +96,8 @@ function drawPictureField(section, value) {
 
   var inputFile = $('<input>', {
     'type': 'file',
-    'id': section
+    'id': section,
+    'required': true
   })
 
   wrapFile.append(inputFile)
@@ -185,6 +187,7 @@ function drawEventField(section, value){
     'id': section,
     'name': 'itineraries['+index+'].title',
     'value': value,
+    'required': true,
   })
 
   return formGroup.append(label).append(input)
@@ -203,7 +206,8 @@ function drawDescriptionField(section, value){
     'class': 'form-control',
     'placeholder': 'Enter Description',
     'id': section,
-    'name': 'itineraries['+index+'].description'
+    'name': 'itineraries['+index+'].description',
+    'required': true
   }).text(value)
 
   return formGroup.append(label).append(input)

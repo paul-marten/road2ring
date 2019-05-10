@@ -9,7 +9,7 @@
     <div class="box-header with-border">
       <h1 class="box-title">Trip Itinerary Form</h1>
     </div>
-    <form role="form" id="itineraryForm" th:action="${action}" th:object="${response}" method="POST">
+    <form role="form" id="itineraryForm" th:action="${action}" th:object="${response}" method="POST" data-parsley-validate>
       <div class="box-body">
           <div class="form-group">
             <label>Day</label>
@@ -42,7 +42,7 @@
                 <div class="form-group">
                   <label th:for="picture-+${iterStat.index}">Picture</label>
                   <div class="wrap-file">
-                    <input type="file" th:id="picture-+${iterStat.index}">
+                    <input type="file" th:id="picture-+${iterStat.index}" required>
                   </div>
                   <input type="hidden" th:id="hidden_picture-+${iterStat.index}" th:name="itineraries[+${iterStat.index}+].imageUrl"
                          th:value="${response.object[iterStat.index].imageUrl}">
@@ -67,16 +67,16 @@
                 <div class="form-group">
                 <label th:for="event-+${iterStat.index}">Event</label>
                 <input type="text" class="form-control" th:id="event-+${iterStat.index}" th:name="itineraries[+${iterStat.index}+].title" placeholder="Enter Event Title"
-                       th:value="${response.object[iterStat.index].title}">
+                       th:value="${response.object[iterStat.index].title}" required>
                 </div>
 
                 <div class="form-group">
                   <label th:for="description-+${iterStat.index}">Description</label>
-                  <textarea class="form-control" th:id="description-+${iterStat.index}" th:name="itineraries[+${iterStat.index}+].description" th:text="${response.object[iterStat.index].description}" placeholder="Enter Description"></textarea>
+                  <textarea class="form-control" th:id="description-+${iterStat.index}" th:name="itineraries[+${iterStat.index}+].description" th:text="${response.object[iterStat.index].description}" placeholder="Enter Description" required></textarea>
                 </div>
 
-                <input type="hidden" class="group" th:name="itineraries[+${iterStat.index}+].group" th:value="${response.object[iterStat.index].group}">
-                <input type="hidden" class="groupTitle" th:name="itineraries[+${iterStat.index}+].groupTitle" th:value="${response.object[iterStat.index].groupTitle}">
+                <input type="hidden" class="group" th:name="itineraries[+${iterStat.index}+].group" th:value="${response.object[iterStat.index].group}" required>
+                <input type="hidden" class="groupTitle" th:name="itineraries[+${iterStat.index}+].groupTitle" th:value="${response.object[iterStat.index].groupTitle}" required>
 
                 <button th:if="${iterStat.index != 0}" id="delete-form" style="margin: 2px 0px; height: 30px;" type="button" class="btn btn-default btn-sm m-bottom-xs btn-add-tab btn-del-margin"><i class="fa fa-minus fa-lg"></i></button>
 
@@ -96,6 +96,7 @@
   <script src="/js/si/tripItinerary.js"></script>
   <script src="/js/si/upload.js"></script>
   <script src="/js/si/jquery.html5uploader.min.js"></script>
+  <script src="/js/si/parsley.min.js"></script>
   <script>
   $(function() {
     $(document).ready(function () {

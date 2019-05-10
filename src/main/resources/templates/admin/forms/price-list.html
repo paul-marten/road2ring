@@ -21,7 +21,7 @@
     <div class="box-header with-border">
       <h1 class="box-title">Trip Price Form</h1>
     </div>
-    <form role="form" th:action="${action}" th:object="${response}" method="post">
+    <form role="form" th:action="${action}" th:object="${response}" method="post" data-parsley-validate>
       <div class="box-body">
         <input id="object_id" type="hidden" name="id" th:if="${response.object.id != 0}" th:value="${response.object.id != null && response.object.id != 0 ? response.object.id : 0}">
         <div class="form-group">
@@ -38,14 +38,14 @@
         <div class="form-group">
           <label for="price">Price</label>
           <div class="input-group" id="price">
-            <input type="number" min="0" name="personPaid" class="form-control" placeholder="Price" th:value="${response.object.personPaid}" required>
+            <input type="number" min="0" name="price" class="form-control" placeholder="Price" th:value="${response.object.price}" required>
             <span class="input-group-addon">$ /person</span>
           </div>
         </div>
 
         <div class="form-group">
           <label>Status</label>
-          <select class="form-control" name="status" th:value="${response.object.status}">
+          <select class="form-control" name="status" th:value="${response.object.status}" required>
             <option value="">--- Select Status ---</option>
             <option th:each="status : ${T(com.r2r.road2ring.modules.trip.TripPriceStatus).values()}" th:selected="${status == response.object.status}" th:value="${status}" th:text="${status}">
             </option>
@@ -56,7 +56,7 @@
         <div class="form-group">
           <label for="discount">Discount</label>
           <div class="input-group" id="discount">
-            <input type="number" min="0" name="discount" class="form-control" placeholder="Discount" th:value="${response.object.discount}" required>
+            <input type="number" min="0" name="discount" class="form-control" placeholder="Discount" th:value="${response.object.discount}">
             <span class="input-group-addon">%</span>
           </div>
         </div>
@@ -68,6 +68,7 @@
   </div>
 </div>
 <th:block layout:fragment="footer-js">
+  <script src="/js/si/parsley.min.js"></script>
   <script>
   $('#datepicker').datepicker({
     format: 'mm/dd/yyyy',

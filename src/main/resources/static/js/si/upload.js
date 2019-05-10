@@ -44,6 +44,7 @@ function upload_trip(url_upload, section,image_field, hidden_field,width,height,
                 $('.wrap_'+section+' .msg').fadeIn('slow');
             });
             var hidden_val = '';
+            var isValidImg = true;
 
             if (responseText != "") {
                 hidden_val = json.object;
@@ -51,10 +52,18 @@ function upload_trip(url_upload, section,image_field, hidden_field,width,height,
                 console.log($('.wrap_'+section+' .pre_img img'))
                 console.log('/img/assets/'+json.object)
 
-                $('.wrap_'+section+' .pre_img img').attr('src', '/img/assets/'+json.object);
-            }
+                if(json.code === 600 ){
+                  isValidImg = true;
+                  $('.wrap_'+section+' .pre_img img').attr('src', '/img/assets/'+json.object);
+                }else{
+                  isValidImg = false;
+                }
 
-            $(hidden_field).val('/img/assets/' + hidden_val);
+            }
+            if(isValidImg)
+              $(hidden_field).val('/img/assets/' + hidden_val);
+            else
+              alert("Size Image kebesaran, tidak boleh lebih dari 100Kb")
 
         }
     });
