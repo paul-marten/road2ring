@@ -82,6 +82,9 @@ public class TransactionService {
 
     Timestamp code = new Timestamp(created.getTime());
 
+    Date startDate = new Date(transaction.getStartTimestamp());
+
+
     result.setUser(user);
     result.setPaymentStatus(PaymentStatus.WAITING);
     result.setTrip(transaction.getTrip());
@@ -90,11 +93,11 @@ public class TransactionService {
     result.setTripStatus(TripStatus.READY);
     result.setNotes(transaction.getNotes());
     result.setPrice(transaction.getPrice());
-    result.setStartDate(transaction.getStartDate());
+    result.setStartDate(startDate);
     result.setCode(r2rTools.generateRandomCode(2)+ code.getTime() + r2rTools.generateRandomCode(3));
 
     if(transactionRepository.save(result)!=null){
-      tripPriceService.addPersonTripPrice(transaction.getTrip().getId(),transaction.getStartDate());
+      tripPriceService.addPersonTripPrice(transaction.getTrip().getId(),result.getStartDate());
       Transaction transactionSaved = transactionRepository.findOneByCode(result.getCode());
       transactionDetailService.saveMotor(transaction.getMotor(),transactionSaved);
       transactionDetailService.saveListTransactionalAccessory(transaction.getAccessories(),transactionSaved);

@@ -24,6 +24,8 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 import lombok.Data;
+import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.format.annotation.DateTimeFormat.ISO;
 
 @Entity
 @Table(name = "transaction")
@@ -75,6 +77,7 @@ public class Transaction implements Serializable {
 
   @Column(name = "transaction_start_date")
   @JsonView(ResponseView.DefaultTransaction.class)
+  @DateTimeFormat(iso= ISO.DATE)
   private Date startDate;
 
   @ManyToOne(fetch = FetchType.LAZY , optional = true)
@@ -94,4 +97,8 @@ public class Transaction implements Serializable {
 
   @Transient
   private List<Accessory> accessories;
+
+  @Transient
+  private Long startTimestamp;
+
 }
