@@ -6,6 +6,7 @@ import com.r2r.road2ring.modules.common.PaymentStatus;
 import com.r2r.road2ring.modules.common.ResponseView;
 import com.r2r.road2ring.modules.common.TripStatus;
 import com.r2r.road2ring.modules.motor.Motor;
+import com.r2r.road2ring.modules.transactionlog.TransactionCreator;
 import com.r2r.road2ring.modules.trip.Trip;
 import com.r2r.road2ring.modules.user.User;
 import java.io.Serializable;
@@ -43,6 +44,18 @@ public class Transaction implements Serializable {
   @Column(name = "transaction_created")
   @JsonView(ResponseView.DefaultTransaction.class)
   private Date created;
+
+  @Column(name = "transaction_updated")
+  @JsonView(ResponseView.DefaultTransaction.class)
+  private Date updated;
+
+  @Column(name = "transaction_updated_by")
+  @JsonView(ResponseView.DefaultTransaction.class)
+  private String updatedBy;
+
+  @Column(name = "transaction_created_by")
+  @JsonView(ResponseView.DefaultTransaction.class)
+  private String createdBy;
 
   @Column(name = "transaction_expired_payment")
   @JsonView(ResponseView.DefaultTransaction.class)
@@ -91,6 +104,9 @@ public class Transaction implements Serializable {
 
   @Column(name = "transaction_is_cancelled")
   private Boolean isCancelled;
+
+  @Column(name = "transaction_creator")
+  private TransactionCreator transactionCreator;
 
   @Transient
   private Motor motor;
