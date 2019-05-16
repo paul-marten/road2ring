@@ -26,7 +26,7 @@
     <div class="box-header with-border">
       <h1 class="box-title">Trip Form</h1>
     </div>
-    <form role="form" th:action="@{'/trip/save'}" id="tripForm" th:object="${response}" method="post" data-parsley-validate>
+    <form role="form" th:action="@{'/trip/save'}" th:object="${response}" method="post" data-parsley-validate>
       <div class="box-body">
         <input id="object_id" type="hidden" name="id" th:if="${response.object.id != 0}" th:value="${response.object.id != null && response.object.id != 0 ? response.object.id : 0}">
         <div class="form-group">
@@ -42,7 +42,7 @@
         <div class="form-group">
           <label for="icon_cover">Icon Cover</label>
             <div class="wrap-file">
-              <input type="file" id="icon_cover" data-parsley-required="true" data-beautify="false">
+              <input type="file" id="icon_cover" data-parsley-required="false">
             </div>
             <input type="hidden" id="hidden_icon_cover" name="iconCover"
                    th:value="${response.object.iconCover}">
@@ -68,7 +68,7 @@
         <div class="form-group">
           <label for="icon_publisher">Icon Publisher</label>
           <div class="wrap-file">
-            <input type="file" id="icon_publisher" data-parsley-required="true" data-beautify="false">
+            <input type="file" id="icon_publisher" data-parsley-required="false">
           </div>
           <input type="hidden" id="hidden_icon_publisher" name="iconPublisher"
                  th:value="${response.object.iconPublisher}">
@@ -94,7 +94,7 @@
         <div class="form-group">
           <label for="cover_trip">Cover</label>
           <div class="wrap-file">
-            <input type="file" id="cover_trip" data-parsley-required="true" data-beautify="false">
+            <input type="file" id="cover_trip" data-parsley-required="false">
           </div>
           <input type="hidden" id="hidden_cover_trip" name="coverLandscape"
                  th:value="${response.object.coverLandscape}">
@@ -184,10 +184,10 @@
         <div class="form-group">
           <label for="map">Map</label>
           <div class="wrap-file">
-            <input type="file" id="map" data-parsley-required="true" data-beautify="false">
+            <input type="file" id="map" data-parsley-required="false">
           </div>
           <input type="hidden" id="hidden_map" name="map"
-                 th:value="${response.object.map}" required>
+                 th:value="${response.object.map}">
           <!-- <input type="hidden" id="hidden_upload_thumb" name="thumbnail" th:value="${response.object.thumbnail}"> -->
           <div class="wrap_map collapse">
             <div class="progress">
@@ -208,7 +208,7 @@
         </div>
       </div>
       <div class="box-footer">
-        <button type="submit" id="tripSaveBtn" class="btn btn-primary">Submit</button>
+        <button type="submit" class="btn btn-primary">Submit</button>
       </div>
     </form>
   </div>
@@ -216,13 +216,11 @@
 <th:block layout:fragment="footer-js">
   <script src="https://code.jquery.com/ui/1.10.4/jquery-ui.min.js"></script>
   <script src="https://cdn.ckeditor.com/ckeditor5/12.0.0/classic/ckeditor.js"></script>
-  <script type="text/javascript" src="http://ajax.aspnetcdn.com/ajax/jquery.validate/1.7/jquery.validate.min.js"></script>
   <script src="../../js/si/jquery.html5uploader.min.js"></script>
   <script src="../../js/si/bootstrap-tokenfield.min.js"></script>
   <script src="../../js/si/typehead.bundle.min.js"></script>
   <script src="../../js/si/parsley.min.js"></script>
   <script src="../../js/si/upload.js"></script>
-  <script src="../../js/si/trip.js"></script>
   <script>
 $(function() {
   $(document).ready(function () {
@@ -230,11 +228,15 @@ $(function() {
       upload_trip("/api/trip/upload_icon", "icon_publisher","#icon_publisher", "#hidden_icon_publisher",640,640, "potrait");
       upload_trip("/api/trip/upload_trip", "cover_trip","#cover_trip", "#hidden_cover_trip",640,640, "potrait");
       upload_trip("/api/trip/upload_trip", "map","#map", "#hidden_map",640,640, "potrait");
+      console.log($('#trip-facility').val())
+      var facility = $('#trip-facility').val()
+      $('#trip-facility').val(facility.replace("[", "").replace("]", ""))
       });
  });
 
     var checked = $('#trip-facility').val() != null && $('#trip-facility').val() != "" ? $('#trip-facility').val() : []
     var array = JSON.parse( checked.length != 0 ? $('#trip-facility').val() : "[]" );
+
 
     $('.check-facility').change(function () {
 
@@ -248,7 +250,7 @@ $(function() {
         {
           array = array.filter(x => x != $this.val());
         }
-        console.log(array)
+
 
         $('#trip-facility').val(array)
      });

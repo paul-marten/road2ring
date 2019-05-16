@@ -42,7 +42,7 @@
         <div class="form-group">
           <label for="image">Picture</label>
           <div class="wrap-file">
-            <input type="file" id="image" required>
+            <input type="file" id="image">
           </div>
           <input type="hidden" id="hidden_image" name="picture"
                  th:value="${response.object.picture}">
@@ -77,13 +77,13 @@
           </div>
         </div>
 
-        <div class="form-group">
-          <label for="discount">Discount</label>
-          <div class="input-group" id="discount">
-            <input type="number" min="0" name="discount" class="form-control" placeholder="Discount" th:value="${response.object.discount}">
-            <span class="input-group-addon">%</span>
-          </div>
-        </div>
+        <!--<div class="form-group">-->
+          <!--<label for="discount">Discount</label>-->
+          <!--<div class="input-group" id="discount">-->
+            <!--<input type="number" min="0" name="discount" class="form-control" placeholder="Discount" th:value="${response.object.discount}">-->
+            <!--<span class="input-group-addon">%</span>-->
+          <!--</div>-->
+        <!--</div>-->
       </div>
       <div class="box-footer">
         <button type="submit" class="btn btn-primary">Submit</button>
