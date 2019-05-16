@@ -48,4 +48,8 @@ public class TripPriceService {
     saved.setPersonPaid(saved.getPersonPaid()-1);
     tripPriceRepository.save(saved);
   }
+
+  public TripPrice getTripPrice(Integer tripId, Date startDate){
+    return tripPriceRepository.findOneByTripIdAndStartTrip(tripId,startDate);
+  }
 }

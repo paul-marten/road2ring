@@ -2,17 +2,22 @@ package com.r2r.road2ring.modules.transaction;
 
 import com.r2r.road2ring.modules.common.PaymentStatus;
 import com.r2r.road2ring.modules.common.R2rTools;
+import com.r2r.road2ring.modules.common.ResponseMessage;
+import com.r2r.road2ring.modules.common.Road2RingException;
 import com.r2r.road2ring.modules.common.TripStatus;
 import com.r2r.road2ring.modules.consumer.Consumer;
 import com.r2r.road2ring.modules.transactionlog.TransactionCreator;
 import com.r2r.road2ring.modules.transactionlog.TransactionLog;
 import com.r2r.road2ring.modules.transactionlog.TransactionLogService;
+import com.r2r.road2ring.modules.trip.TripPrice;
 import com.r2r.road2ring.modules.trip.TripPriceService;
+import com.r2r.road2ring.modules.trip.TripRepository;
 import com.r2r.road2ring.modules.user.User;
 import java.sql.Timestamp;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+import javax.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -35,6 +40,8 @@ public class TransactionService {
   TransactionDetailRepository transactionDetailRepository;
 
   TransactionLogService transactionLogService;
+
+  TripRepository tripRepository;
 
   @Autowired
   public void setTransactionRepository(TransactionRepository transactionRepository){
@@ -71,7 +78,15 @@ public class TransactionService {
     this.transactionLogService = transactionLogService;
   }
 
-  public TransactionCreateView createTransaction(Transaction transaction, User user){
+  @Autowired
+  public void setTripRepository(TripRepository tripRepository){
+    this.tripRepository = tripRepository;
+  }
+
+  @Transactional
+  public TransactionCreateView createTransaction(Transaction transaction, User user)
+      throws Road2RingException {
+
     Transaction result = new Transaction();
     Date created  = new Date();
 
@@ -84,31 +99,42 @@ public class TransactionService {
 
     Date startDate = new Date(transaction.getStartTimestamp());
 
+    Integer tripPersonPaid = tripPriceService.getTripPrice(transaction.getTrip().getId(), startDate).getPersonPaid();
+    Integer tripMaxRider = tripRepository.findOne(transaction.getTrip().getId()).getMaxRider();
 
-    result.setUser(user);
-    result.setPaymentStatus(PaymentStatus.WAITING);
-    result.setTrip(transaction.getTrip());
-    result.setCreated(created);
-    result.setExpiredPaymentDate(newDate);
-    result.setTripStatus(TripStatus.READY);
-    result.setNotes(transaction.getNotes());
-    result.setPrice(transaction.getPrice());
-    result.setStartDate(startDate);
-    result.setCode(r2rTools.generateRandomCode(2)+ code.getTime() + r2rTools.generateRandomCode(3));
+    if(tripPersonPaid < tripMaxRider) {
+      result.setUser(user);
+      result.setPaymentStatus(PaymentStatus.WAITING);
+      result.setTrip(transaction.getTrip());
+      result.setCreated(created);
+      result.setExpiredPaymentDate(newDate);
+      result.setTripStatus(TripStatus.READY);
+      result.setNotes(transaction.getNotes());
+      result.setPrice(transaction.getPrice());
+      result.setStartDate(startDate);
+      result.setCode(
+          r2rTools.generateRandomCode(2) + code.getTime() + r2rTools.generateRandomCode(3));
+      result.setUpdated(startDate);
+      result.setCreatedBy(user.getEmail());
+      result.setUpdatedBy(user.getEmail());
+      result.setTransactionCreator(TransactionCreator.USER);
+      if (transactionRepository.save(result) != null) {
+        tripPriceService.addPersonTripPrice(transaction.getTrip().getId(), result.getStartDate());
+        Transaction transactionSaved = transactionRepository.findOneByCode(result.getCode());
+        transactionDetailService.saveMotor(transaction.getMotor(), transactionSaved);
+        transactionDetailService
+            .saveListTransactionalAccessory(transaction.getAccessories(), transactionSaved);
+        this.createTransactionLogByUser(transactionSaved);
+      }
 
-    if(transactionRepository.save(result)!=null){
-      tripPriceService.addPersonTripPrice(transaction.getTrip().getId(),result.getStartDate());
-      Transaction transactionSaved = transactionRepository.findOneByCode(result.getCode());
-      transactionDetailService.saveMotor(transaction.getMotor(),transactionSaved);
-      transactionDetailService.saveListTransactionalAccessory(transaction.getAccessories(),transactionSaved);
-      this.createTransactionLogByUser(transactionSaved);
+      TransactionCreateView view = new TransactionCreateView();
+      view.setLastPayment(newDate);
+      view.setTotalPrice(result.getPrice());
+      view.setTransactionCodeId(result.getCode());
+      return view;
+    } else {
+      throw new Road2RingException("CAN NOT CREATE TRANSACTION, ALREADY FULL", 705);
     }
-
-    TransactionCreateView view = new TransactionCreateView();
-    view.setLastPayment(newDate);
-    view.setTotalPrice(result.getPrice());
-    view.setTransactionCodeId(result.getCode());
-    return view;
 
   }
 
@@ -142,10 +168,13 @@ public class TransactionService {
     transactionLogService.setTransactionLog(saved);
   }
 
+  @Transactional
   public void acceptPayment(Transaction transaction, Consumer consumer){
     Transaction saved  = transactionRepository.findOneByCode(transaction.getCode());
     saved.setPaymentStatus(PaymentStatus.PAID);
     saved.setCompletePaymentDate(new Date());
+    saved.setUpdatedBy(consumer.getEmail());
+    saved.setTransactionCreator(TransactionCreator.ADMIN);
     this.acceptTransactionPayment(saved, consumer);
     transactionRepository.save(saved);
   }
@@ -155,6 +184,8 @@ public class TransactionService {
         findAllByPaymentStatusAndExpiredPaymentDateLessThan(PaymentStatus.WAITING, new Date());
     for(Transaction transaction : transactions){
       transaction.setPaymentStatus(PaymentStatus.FAILED);
+      transaction.setUpdatedBy(TransactionCreator.SYSTEM.name());
+      transaction.setTransactionCreator(TransactionCreator.SYSTEM);
       transactionRepository.save(transaction);
       tripPriceService.minPersonTripPrice(transaction.getTrip().getId(), transaction.getStartDate());
       this.createTransactionLogBySystem(transaction);

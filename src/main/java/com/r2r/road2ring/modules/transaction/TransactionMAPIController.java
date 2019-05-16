@@ -3,6 +3,7 @@ package com.r2r.road2ring.modules.transaction;
 import static com.r2r.road2ring.modules.common.Static.M_API;
 
 import com.r2r.road2ring.modules.common.ResponseMessage;
+import com.r2r.road2ring.modules.common.Road2RingException;
 import com.r2r.road2ring.modules.user.User;
 import com.r2r.road2ring.modules.user.UserService;
 import java.security.Principal;
@@ -49,10 +50,16 @@ public class TransactionMAPIController {
       Authentication auth = (Authentication) principal;
       UserDetails currentConsumer = (UserDetails) auth.getPrincipal();
       User user = userService.findUserByEmail(currentConsumer.getUsername());
-      responseMessage.setObject(transactionService.createTransaction(transaction, user));
-      responseMessage.setCode(200);
-      httpStatus.setStatus(HttpStatus.OK.value());
-      responseMessage.setMessage("Transaction created");
+      try {
+        responseMessage.setObject(transactionService.createTransaction(transaction, user));
+        responseMessage.setCode(200);
+        httpStatus.setStatus(HttpStatus.OK.value());
+        responseMessage.setMessage("Transaction created");
+      } catch (Road2RingException e){
+        responseMessage.setCode(e.getCode());
+        responseMessage.setMessage(e.getMessage());
+        httpStatus.setStatus(HttpStatus.FORBIDDEN.value());
+      }
     } else {
       httpStatus.setStatus(HttpStatus.BAD_REQUEST.value());
       responseMessage.setCode(703);

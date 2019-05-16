@@ -12,6 +12,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 import lombok.Data;
 
 @Entity
@@ -62,6 +63,9 @@ public class User implements Serializable {
 
   @Column(name = "user_identity_picture")
   private String userIdentityPicture;
+
+  @Transient
+  private Long userBirthday;
 
 //  private String facebookPageID;
 //  private String twitterPageID;
