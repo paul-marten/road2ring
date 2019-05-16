@@ -184,4 +184,11 @@ public class TransactionService {
     return result;
   }
 
+  public List<Transaction> getAllTranscation(){
+    return transactionRepository.findAll();
+  }
+
+  public Transaction getTransactionById(int id){
+    return transactionRepository.findOne(id);
+  }
 }

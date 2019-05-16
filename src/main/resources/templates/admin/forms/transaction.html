@@ -1,0 +1,79 @@
+<!DOCTYPE html SYSTEM "http://www.thymeleaf.org/dtd/xhtml1-strict-thymeleaf-spring4-4.dtd">
+<html xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:th="http://www.w3.org/1999/html" layout:decorator="admin/layout">
+<head>
+  <title>R2R-Trip</title>
+  <link type="text/css" href="../../css/jquery-ui-1.10.0.custom.css" rel="stylesheet"/>
+  <link type="text/css" href="../../css/bootstrap-tokenfield.min.css" rel="stylesheet"/>
+  <style>
+.ck-editor__editable {
+    min-height: 200px;
+}
+
+.box-inline{
+      box-shadow: 0 1px 1px rgba(0,0,0,0.5) !important;
+      padding: 5px 10px;
+}
+
+.collapse{
+  display: none;
+}
+
+.separator{
+  width: 20px;
+  text-align: center;
+}
+
+.title{
+  font-weight: 600;
+}
+</style>
+</head>
+<body>
+<div layout:fragment="content">
+  <div class="box box-primary">
+    <div class="box-header with-border">
+      <h1 class="box-title">Transaction Form</h1>
+    </div>
+    <div class="box-body">
+      <h4><b>Transaction Info</b></h4>
+    <table>
+      <tr>
+        <td class="title">Transaction Code </td>
+        <td class="separator"> : </td>
+        <td th:text="${response.object.code}"></td>
+      </tr>
+      <tr>
+        <td class="title">Status </td>
+        <td class="separator"> : </td>
+        <td th:text="${response.object.paymentStatus}"></td>
+      </tr>
+      <tr>
+        <td class="title">Trip </td>
+        <td class="separator"> : </td>
+        <td th:text="${response.object.trip.title}"></td>
+      </tr>
+      <tr>
+        <td class="title">Trip Status </td>
+        <td class="separator"> : </td>
+        <td th:text="${response.object.tripStatus}"></td>
+      </tr>
+      <tr>
+        <td class="title">Notes </td>
+        <td class="separator"> : </td>
+        <td th:text="${response.object.notes}"></td>
+      </tr>
+    </table>
+    </div>
+      <!--<form role="form" th:action="@{'/transaction/save'}" th:object="${response}" method="post" data-parsley-validate>-->
+        <!--<input id="object_id" type="hidden" name="id" th:if="${response.object.id != 0}" th:value="${response.object.id != null && response.object.id != 0 ? response.object.id : 0}">-->
+        <!--<div class="form-group">-->
+          <!--<label for="code">Transaction Code</label>-->
+          <!--<input type="text" class="form-control" name="code" id="code" th:value="${response.object.code}" readonly>-->
+        <!--</div>-->
+      <!--</form>-->
+  </div>
+</div>
+
+</body>
+</html>
