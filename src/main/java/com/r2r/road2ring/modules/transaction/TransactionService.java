@@ -168,14 +168,37 @@ public class TransactionService {
     transactionLogService.setTransactionLog(saved);
   }
 
+  @Async
+  private void cancelTransactionPayment(Transaction transaction, Consumer consumer){
+    TransactionLog saved = new TransactionLog();
+    saved.setUsername(consumer.getEmail());
+    saved.setTransactionId(transaction.getId());
+    saved.setCreator(TransactionCreator.ADMIN);
+    saved.setAction("CANCEL PAYMENT BY ADMIN");
+    transactionLogService.setTransactionLog(saved);
+  }
+
   @Transactional
   public void acceptPayment(Transaction transaction, Consumer consumer){
     Transaction saved  = transactionRepository.findOneByCode(transaction.getCode());
     saved.setPaymentStatus(PaymentStatus.PAID);
     saved.setCompletePaymentDate(new Date());
     saved.setUpdatedBy(consumer.getEmail());
+    saved.setUpdated(new Date());
     saved.setTransactionCreator(TransactionCreator.ADMIN);
     this.acceptTransactionPayment(saved, consumer);
+    transactionRepository.save(saved);
+  }
+
+  @Transactional
+  public void cancelPayment(Transaction transaction, Consumer consumer){
+    Transaction saved  = transactionRepository.findOneByCode(transaction.getCode());
+    saved.setPaymentStatus(PaymentStatus.CANCEL);
+    saved.setCompletePaymentDate(new Date());
+    saved.setUpdated(new Date());
+    saved.setUpdatedBy(consumer.getEmail());
+    saved.setTransactionCreator(TransactionCreator.ADMIN);
+    this.cancelTransactionPayment(saved, consumer);
     transactionRepository.save(saved);
   }
 
@@ -214,5 +237,21 @@ public class TransactionService {
     result = transactionViewService.bindTransactionDetail(transaction,transactionDetails);
     return result;
   }
+
+  /*Change Status Payment by Admin*/
+  public void changeStatusPayment(Consumer consumer,int statusId, String transactionCode)
+      throws Road2RingException {
+    Transaction saved  = transactionRepository.findOneByCode(transactionCode);
+    if(statusId == PaymentStatus.PAID.ordinal()){
+      this.acceptPayment(saved,consumer);
+    } else if(statusId == PaymentStatus.CANCEL.ordinal()){
+      this.cancelPayment(saved, consumer);
+    } else {
+      throw new Road2RingException("cannot set value", 900);
+    }
+  }
+
+
+
 
 }
