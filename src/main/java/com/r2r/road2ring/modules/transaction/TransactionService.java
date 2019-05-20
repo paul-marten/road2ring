@@ -5,6 +5,8 @@ import com.r2r.road2ring.modules.common.R2rTools;
 import com.r2r.road2ring.modules.common.ResponseMessage;
 import com.r2r.road2ring.modules.common.Road2RingException;
 import com.r2r.road2ring.modules.common.TripStatus;
+import com.r2r.road2ring.modules.confirmation.Confirmation;
+import com.r2r.road2ring.modules.confirmation.ConfirmationService;
 import com.r2r.road2ring.modules.consumer.Consumer;
 import com.r2r.road2ring.modules.transactionlog.TransactionCreator;
 import com.r2r.road2ring.modules.transactionlog.TransactionLog;
@@ -42,6 +44,8 @@ public class TransactionService {
   TransactionLogService transactionLogService;
 
   TripRepository tripRepository;
+
+  ConfirmationService confirmationService;
 
   @Autowired
   public void setTransactionRepository(TransactionRepository transactionRepository){
@@ -81,6 +85,12 @@ public class TransactionService {
   @Autowired
   public void setTripRepository(TripRepository tripRepository){
     this.tripRepository = tripRepository;
+  }
+
+  @Autowired
+  public void setConfirmationService(
+      ConfirmationService confirmationService) {
+    this.confirmationService = confirmationService;
   }
 
   @Transactional
@@ -221,5 +231,42 @@ public class TransactionService {
 
   public Transaction getTransactionById(int id){
     return transactionRepository.findOne(id);
+  }
+
+  public TransactionConfirmationDetailView getTransactionDetailView(int id){
+    Transaction trx = this.getTransactionById(id);
+    Confirmation confirmation = confirmationService.getByTransactionCode(trx.getCode());
+    System.out.println(confirmation.toString());
+    TransactionConfirmationDetailView saved = new TransactionConfirmationDetailView();
+    //transcation info
+    saved.setTrxId(trx.getId());
+    saved.setCode(trx.getCode());
+    saved.setCreated(trx.getCreated());
+    saved.setUpdated(trx.getUpdated());
+    saved.setCreatedBy(trx.getCreatedBy());
+    saved.setUpdatedBy(trx.getUpdatedBy());
+    saved.setPaymentStatus(trx.getPaymentStatus());
+    saved.setTripStatus(trx.getTripStatus());
+    saved.setPrice(trx.getPrice());
+    saved.setUser(trx.getUser());
+    saved.setStartDate(trx.getStartDate());
+    saved.setCompletePaymentDate(trx.getCompletePaymentDate());
+    saved.setExpiredPaymentDate(trx.getExpiredPaymentDate());
+    saved.setNotes(trx.getNotes());
+    saved.setTrip(trx.getTrip());
+
+    //confirmation info
+    if(confirmation != null) {
+      saved.setConfirmationId(confirmation.getId());
+      saved.setPicture(confirmation.getPicture());
+      saved.setAccountNumber(confirmation.getAccountNumber());
+      saved.setBank(confirmation.getBank());
+      saved.setCodeTrx(confirmation.getCodeTransaction());
+      saved.setConfirmed(true);
+    }else{
+      saved.setConfirmed(false);
+    }
+
+    return saved;
   }
 }

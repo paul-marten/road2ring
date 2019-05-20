@@ -30,7 +30,7 @@ public class TransactionController {
   @RequestMapping(value = "/edit", method = RequestMethod.GET)
   public String edit(Model model, @RequestParam int id) {
     ResponseMessage response = new ResponseMessage();
-    Transaction transaction = transactionService.getTransactionById(id);
+    TransactionConfirmationDetailView transaction = transactionService.getTransactionDetailView(id);
     response.setObject(transaction);
     model.addAttribute("response", response);
     return "admin/forms/transaction";
