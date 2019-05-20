@@ -178,14 +178,37 @@ public class TransactionService {
     transactionLogService.setTransactionLog(saved);
   }
 
+  @Async
+  private void cancelTransactionPayment(Transaction transaction, Consumer consumer){
+    TransactionLog saved = new TransactionLog();
+    saved.setUsername(consumer.getEmail());
+    saved.setTransactionId(transaction.getId());
+    saved.setCreator(TransactionCreator.ADMIN);
+    saved.setAction("CANCEL PAYMENT BY ADMIN");
+    transactionLogService.setTransactionLog(saved);
+  }
+
   @Transactional
   public void acceptPayment(Transaction transaction, Consumer consumer){
     Transaction saved  = transactionRepository.findOneByCode(transaction.getCode());
     saved.setPaymentStatus(PaymentStatus.PAID);
     saved.setCompletePaymentDate(new Date());
     saved.setUpdatedBy(consumer.getEmail());
+    saved.setUpdated(new Date());
     saved.setTransactionCreator(TransactionCreator.ADMIN);
     this.acceptTransactionPayment(saved, consumer);
+    transactionRepository.save(saved);
+  }
+
+  @Transactional
+  public void cancelPayment(Transaction transaction, Consumer consumer){
+    Transaction saved  = transactionRepository.findOneByCode(transaction.getCode());
+    saved.setPaymentStatus(PaymentStatus.CANCEL);
+    saved.setCompletePaymentDate(new Date());
+    saved.setUpdated(new Date());
+    saved.setUpdatedBy(consumer.getEmail());
+    saved.setTransactionCreator(TransactionCreator.ADMIN);
+    this.cancelTransactionPayment(saved, consumer);
     transactionRepository.save(saved);
   }
 
@@ -236,7 +259,7 @@ public class TransactionService {
   public TransactionConfirmationDetailView getTransactionDetailView(int id){
     Transaction trx = this.getTransactionById(id);
     Confirmation confirmation = confirmationService.getByTransactionCode(trx.getCode());
-    System.out.println(confirmation.toString());
+//    System.out.println(confirmation.toString());
     TransactionConfirmationDetailView saved = new TransactionConfirmationDetailView();
     //transcation info
     saved.setTrxId(trx.getId());
@@ -268,5 +291,18 @@ public class TransactionService {
     }
 
     return saved;
+  }
+
+  /*Change Status Payment by Admin*/
+  public void changeStatusPayment(Consumer consumer,PaymentStatus statusId, String transactionCode)
+      throws Road2RingException {
+    Transaction saved  = transactionRepository.findOneByCode(transactionCode);
+    if(statusId == PaymentStatus.PAID){
+      this.acceptPayment(saved,consumer);
+    } else if(statusId == PaymentStatus.CANCEL){
+      this.cancelPayment(saved, consumer);
+    } else {
+      throw new Road2RingException("cannot set value", 900);
+    }
   }
 }

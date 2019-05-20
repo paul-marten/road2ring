@@ -263,6 +263,7 @@
       </div>
       <div class="custom-popup collapse" id="publishConfirm">
         <div class="popup-body text-center">
+          <input id="hide_trx-code" type="hidden" th:value="${response.object.codeTrx}">
           <div class="form-group">
             <h5 style="text-align: left"><strong>please select the status you want to choose,</strong></h5><h5><strong>and make sure that the status you choose is correct</strong></h5>
             <!--<strong class="block m-top-xs"><i class="fa fa-exclamation-circle m-right-xs text-danger"></i>This action cannot be undone</strong>-->
@@ -324,8 +325,39 @@ $(document).on('click', '#confirmPayment', function() {
     <!--var hide_id = $(this).parent().parent().parent().find('input').val();-->
     $('#publishConfirm').popup('show');
     <!--$('#publishConfirm input[name=api_id]').val(hide_id);-->
+
     return false;
 });
+
+var selectedStatus = $("#group").val();
+var curStatus = $("#group").val();
+var code = $("#hide_trx-code").val()
+console.log(curStatus)
+
+$(document).on('change', '#group', function() {
+      selectedStatus = $(this).val();
+});
+
+
+$(document).on('click', '.do-it', function() {
+  if(curStatus != selectedStatus){
+    $.post('/api/transaction/change-status-transaction/'+ selectedStatus +'/' + code).done(function(data) {
+          if(data.code == 900 )
+            alert("status yang dipilih salah")
+          else
+            window.location.href = "/transaction";
+    });
+  }else{
+    alert('harap pilih status yang berbeda dengan yang sebelumnya')
+  }
+});
+
+$(document).on('click', '.cancel', function(){
+  $('#publishConfirm').popup('hide');
+})
+
+<!--function check-->
+
   </script>
 </th:block>
 </body>
