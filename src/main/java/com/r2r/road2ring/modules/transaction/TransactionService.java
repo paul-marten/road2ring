@@ -114,7 +114,7 @@ public class TransactionService {
       result.setStartDate(startDate);
       result.setCode(
           r2rTools.generateRandomCode(2) + code.getTime() + r2rTools.generateRandomCode(3));
-      result.setUpdated(startDate);
+      result.setUpdated(created);
       result.setCreatedBy(user.getEmail());
       result.setUpdatedBy(user.getEmail());
       result.setTransactionCreator(TransactionCreator.USER);
@@ -251,7 +251,13 @@ public class TransactionService {
     }
   }
 
+  public Transaction getTransactionPdf(String transactionCodeId){
+    return transactionRepository.findOneByCode(transactionCodeId);
+  }
 
+  public List<TransactionDetail> getListTransactionDetailPdf(int transactionId){
+    return transactionDetailRepository.findAllByTransactionIdOrderByIdDesc(transactionId);
+  }
 
 
 }
