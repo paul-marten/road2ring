@@ -124,7 +124,7 @@ public class UserService {
     role.setId(ROLE_ID);
 
     saved.setRole(role);
-    saved.setBirthday(new Date(user.getUserBirthday()));
+    saved.setBirthday( user.getBirthday() == null ? null : new Date(user.getUserBirthday()));
     saved.setPassword(r2rTools.hashingPassword(user.getPassword()));
 
     saved.setEmail(user.getEmail());
