@@ -4,5 +4,6 @@ public enum PaymentStatus {
   WAITING,
   FAILED,
   BOOKED,
-  PAID
+  PAID,
+  CANCEL
 }

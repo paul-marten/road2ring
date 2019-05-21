@@ -23,4 +23,8 @@ public class ConfirmationService {
     return confirmationRepository.save(saved);
   }
 
+  public Confirmation getByTransactionCode(String code){
+    return confirmationRepository.findOneByCodeTransaction(code);
+  }
+
 }
