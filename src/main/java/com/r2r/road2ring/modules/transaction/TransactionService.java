@@ -208,7 +208,7 @@ public class TransactionService {
     this.acceptTransactionPayment(saved, consumer);
     try {
       /*change email recipient*/
-      mailClient.sendPaidEmail("bolalobintern@gmail.com",saved.getUser().getEmail(),
+      mailClient.sendPaidEmail("paulmartensimanjuntak19@gmail.com",saved.getUser().getEmail(),
           this.getRidersNeeded(saved, saved.getStartDate()));
     } catch (MessagingException e) {
       e.printStackTrace();
