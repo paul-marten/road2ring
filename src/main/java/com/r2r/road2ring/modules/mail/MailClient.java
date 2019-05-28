@@ -41,10 +41,10 @@ public class MailClient {
     context.setVariables(model);
     String html = templateEngine.process("admin/email/checkout", context);
 
-    helper.setTo("bolalobintern@gmail.com");
+    helper.setFrom("bolalobintern@gmail.com");
     helper.setText(html, true);
     helper.setSubject("Sample mail subject");
-    helper.setFrom("paulmartensimanjuntak19@gmail.com");
+    helper.setTo("paulmartensimanjuntak19@gmail.com");
 
 //    mailSender.send(message);
 
@@ -73,7 +73,7 @@ public class MailClient {
     helper.setSubject("Paid Transaction Road2Ring");
 
     /*Change email*/
-    helper.setFrom("paulmartensimanjuntak19@gmail.com");
+    helper.setFrom("bolalobintern@gmail.com");
     try {
       mailSender.send(message);
     } catch (MailException e) {
