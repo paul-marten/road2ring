@@ -29,31 +29,31 @@ public class MailClient {
     this.mailSender = mailSender;
   }
 
-//  public void prepareAndSend(String recipient, String messages) throws MessagingException {
-//    //TODO implement
-//    MimeMessage message = mailSender.createMimeMessage();
-//    MimeMessageHelper helper = new MimeMessageHelper(message);
-//
-//    Map model = new HashMap();
-//    model.put("message", "Naik motor");
-//
-//    Context context = new Context();
-//    context.setVariables(model);
-//    String html = templateEngine.process("admin/email/invoice", context);
-//
-//    helper.setTo("bolalobintern@gmail.com");
-//    helper.setText(html, true);
-//    helper.setSubject("Sample mail subject");
-//    helper.setFrom("paulmartensimanjuntak19@gmail.com");
-//
-////    mailSender.send(message);
-//
-//    try {
-//      mailSender.send(message);
-//    } catch (MailException e) {
-//      // runtime exception; compiler will not force you to handle it
-//    }
-//  }
+  public void prepareAndSend(String recipient, String messages) throws MessagingException {
+    //TODO implement
+    MimeMessage message = mailSender.createMimeMessage();
+    MimeMessageHelper helper = new MimeMessageHelper(message);
+
+    Map model = new HashMap();
+    model.put("message", "Naik motor");
+
+    Context context = new Context();
+    context.setVariables(model);
+    String html = templateEngine.process("admin/email/checkout", context);
+
+    helper.setTo("bolalobintern@gmail.com");
+    helper.setText(html, true);
+    helper.setSubject("Sample mail subject");
+    helper.setFrom("paulmartensimanjuntak19@gmail.com");
+
+//    mailSender.send(message);
+
+    try {
+      mailSender.send(message);
+    } catch (MailException e) {
+      // runtime exception; compiler will not force you to handle it
+    }
+  }
 
   public void sendPaidEmail(String recipient, String consumerName, int ridersNeeded) throws MessagingException {
     //TODO implement

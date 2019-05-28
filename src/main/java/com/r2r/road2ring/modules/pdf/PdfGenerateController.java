@@ -46,38 +46,38 @@ public class PdfGenerateController {
     this.mailClient = mailClient;
   }
 
-//  @GetMapping(value = "/test/{transactionCodeId}", produces = MediaType.APPLICATION_PDF_VALUE)
-//  public ResponseEntity<InputStreamResource> generatedPdf (
-//      @PathVariable (value = "transactionCodeId") String transactionCodeId) throws IOException {
-//    ByteArrayInputStream bis = new ByteArrayInputStream(pdfService.generatePdf(transactionCodeId).toByteArray());
-//    HttpHeaders headers = new HttpHeaders();
-//    headers.add("Content-Disposition", "inline; filename=road2ring-transaction.pdf");
-//
-//    try{
-////      mailClient.sendEmail();
-//      mailClient.prepareAndSend("aa","a");
-//    } catch (MailException e){
-//      //catch error
-//      System.out.println(e);
-//    } catch (MessagingException e) {
-//      e.printStackTrace();
-//    }
-//
-//    return ResponseEntity
-//        .ok()
-//        .headers(headers)
-//        .contentType(MediaType.APPLICATION_PDF)
-//        .body(new InputStreamResource(bis));
-//  }
-
   @GetMapping(value = "/test/{transactionCodeId}", produces = MediaType.APPLICATION_PDF_VALUE)
-  public void generatedPdf (
-      @PathVariable (value = "transactionCodeId") String transactionCodeId) {
+  public ResponseEntity<InputStreamResource> generatedPdf (
+      @PathVariable (value = "transactionCodeId") String transactionCodeId) throws IOException {
+    ByteArrayInputStream bis = new ByteArrayInputStream(pdfService.generatePdf(transactionCodeId).toByteArray());
+    HttpHeaders headers = new HttpHeaders();
+    headers.add("Content-Disposition", "inline; filename=road2ring-transaction.pdf");
+
     try{
-      pdfService.createPdf();
-    } catch (Exception e){
+//      mailClient.sendEmail();
+      mailClient.prepareAndSend("aa","a");
+    } catch (MailException e){
       //catch error
       System.out.println(e);
+    } catch (MessagingException e) {
+      e.printStackTrace();
     }
+
+    return ResponseEntity
+        .ok()
+        .headers(headers)
+        .contentType(MediaType.APPLICATION_PDF)
+        .body(new InputStreamResource(bis));
   }
+
+//  @GetMapping(value = "/test/{transactionCodeId}", produces = MediaType.APPLICATION_PDF_VALUE)
+//  public void generatedPdf (
+//      @PathVariable (value = "transactionCodeId") String transactionCodeId) {
+//    try{
+//      pdfService.createPdf();
+//    } catch (Exception e){
+//      //catch error
+//      System.out.println(e);
+//    }
+//  }
 }
