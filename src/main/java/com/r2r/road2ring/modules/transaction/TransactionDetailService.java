@@ -18,22 +18,21 @@ public class TransactionDetailService {
   MotorRepository motorRepository;
 
   @Autowired
-  public void setTransactionDetailRepository(
-      TransactionDetailRepository transactionDetailRepository) {
+  public void setTransactionDetailRepository(TransactionDetailRepository transactionDetailRepository){
     this.transactionDetailRepository = transactionDetailRepository;
   }
 
   @Autowired
-  public void setAccessoryRepository(AccessoryRepository accessoryRepository) {
+  public void setAccessoryRepository(AccessoryRepository accessoryRepository){
     this.accessoryRepository = accessoryRepository;
   }
 
   @Autowired
-  public void setMotorRepository(MotorRepository motorRepository) {
+  public void setMotorRepository(MotorRepository motorRepository){
     this.motorRepository = motorRepository;
   }
 
-  public void saveTransactionDetailAccessory(Accessory accessory, Transaction transaction) {
+  public void saveTransactionDetailAccessory(Accessory accessory, Transaction transaction){
     TransactionDetail transactionDetail = new TransactionDetail();
     transactionDetail.setTransaction(transaction);
     transactionDetail.setTitle(accessory.getTitle());
@@ -45,16 +44,15 @@ public class TransactionDetailService {
     transactionDetailRepository.save(transactionDetail);
   }
 
-  public void saveListTransactionalAccessory(List<Accessory> accessoryList,
-      Transaction transaction) {
-    for (Accessory accessory : accessoryList) {
+  public void saveListTransactionalAccessory(List<Accessory> accessoryList, Transaction transaction){
+    for(Accessory accessory : accessoryList){
       Accessory saved = accessoryRepository.findOne(accessory.getId());
       saved.setSize(accessory.getSize());
-      saveTransactionDetailAccessory(saved, transaction);
+      saveTransactionDetailAccessory(saved,transaction);
     }
   }
 
-  public void saveMotor(Motor motor, Transaction transaction) {
+  public void saveMotor(Motor motor, Transaction transaction){
     TransactionDetail transactionDetail = new TransactionDetail();
     Motor saved = motorRepository.findOne(motor.getId());
     transactionDetail.setTransaction(transaction);
@@ -66,10 +64,6 @@ public class TransactionDetailService {
     transactionDetail.setCapacity(saved.getCapacity());
     transactionDetail.setBrand(saved.getBrand());
     transactionDetailRepository.save(transactionDetail);
-  }
-
-  public List<TransactionDetail> getAllDetailByTrxId(int id) {
-    return transactionDetailRepository.findAllByTransactionIdOrderByIdDesc(id);
   }
 
 }

@@ -1,7 +1,6 @@
 package com.r2r.road2ring.modules.transactionlog;
 
 import java.util.Date;
-import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -25,7 +24,4 @@ public class TransactionLogService {
     transactionLogRepository.save(saved);
   }
 
-  public List<TransactionLog> getAllLogbyTrxID(int trx_id){
-     return transactionLogRepository.findAllByTransactionId(trx_id);
-  }
 }

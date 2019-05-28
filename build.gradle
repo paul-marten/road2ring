@@ -52,6 +52,15 @@ dependencies {
 	compile ('com.github.javafaker:javafaker:0.14') { exclude module: 'org.yaml' }
 	compile group: 'org.yaml', name: 'snakeyaml', version: '1.18'
 
+	// PDF
+	// https://mvnrepository.com/artifact/com.itextpdf/itextpdf
+	compile group: 'com.itextpdf', name: 'itextpdf', version: '5.5.13'
+	// https://mvnrepository.com/artifact/org.xhtmlrenderer/flying-saucer-pdf
+	compile group: 'org.xhtmlrenderer', name: 'flying-saucer-pdf', version: '9.1.4'
+	
+	//SMTP
+	compile group: 'org.springframework.boot', name: 'spring-boot-starter-mail', version: '1.2.0.RELEASE'
+	
 	compile(group: 'org.springframework.boot', name: 'spring-boot-starter-test', version:'1.4.0.RELEASE') {
 		exclude(module: 'commons-logging')
 	}

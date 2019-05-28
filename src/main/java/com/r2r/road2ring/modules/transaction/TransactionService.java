@@ -8,6 +8,7 @@ import com.r2r.road2ring.modules.common.TripStatus;
 import com.r2r.road2ring.modules.confirmation.Confirmation;
 import com.r2r.road2ring.modules.confirmation.ConfirmationService;
 import com.r2r.road2ring.modules.consumer.Consumer;
+import com.r2r.road2ring.modules.mail.MailClient;
 import com.r2r.road2ring.modules.transactionlog.TransactionCreator;
 import com.r2r.road2ring.modules.transactionlog.TransactionLog;
 import com.r2r.road2ring.modules.transactionlog.TransactionLogService;
@@ -19,6 +20,7 @@ import java.sql.Timestamp;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+import javax.mail.MessagingException;
 import javax.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
@@ -46,6 +48,8 @@ public class TransactionService {
   TripRepository tripRepository;
 
   ConfirmationService confirmationService;
+
+  MailClient mailClient;
 
   @Autowired
   public void setTransactionRepository(TransactionRepository transactionRepository){
@@ -91,6 +95,11 @@ public class TransactionService {
   public void setConfirmationService(
       ConfirmationService confirmationService) {
     this.confirmationService = confirmationService;
+  }
+
+  @Autowired
+  public void setMailClient(MailClient mailClient){
+    this.mailClient = mailClient;
   }
 
   @Transactional
@@ -197,6 +206,13 @@ public class TransactionService {
     saved.setUpdated(new Date());
     saved.setTransactionCreator(TransactionCreator.ADMIN);
     this.acceptTransactionPayment(saved, consumer);
+    try {
+      /*change email recipient*/
+      mailClient.sendPaidEmail("bolalobintern@gmail.com",saved.getUser().getEmail(),
+          this.getRidersNeeded(saved, saved.getStartDate()));
+    } catch (MessagingException e) {
+      e.printStackTrace();
+    }
     transactionRepository.save(saved);
   }
 
@@ -305,12 +321,17 @@ public class TransactionService {
       throw new Road2RingException("cannot set value", 900);
     }
   }
-  
+
   public Transaction getTransactionPdf(String transactionCodeId){
     return transactionRepository.findOneByCode(transactionCodeId);
   }
 
   public List<TransactionDetail> getListTransactionDetailPdf(int transactionId){
     return transactionDetailRepository.findAllByTransactionIdOrderByIdDesc(transactionId);
+  }
+
+  private int getRidersNeeded(Transaction transaction, Date startDate){
+    TripPrice tripPrice = tripPriceService.getTripPrice(transaction.getTrip().getId(),startDate);
+    return (transaction.getTrip().getMaxRider() - tripPrice.getPersonPaid());
   }
 }
