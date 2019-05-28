@@ -1,0 +1,324 @@
+<!DOCTYPE html SYSTEM "http://www.thymeleaf.org/dtd/xhtml1-strict-thymeleaf-spring4-4.dtd">
+<html xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:th="http://www.w3.org/1999/html" layout:decorator="admin/layout">
+<head>
+  <title>R2R-Trip</title>
+  <link type="text/css" href="../../css/jquery-ui-1.10.0.custom.css" rel="stylesheet"/>
+  <link type="text/css" href="../../css/bootstrap-tokenfield.min.css" rel="stylesheet"/>
+  <style>
+.ck-editor__editable {
+    min-height: 200px;
+}
+
+.box-inline{
+      box-shadow: 0 1px 1px rgba(0,0,0,0.5) !important;
+      padding: 5px 10px;
+}
+
+.collapse{
+  display: none;
+}
+</style>
+</head>
+<body>
+<div layout:fragment="content">
+  <div class="box box-primary">
+    <div class="box-header with-border">
+      <h1 class="box-title">Trip Form</h1>
+    </div>
+    <form role="form" th:action="@{'/trip/save'}" th:object="${response}" method="post" data-parsley-validate>
+      <div class="box-body">
+        <input id="object_id" type="hidden" name="id" th:if="${response.object.id != 0}" th:value="${response.object.id != null && response.object.id != 0 ? response.object.id : 0}">
+        <div class="form-group">
+          <label for="title">Title</label>
+          <input type="text" class="form-control" name="title" id="title" placeholder="Title" th:value="${response.object.title}" data-parsley-required="true" data-beautify="false">
+        </div>
+
+        <div class="form-group">
+          <label for="description">Description</label>
+          <textarea class="form-control" name="description" id="description" placeholder="Enter description" th:text="${response.object.description}"></textarea>
+        </div>
+
+        <div class="form-group">
+          <label for="icon_cover">Icon Cover</label>
+            <div class="wrap-file">
+              <input type="file" id="icon_cover" data-parsley-required="false">
+            </div>
+            <input type="hidden" id="hidden_icon_cover" name="iconCover"
+                   th:value="${response.object.iconCover}">
+            <!-- <input type="hidden" id="hidden_upload_thumb" name="thumbnail" th:value="${response.object.thumbnail}"> -->
+            <div class="wrap_icon_cover collapse">
+              <div class="progress">
+                <div class="progress-bar progress-bar-info progress-bar-striped"
+                     role="progressbar" aria-valuenow="" aria-valuemin="0" aria-valuemax="100"
+                     style="">
+                </div>
+              </div>
+              <div class="msg collapse text-info"><i class="fa fa-check"></i> Upload Succeed</div>
+              <div class="pre_img">
+                <img src="" alt="">
+              </div>
+            </div>
+            <div th:if="${not #strings.isEmpty(response.object.iconCover)}"
+                 class="wrap-img-icon_cover p-top-sm">
+              <img th:src="${response.object.iconCover}"/>
+            </div>
+        </div>
+
+        <div class="form-group">
+          <label for="icon_publisher">Icon Publisher</label>
+          <div class="wrap-file">
+            <input type="file" id="icon_publisher" data-parsley-required="false">
+          </div>
+          <input type="hidden" id="hidden_icon_publisher" name="iconPublisher"
+                 th:value="${response.object.iconPublisher}">
+          <!-- <input type="hidden" id="hidden_upload_thumb" name="thumbnail" th:value="${response.object.thumbnail}"> -->
+          <div class="wrap_icon_publisher collapse">
+            <div class="progress">
+              <div class="progress-bar progress-bar-info progress-bar-striped"
+                   role="progressbar" aria-valuenow="" aria-valuemin="0" aria-valuemax="100"
+                   style="">
+              </div>
+            </div>
+            <div class="msg collapse text-info"><i class="fa fa-check"></i> Upload Succeed</div>
+            <div class="pre_img">
+              <img src="" alt="">
+            </div>
+          </div>
+          <div th:if="${not #strings.isEmpty(response.object.iconPublisher)}"
+               class="wrap-img-icon_publisher p-top-sm">
+            <img th:src="${response.object.iconPublisher}"/>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="cover_trip">Cover</label>
+          <div class="wrap-file">
+            <input type="file" id="cover_trip" data-parsley-required="false">
+          </div>
+          <input type="hidden" id="hidden_cover_trip" name="coverLandscape"
+                 th:value="${response.object.coverLandscape}">
+          <!-- <input type="hidden" id="hidden_upload_thumb" name="thumbnail" th:value="${response.object.thumbnail}"> -->
+          <div class="wrap_cover_trip collapse">
+            <div class="progress">
+              <div class="progress-bar progress-bar-info progress-bar-striped"
+                   role="progressbar" aria-valuenow="" aria-valuemin="0" aria-valuemax="100"
+                   style="">
+              </div>
+            </div>
+            <div class="msg collapse text-info"><i class="fa fa-check"></i> Upload Succeed</div>
+            <div class="pre_img">
+              <img src="" alt="">
+            </div>
+          </div>
+          <div th:if="${not #strings.isEmpty(response.object.coverLandscape)}"
+               class="wrap-img-cover_trip p-top-sm">
+            <img th:src="${response.object.coverLandscape}"/>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="max-rider">Max Rider</label>
+          <input type="number" min="0" name="maxRider" id="max-rider" class="form-control" placeholder="Max Rider" th:value="${response.object.maxRider}" data-parsley-required="true" data-beautify="false">
+        </div>
+
+        <div class="form-group">
+          <label for="duration">Duration</label>
+          <div class="input-group" id="duration">
+            <input type="number" min="0" name="duration" class="form-control" placeholder="Duration" th:value="${response.object.duration}" data-parsley-required="true" data-beautify="false">
+            <span class="input-group-addon">Days</span>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="distance">Distance</label>
+          <div class="input-group" id="distance">
+            <input type="number" min="0" name="distance" class="form-control" placeholder="Distance" th:value="${response.object.distance}" data-parsley-required="true" data-beautify="false">
+            <span class="input-group-addon">KMs</span>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="input-list-tab">Facility(include)</label>
+          <div id="input-list-tab" class="m-top-xs form-group" style="display: flow-root" th:value="${facilities}">
+            <div class="m-bottom-xs warpers">
+              <th:block th:each="facility, iterStat:${facilities}">
+                <input type="checkbox" class="check-facility" name="facilities[]" th:value="${facility.id}" th:text="' ' + ${facility.name}" th:checked="${response.object.facilityInclude != udefined ? #lists.contains(response.object.facilityInclude, facility.id) : false}" data-parsley-required="true" data-parsley-mincheck=1"> <br>
+              </th:block>
+            </div>
+            <input type="hidden" name="facilityInclude" id="trip-facility" th:value="${response.object.facilityInclude}">
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="facility-not">Facility(not include)</label>
+          <textarea class="form-control" name="facilityNot" th:text="${response.object.facilityNot}" id="facility-not" placeholder="Enter Facility Not Include"></textarea>
+        </div>
+
+        <div class="form-group">
+          <label for="tag">Tag</label>
+          <input type="text" name="tag" class="form-control" th:value="${response.object.tag}" id="tag" placeholder="Tag" autocomplete="off" data-parsley-required="true" data-beautify="false">
+        </div>
+
+        <div class="form-group">
+          <label for="captain">Captain</label>
+          <input type="text" class="form-control" id="captain" placeholder="Captain" th:value="${response.object.roadCaptain != null && response.object.roadCaptain != '' ? response.object.roadCaptain.name : ''}" required>
+          <input type="hidden" class="hidden tournamentId" name="roadCaptain" th:value="${response.object.roadCaptain != null && response.object.roadCaptain.id != 0 ? response.object.roadCaptain.id : 0}">
+        </div>
+
+        <div class="form-group">
+          <label for="meeting">Meeting Point</label>
+          <textarea class="form-control" id="meeting" name="meetingPoint" th:text="${response.object.meetingPoint}"></textarea>
+        </div>
+
+        <div class="form-group">
+          <label for="terran">Terrain</label>
+          <input type="text" class="form-control" name="terrain" id="terran" placeholder="Terrain" th:value="${response.object.terrain}" required>
+        </div>
+
+        <div class="form-group">
+          <label for="location">Location</label>
+          <input type="text" class="form-control" name="location" id="location" placeholder="Location" th:value="${response.object.location}" required>
+        </div>
+
+        <div class="form-group">
+          <label for="map">Map</label>
+          <div class="wrap-file">
+            <input type="file" id="map" data-parsley-required="false">
+          </div>
+          <input type="hidden" id="hidden_map" name="map"
+                 th:value="${response.object.map}">
+          <!-- <input type="hidden" id="hidden_upload_thumb" name="thumbnail" th:value="${response.object.thumbnail}"> -->
+          <div class="wrap_map collapse">
+            <div class="progress">
+              <div class="progress-bar progress-bar-info progress-bar-striped"
+                   role="progressbar" aria-valuenow="" aria-valuemin="0" aria-valuemax="100"
+                   style="">
+              </div>
+            </div>
+            <div class="msg collapse text-info"><i class="fa fa-check"></i> Upload Succeed</div>
+            <div class="pre_img">
+              <img src="" alt="">
+            </div>
+          </div>
+          <div th:if="${not #strings.isEmpty(response.object.map)}"
+               class="wrap-img-map p-top-sm">
+            <img th:src="${response.object.map}"/>
+          </div>
+        </div>
+      </div>
+      <div class="box-footer">
+        <button type="submit" class="btn btn-primary">Submit</button>
+      </div>
+    </form>
+  </div>
+</div>
+<th:block layout:fragment="footer-js">
+  <script src="https://code.jquery.com/ui/1.10.4/jquery-ui.min.js"></script>
+  <script src="https://cdn.ckeditor.com/ckeditor5/12.0.0/classic/ckeditor.js"></script>
+  <script src="../../js/si/jquery.html5uploader.min.js"></script>
+  <script src="../../js/si/bootstrap-tokenfield.min.js"></script>
+  <script src="../../js/si/typehead.bundle.min.js"></script>
+  <script src="../../js/si/parsley.min.js"></script>
+  <script src="../../js/si/upload.js"></script>
+  <script>
+$(function() {
+  $(document).ready(function () {
+      upload_trip("/api/trip/upload_icon", "icon_cover","#icon_cover", "#hidden_icon_cover",640,640, "landscape");
+      upload_trip("/api/trip/upload_icon", "icon_publisher","#icon_publisher", "#hidden_icon_publisher",640,640, "potrait");
+      upload_trip("/api/trip/upload_trip", "cover_trip","#cover_trip", "#hidden_cover_trip",640,640, "potrait");
+      upload_trip("/api/trip/upload_trip", "map","#map", "#hidden_map",640,640, "potrait");
+      console.log($('#trip-facility').val())
+      var facility = $('#trip-facility').val()
+      $('#trip-facility').val(facility.replace("[", "").replace("]", ""))
+      });
+ });
+
+    var checked = $('#trip-facility').val() != null && $('#trip-facility').val() != "" ? $('#trip-facility').val() : []
+    var array = JSON.parse( checked.length != 0 ? $('#trip-facility').val() : "[]" );
+
+
+    $('.check-facility').change(function () {
+
+        var $this = $(this);
+
+        if ($this.is(":checked"))
+        {
+          array.push(parseInt($this.val()));
+        }
+        else
+        {
+          array = array.filter(x => x != $this.val());
+        }
+
+
+        $('#trip-facility').val(array)
+     });
+
+    $('#tag').tokenfield({
+      <!--autocomplete: {-->
+        <!---->
+        <!--delay: 100-->
+      <!--},-->
+      <!--showAutocompleteOnFocus: true-->
+    })
+    var hostname = $(location).attr('protocol') + '//' + $(location).attr('host');
+    var api = hostname + "/api";
+
+    $('#captain').autocomplete({
+      source: function(request, response) {
+      console.log(request.term)
+        var arrdata = [];
+        var json_data = $.getJSON(api + '/captain/helper', {
+            keyword: request.term
+        });
+        json_data.done(function(data) {
+            //if (!$.isEmptyObject(data)) {
+            $.each(data.object, function(key, value) {
+                arrdata.push(value)
+            });
+            response($.map(arrdata, function (value, key) {
+                return{
+                    label: value.name,
+                    value: value.id
+            }
+            }));
+        });
+    },
+      select: function(event,ui){
+      $(this).val(ui.item.label)
+      $(this).parent().find("input.hidden").val(ui.item.value)
+      return false
+    },
+    minLength: 2,
+    delay: 100
+  });
+
+    ClassicEditor
+    .create(document.querySelector( '#description' ))
+    .then(editor => {
+      myEditor = editor;
+      console.log(myEditor.getData())
+      console.log(myEditor)
+    })
+    .catch(error => {});
+
+    ClassicEditor
+    .create(document.querySelector( '#meeting' ))
+    .then(editor => {
+      myEditor = editor;
+
+    })
+    .catch(error => {});
+
+    ClassicEditor
+    .create(document.querySelector( '#facility-not' ))
+    .then(editor => {
+      myEditor = editor;
+    })
+    .catch(error => {});
+
+  </script>
+</th:block>
+</body>
+</html>

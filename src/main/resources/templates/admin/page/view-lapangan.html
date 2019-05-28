@@ -1,0 +1,139 @@
+<html layout:decorator="/admin/layout"
+	xmlns:th="http://www.thymeleaf.org">
+<head>
+<title>Availaball</title>
+<link rel="stylesheet" th:href="@{/css/plugins/view-field.css}" />
+</head>
+<body>
+	<div id="page-wrapper">
+		<div layout:fragment="content">
+			<div class="container-fluid">
+
+				<!-- Page Heading -->
+				<div class="row">
+
+					<div id="md12" class="col-lg-12">
+
+						<div id="" class="col-lg-12">
+							<!-- last update -->
+							<div class="col-md-2 mdtop1">
+								<div>
+									<label class="labels"> Latest update </label>
+								</div>
+								<div>
+									<label class="text"> 05/04/2017 15:03 </label>
+								</div>
+
+							</div>
+							<!-- end of last update -->
+
+
+							<!-- Surveyer name-->
+							<div class="col-md-2 mdtop1">
+								<div>
+									<label class="labels"> Surveyer </label>
+								</div>
+								<div>
+									<label class="text"> <span
+										th:text="${view.fieldName}"></span>
+									</label>
+								</div>
+
+							</div>
+							<!-- end of surveyer name-->
+							<div class="col-md-6 mdtop1" style="padding-right: unset;">
+							<div class="dropdown" style="float: right; right:0;" >
+						            <a id="dLabel" role="button" data-toggle="dropdown" class="btn btn-primary" data-target="#" href="/page.html">
+						               <i class="icon-gear"></i> Action <span class="caret"></span>
+						            </a>
+						    		<ul class="dropdown-menu multi-level" role="menu" aria-labelledby="dropdownMenu" id="dropdown_action" >
+						              <li><a th:href="@{/admin/edit-field/10}">Edit</a></li>
+						              <li><a href="#" onclick="centerModal(10)">Delete</a></li>
+	       
+						            </ul>
+						        </div>								
+
+							</div>
+
+						</div>
+
+						<!-- Field img -->
+						<div class="col-md-6 mdtop6">
+							<img src="/img/aa.jpg" height="168" width="360">
+						</div>
+						<!--end of field img-->
+
+						<div class="col-lg-12">
+							<!-- detail -->
+							<div class="col-md-6 mdtop2 ">
+								<div>
+									<label class="titles"><span th:text="${view.fieldName}"></span></label>
+								</div>
+								<div class="labels">
+									<span th:text="${view.location}"></span>
+								</div>
+							</div>
+							<!-- end of detail-->
+
+
+							<div class="col-lg-12 mdtop3">
+								<!-- phone number -->
+								<div class="col-md-2 mdtop4">
+									<div>
+										<label class="labels">Telepon </label>
+									</div>
+									<div>
+										<span th:text="${phone}"></span>
+									</div>
+								</div>
+								<!-- end of phone number-->
+
+								<!-- number of field -->
+								<div class="col-md-3 mdtop4">
+
+									<div>
+										<label class="labels">Jumlah Lapangan</label>
+									</div>
+									<div>
+										<span th:text="${view.numberOfField}"></span>
+									</div>
+								</div>
+								<!-- end of number of field -->
+
+							</div>
+
+							<!-- jam buka -->
+							<div class="col-md-12 mdtop5">
+								<div>
+									<label class="labels">Jam Buka</label>
+								</div>
+								<div>
+									<label class="texts">Senin-Sabtu</label>
+								</div>
+								<div>
+									<label class="textes">08:00-20:00</label>
+								</div>
+							</div>
+							<!-- end of jam buka-->
+
+							<!-- harga-->
+							<div class="col-md-12 mdtop5">
+								<div>
+									<label class="labels">Harga Normal Per Jam</label>
+								</div>
+								<div class="textes">
+									<span th:text="${view.price}"></span>
+								</div>
+
+							</div>
+							<!-- end of harga-->
+						</div>
+					</div>
+					<div class="col-lg-12"></div>
+				</div>
+			</div>
+		</div>
+		<!-- /#page-wrapper -->
+	</div>
+</body>
+</html>
