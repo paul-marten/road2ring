@@ -4,6 +4,7 @@ import java.nio.charset.StandardCharsets;
 import java.util.HashMap;
 import java.util.Map;
 import javax.mail.MessagingException;
+import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.MailException;
@@ -35,7 +36,7 @@ public class MailClient {
     MimeMessageHelper helper = new MimeMessageHelper(message);
 
     Map model = new HashMap();
-    model.put("message", "Naik motor");
+    model.put("message", "Naik motor si besi Tua");
 
     Context context = new Context();
     context.setVariables(model);
@@ -73,12 +74,42 @@ public class MailClient {
     helper.setSubject("Paid Transaction Road2Ring");
 
     /*Change email*/
-    helper.setFrom("bolalobintern@gmail.com");
+    helper.setFrom(new InternetAddress("bolalobintern@gmail.com"));
     try {
       mailSender.send(message);
     } catch (MailException e) {
       // runtime exception; compiler will not force you to handle it
     }
+  }
+
+  public void sendEmail(String recipient, String consumerName, int ridersNeeded) {
+
+    MimeMessagePreparator messagePreparator = mimeMessage -> {
+      MimeMessageHelper message = new MimeMessageHelper(mimeMessage, true);
+      message.setTo(recipient);
+      message.setFrom(new InternetAddress("bolalobintern@gmail.com"));
+      message.setSubject("Paid Transaction Road2Ring");
+
+      Map model = new HashMap();
+      model.put("consumerName", consumerName);
+      model.put("ridersNeeded", ridersNeeded);
+
+      Context context = new Context();
+      context.setVariables(model);
+      String html = templateEngine.process("admin/email/paid", context);
+
+      message.setText(html, true);
+
+//      if (attachmentPath != null) {
+//        message.addAttachment(attachmentName, attachmentPath);
+//      }
+    };
+
+    mailSender.send(messagePreparator);
+
+//    if (attachmentPath != null) {
+//      attachmentPath.delete();
+//    }
   }
 
 

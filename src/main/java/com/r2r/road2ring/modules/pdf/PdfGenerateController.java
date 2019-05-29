@@ -55,12 +55,11 @@ public class PdfGenerateController {
 
     try{
 //      mailClient.sendEmail();
-      mailClient.prepareAndSend("aa","a");
+//      mailClient.prepareAndSend("aa","a");
+        mailClient.sendEmail("paulmartensimanjuntak19@gmail.com","Paul Marten",12);
     } catch (MailException e){
       //catch error
       System.out.println(e);
-    } catch (MessagingException e) {
-      e.printStackTrace();
     }
 
     return ResponseEntity
