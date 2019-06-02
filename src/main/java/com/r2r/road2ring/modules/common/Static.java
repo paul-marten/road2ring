@@ -26,4 +26,8 @@ public final class Static {
   public static final String CONFIRMATION = "/confirmation";
 
   public static final Integer ROLE_ID = 2;
+
+  public static final Integer IS_NOT_ACTIVE = 0;
+  public static final Integer IS_ACTIVE = 1;
+
 }

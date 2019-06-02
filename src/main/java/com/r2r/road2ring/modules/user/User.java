@@ -67,6 +67,12 @@ public class User implements Serializable {
   @Transient
   private Long userBirthday;
 
+  @Column(name = "user_verification_code")
+  private String verificationCode;
+
+  @Column(name = "user_activation")
+  private Integer activation;
+
 //  private String facebookPageID;
 //  private String twitterPageID;
 //  private String facebookPassword;
