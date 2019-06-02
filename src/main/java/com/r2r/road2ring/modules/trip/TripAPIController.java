@@ -8,10 +8,12 @@ import com.fasterxml.jackson.annotation.JsonView;
 import com.r2r.road2ring.modules.common.ResponseCode;
 import com.r2r.road2ring.modules.common.ResponseMessage;
 import com.r2r.road2ring.modules.common.ResponseView;
+import com.r2r.road2ring.modules.common.Road2RingException;
 import com.r2r.road2ring.modules.common.UploadService;
 import com.r2r.road2ring.modules.itinerary.Itinerary;
 import com.r2r.road2ring.modules.itinerary.ItineraryService;
 import java.io.IOException;
+import java.security.Principal;
 import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
@@ -128,4 +130,17 @@ public class TripAPIController {
     return responseMessage;
   }
 
+  @PostMapping("/change-status/{tripId}/{statusId}")
+  public ResponseMessage changeStatusTrip(@PathVariable("tripId") int tripId,
+      @PathVariable("statusId") TripPublishedStatus statusId, Principal principal){
+    ResponseMessage responseMessage = new ResponseMessage();
+    try{
+      tripService.changeTripStatus(statusId,tripId);
+    } catch (Road2RingException e){
+      responseMessage.setCode(e.getCode());
+      responseMessage.setMessage(e.getMessage());
+    }
+
+    return responseMessage;
+  }
 }

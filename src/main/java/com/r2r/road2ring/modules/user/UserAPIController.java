@@ -156,4 +156,27 @@ public class UserAPIController {
     }
     return responseMessage;
   }
+
+  @RequestMapping(value = "verification/code", method = RequestMethod.POST)
+  public ResponseMessage verificationEmail(@ModelAttribute User user,
+      HttpServletResponse httpStatus) {
+    ResponseMessage response = new ResponseMessage();
+    try {
+      response.setMessage("Yey, Your account has been verified");
+      userService.verificationEmail(user);
+      httpStatus.setStatus(HttpStatus.OK.value());
+    } catch (Road2RingException e) {
+      response.setCode(e.getCode());
+      response.setMessage(e.getMessage());
+      httpStatus.setStatus(HttpStatus.BAD_REQUEST.value());
+      e.printStackTrace();
+    } catch (Exception e) {
+      response.setCode(800);
+      e.printStackTrace();
+      response.setMessage(e.getMessage());
+      httpStatus.setStatus(HttpStatus.BAD_REQUEST.value());
+    }
+
+    return response;
+  }
 }

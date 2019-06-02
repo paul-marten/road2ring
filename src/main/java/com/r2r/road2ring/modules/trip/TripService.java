@@ -2,6 +2,7 @@ package com.r2r.road2ring.modules.trip;
 
 import com.r2r.road2ring.modules.TripFacility.TripFacility;
 import com.r2r.road2ring.modules.TripFacility.TripFacilityService;
+import com.r2r.road2ring.modules.common.Road2RingException;
 import com.r2r.road2ring.modules.itinerary.Itinerary;
 import com.r2r.road2ring.modules.itinerary.ItineraryService;
 import java.math.BigInteger;
@@ -137,7 +138,7 @@ public class TripService {
 
   public Page<Trip> findTripPageablePage(Integer page, Integer limit) {
     Pageable pageable = new PageRequest(page, limit);
-    Page<Trip> result = tripRepository.findAllByOrderByIdDesc(pageable);
+    Page<Trip> result = tripRepository.findAllByPublishedStatusOrderByIdDesc(pageable, TripPublishedStatus.PUBLISHED);
     return result;
   }
 
@@ -192,5 +193,23 @@ public class TripService {
 
     trips.addAll(tripRepository.findAllByTagInOrderByIdDesc(tripId,tag));
     return trips;
+  }
+
+  /*Change status trip*/
+  public void changeTripStatus(TripPublishedStatus statusId, Integer tripId)
+      throws Road2RingException {
+    Trip saved  = tripRepository.findOne(tripId);
+    if(statusId == TripPublishedStatus.PUBLISHED){
+      saved.setPublishedStatus(TripPublishedStatus.PUBLISHED);
+      tripRepository.save(saved);
+    } else if(statusId == TripPublishedStatus.UNPUBLISHED){
+      saved.setPublishedStatus(TripPublishedStatus.UNPUBLISHED);
+      tripRepository.save(saved);
+    } else if(statusId == TripPublishedStatus.EDITED){
+      saved.setPublishedStatus(TripPublishedStatus.EDITED);
+      tripRepository.save(saved);
+    } else {
+      throw new Road2RingException("cannot set value", 900);
+    }
   }
 }

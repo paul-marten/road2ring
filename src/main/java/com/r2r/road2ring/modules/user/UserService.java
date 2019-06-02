@@ -4,6 +4,7 @@ import static com.r2r.road2ring.modules.common.Static.ROLE_ID;
 
 import com.r2r.road2ring.modules.common.R2rTools;
 import com.r2r.road2ring.modules.common.Road2RingException;
+import com.r2r.road2ring.modules.common.Static;
 import com.r2r.road2ring.modules.role.Role;
 import java.util.Date;
 import java.util.regex.Pattern;
@@ -129,9 +130,26 @@ public class UserService {
 
     saved.setEmail(user.getEmail());
     saved.setRegisterDate(new Date());
+    saved.setVerificationCode(this.generateVerificationCode());
+    saved.setActivation(Static.IS_NOT_ACTIVE);
+
+    /*ADD SERVICE EMAIL VERIFICATION*/
 
     saved = userRepository.save(saved);
     return saved;
+  }
+
+  public String generateVerificationCode(){
+    Boolean breaker = true;
+    String code;
+    do{
+      code = r2rTools.generateRandomCode(12);
+      User checkVerificationCode = userRepository.findOneByVerificationCode(code);
+      if(checkVerificationCode == null)
+        breaker = false;
+    }while(breaker);
+
+    return code;
   }
 
   public boolean isEmailValid(String email){
@@ -164,6 +182,19 @@ public class UserService {
         user.getUserIdentityPicture() : saved.getUserIdentityPicture());
     saved.setPicture(user.getPicture() != null ?
         user.getPicture() : saved.getPicture());
+    return userRepository.save(saved);
+  }
+
+  public User verificationEmail(User user) throws Exception {
+    User saved = userRepository.findOneByVerificationCode(user.getVerificationCode());
+    if (saved == null) {
+      throw new Road2RingException("Invalid verification code", 800);
+    }
+    if (saved.getActivation().equals(Static.IS_ACTIVE)) {
+      throw new Road2RingException("already verified", 703);
+    }
+    saved.setActivation(Static.IS_ACTIVE);
+    saved.setVerificationCode(null);
     return userRepository.save(saved);
   }
 

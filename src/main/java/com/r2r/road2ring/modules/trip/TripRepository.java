@@ -26,7 +26,7 @@ public interface TripRepository extends DataTablesRepository<Trip,Integer> {
 
 //  Page<Trip> findAllByOrderByIdAsc(Pageable pageable);
 
-  Page<Trip> findAllByOrderByIdDesc(Pageable pageable);
+  Page<Trip> findAllByPublishedStatusOrderByIdDesc(Pageable pageable, TripPublishedStatus tripPublishedStatus);
 
   @Query(value = "SELECT * " +
       "FROM trip " +
