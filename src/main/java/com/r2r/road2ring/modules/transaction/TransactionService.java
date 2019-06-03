@@ -138,14 +138,14 @@ public class TransactionService {
       result.setCreatedBy(user.getEmail());
       result.setUpdatedBy(user.getEmail());
       result.setTransactionCreator(TransactionCreator.USER);
-//      if (transactionRepository.save(result) != null) {
+      if (transactionRepository.save(result) != null) {
         tripPrice = tripPriceService.addPersonTripPrice(transaction.getTrip().getId(), result.getStartDate());
-//        Transaction transactionSaved = transactionRepository.findOneByCode(result.getCode());
-//        transactionDetailService.saveMotor(transaction.getMotor(), transactionSaved);
-//        transactionDetailService
-//            .saveListTransactionalAccessory(transaction.getAccessories(), transactionSaved);
-//        this.createTransactionLogByUser(transactionSaved);
-//      }
+        Transaction transactionSaved = transactionRepository.findOneByCode(result.getCode());
+        transactionDetailService.saveMotor(transaction.getMotor(), transactionSaved);
+        transactionDetailService
+            .saveListTransactionalAccessory(transaction.getAccessories(), transactionSaved);
+        this.createTransactionLogByUser(transactionSaved);
+      }
 
       TransactionCreateView view = new TransactionCreateView();
       view.setLastPayment(newDate);
