@@ -30,17 +30,19 @@ public class TripPriceService {
   public List<TripPriceView> bindListTripPriceView(Integer tripId){
     List<TripPriceView> tripPriceViews = new ArrayList<>();
     List<TripPrice> tripPrices = tripPriceRepository.
-        findAllByTripIdAndStartTripGreaterThanOrderByStartTripAsc(tripId, new Date());
+        findAllByTripIdAndStatusAndStartTripGreaterThanOrderByStartTripAsc(
+            tripId, TripPriceStatus.WAITING, new Date());
     for(TripPrice tripPrice : tripPrices){
       tripPriceViews.add(this.bindTripPriceView(tripPrice));
     }
     return tripPriceViews;
   }
 
-  public void addPersonTripPrice(Integer tripId, Date startDate){
+  public TripPrice addPersonTripPrice(Integer tripId, Date startDate){
     TripPrice saved = tripPriceRepository.findOneByTripIdAndStartTrip(tripId,startDate);
     saved.setPersonPaid(saved.getPersonPaid()+1);
     tripPriceRepository.save(saved);
+    return saved;
   }
 
   public void minPersonTripPrice(Integer tripId, Date startDate){

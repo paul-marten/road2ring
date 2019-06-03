@@ -1,26 +1,31 @@
 package com.r2r.road2ring.modules.mail;
 
-import java.nio.charset.StandardCharsets;
+import com.r2r.road2ring.modules.accessory.Accessory;
+import com.r2r.road2ring.modules.accessory.AccessoryRepository;
+import com.r2r.road2ring.modules.motor.Motor;
+import com.r2r.road2ring.modules.transaction.Transaction;
+import com.r2r.road2ring.modules.trip.TripPrice;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import javax.mail.MessagingException;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.MailException;
-import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.mail.javamail.MimeMessagePreparator;
 import org.springframework.stereotype.Service;
 import org.thymeleaf.TemplateEngine;
 import org.thymeleaf.context.Context;
-import org.thymeleaf.spring4.SpringTemplateEngine;
 
 @Service
 public class MailClient {
 
   private JavaMailSender mailSender;
+
+  AccessoryRepository accessoryRepository;
 
   @Autowired
   private TemplateEngine templateEngine;
@@ -28,6 +33,11 @@ public class MailClient {
   @Autowired
   public MailClient(JavaMailSender mailSender) {
     this.mailSender = mailSender;
+  }
+
+  @Autowired
+  public void setAccessoryRepository(AccessoryRepository accessoryRepository){
+    this.accessoryRepository = accessoryRepository;
   }
 
   public void prepareAndSend(String recipient, String messages) throws MessagingException {
@@ -112,6 +122,70 @@ public class MailClient {
 //    }
   }
 
+  public void sendCheckoutEmail(String recipient, String consumerName, Transaction transaction,
+      Motor motor, List<Accessory> accessories, TripPrice tripPrice) {
 
+    MimeMessagePreparator messagePreparator = mimeMessage -> {
+      MimeMessageHelper message = new MimeMessageHelper(mimeMessage, true);
+      message.setTo(recipient);
+      message.setFrom(new InternetAddress("bolalobintern@gmail.com"));
 
+      message.setSubject("Congratulation for your transaction");
+      Map model = new HashMap();
+      model.put("username", consumerName);
+      model.put("image", transaction.getTrip().getCoverLandscape());
+      model.put("iconCover", transaction.getTrip().getIconCover());
+      model.put("startDate", transaction.getStartDate());
+      model.put("endDate", consumerName);
+      model.put("meetingPoint", transaction.getTrip().getMeetingPoint());
+      model.put("motorName", motor.getTitle());
+      model.put("motorImage", motor.getPicture());
+      model.put("expiredDate", transaction.getExpiredPaymentDate());
+      model.put("tripTitle", transaction.getTrip().getTitle());
+      model.put("tripPrice", tripPrice.getPrice());
+      model.put("invoiceId", transaction.getCode());
+
+      for(int i = 0; i < accessories.size(); i++) {
+        Accessory accessory = accessoryRepository.findOne(accessories.get(i).getId());
+        if(accessory.getAccessoryCategory().getTitle().toLowerCase().equalsIgnoreCase("helm")){
+          model.put("accossoriesTitle", accessory.getTitle());
+          model.put("accessoriesSize", accessories.get(0).getSize());
+        }
+      }
+      Context context = new Context();
+      context.setVariables(model);
+      String html = templateEngine.process("admin/email/checkout", context);
+
+      message.setText(html, true);
+//      if (attachmentPath != null) {
+//        message.addAttachment(attachmentName, attachmentPath);
+//      }
+    };
+    mailSender.send(messagePreparator);
+//    if (attachmentPath != null) {
+//      attachmentPath.delete();
+//    }
+  }
+
+  public void sendRegistrationEmail(String recipient, String consumerName, String codeVerify) {
+
+    MimeMessagePreparator messagePreparator = mimeMessage -> {
+      MimeMessageHelper message = new MimeMessageHelper(mimeMessage, true);
+      message.setTo(recipient);
+      message.setFrom(new InternetAddress("bolalobintern@gmail.com"));
+      message.setSubject("Welcome to Road2Ring");
+
+      Map model = new HashMap();
+      model.put("consumerName", consumerName);
+      model.put("codeVerify", codeVerify);
+
+      Context context = new Context();
+      context.setVariables(model);
+      String html = templateEngine.process("admin/email/register", context);
+
+      message.setText(html, true);
+    };
+
+    mailSender.send(messagePreparator);
+  }
 }
