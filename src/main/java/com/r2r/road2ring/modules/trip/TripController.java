@@ -13,6 +13,7 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
+import javax.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -75,8 +76,12 @@ public class TripController {
   }
 
   @RequestMapping(value = "/edit", method = RequestMethod.GET)
-  public String edit(Model model, @RequestParam int id) {
+  public String edit(Model model, @RequestParam int id, HttpServletRequest request) {
     ResponseMessage response = new ResponseMessage();
+
+    String baseUrl = request.getRequestURL().toString()
+        .replace(request.getRequestURI().substring(1), request.getContextPath());
+
     Trip trip = tripService.getTripById(id);
     response.setObject(trip);
 
@@ -84,6 +89,7 @@ public class TripController {
 
     model.addAttribute("response", response);
     model.addAttribute("facilities", facilityList);
+    model.addAttribute("baseUrl", baseUrl);
     return "admin/forms/trip";
   }
 
@@ -152,14 +158,19 @@ public class TripController {
   }
 
   @RequestMapping(value = "/{tripId}/itinerary/edit")
-  public String editTripItinerary(@PathVariable("tripId") int tripId, @RequestParam int id, @ModelAttribute Itinerary itinerary, Model model) {
+  public String editTripItinerary(@PathVariable("tripId") int tripId, @RequestParam int id, @ModelAttribute Itinerary itinerary, Model model, HttpServletRequest request) {
     List<Itinerary> itineraryList = itineraryService.getItineraryByGroupAndTrip(id, tripId);
     Trip trip = tripService.getTripById(tripId);
     ResponseMessage response = new ResponseMessage();
+
+    String baseUrl = request.getRequestURL().toString()
+        .replace(request.getRequestURI().substring(1), request.getContextPath());
+
     response.setObject(itineraryList);
     model.addAttribute("response", response);
     model.addAttribute("action", "/trip/"+tripId+"/itinerary/save");
     model.addAttribute("trip", trip);
+    model.addAttribute("baseUrl", baseUrl);
     return "admin/forms/trip-itinerary";
   }
 

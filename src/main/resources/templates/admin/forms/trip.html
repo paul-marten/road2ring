@@ -61,7 +61,7 @@
             </div>
             <div th:if="${not #strings.isEmpty(response.object.iconCover)}"
                  class="wrap-img-icon_cover p-top-sm">
-              <img th:src="${response.object.iconCover}"/>
+              <img th:src="${baseUrl + response.object.iconCover}"/>
             </div>
         </div>
 
@@ -87,7 +87,7 @@
           </div>
           <div th:if="${not #strings.isEmpty(response.object.iconPublisher)}"
                class="wrap-img-icon_publisher p-top-sm">
-            <img th:src="${response.object.iconPublisher}"/>
+            <img th:src="${baseUrl + response.object.iconPublisher}"/>
           </div>
         </div>
 
@@ -113,7 +113,7 @@
           </div>
           <div th:if="${not #strings.isEmpty(response.object.coverLandscape)}"
                class="wrap-img-cover_trip p-top-sm">
-            <img th:src="${response.object.coverLandscape}"/>
+            <img th:src="${baseUrl + response.object.coverLandscape}"/>
           </div>
         </div>
 
@@ -203,7 +203,7 @@
           </div>
           <div th:if="${not #strings.isEmpty(response.object.map)}"
                class="wrap-img-map p-top-sm">
-            <img th:src="${response.object.map}"/>
+            <img th:src="${baseUrl + response.object.map}"/>
           </div>
         </div>
       </div>
