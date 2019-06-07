@@ -75,6 +75,7 @@ public class UploadService {
 
     File inputFile = new File(pathtoUploads + name);
     BufferedImage inputImage = ImageIO.read(inputFile);
+
     String outputImagePath = IMAGE_ASSETS + name;
 
     // creates output image
@@ -106,20 +107,28 @@ public class UploadService {
       throw new FileSizeLimitExceededException("File is too Big", file.getSize(), SIZE_100KB);
     }
     linkUrl = date + r2rTools.generateRandomCode(8)+"."+type;
-    File picture = new File(linkUrl);
-    bytes = file.getBytes();
 
-    BufferedOutputStream stream = new BufferedOutputStream(new FileOutputStream(picture));
-    stream.write(bytes);
-    stream.close();
+    String pathtoUploads =  request.getServletContext().getRealPath("/uploads/");
+
+    String pathImageWebApp = pathtoUploads + linkUrl;
+
+    File picture = new File(pathImageWebApp);
+//    bytes = file.getBytes();
+//
+//    BufferedOutputStream stream = new BufferedOutputStream(new FileOutputStream(picture));
+//    stream.write(bytes);
+//    stream.close();
+    file.transferTo(picture);
 
     this.uploadIconPicture(linkUrl);
-    this.deleteBaseImage(linkUrl);
+    this.deleteBaseImage(pathImageWebApp);
     return linkUrl;
   }
 
   private void uploadIconPicture(String name) throws IOException {
-    File inputFile = new File(name);
+    String pathtoUploads =  request.getServletContext().getRealPath("/uploads/");
+
+    File inputFile = new File(pathtoUploads + name);
     BufferedImage inputImage = ImageIO.read(inputFile);
     String outputImagePath = IMAGE_ASSETS +name;
 
