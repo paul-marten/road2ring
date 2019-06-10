@@ -5,6 +5,7 @@ import static com.r2r.road2ring.modules.common.Static.ROLE_ID;
 import com.r2r.road2ring.modules.common.R2rTools;
 import com.r2r.road2ring.modules.common.Road2RingException;
 import com.r2r.road2ring.modules.common.Static;
+import com.r2r.road2ring.modules.mail.MailClient;
 import com.r2r.road2ring.modules.role.Role;
 import java.util.Date;
 import java.util.regex.Pattern;
@@ -30,6 +31,8 @@ public class UserService {
 
   R2rTools r2rTools;
 
+  MailClient mailClient;
+
   @Autowired
   public void setEnvironment(Environment environment){
     this.environment = environment;
@@ -43,6 +46,11 @@ public class UserService {
   @Autowired
   public void setR2rTools(R2rTools r2rTools){
     this.r2rTools = r2rTools;
+  }
+
+  @Autowired
+  public void setMailClient(MailClient mailClient){
+    this.mailClient = mailClient;
   }
 
   public AuthToken login(User user, String userAgent) {
@@ -133,9 +141,11 @@ public class UserService {
     saved.setVerificationCode(this.generateVerificationCode());
     saved.setActivation(Static.IS_NOT_ACTIVE);
 
-    /*ADD SERVICE EMAIL VERIFICATION*/
-
     saved = userRepository.save(saved);
+
+    /*ADD SERVICE EMAIL VERIFICATION*/
+    mailClient.sendRegistrationEmail(saved.getEmail(),saved.getEmail(),saved.getVerificationCode());
+
     return saved;
   }
 

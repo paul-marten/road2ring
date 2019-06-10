@@ -107,6 +107,7 @@ public class TransactionService {
       throws Road2RingException {
 
     Transaction result = new Transaction();
+    TripPrice tripPrice = null;
     Date created  = new Date();
 
     Calendar cal = Calendar.getInstance();
@@ -138,7 +139,7 @@ public class TransactionService {
       result.setUpdatedBy(user.getEmail());
       result.setTransactionCreator(TransactionCreator.USER);
       if (transactionRepository.save(result) != null) {
-        tripPriceService.addPersonTripPrice(transaction.getTrip().getId(), result.getStartDate());
+        tripPrice = tripPriceService.addPersonTripPrice(transaction.getTrip().getId(), result.getStartDate());
         Transaction transactionSaved = transactionRepository.findOneByCode(result.getCode());
         transactionDetailService.saveMotor(transaction.getMotor(), transactionSaved);
         transactionDetailService
@@ -150,6 +151,10 @@ public class TransactionService {
       view.setLastPayment(newDate);
       view.setTotalPrice(result.getPrice());
       view.setTransactionCodeId(result.getCode());
+
+      /*CREATE EMAIL DATA INVOICE*/
+      mailClient.sendCheckoutEmail(result.getUser().getEmail(),user.getEmail(),result,
+          transaction.getMotor(), transaction.getAccessories(), tripPrice);
       return view;
     } else {
       throw new Road2RingException("CAN NOT CREATE TRANSACTION, ALREADY FULL", 705);
