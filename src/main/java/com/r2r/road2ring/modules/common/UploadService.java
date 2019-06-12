@@ -29,7 +29,7 @@ public class UploadService {
   String imagePath;
 
   @Autowired
-  public void setR2rTools(R2rTools r2rTools){
+  public void setR2rTools(R2rTools r2rTools) {
     this.r2rTools = r2rTools;
   }
 
@@ -49,26 +49,27 @@ public class UploadService {
     }
     linkUrl = date + r2rTools.generateRandomCode(8) + "." + type;
 
-    String pathtoUploads =  request.getServletContext().getRealPath("/uploads/");
+    String pathtoUploads = request.getServletContext().getRealPath("/uploads/");
 
     String pathImageWebApp = pathtoUploads + linkUrl;
     File picture = new File(pathImageWebApp);
     file.transferTo(picture);
 
-    this.uploadImagePicture(linkUrl, 600,400);
+    this.uploadImagePicture(linkUrl, 600, 400);
     this.deleteBaseImage(pathImageWebApp);
 
     return linkUrl;
 
   }
 
-  private void deleteBaseImage(String name){
+  private void deleteBaseImage(String name) {
     File file = new File(name);
     file.delete();
   }
 
-  private void uploadImagePicture(String name, Integer imgWitdh, Integer imgHeight) throws IOException {
-    String pathtoUploads =  request.getServletContext().getRealPath("/uploads/");
+  private void uploadImagePicture(String name, Integer imgWitdh, Integer imgHeight)
+      throws IOException {
+    String pathtoUploads = request.getServletContext().getRealPath("/uploads/");
 
     File inputFile = new File(pathtoUploads + name);
     BufferedImage inputImage = ImageIO.read(inputFile);
@@ -81,7 +82,7 @@ public class UploadService {
 
     // scales the input image to the output image
     Graphics2D g2d = outputImage.createGraphics();
-    g2d.drawImage(inputImage, 0, 0, imgWitdh , imgHeight, null);
+    g2d.drawImage(inputImage, 0, 0, imgWitdh, imgHeight, null);
     g2d.dispose();
 
     // extracts extension of output file
@@ -90,14 +91,11 @@ public class UploadService {
 
     // writes to output file
     File editedFile = new File(outputImagePath);
-//    editedFile.setExecutable(true,false); 
-//    editedFile.setReadable(true,false); 
-//    editedFile.setWritable(true,false);
     ImageIO.write(outputImage, formatName, editedFile);
     if (editedFile.exists()) {
-//	editedFile.setExecutable(true,false);
-        editedFile.setReadable(true,false);
-//        editedFile.setWritable(true,false);
+//	  editedFile.setExecutable(true,false);
+      editedFile.setReadable(true, false);
+//    editedFile.setWritable(true,false);
     }
 //    File outFile = new File(outputImagePath);
 //    ImageIO.write(outputImage, formatName, outFile);
@@ -116,9 +114,9 @@ public class UploadService {
     if (file.getSize() > SIZE_100KB) {
       throw new FileSizeLimitExceededException("File is too Big", file.getSize(), SIZE_100KB);
     }
-    linkUrl = date + r2rTools.generateRandomCode(8)+"."+type;
+    linkUrl = date + r2rTools.generateRandomCode(8) + "." + type;
 
-    String pathtoUploads =  request.getServletContext().getRealPath("/uploads/");
+    String pathtoUploads = request.getServletContext().getRealPath("/uploads/");
 
     String pathImageWebApp = pathtoUploads + linkUrl;
 
@@ -136,11 +134,11 @@ public class UploadService {
   }
 
   private void uploadIconPicture(String name) throws IOException {
-    String pathtoUploads =  request.getServletContext().getRealPath("/uploads/");
+    String pathtoUploads = request.getServletContext().getRealPath("/uploads/");
 
     File inputFile = new File(pathtoUploads + name);
     BufferedImage inputImage = ImageIO.read(inputFile);
-    String outputImagePath = IMAGE_ASSETS +name;
+    String outputImagePath = IMAGE_ASSETS + name;
 
     // creates output image
     BufferedImage outputImage = new BufferedImage(inputImage.getWidth(),
@@ -148,7 +146,7 @@ public class UploadService {
 
     // scales the input image to the output image
     Graphics2D g2d = outputImage.createGraphics();
-    g2d.drawImage(inputImage, 0, 0, inputImage.getWidth() , inputImage.getHeight(), null);
+    g2d.drawImage(inputImage, 0, 0, inputImage.getWidth(), inputImage.getHeight(), null);
     g2d.dispose();
 
     // extracts extension of output file
@@ -158,10 +156,10 @@ public class UploadService {
     // writes to output file
 //    ImageIO.write(outputImage, formatName, new File(outputImagePath));
 
-      File editedFile = new File(outputImagePath);
+    File editedFile = new File(outputImagePath);
     ImageIO.write(outputImage, formatName, editedFile);
     if (editedFile.exists()) {
-        editedFile.setReadable(true,false);
+      editedFile.setReadable(true, false);
     }
 
 //    File outFile = new File(outputImagePath);
