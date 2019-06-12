@@ -131,6 +131,28 @@
     margin-top: 50px;
 }
 
+.info-table{
+  width: 45%;
+  display: table-cell;
+}
+.detailtrx-table{
+  width: 400px;
+}
+.upper-info{
+  width: 100%;
+  display: table;
+}
+
+.detail-title{
+  width: 140px;
+}
+.detail-price{
+  width: 50px;
+}
+.total-price{
+  height: 60px;
+}
+
 
 </style>
 </head>
@@ -141,6 +163,8 @@
       <h1 class="box-title">Transaction Form</h1>
     </div>
     <div class="box-body">
+      <div class="upper-info">
+        <div class="info-table">
       <h4><b>Transaction Info</b></h4>
       <input id="object_id" type="hidden" name="id" th:if="${response.object.trxId != 0}" th:value="${response.object.trxId != null && response.object.trxId != 0 ? response.object.trxId : 0}">
     <table>
@@ -215,6 +239,41 @@
         <td th:text="${response.object.notes != '' ? response.object.notes : '-'}"></td>
       </tr>
     </table>
+    </div>
+      <div class="detailtrx-table">
+        <h4><b>Detail Payment</b></h4>
+        <div class="smart-widget">
+          <div class="smart-widget-inner">
+            <table id="rsp-tbls" class="table table-striped">
+              <thead>
+              <th>#</th>
+              <th>Type</th>
+              <th class="detail-title">Title</th>
+              <th class="detail-price">Price</th>
+              <th>Discount</th>
+              </thead>
+              <tbody>
+              <tr th:each="detail, iterStat : ${detail}">
+                <td th:text="${iterStat.index + 1}"></td>
+                <td th:text="${detail.type}"></td>
+                <td th:text="${detail.title}"></td>
+                <td th:text="${detail.price}"></td>
+                <td th:text="${detail.discount != null && detail.discount != '' ? detail.discount : '-'}"></td>
+              </tr>
+              </tbody>
+              <tfoot>
+              <tr>
+                <td class="total-price" colspan="2">Total</td>
+                <td></td>
+                <td></td>
+                <td th:text="${'$ ' + response.object.price + '.00'}"></td>
+              </tr>
+              </tfoot>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
       <hr/>
       <div>
         <h4><b>Confirmation Info</b></h4>
@@ -260,6 +319,32 @@
         <th:block th:unless="${response.object.confirmed == true}">
           <p>no confirmation</p>
         </th:block>
+      </div>
+      <hr/>
+      <div>
+        <h4><b>Log Info</b></h4>
+        <div class="smart-widget">
+          <div class="smart-widget-inner">
+            <table id="rsp-tbl" class="table table-striped">
+              <thead>
+              <th >#</th>
+              <th >Action</th>
+              <th>Creator</th>
+              <th>Date</th>
+              <th>Username</th>
+              </thead>
+              <tbody>
+              <tr th:each="log, iterStat : ${log}">
+                <td th:text="${iterStat.index + 1}"></td>
+                <td th:text="${log.action}"></td>
+                <td th:text="${log.creator}"></td>
+                <td th:text="${log.created}"></td>
+                <td th:text="${log.username}"></td>
+              </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
       </div>
       <div class="custom-popup collapse" id="publishConfirm">
         <div class="popup-body text-center">

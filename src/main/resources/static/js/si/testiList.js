@@ -15,7 +15,7 @@ $(document).ready( function () {
             }
           },
           { "mData": "title"},
-			    { "mData": "description"},
+			    { "mData": "roadCaptain.name"},
 			    { "mData": "tripDate"},
 //          { "data": "roadCaptain.name",
 //          "width": "12%",

@@ -30,6 +30,9 @@ public class TestimonialService {
     saved.setTag(testimonial.getTag());
     saved.setTitle(testimonial.getTitle());
     saved.setTripDate(testimonial.getTripDate());
+    saved.setDistance(testimonial.getDistance());
+    saved.setDuration(testimonial.getDuration());
+    saved.setRoadCaptain(testimonial.getRoadCaptain());
 
     return testimonialRepository.save(saved);
   }

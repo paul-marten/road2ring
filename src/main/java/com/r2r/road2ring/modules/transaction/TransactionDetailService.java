@@ -66,4 +66,8 @@ public class TransactionDetailService {
     transactionDetailRepository.save(transactionDetail);
   }
 
+  public List<TransactionDetail> getAllDetailByTrxId(int id) {
+    return transactionDetailRepository.findAllByTransactionIdOrderByIdDesc(id);
+  }
+
 }

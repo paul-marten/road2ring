@@ -18,6 +18,22 @@
   display: none;
 }
 
+.custom-popup .popup-body {
+    padding: 15px;
+}
+.text-center {
+    text-align: center;
+}
+.custom-popup {
+    background-color: #fff;
+    color: #777;
+    text-align: center!important;
+    border-radius: 10px;
+    -moz-border-radius: 10px;
+    -webkit-border-radius: 10px;
+    margin-top: 50px;
+}
+
 
 </style>
 </head>
@@ -29,6 +45,9 @@
     </div>
     <form role="form" th:action="@{'/testimonial/save'}" th:object="${response}" method="post">
       <div class="box-body">
+        <input id="object_id" type="hidden" name="id" th:if="${response.object.id != 0}" th:value="${response.object.id != null && response.object.id != 0 ? response.object.id : 0}">
+
+
         <div class="form-group">
           <label for="title">Title</label>
           <input type="text" class="form-control" name="title" id="title" placeholder="Title" th:value="${response.object.title}" required>
@@ -98,34 +117,47 @@
         </div>
 
         <div class="form-group">
-          <label for="description">Description Trip</label>
-          <textarea class="form-control" name="description" id="description" placeholder="Enter description" th:text="${response.object.description}"></textarea>
+          <label for="duration">Duration</label>
+          <div class="input-group" id="duration">
+            <input type="number" min="0" name="duration" class="form-control" placeholder="Duration" th:value="${response.object.duration}" data-parsley-required="true" data-beautify="false">
+            <span class="input-group-addon">Days</span>
+          </div>
         </div>
+
+        <div class="form-group">
+          <label for="distance">Distance</label>
+          <div class="input-group" id="distance">
+            <input type="number" min="0" name="distance" class="form-control" placeholder="Distance" th:value="${response.object.distance}" data-parsley-required="true" data-beautify="false">
+            <span class="input-group-addon">KMs</span>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="captain">Captain</label>
+          <input type="text" class="form-control" id="captain" placeholder="Captain" th:value="${response.object.roadCaptain != null && response.object.roadCaptain != '' ? response.object.roadCaptain.name : ''}" required>
+          <input type="hidden" class="hidden tournamentId" name="roadCaptain" th:value="${response.object.roadCaptain != null && response.object.roadCaptain.id != 0 ? response.object.roadCaptain.id : 0}">
+        </div>
+
+        <div class="form-group">
+          <label for="description">Description Trip</label>
+          <textarea class="form-control mce-general" name="description" id="description" placeholder="Enter description" th:text="${response.object.description}"></textarea>
+        </div>
+
+        <div class="collapse">
+          <input type="text" name="article" id="hiddenBody">
+        </div>
+
 
         <div class="form-group article-list">
-          <label for="description">Article</label>
-          <div class="article-list-0">
-            <textarea class="form-control mce-editor ta_tmce" name="article" id="article1" placeholder="Enter description" th:text="${response.object.article}"></textarea>
-          </div>
-          <div class="button-plus-minus" style="margin-top: 10px"><button id="add-article" style="margin-right:3px;" type="button" class="btn btn-default btn-sm m-bottom-sm btn-add-body"><i class="fa fa-plus fa-lg" style="color: #3DD091;"></i>&nbsp;Add Page</button></div>
-          <br/>
-        </div>
-
-        <div class ="list-body">
-          <br>
-          <div class="multi-page" style="margin-bottom:40px;">
-            <div class="form-group" style="position:relative">
-              <label class="col-lg-2 control-label body-label">Body-page-1&nbsp;<span class="font-sm text-danger"><i class="fa fa-asterisk fa-sm"></i></span></label>
-              <div class="col-lg-10 text-field-col">
-                <textarea class="form-control mce-editor ta_tmce" data-parsley-required="true" cols="40" rows="20" th:text="${response.object.article}"></textarea>
-                <div class = "button-plus-minus" style="position:absolute; bottom: -45px;">
-                  <button id="add-body" type="button"
-                          class="btn btn-default btn-sm m-bottom-sm btn-add-body">
-                    <i class="fa fa-plus fa-lg" style="color: #3DD091;"></i>
-                    Add Page
-                  </button>
-                </div>
-              </div>
+          <div class="container-article">
+            <label for="description">Article</label>
+            <div class="article-list-0">
+              <textarea class="form-control mce-editor ta_tmce" placeholder="Enter description" th:text="${response.object.article}"></textarea>
+            </div>
+            <div class="button-plus-minus" style="margin-top: 10px; padding-bottom: 10px;">
+              <button id="add-article" style="margin-right:3px;" type="button" class="btn btn-default btn-sm m-bottom-sm btn-add-body">
+                <i class="fa fa-plus fa-lg" style="color: #3DD091;"></i>&nbsp;Add Page
+              </button>
             </div>
           </div>
         </div>
@@ -139,12 +171,22 @@
         <button type="submit" class="btn btn-primary">Submit</button>
       </div>
     </form>
+
+    <div class="custom-popup collapse" id="publishConfirm">
+      <div class="popup-body text-center">
+        <h5>Are you sure want to <strong><i>Delete</i></strong> this <i>Page</i>?</h5>
+        <div class="text-center m-top-md">
+          <a class="btn btn-info m-right-sm delete-it">Yes</a>
+          <a class="btn btn-default dont-delete">Cancel</a>
+        </div>
+      </div>
+    </div>
   </div>
 </div>
 <th:block layout:fragment="footer-js">
   <link type="text/css" href="../../css/jquery-ui-1.10.0.custom.css" rel="stylesheet"/>
   <!--<script src="https://code.jquery.com/ui/1.10.4/jquery-ui.min.js"></script>-->
-  <script src="https://cdn.ckeditor.com/ckeditor5/12.0.0/classic/ckeditor.js"></script>
+  <!--<script src="https://cdn.ckeditor.com/ckeditor5/12.0.0/classic/ckeditor.js"></script>-->
   <script src="//tinymce.cachefly.net/4.3/tinymce.min.js"></script>
   <script src="../../js/si/jquery.html5uploader.min.js"></script>
   <script src="../../js/si/bootstrap-tokenfield.min.js"></script>
@@ -152,13 +194,17 @@
   <script src="../../js/si/upload.js"></script>
   <script src="../../js/si/tiny_mce.js"></script>
   <script src="../../js/si/testimonial.js"></script>
-  <script src="../../js/si/pagebreak.js"></script>
+  <script src="../../js/si/jquery.popupoverlay.min.js"></script>
   <script>
     $(function() {
       $(document).ready(function () {
           upload_trip("/api/trip/upload_icon", "icon_cover","#icon_cover", "#hidden_icon_cover",640,640, "landscape");
           upload_trip("/api/trip/upload_trip", "cover_trip","#cover_trip", "#hidden_cover_trip",640,640, "potrait");
           multi_page_editor();
+          general_editor()
+          if($('.ta_tmce').val()!= null && $('.ta_tmce').val()!=""){
+              setPageBreak();
+          }
       });
       $('#datepickers').datepicker({
         format: 'mm/dd/yyyy',
@@ -174,21 +220,37 @@
       <!--showAutocompleteOnFocus: true-->
     })
 
-    <!--ClassicEditor-->
-    <!--.create(document.querySelector( '#article1' ))-->
-    <!--.then(editor => {-->
-      <!--myEditor = editor;-->
-      <!--console.log(myEditor.getData())-->
-    <!--})-->
-    <!--.catch(error => {});-->
+    var hostname = $(location).attr('protocol') + '//' + $(location).attr('host');
+    var api = hostname + "/api";
 
-    ClassicEditor
-    .create(document.querySelector( '#description' ))
-    .then(editor => {
-      myEditor = editor;
-      console.log(myEditor.getData())
-    })
-    .catch(error => {});
+    $('#captain').autocomplete({
+      source: function(request, response) {
+      console.log(request.term)
+        var arrdata = [];
+        var json_data = $.getJSON(api + '/captain/helper', {
+            keyword: request.term
+        });
+        json_data.done(function(data) {
+            //if (!$.isEmptyObject(data)) {
+            $.each(data.object, function(key, value) {
+                arrdata.push(value)
+            });
+            response($.map(arrdata, function (value, key) {
+                return{
+                    label: value.name,
+                    value: value.id
+            }
+            }));
+        });
+    },
+      select: function(event,ui){
+      $(this).val(ui.item.label)
+      $(this).parent().find("input.hidden").val(ui.item.value)
+      return false
+    },
+    minLength: 2,
+    delay: 100
+  });
   </script>
 </th:block>
 </body>
