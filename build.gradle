@@ -65,5 +65,7 @@ dependencies {
 		exclude(module: 'commons-logging')
 	}
 	runtime group: 'org.postgresql', name: 'postgresql', version:'9.4-1201-jdbc41'
+	providedCompile group: 'org.springframework.boot', name: 'spring-boot-starter-tomcat', version:'1.4.0.RELEASE'
+
 	testCompile('org.springframework.boot:spring-boot-starter-test')
 }
