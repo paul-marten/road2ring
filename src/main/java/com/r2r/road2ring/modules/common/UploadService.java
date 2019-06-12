@@ -92,7 +92,16 @@ public class UploadService {
         .lastIndexOf(".") + 1);
 
     // writes to output file
-    ImageIO.write(outputImage, formatName, new File(outputImagePath));
+    File editedFile = new File(outputImagePath);
+//    editedFile.setExecutable(true,false); 
+//    editedFile.setReadable(true,false); 
+//    editedFile.setWritable(true,false);
+    ImageIO.write(outputImage, formatName, editedFile);
+    if (editedFile.exists()) {
+//	editedFile.setExecutable(true,false);
+        editedFile.setReadable(true,false);
+//        editedFile.setWritable(true,false);
+    }
   }
 
   public String uploadIconPicture(MultipartFile file, String typeImage)
@@ -146,7 +155,14 @@ public class UploadService {
         .lastIndexOf(".") + 1);
 
     // writes to output file
-    ImageIO.write(outputImage, formatName, new File(outputImagePath));
+//    ImageIO.write(outputImage, formatName, new File(outputImagePath));
+
+      File editedFile = new File(outputImagePath);
+    ImageIO.write(outputImage, formatName, editedFile);
+    if (editedFile.exists()) {
+        editedFile.setReadable(true,false);
+    }
+
   }
 
 }
