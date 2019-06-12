@@ -60,7 +60,7 @@ public class TestimonialController {
 
     String baseUrl = request.getRequestURL().toString()
         .replace(request.getRequestURI().substring(1), request.getContextPath());
-    
+
     ResponseMessage response = new ResponseMessage();
     Testimonial testi= testimonialService.getTestiById(id);
     String video = "";

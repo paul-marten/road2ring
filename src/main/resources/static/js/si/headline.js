@@ -7,18 +7,22 @@ $('#type').change(function() {
     $('.type-true').addClass('collapse');
   }
 })
-
+var isError = false;
 function setToHiddenMediaUrl() {
   var value;
   if($('#type').is(":checked")){
     value = $("#videoUrl").val();
+    isError = false
     if(value == ''){
       alert('harap isi video url')
+      isError = true
     }
   }else{
     value = $("#hidden_image").val();
+    isError = false
     if(value == ''){
       alert('harap masukkan image')
+      isError = true
     }
   }
 
@@ -29,14 +33,10 @@ $("#submit-btn").click(function(){
   //submit here
   setToHiddenMediaUrl()
 
-  $.post( "/headline/save/", $('#headlineForm').serialize()).done(function(data) {
-//      if(data.length != 0){
-        window.location.href = "/headline";
-//      }else{
-//        if(previous != 'Select'){
-//          $('#group').val(previous)
-//        }
-//      }
+  if(!isError){
+    $.post( "/headline/save/", $('#headlineForm').serialize()).done(function(data) {
+          window.location.href = "/headline";
     })
+   }
 
 })
