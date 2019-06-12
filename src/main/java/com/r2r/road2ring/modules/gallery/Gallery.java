@@ -28,6 +28,9 @@ public class Gallery implements Serializable {
   @Column(name = "gallery_title")
   private String title;
 
+  @Column(name = "gallery_is_video")
+  private boolean isVideo;
+
   @Column(name = "gallery_trip_distance")
   private Integer distance;
 

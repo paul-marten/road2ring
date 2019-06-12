@@ -2,6 +2,7 @@ package com.r2r.road2ring.modules.testimonial;
 
 import com.r2r.road2ring.modules.common.ResponseMessage;
 import java.security.Principal;
+import javax.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -30,11 +31,18 @@ public class TestimonialController {
   }
 
   @RequestMapping(value = "/add", method = RequestMethod.GET)
-  public String add(Model model) {
+  public String add(Model model, HttpServletRequest request) {
+
+    String baseUrl = request.getRequestURL().toString()
+        .replace(request.getRequestURI().substring(1), request.getContextPath());
+
     ResponseMessage response = new ResponseMessage();
     Testimonial testi = new Testimonial();
     response.setObject(testi);
     model.addAttribute("response", response);
+    model.addAttribute("video", null);
+    model.addAttribute("picture", null);
+    model.addAttribute("baseUrl", baseUrl);
     return "admin/forms/testimonial";
   }
 
@@ -48,11 +56,27 @@ public class TestimonialController {
   }
 
   @RequestMapping(value = "/edit", method = RequestMethod.GET)
-  public String edit(Model model, @RequestParam int id) {
+  public String edit(Model model, @RequestParam int id,  HttpServletRequest request) {
+
+    String baseUrl = request.getRequestURL().toString()
+        .replace(request.getRequestURI().substring(1), request.getContextPath());
+    
     ResponseMessage response = new ResponseMessage();
     Testimonial testi= testimonialService.getTestiById(id);
+    String video = "";
+    String picture = "";
+
+    if(testi.isVideo()){
+      video = testi.getCoverLandscape();
+    }else{
+      picture = testi.getCoverLandscape();
+    }
+
     response.setObject(testi);
     model.addAttribute("response", response);
+    model.addAttribute("video", video);
+    model.addAttribute("picture", picture);
+    model.addAttribute("baseUrl", baseUrl);
     return "admin/forms/testimonial";
   }
 

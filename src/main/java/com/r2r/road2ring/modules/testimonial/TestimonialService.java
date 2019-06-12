@@ -33,6 +33,7 @@ public class TestimonialService {
     saved.setDistance(testimonial.getDistance());
     saved.setDuration(testimonial.getDuration());
     saved.setRoadCaptain(testimonial.getRoadCaptain());
+    saved.setVideo(testimonial.isVideo());
 
     return testimonialRepository.save(saved);
   }

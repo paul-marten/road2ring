@@ -34,6 +34,9 @@ public class Testimonial implements Serializable {
   @JsonView(ResponseView.LimitedTestimonial.class)
   private String title;
 
+  @Column(name = "testimonial_is_video")
+  private boolean isVideo;
+
   @Column(name = "testimonial_cover_landscape")
   @JsonView(ResponseView.LimitedTestimonial.class)
   private String coverLandscape;

@@ -39,6 +39,7 @@ public class GalleryService {
     saved.setTripDate(gallery.getTripDate());
     saved.setDistance(gallery.getDistance());
     saved.setDuration(gallery.getDuration());
+    saved.setVideo(gallery.isVideo());
 
     return galleryRepository.save(saved);
   }

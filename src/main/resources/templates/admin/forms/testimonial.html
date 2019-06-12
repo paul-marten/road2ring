@@ -43,10 +43,9 @@
     <div class="box-header with-border">
       <h1 class="box-title">Testimonial Form</h1>
     </div>
-    <form role="form" th:action="@{'/testimonial/save'}" th:object="${response}" method="post">
+    <form id="headlineForm" role="form" th:action="@{'/testimonial/save'}" th:object="${response}" method="post">
       <div class="box-body">
         <input id="object_id" type="hidden" name="id" th:if="${response.object.id != 0}" th:value="${response.object.id != null && response.object.id != 0 ? response.object.id : 0}">
-
 
         <div class="form-group">
           <label for="title">Title</label>
@@ -54,12 +53,24 @@
         </div>
 
         <div class="form-group">
-          <label for="cover_trip">Cover</label>
+          <label for="type">Cover Type is Video ?</label>
+          <input id="type" type="checkbox" name="video" th:checked="${response.object.video}" />
+        </div>
+
+        <input id="hidden_mediaUrl" type="hidden" name="coverLandscape" th:value="${response.object.coverLandscape}">
+
+        <div th:class="${response.object.video == true ? 'form-group type-true' : 'form-group type-true collapse'}">
+          <label for="videoUrl">Cover Video Url</label>
+          <input type="text" class="form-control" id="videoUrl" placeholder="Enter video url" th:value="${video}">
+        </div>
+
+        <div th:class="${response.object.video == true ? 'form-group type-false collapse' : 'form-group type-false'}">
+          <label for="cover_trip">Cover Picture</label>
           <div class="wrap-file">
             <input type="file" id="cover_trip">
           </div>
-          <input type="hidden" id="hidden_cover_trip" name="coverLandscape"
-                 th:value="${response.object.coverLandscape}">
+          <input type="hidden" id="hidden_cover_trip"
+                 th:value="${picture}">
           <!-- <input type="hidden" id="hidden_upload_thumb" name="thumbnail" th:value="${response.object.thumbnail}"> -->
           <div class="wrap_cover_trip collapse">
             <div class="progress">
@@ -73,9 +84,9 @@
               <img src="" alt="">
             </div>
           </div>
-          <div th:if="${not #strings.isEmpty(response.object.coverLandscape)}"
+          <div th:if="${not #strings.isEmpty(picture)}"
                class="wrap-img-cover_trip p-top-sm">
-            <img th:src="${response.object.coverLandscape}"/>
+            <img th:src="${baseUrl + picture}"/>
           </div>
         </div>
 
@@ -168,7 +179,7 @@
       </div>
       </div>
       <div class="box-footer">
-        <button type="submit" class="btn btn-primary">Submit</button>
+        <button type="button" id="submit-btn-testi" class="btn btn-primary">Submit</button>
       </div>
     </form>
 
@@ -185,7 +196,7 @@
 </div>
 <th:block layout:fragment="footer-js">
   <link type="text/css" href="../../css/jquery-ui-1.10.0.custom.css" rel="stylesheet"/>
-  <!--<script src="https://code.jquery.com/ui/1.10.4/jquery-ui.min.js"></script>-->
+  <script src="https://code.jquery.com/ui/1.10.4/jquery-ui.min.js"></script>
   <!--<script src="https://cdn.ckeditor.com/ckeditor5/12.0.0/classic/ckeditor.js"></script>-->
   <script src="//tinymce.cachefly.net/4.3/tinymce.min.js"></script>
   <script src="../../js/si/jquery.html5uploader.min.js"></script>

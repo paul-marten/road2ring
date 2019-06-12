@@ -2,6 +2,7 @@ package com.r2r.road2ring.modules.gallery;
 
 import com.r2r.road2ring.modules.common.ResponseMessage;
 import java.security.Principal;
+import javax.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -29,20 +30,44 @@ public class GalleryController {
   }
 
   @RequestMapping(value = "/add", method = RequestMethod.GET)
-  public String add(Model model) {
+  public String add(Model model, HttpServletRequest request) {
+
+    String baseUrl = request.getRequestURL().toString()
+        .replace(request.getRequestURI().substring(1), request.getContextPath());
+
     ResponseMessage response = new ResponseMessage();
     Gallery gallery = new Gallery();
     response.setObject(gallery);
     model.addAttribute("response", response);
+    model.addAttribute("video", null);
+    model.addAttribute("picture", null);
+    model.addAttribute("baseUrl", baseUrl);
     return "admin/forms/gallery";
   }
 
   @RequestMapping(value = "/edit", method = RequestMethod.GET)
-  public String edit(Model model, @RequestParam int id) {
+  public String edit(Model model, @RequestParam int id, HttpServletRequest request) {
+
+    String baseUrl = request.getRequestURL().toString()
+        .replace(request.getRequestURI().substring(1), request.getContextPath());
+
     ResponseMessage response = new ResponseMessage();
     Gallery gallery= galleryService.getGalleryById(id);
+
+    String video = "";
+    String picture = "";
+
+    if(gallery.isVideo()){
+      video = gallery.getCoverLandscape();
+    }else{
+      picture = gallery.getCoverLandscape();
+    }
+
     response.setObject(gallery);
     model.addAttribute("response", response);
+    model.addAttribute("video", video);
+    model.addAttribute("picture", picture);
+    model.addAttribute("baseUrl", baseUrl);
     return "admin/forms/gallery";
   }
 
