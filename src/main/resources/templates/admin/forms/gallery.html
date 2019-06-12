@@ -1,7 +1,7 @@
 <!DOCTYPE html SYSTEM "http://www.thymeleaf.org/dtd/xhtml1-strict-thymeleaf-spring4-4.dtd">
 <html xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorator="admin/layout">
 <head>
-  <title>R2R-Testimonial</title>
+  <title>R2R-Gallery</title>
   <link type="text/css" href="../../css/jquery-ui-1.10.0.custom.css" rel="stylesheet"/>
   <link type="text/css" href="../../css/bootstrap-tokenfield.min.css" rel="stylesheet"/>
   <style>
@@ -41,9 +41,9 @@
 <div layout:fragment="content">
   <div class="box box-primary">
     <div class="box-header with-border">
-      <h1 class="box-title">Testimonial Form</h1>
+      <h1 class="box-title">Gallery Form</h1>
     </div>
-    <form role="form" th:action="@{'/testimonial/save'}" th:object="${response}" method="post">
+    <form role="form" th:action="@{'/gallery/save'}" th:object="${response}" method="post">
       <div class="box-body">
         <input id="object_id" type="hidden" name="id" th:if="${response.object.id != 0}" th:value="${response.object.id != null && response.object.id != 0 ? response.object.id : 0}">
 
@@ -133,12 +133,6 @@
         </div>
 
         <div class="form-group">
-          <label for="captain">Captain</label>
-          <input type="text" class="form-control" id="captain" placeholder="Captain" th:value="${response.object.roadCaptain != null && response.object.roadCaptain != '' ? response.object.roadCaptain.name : ''}" required>
-          <input type="hidden" class="hidden tournamentId" name="roadCaptain" th:value="${response.object.roadCaptain != null && response.object.roadCaptain.id != 0 ? response.object.roadCaptain.id : 0}">
-        </div>
-
-        <div class="form-group">
           <label for="description">Description Trip</label>
           <textarea class="form-control mce-general" name="description" id="description" placeholder="Enter description" th:text="${response.object.description}"></textarea>
         </div>
@@ -163,9 +157,9 @@
         </div>
 
         <div class="form-group">
-        <label for="tag">Tag</label>
-        <input type="text" name="tag" class="form-control" th:value="${response.object.tag}" id="tag" placeholder="Tag" required>
-      </div>
+          <label for="tag">Tag</label>
+          <input type="text" name="tag" class="form-control" th:value="${response.object.tag}" id="tag" placeholder="Tag" required>
+        </div>
       </div>
       <div class="box-footer">
         <button type="submit" class="btn btn-primary">Submit</button>
@@ -220,37 +214,6 @@
       <!--showAutocompleteOnFocus: true-->
     })
 
-    var hostname = $(location).attr('protocol') + '//' + $(location).attr('host');
-    var api = hostname + "/api";
-
-    $('#captain').autocomplete({
-      source: function(request, response) {
-      console.log(request.term)
-        var arrdata = [];
-        var json_data = $.getJSON(api + '/captain/helper', {
-            keyword: request.term
-        });
-        json_data.done(function(data) {
-            //if (!$.isEmptyObject(data)) {
-            $.each(data.object, function(key, value) {
-                arrdata.push(value)
-            });
-            response($.map(arrdata, function (value, key) {
-                return{
-                    label: value.name,
-                    value: value.id
-            }
-            }));
-        });
-    },
-      select: function(event,ui){
-      $(this).val(ui.item.label)
-      $(this).parent().find("input.hidden").val(ui.item.value)
-      return false
-    },
-    minLength: 2,
-    delay: 100
-  });
   </script>
 </th:block>
 </body>

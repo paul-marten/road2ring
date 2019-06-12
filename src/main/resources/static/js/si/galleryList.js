@@ -3,7 +3,7 @@ $(document).ready( function () {
 //	 console.log(tripId[2])
 	 var table = $('#rsp-tbl').DataTable({
 	 "dom": '<"row"<"col-sm-2"<"newRecord">><"col-sm-10"<"toolbar">>><"row"<"col-sm-12"tr>><"row"<"col-sm-6"i><"col-sm-6"p>>',
-			"sAjaxSource": "/api/testimonial/data",
+			"sAjaxSource": "/api/gallery/data",
 			"sAjaxDataProp": "",
 			"aoColumns": [
 			    {"mData": "id",
@@ -15,7 +15,6 @@ $(document).ready( function () {
             }
           },
           { "mData": "title"},
-			    { "mData": "roadCaptain.name"},
 			    { "mData": "tripDate"},
 //          { "data": "roadCaptain.name",
 //          "width": "12%",
@@ -77,7 +76,7 @@ $(document).ready( function () {
 //       var parseTs = moment(cell.innerHTML, 'x');
 //       cell.innerHTML = cell.innerHTML != '-' ? moment(parseTs).format('DD/MM/YYYY') : '-';
 //    } );
-    table.column(3, { page: 'current' }).nodes().each( function (cell, i) {
+    table.column(2, { page: 'current' }).nodes().each( function (cell, i) {
        var parseTs = moment(cell.innerHTML, 'x');
        cell.innerHTML = cell.innerHTML != '-' ? moment(parseTs).format('DD/MM/YYYY') : '-';
     } );

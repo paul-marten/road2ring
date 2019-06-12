@@ -1,9 +1,7 @@
 $(document).ready( function () {
-   var tripId = window.location.pathname.split('/')
-//	 console.log(tripId[2])
 	 var table = $('#rsp-tbl').DataTable({
 	 "dom": '<"row"<"col-sm-2"<"newRecord">><"col-sm-10"<"toolbar">>><"row"<"col-sm-12"tr>><"row"<"col-sm-6"i><"col-sm-6"p>>',
-			"sAjaxSource": "/api/testimonial/data",
+			"sAjaxSource": "/api/headline/data",
 			"sAjaxDataProp": "",
 			"aoColumns": [
 			    {"mData": "id",
@@ -15,14 +13,7 @@ $(document).ready( function () {
             }
           },
           { "mData": "title"},
-			    { "mData": "roadCaptain.name"},
-			    { "mData": "tripDate"},
-//          { "data": "roadCaptain.name",
-//          "width": "12%",
-//          "orderable": false,
-//          "createdCell": function(td, cellData, rowData, row, col) {
-//              $(td).attr('data-th', "Captain");
-//          }},
+			    { "mData": "linkUrl"},
 			    { "mData": "id",
             "width": "10%",
             "searchable": false,
@@ -59,42 +50,47 @@ $(document).ready( function () {
         "targets": 0
       } ],
       "columnDefs": [{
-          "targets": 3,
-          "render": function(data, type, row) {
-//              console.log(data)
-              return data != null && data != '' ? data : '' ;
-          }
-      }],
+           "targets": 2,
+           "render": function(data, type, row) {
+               var base_url = window.location.origin;
+               return '<a href="'+ data +'">'+ data +'</a>'
+           }
+       }],
       "order": [[ 0, "asc" ]],
 
 	 });
+
 	 table.on( 'draw.dt', function () {
     var PageInfo = $('#rsp-tbl').DataTable().page.info();
     table.column(0, { page: 'current' }).nodes().each( function (cell, i) {
        cell.innerHTML = i + 1 + PageInfo.start;
     } );
-//    table.column(1, { page: 'current' }).nodes().each( function (cell, i) {
-//       var parseTs = moment(cell.innerHTML, 'x');
-//       cell.innerHTML = cell.innerHTML != '-' ? moment(parseTs).format('DD/MM/YYYY') : '-';
-//    } );
-    table.column(3, { page: 'current' }).nodes().each( function (cell, i) {
-       var parseTs = moment(cell.innerHTML, 'x');
-       cell.innerHTML = cell.innerHTML != '-' ? moment(parseTs).format('DD/MM/YYYY') : '-';
-    } );
+
+    var length = PageInfo.recordsTotal;
+            console.log(length)
+        var btnNew = '<a href="/trip/add" class="btn btn-default btn-sm"><span class="fa fa-plus-circle fa-lg"></span> Add New Record</a>';
+        if(length == 0)
+          $("div.newRecord").html(btnNew);
+
+
+
   });
 
-  var btnNew = '<a href="'+window.location.pathname+'/add" class="btn btn-default btn-sm"><span class="fa fa-plus-circle fa-lg"></span> Add New Record</a>';
-  var filterStatus = 'Filter by : <select class="form-control tripStatus"><option value="">--- All Status ---</option><option value="WAITING">Waiting</option><option value="EXPIRED">Expired</option><option value="COMPLETE">Complete</option><option value="CANCEL">Cancel</option></select>';
-  var filterCaptain = '&nbsp;<input class="form-control findCaptain" size="24" type="text" name="findCaptain" placeholder="Find Specific Captain">';
-  var filterTitle = '&nbsp;<input class="form-control findTitle" size="47" type="text" name="findTitle" placeholder="Find Specific Title">';
-  var filter = filterTitle;
-  $("div.newRecord").html(btnNew);
+//  var btnNew = '<a href="'+window.location.pathname+'/add" class="btn btn-default btn-sm"><span class="fa fa-plus-circle fa-lg"></span> Add New Record</a>';
+  var filterStatus = 'Filter by : <select class="form-control isIncluded"><option value="">--- All Status ---</option><option value="true">Include</option><option value="false">Not Include</option></select>';
+//  var filterCaptain = '&nbsp;<input class="form-control findCaptain" size="24" type="text" name="findCaptain" placeholder="Find Specific Captain">';
+  var filterTitle = '&nbsp;<input class="form-control findTitle" size="47" type="text" name="findTitle" placeholder="Find Specific Facility Name">';
+//  var filter = filterTitle;
+
+//  $("div.newRecord").html(btnNew);
   $("div.toolbar").html(filter);
 
-  $('.tripStatus').on('change', function() {
-          table.columns(4).search(this.value).draw();
-      });
-
+  $('.isIncluded').on('change', function(event){
+    if ($(this).val() != "")
+        table.columns(2).search(this.value).draw();
+    else
+        table.columns(2).search('').draw();
+  })
 
   $('.findTitle').on('keyup', function(event) {
       if ($(this).val().length > 2)
@@ -115,32 +111,32 @@ $(document).ready( function () {
   var iconEdit = $('<span>').append($('<i>', {'class':'icon-icon_edit'}));
   var textEdit =$('<span>').append( $('<a>', {
                               'text':'Edit ',
-                              'href': window.location.pathname+'/edit?id=' + cellData,
+                              'href': '/headline/edit?id=' + cellData,
                           }));
   var btnEdit = $('<li>').append(iconEdit).append(textEdit);
 
 //  var iconEdit = $('<span>').append($('<i>', {'class':'icon-icon_edit'}));
-  var textFacility =$('<span>').append( $('<a>', {
-                                'text':'Facility ',
-                                'href': '/trip/'+cellData+'/facility',
-                            }));
-  var btnFacility= $('<li>').append(textFacility);
-
+//  var textFacility =$('<span>').append( $('<a>', {
+//                                'text':'Facility ',
+//                                'href': '/trip/'+cellData+'/facility',
+//                            }));
+//  var btnFacility= $('<li>').append(textFacility);
+//
 
 //  var iconEdit = $('<span>').append($('<i>', {'class':'icon-icon_edit'}));
-  var textIternary =$('<span>').append( $('<a>', {
-                                'text':'Iternary ',
-                                'href': '/trip/'+cellData+'/itinerary',
-                            }));
-  var btnIternary= $('<li>').append(textIternary);
+//  var textIternary =$('<span>').append( $('<a>', {
+//                                'text':'Iternary ',
+//                                'href': '/trip/'+cellData+'/itinerary',
+//                            }));
+//  var btnIternary= $('<li>').append(textIternary);
 
   //Draw buttom Publish
-  var iconPublish =$('<span>').append($('<i>', {'class':'icon-icon_publish'}));
-  var textPublish =$('<span>').append( $('<a>', {
-                                  'text':'Publish ',
-                                  'href': '',
-                              }));
-  var btnPublish = $('<li>', {'id':'publishContent'}).append(iconPublish).append(textPublish);
+//  var iconPublish =$('<span>').append($('<i>', {'class':'icon-icon_publish'}));
+//  var textPublish =$('<span>').append( $('<a>', {
+//                                  'text':'Publish ',
+//                                  'href': '',
+//                              }));
+//  var btnPublish = $('<li>', {'id':'publishContent'}).append(iconPublish).append(textPublish);
 
   //Draw buttom Publish
   var iconUnpublish =$('<span>').append($('<i>', {'class':'icon-icon_unpublish'}));

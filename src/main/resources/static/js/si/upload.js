@@ -50,8 +50,8 @@ function upload_trip(url_upload, section,image_field, hidden_field,width,height,
                 hidden_val = json.object;
                 var base_url = window.location.origin;
 
-                console.log($('.wrap_'+section+' .pre_img img'))
-                console.log('/img/assets/'+json.object)
+//                console.log($('.wrap_'+section+' .pre_img img'))
+//                console.log('/img/assets/'+json.object)
 
                 if(json.code === 600 ){
                   isValidImg = true;
