@@ -3,6 +3,7 @@ package com.r2r.road2ring.modules.gallery;
 import com.fasterxml.jackson.annotation.JsonView;
 import com.r2r.road2ring.modules.media.Media;
 import java.io.Serializable;
+import java.util.Date;
 import java.util.List;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -27,8 +28,39 @@ public class Gallery implements Serializable {
   @Column(name = "gallery_title")
   private String title;
 
-  @OneToMany(fetch = FetchType.LAZY, mappedBy = "gallery")
-  @OrderBy("id ASC")
-  private List<Media> media;
+  @Column(name = "gallery_is_video")
+  private boolean isVideo;
+
+  @Column(name = "gallery_trip_distance")
+  private Integer distance;
+
+  @Column(name = "gallery_trip_duration")
+  private Integer duration;
+
+  @Column(name = "gallery_cover_landscape")
+  private String coverLandscape;
+
+  @Column(name = "gallery_cover_potrait")
+  private String coverPotrait;
+
+  @Column(name = "gallery_icon_cover")
+  private String iconCover;
+
+  @Column(name = "gallery_trip_date")
+  private Date tripDate;
+
+  @Column(name = "gallery_description")
+  private String description;
+
+  @Column(name = "gallery_tag")
+  private String tag;
+
+  @Column(name = "gallery_article")
+  private String article;
+
+
+//  @OneToMany(fetch = FetchType.LAZY, mappedBy = "gallery")
+//  @OrderBy("id ASC")
+//  private List<Media> media;
 
 }

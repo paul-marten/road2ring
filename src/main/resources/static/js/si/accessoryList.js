@@ -63,7 +63,7 @@ $(document).ready( function () {
   var btnNew = '<a href="'+window.location.pathname+'/add" class="btn btn-default btn-sm"><span class="fa fa-plus-circle fa-lg"></span> Add New Record</a>';
   var filterStatus = 'Filter by : <select class="form-control isIncluded"><option value="">--- All Status ---</option><option value="true">Include</option><option value="false">Not Include</option></select>';
 //  var filterCaptain = '&nbsp;<input class="form-control findCaptain" size="24" type="text" name="findCaptain" placeholder="Find Specific Captain">';
-  var filterTitle = '&nbsp;<input class="form-control findTitle" size="47" type="text" name="findTitle" placeholder="Find Specific Facility Name">';
+  var filterTitle = '&nbsp;<input class="form-control findTitle" size="47" type="text" name="findTitle" placeholder="Find Specific Accessory Name">';
   var filterCapacity = '&nbsp;<input class="form-control findCapacity" type="number" min="0" size="17" type="text" name="findCapacity" placeholder="Find Specific Motor Capacity">';
   var filterPrice = '&nbsp;<input class="form-control findPrice" size="17" type="number" min="0" name="findPrice" placeholder="Find Price Below or Equal">';
   var filter = filterTitle;

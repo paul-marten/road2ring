@@ -97,6 +97,7 @@ public class TripAPIController {
   @PostMapping("/upload_trip/{typeImage}")
   public ResponseMessage uploadPhoto(@PathVariable String typeImage,@RequestParam("file") MultipartFile file) {
     ResponseMessage responseMessage = new ResponseMessage();
+    System.out.println(file.getName());
     try {
       if (!file.isEmpty()) {
         responseMessage.setCode(ResponseCode.SUCCESS.getCode());

@@ -5,6 +5,7 @@ import com.r2r.road2ring.modules.accessorycategory.AccessoryCategoryService;
 import com.r2r.road2ring.modules.common.ResponseMessage;
 import com.r2r.road2ring.modules.facility.Facility;
 import java.security.Principal;
+import javax.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -49,12 +50,16 @@ public class AccessoryController {
   }
 
   @RequestMapping(value = "/edit", method = RequestMethod.GET)
-  public String edit(Model model, @RequestParam int id) {
+  public String edit(Model model, @RequestParam int id,HttpServletRequest request) {
     ResponseMessage response = new ResponseMessage();
+    String baseUrl = request.getRequestURL().toString()
+        .replace(request.getRequestURI().substring(1), request.getContextPath());
+
     Accessory accessory = accessoryService.getAccessoryById(id);
     response.setObject(accessory);
     model.addAttribute("categories", accessoryCategoryService.getAccessoryCategories());
     model.addAttribute("response", response);
+    model.addAttribute("baseUrl", baseUrl);
     return "admin/forms/accessory";
   }
 

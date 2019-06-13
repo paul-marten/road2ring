@@ -36,7 +36,7 @@
 
         <div class="form-group">
           <label for="description">Description</label>
-          <textarea class="form-control" name="description" id="description" placeholder="Enter description" th:text="${response.object.description}"></textarea>
+          <textarea class="form-control mce-general" name="description" id="description" placeholder="Enter description" th:text="${response.object.description}"></textarea>
         </div>
 
         <div class="form-group">
@@ -61,7 +61,7 @@
             </div>
             <div th:if="${not #strings.isEmpty(response.object.iconCover)}"
                  class="wrap-img-icon_cover p-top-sm">
-              <img th:src="${response.object.iconCover}"/>
+              <img th:src="${baseUrl + response.object.iconCover}"/>
             </div>
         </div>
 
@@ -87,7 +87,7 @@
           </div>
           <div th:if="${not #strings.isEmpty(response.object.iconPublisher)}"
                class="wrap-img-icon_publisher p-top-sm">
-            <img th:src="${response.object.iconPublisher}"/>
+            <img th:src="${baseUrl + response.object.iconPublisher}"/>
           </div>
         </div>
 
@@ -113,7 +113,7 @@
           </div>
           <div th:if="${not #strings.isEmpty(response.object.coverLandscape)}"
                class="wrap-img-cover_trip p-top-sm">
-            <img th:src="${response.object.coverLandscape}"/>
+            <img th:src="${baseUrl + response.object.coverLandscape}"/>
           </div>
         </div>
 
@@ -152,7 +152,7 @@
 
         <div class="form-group">
           <label for="facility-not">Facility(not include)</label>
-          <textarea class="form-control" name="facilityNot" th:text="${response.object.facilityNot}" id="facility-not" placeholder="Enter Facility Not Include"></textarea>
+          <textarea class="form-control mce-general" name="facilityNot" th:text="${response.object.facilityNot}" id="facility-not" placeholder="Enter Facility Not Include"></textarea>
         </div>
 
         <div class="form-group">
@@ -168,7 +168,7 @@
 
         <div class="form-group">
           <label for="meeting">Meeting Point</label>
-          <textarea class="form-control" id="meeting" name="meetingPoint" th:text="${response.object.meetingPoint}"></textarea>
+          <textarea class="form-control mce-general" id="meeting" name="meetingPoint" th:text="${response.object.meetingPoint}"></textarea>
         </div>
 
         <div class="form-group">
@@ -203,7 +203,7 @@
           </div>
           <div th:if="${not #strings.isEmpty(response.object.map)}"
                class="wrap-img-map p-top-sm">
-            <img th:src="${response.object.map}"/>
+            <img th:src="${baseUrl + response.object.map}"/>
           </div>
         </div>
       </div>
@@ -215,12 +215,13 @@
 </div>
 <th:block layout:fragment="footer-js">
   <script src="https://code.jquery.com/ui/1.10.4/jquery-ui.min.js"></script>
-  <script src="https://cdn.ckeditor.com/ckeditor5/12.0.0/classic/ckeditor.js"></script>
+  <script src="//tinymce.cachefly.net/4.3/tinymce.min.js"></script>
   <script src="../../js/si/jquery.html5uploader.min.js"></script>
   <script src="../../js/si/bootstrap-tokenfield.min.js"></script>
   <script src="../../js/si/typehead.bundle.min.js"></script>
   <script src="../../js/si/parsley.min.js"></script>
   <script src="../../js/si/upload.js"></script>
+  <script src="../../js/si/tiny_mce.js"></script>
   <script>
 $(function() {
   $(document).ready(function () {
@@ -229,6 +230,7 @@ $(function() {
       upload_trip("/api/trip/upload_trip", "cover_trip","#cover_trip", "#hidden_cover_trip",640,640, "potrait");
       upload_trip("/api/trip/upload_trip", "map","#map", "#hidden_map",640,640, "potrait");
       console.log($('#trip-facility').val())
+      general_editor()
       var facility = $('#trip-facility').val()
       $('#trip-facility').val(facility.replace("[", "").replace("]", ""))
       });
@@ -294,29 +296,6 @@ $(function() {
     delay: 100
   });
 
-    ClassicEditor
-    .create(document.querySelector( '#description' ))
-    .then(editor => {
-      myEditor = editor;
-      console.log(myEditor.getData())
-      console.log(myEditor)
-    })
-    .catch(error => {});
-
-    ClassicEditor
-    .create(document.querySelector( '#meeting' ))
-    .then(editor => {
-      myEditor = editor;
-
-    })
-    .catch(error => {});
-
-    ClassicEditor
-    .create(document.querySelector( '#facility-not' ))
-    .then(editor => {
-      myEditor = editor;
-    })
-    .catch(error => {});
 
   </script>
 </th:block>

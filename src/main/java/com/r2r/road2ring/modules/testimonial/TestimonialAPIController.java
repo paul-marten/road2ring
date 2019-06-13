@@ -1,5 +1,7 @@
 package com.r2r.road2ring.modules.testimonial;
 
+import com.fasterxml.jackson.annotation.JsonView;
+import com.r2r.road2ring.modules.common.ResponseView;
 import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,7 +22,7 @@ public class TestimonialAPIController {
   }
 
   @RequestMapping(value = "/data", method = RequestMethod.GET)
-//  @JsonView(ResponseView..class)
+  @JsonView(ResponseView.DefaultTestimonial.class)
   public List<Testimonial> datatable(
       HttpServletRequest request) {
 

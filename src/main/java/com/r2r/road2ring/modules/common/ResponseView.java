@@ -49,4 +49,7 @@ public class ResponseView {
   public interface DefaultTransaction extends LimitedTransaction{}
   public interface DetailedTransaction extends DefaultTransaction, DefaultTrip{}
 
+  public interface LimitedTestimonial extends Base{}
+  public interface DefaultTestimonial extends LimitedTestimonial, DetailedTrip{}
+
 }

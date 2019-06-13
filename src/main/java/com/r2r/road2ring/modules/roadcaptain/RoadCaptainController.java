@@ -2,6 +2,7 @@ package com.r2r.road2ring.modules.roadcaptain;
 
 import com.r2r.road2ring.modules.common.ResponseMessage;
 import java.security.Principal;
+import javax.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -39,11 +40,14 @@ public class RoadCaptainController {
   }
 
   @RequestMapping(value = "/edit", method = RequestMethod.GET)
-  public String edit(Model model, @RequestParam int id) {
+  public String edit(Model model, @RequestParam int id, HttpServletRequest request) {
     ResponseMessage response = new ResponseMessage();
+    String baseUrl = request.getRequestURL().toString()
+        .replace(request.getRequestURI().substring(1), request.getContextPath());
     RoadCaptain roadCaptain = roadCaptainService.getCaptainById(id);
     response.setObject(roadCaptain);
     model.addAttribute("response", response);
+    model.addAttribute("baseUrl", baseUrl);
     return "admin/forms/roadCaptain";
   }
 

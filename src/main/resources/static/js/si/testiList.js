@@ -15,7 +15,7 @@ $(document).ready( function () {
             }
           },
           { "mData": "title"},
-			    { "mData": "description"},
+			    { "mData": "roadCaptain.name"},
 			    { "mData": "tripDate"},
 //          { "data": "roadCaptain.name",
 //          "width": "12%",
@@ -87,7 +87,7 @@ $(document).ready( function () {
   var filterStatus = 'Filter by : <select class="form-control tripStatus"><option value="">--- All Status ---</option><option value="WAITING">Waiting</option><option value="EXPIRED">Expired</option><option value="COMPLETE">Complete</option><option value="CANCEL">Cancel</option></select>';
   var filterCaptain = '&nbsp;<input class="form-control findCaptain" size="24" type="text" name="findCaptain" placeholder="Find Specific Captain">';
   var filterTitle = '&nbsp;<input class="form-control findTitle" size="47" type="text" name="findTitle" placeholder="Find Specific Title">';
-  var filter = filterStatus;
+  var filter = filterTitle;
   $("div.newRecord").html(btnNew);
   $("div.toolbar").html(filter);
 
