@@ -57,7 +57,7 @@ public class GalleryController {
     String video = "";
     String picture = "";
 
-    if(gallery.isVideo()){
+    if(gallery.getIsVideo()){
       video = gallery.getCoverLandscape();
     }else{
       picture = gallery.getCoverLandscape();
