@@ -60,16 +60,16 @@ public class PdfService {
       document.addTitle("Invoice "+ transactionCodeId);
 
       Font titleFont = new Font(Font.FontFamily.TIMES_ROMAN, 15,
-          Font.BOLD, BaseColor.BLUE);
+          Font.BOLD, new BaseColor(34,76,152));
 
-      String imageUrl = "http://www.eclipse.org/xtend/images/java8_logo.png";
+      String imageUrl = "http://road2ring.com/img/assets/logo-pdf.png";
 
       PdfPTable table = new PdfPTable(2); // 2 columns.
       table.setWidthPercentage(100); //Width 100%
       table.setSpacingBefore(10f); //Space before table
       table.setSpacingAfter(10f);
 
-      float[] columnWidths = {1f, 0.1f};
+      float[] columnWidths = {1f, 0.2f};
       table.setWidths(columnWidths);
 
       PdfPCell cell1 = new PdfPCell(new Paragraph(

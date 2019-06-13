@@ -2,6 +2,8 @@ package com.r2r.road2ring.modules.gallery;
 
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -9,9 +11,16 @@ public class GalleryService {
 
   GalleryRepository galleryRepository;
 
+  GalleryViewService galleryViewService;
+
   @Autowired
   public void setGalleryRepository(GalleryRepository galleryRepository) {
     this.galleryRepository = galleryRepository;
+  }
+
+  @Autowired
+  public void setGalleryViewService(GalleryViewService galleryViewService){
+    this.galleryViewService = galleryViewService;
   }
 
   public List<Gallery> getAllGallery(){
@@ -39,8 +48,20 @@ public class GalleryService {
     saved.setTripDate(gallery.getTripDate());
     saved.setDistance(gallery.getDistance());
     saved.setDuration(gallery.getDuration());
-    saved.setVideo(gallery.isVideo());
+    saved.setIsVideo(gallery.getIsVideo());
 
     return galleryRepository.save(saved);
+  }
+
+  public List<GalleryView> getAllGallery(int pageId, int limit){
+    Pageable pageable = new PageRequest(pageId, limit);
+    List<Gallery> galleries = galleryRepository.findAllByOrderByIdDesc(pageable);
+    List<GalleryView> result = galleryViewService.bindListGallery(galleries);
+    return result;
+  }
+
+  public GalleryDetailView getDetailGallery(int galleryId){
+    GalleryDetailView result = galleryViewService.bindDetailGallery(galleryRepository.findOne(galleryId));
+    return result;
   }
 }

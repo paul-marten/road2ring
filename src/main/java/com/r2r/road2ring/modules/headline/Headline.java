@@ -19,7 +19,7 @@ public class Headline implements Serializable {
   private Integer id;
 
   @Column(name = "headline_is_video")
-  private boolean isVideo;
+  private Boolean isVideo;
 
   @Column(name = "headline_title")
   private String title;

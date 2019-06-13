@@ -2,6 +2,8 @@ package com.r2r.road2ring.modules.testimonial;
 
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -9,16 +11,23 @@ public class TestimonialService {
 
   TestimonialRepository testimonialRepository;
 
+  TestimonialViewService testimonialViewService;
+
   @Autowired
   public void setTestimonialRepository(
       TestimonialRepository testimonialRepository) {
     this.testimonialRepository = testimonialRepository;
   }
 
-  public Testimonial saveTesti(Testimonial testimonial){
+  @Autowired
+  public void setTestimonialViewService(TestimonialViewService testimonialViewService) {
+    this.testimonialViewService = testimonialViewService;
+  }
+
+  public Testimonial saveTesti(Testimonial testimonial) {
     Testimonial saved = new Testimonial();
 
-    if(testimonial.getId() != null && testimonial.getId() != 0){
+    if (testimonial.getId() != null && testimonial.getId() != 0) {
       saved = testimonialRepository.findOne(testimonial.getId());
     }
 
@@ -33,14 +42,30 @@ public class TestimonialService {
     saved.setDistance(testimonial.getDistance());
     saved.setDuration(testimonial.getDuration());
     saved.setRoadCaptain(testimonial.getRoadCaptain());
-    saved.setVideo(testimonial.isVideo());
+    saved.setIsVideo(testimonial.getIsVideo());
 
     return testimonialRepository.save(saved);
   }
 
-  public List<Testimonial> getAllTesti(){
+  public List<Testimonial> getAllTesti() {
     return testimonialRepository.findAll();
   }
 
-  public Testimonial getTestiById(int id) { return testimonialRepository.findOne(id); }
+  public Testimonial getTestiById(int id) {
+    return testimonialRepository.findOne(id);
+  }
+
+  public List<TestimonialView> getAllTestimonial(int pageId, int limit) {
+    Pageable pageable = new PageRequest(pageId, limit);
+    List<Testimonial> testimonials = testimonialRepository.findAllByOrderByIdDesc(pageable);
+    List<TestimonialView> result = testimonialViewService.bindListTestimonials(testimonials);
+    return result;
+  }
+
+  public TestimonialDetailView getDetailTestimonials(int testimonialId) {
+    TestimonialDetailView result = testimonialViewService
+        .bindDetailTestimonial(testimonialRepository.findOne(testimonialId));
+    return result;
+  }
+
 }

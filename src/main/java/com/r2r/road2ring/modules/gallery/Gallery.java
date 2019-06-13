@@ -29,7 +29,7 @@ public class Gallery implements Serializable {
   private String title;
 
   @Column(name = "gallery_is_video")
-  private boolean isVideo;
+  private Boolean isVideo;
 
   @Column(name = "gallery_trip_distance")
   private Integer distance;

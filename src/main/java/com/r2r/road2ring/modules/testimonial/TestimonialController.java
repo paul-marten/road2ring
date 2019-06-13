@@ -66,7 +66,7 @@ public class TestimonialController {
     String video = "";
     String picture = "";
 
-    if(testi.isVideo()){
+    if(testi.getIsVideo()){
       video = testi.getCoverLandscape();
     }else{
       picture = testi.getCoverLandscape();
