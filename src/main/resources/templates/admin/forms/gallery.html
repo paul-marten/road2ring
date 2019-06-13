@@ -34,6 +34,21 @@
     margin-top: 50px;
 }
 
+.subtitle{
+  margin: 5px 0px 10px 0px;
+}
+
+.with-border-custom{
+  border-bottom: 1px solid #f4f4f4;
+  border-top: 1px solid #f4f4f4;
+}
+
+form.form-border .form-group {
+    margin-bottom: 0;
+    padding-top: 15px;
+    padding-bottom: 15px;
+    border-bottom: 1px solid #ddd;
+}
 
 </style>
 </head>
@@ -155,10 +170,11 @@
         </div>
 
 
-        <div class="form-group article-list">
-          <div class="container-article">
+        <div class="article-list">
+          <div class="container-article form-group">
             <label for="description">Article</label>
             <div class="article-list-0">
+              <input type="text" class="form-control subtitle" id="article" placeholder="Enter Sub Title" data-parsley-required="true">
               <textarea class="form-control mce-editor ta_tmce" placeholder="Enter description" th:text="${response.object.article}"></textarea>
             </div>
             <div class="button-plus-minus" style="margin-top: 10px; padding-bottom: 10px;">
@@ -200,6 +216,7 @@
   <script src="../../js/si/typehead.bundle.min.js"></script>
   <script src="../../js/si/upload.js"></script>
   <script src="../../js/si/tiny_mce.js"></script>
+  <script src="../../js/si/parsley.min.js"></script>
   <script src="../../js/si/testimonial.js"></script>
   <script src="../../js/si/jquery.popupoverlay.min.js"></script>
   <script>

@@ -1,7 +1,9 @@
 function multi_page_editor(){
   tinymce.init({
           selector: ".mce-editor",
-          forced_root_block: false,
+          force_br_newlines : true,
+          force_p_newlines : false,
+          forced_root_block : 'p',
           content_style: "body {font-size:13px !important; font-family: Roboto, sans-serif !important; color: #555 !important}",
           invalid_elements: "span",
           plugins: "autoresize",
@@ -66,8 +68,19 @@ function multi_page_editor(){
           paste_auto_cleanup_on_paste: true,
           paste_remove_styles: true,
           paste_remove_styles_if_webkit: true,
+          paste_as_text: true,
+          paste_data_images: true,
           paste_strip_class_attributes: true,
           setup: function (ed) {
+              ed.on('NodeChange', function (e) {
+                if(e.element.tagName === "IMG"){
+                  e.element.setAttribute("class", 'img-fluid d-block');
+                }if(e.element.tagName == "P"){
+                  e.element.setAttribute("class", 'container mb-0');
+                }
+              });
+
+
               ed.addButton('inlineimage', {
                   title: 'Add Image',
                   icon: 'image',
@@ -84,7 +97,8 @@ function multi_page_editor(){
                       ],
                       onsubmit: function(e) {
                           ed.focus();
-                          ed.selection.setContent('<span class="h2 title-section title-section__with-border">'+ e.data.date +'</span>');
+                          ed.selection.setContent('<div class="text-center mb-4">'+
+                          '<span class="h2 title-section title-section__with-border">'+ e.data.date +'</span></div>');
                       }
                     })
                   }

@@ -6,19 +6,20 @@ $(document).on("click", "#add-article", function(event) {
 
     var child = $(this).parent().children().length
     $(this).remove()
-    clickAddTextArea()
+    clickAddTextArea('')
     multi_page_editor();
     index++;
     curIndex++;
 });
 
-function clickAddTextArea(){
+function clickAddTextArea(subtitle){
+console.log(subtitle)
   var formGroup = $('.article-list')
   var contArticle = $('<div>', {
-    'class' : 'container-article'
+    'class' : 'container-article form-group'
   })
 
-
+  contArticle.append(drawInputSubtitle(subtitle))
   contArticle.append(drawTextArea)
   contArticle.append(drawButton())
   formGroup.append(contArticle)
@@ -26,10 +27,23 @@ function clickAddTextArea(){
 
 }
 
+function drawInputSubtitle(value){
+  var field = $('<input>', {
+    'type': 'text',
+    'class': 'form-control subtitle',
+    'placeholder': 'Enter Sub Title',
+    'data-parsley-required': 'true',
+    'value': value
+  })
+
+  return field;
+}
+
 function drawTextArea(){
   var input = $('<textarea>', {
       'class': 'form-control mce-editor ta_tmce',
       'placeholder': 'Enter Description',
+      'data-parsley-required': 'true',
     }).text('')
 
   return input
@@ -111,15 +125,10 @@ var i = 0;
   $('.ta_tmce').each(function(){
     var title = '';
     if($(this).val().trim() != "" && $(this).val().trim() != null){
-      if(i == 0)
-        text += $(this).val();
-      else{
-//        title = $(this).parent().prev().prev().children('input').val();
-//        if(title.length > 0)
-//          text +='[pagebreak]'+ title +'[/pagebreak]'+$(this).val();
-//        else
-          text +='[pagebreak] [/pagebreak]'+$(this).val();
-      }
+      title = '<div class="text-center mb-4"><span class="h2 title-section title-section_with-border">'
+              +$(this).parent().children('input').val() + '</span></div>';
+
+      text += '<div class="pt-4 mt-4">' + title +'<div class="body-desc">' + $(this).val() + '</div></div>';
     }
     i++;
   })
@@ -128,19 +137,26 @@ var i = 0;
 
 function setPageBreak(){
   var text = $('.ta_tmce').val();
-  var rgx = /\[pagebreak\](.+?)\[\/pagebreak\]/g;
-  var pb = text.split(/\[pagebreak\].+?\[\/pagebreak\]/g)
+
+  var rgx = /\<div class=\"pt-4 mt-4\">/g;
+  var rgxSub = /\<span(.+?)\>(.+?)\<\/span\>/g;
+  var rgxBody = /\<div class="body-desc"\>(.+?)\<\/div\>/g;
+  var body = text.match(rgxBody)
   var listSubtitle = text.match(rgx);
-  var sum = pb.length
-  console.log(sum)
-  var label = '';
-  var subtitle = '';
+  var sum = listSubtitle.length
+  var subtitle = text.match(rgxSub)
+
+  var splitSub = ''
   for(var i = 0; i < sum; i++ ){
+    splitSub = subtitle[i].match('<span class="h2 title-section title-section_with-border">(.*)</span>')
     if(i > 0){
-     clickAddTextArea()
+     clickAddTextArea(splitSub[1])
+    }else{
+     $(".subtitle").val(splitSub[1])
     }
   }
-  setAllTextArea(pb)
+  console.log(body)
+  setAllTextArea(body)
   reDrawButton();
   setToHidden();
 }
@@ -148,8 +164,11 @@ function setPageBreak(){
 //set textarea value from hidden field
 function setAllTextArea(val){
   var i = 0;
+  var value = '';
   $('.ta_tmce').each(function(){
-    $(this).text(val[i])
+    value = val[i].match('<div class="body-desc">(.*)</div>');
+    console.log(value[1])
+    $(this).text(value[1])
     i++;
   })
 }
@@ -232,6 +251,7 @@ function setToHiddenMediaUrl() {
 $("#submit-btn-gallery").click(function(){
   //submit here
   setToHiddenMediaUrl()
+  setToHidden()
 
   if(!isError){
     $.post( "/gallery/save", $('#headlineForm').serialize()).done(function(data) {
@@ -250,6 +270,7 @@ $("#submit-btn-gallery").click(function(){
 $("#submit-btn-testi").click(function(){
   //submit here
   setToHiddenMediaUrl()
+  setToHidden()
 
   if(!isError){
     $.post( "/testimonial/save", $('#headlineForm').serialize()).done(function(data) {
