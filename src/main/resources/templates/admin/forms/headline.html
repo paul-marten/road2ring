@@ -36,17 +36,17 @@
 
         <div class="form-group">
           <label for="type">Type is Video ?</label>
-          <input id="type" type="checkbox" name="video" th:checked="${response.object.video}" />
+          <input id="type" type="checkbox" name="isVideo" th:checked="${response.object.isVideo}" />
         </div>
 
         <input id="hidden_mediaUrl" type="hidden" name="mediaUrl" th:value="${response.object.mediaUrl}">
 
-        <div th:class="${response.object.video == true ? 'form-group type-true' : 'form-group type-true collapse'}">
+        <div th:class="${response.object.isVideo == true ? 'form-group type-true' : 'form-group type-true collapse'}">
           <label for="videoUrl">Headline Video Url</label>
           <input type="text" class="form-control" id="videoUrl" placeholder="Enter video url" th:value="${video}">
         </div>
 
-        <div th:class="${response.object.video == true ? 'form-group type-false collapse' : 'form-group type-false'}">
+        <div th:class="${response.object.isVideo == true ? 'form-group type-false collapse' : 'form-group type-false'}">
             <label for="image">Headline Picture</label>
             <div class="wrap-file">
               <input type="file" id="image">

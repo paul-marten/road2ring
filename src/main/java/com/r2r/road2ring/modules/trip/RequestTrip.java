@@ -27,20 +27,24 @@ public class RequestTrip implements Serializable {
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   @Column(name = "request_trip_id")
+  @JsonView(ResponseView.DefaultRequestTrip.class)
   private Integer id;
 
   @Column(name = "request_max_rider")
+  @JsonView(ResponseView.DefaultRequestTrip.class)
   private Integer maxRider;
 
   @Column(name = "request_start_date")
+  @JsonView(ResponseView.DefaultRequestTrip.class)
   private Date startDate;
 
   @Column(name = "request_user_email")
+  @JsonView(ResponseView.DefaultRequestTrip.class)
   private String userEmail;
 
   @ManyToOne(fetch = FetchType.LAZY , optional = true)
   @JoinColumn(name = "request_trip_trip_id" , nullable = true)
-  @JsonView(ResponseView.DetailedTripPrice.class)
+  @JsonView(ResponseView.DefaultRequestTrip.class)
   private Trip trip;
 
   @Transient

@@ -58,7 +58,7 @@ form.form-border .form-group {
     <div class="box-header with-border">
       <h1 class="box-title">Gallery Form</h1>
     </div>
-    <form id="headlineForm" role="form" th:action="@{'/gallery/save'}" th:object="${response}" method="post">
+    <form id="headlineForm" role="form" th:action="@{'/gallery/save'}" th:object="${response}" class="form-border" method="post">
       <div class="box-body">
         <input id="object_id" type="hidden" name="id" th:if="${response.object.id != 0}" th:value="${response.object.id != null && response.object.id != 0 ? response.object.id : 0}">
 
@@ -70,18 +70,18 @@ form.form-border .form-group {
 
         <div class="form-group">
           <label for="type">Cover Type is Video ?</label>
-          <input id="type" type="checkbox" name="video" th:checked="${response.object.video}" />
+          <input id="type" type="checkbox" name="isVideo" th:checked="${response.object.isVideo}" />
         </div>
 
         <input id="hidden_mediaUrl" type="hidden" name="coverLandscape" th:value="${response.object.coverLandscape}">
 
-        <div th:class="${response.object.video == true ? 'form-group type-true' : 'form-group type-true collapse'}">
+        <div th:class="${response.object.isVideo == true ? 'form-group type-true' : 'form-group type-true collapse'}">
           <label for="videoUrl">Cover Video Url</label>
           <input type="text" class="form-control" id="videoUrl" placeholder="Enter video url" th:value="${video}">
         </div>
 
 
-        <div th:class="${response.object.video == true ? 'form-group type-false collapse' : 'form-group type-false'}">
+        <div th:class="${response.object.isVideo == true ? 'form-group type-false collapse' : 'form-group type-false'}">
           <label for="cover_trip">Cover Picture</label>
           <div class="wrap-file">
             <input type="file" id="cover_trip">
@@ -162,7 +162,7 @@ form.form-border .form-group {
 
         <div class="form-group">
           <label for="description">Description Trip</label>
-          <textarea class="form-control mce-general" name="description" id="description" placeholder="Enter description" th:text="${response.object.description}"></textarea>
+          <textarea class="form-control mce-general" name="description" id="description" placeholder="Enter description" th:text="${response.object.description}" ></textarea>
         </div>
 
         <div class="collapse">

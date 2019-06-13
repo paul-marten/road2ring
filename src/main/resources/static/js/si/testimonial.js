@@ -250,8 +250,10 @@ function setToHiddenMediaUrl() {
 
 $("#submit-btn-gallery").click(function(){
   //submit here
+  tinyMCE.triggerSave();
   setToHiddenMediaUrl()
   setToHidden()
+
 
   if(!isError){
     $.post( "/gallery/save", $('#headlineForm').serialize()).done(function(data) {
@@ -269,8 +271,10 @@ $("#submit-btn-gallery").click(function(){
 
 $("#submit-btn-testi").click(function(){
   //submit here
+  tinyMCE.triggerSave();
   setToHiddenMediaUrl()
   setToHidden()
+
 
   if(!isError){
     $.post( "/testimonial/save", $('#headlineForm').serialize()).done(function(data) {

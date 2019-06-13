@@ -31,7 +31,7 @@ public class GalleryService {
     return galleryRepository.findOne(id);
   }
 
-  public Gallery saveTesti(Gallery gallery) {
+  public Gallery saveGallery(Gallery gallery) {
     Gallery saved = new Gallery();
 
     if(gallery.getId() != null && gallery.getId() != 0){
@@ -48,7 +48,7 @@ public class GalleryService {
     saved.setTripDate(gallery.getTripDate());
     saved.setDistance(gallery.getDistance());
     saved.setDuration(gallery.getDuration());
-    saved.setIsVideo(gallery.getIsVideo());
+    saved.setIsVideo(gallery.getIsVideo() != null ? gallery.getIsVideo() : false);
 
     return galleryRepository.save(saved);
   }

@@ -27,7 +27,7 @@ public class HeadlineService {
     saved.setLinkUrl(headline.getLinkUrl());
     saved.setMediaUrl(headline.getMediaUrl());
     saved.setTitle(headline.getTitle());
-    saved.setIsVideo(headline.getIsVideo());
+    saved.setIsVideo(headline.getIsVideo() != null ? headline.getIsVideo() : false);
 
     return headlineRepository.save(saved);
   }

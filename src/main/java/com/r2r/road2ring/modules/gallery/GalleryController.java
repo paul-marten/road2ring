@@ -74,7 +74,7 @@ public class GalleryController {
   @RequestMapping(value = "/save", method = RequestMethod.POST)
   public String save(@ModelAttribute Gallery gallery, Model model, Principal principal) {
     ResponseMessage response = new ResponseMessage();
-    response.setObject(galleryService.saveTesti(gallery));
+    response.setObject(galleryService.saveGallery(gallery));
     model.addAttribute("response", response);
 
     return "redirect:/gallery";

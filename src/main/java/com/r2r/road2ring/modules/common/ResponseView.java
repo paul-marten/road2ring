@@ -52,4 +52,7 @@ public class ResponseView {
   public interface LimitedTestimonial extends Base{}
   public interface DefaultTestimonial extends LimitedTestimonial, DetailedTrip{}
 
+  public interface LimitedRequestTrip extends Base{}
+  public interface DefaultRequestTrip extends LimitedRequestTrip, DefaultTrip{}
+
 }
