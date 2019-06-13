@@ -25,6 +25,9 @@ public final class Static {
   public static final String TRANSACTION = "/transaction";
   public static final String CONFIRMATION = "/confirmation";
 
+  public static final String GALLERY = "/gallery";
+  public static final String TESTIMONIAL = "/testimonial";
+
   public static final Integer ROLE_ID = 2;
 
   public static final Integer IS_NOT_ACTIVE = 0;
