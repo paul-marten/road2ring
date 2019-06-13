@@ -1,5 +1,9 @@
 package com.r2r.road2ring.modules.testimonial;
 
-public class TestimonialView {
+import com.r2r.road2ring.modules.common.BaseView;
+import lombok.Data;
 
+@Data
+public class TestimonialView extends BaseView {
+  private String coverPotrait;
 }
