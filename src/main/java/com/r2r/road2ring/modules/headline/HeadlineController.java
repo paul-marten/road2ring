@@ -63,7 +63,7 @@ public class HeadlineController {
     String video = "";
     String picture = "";
 
-    if(headline.isVideo()){
+    if(headline.getIsVideo()){
       video = headline.getMediaUrl();
     }else{
       picture = headline.getMediaUrl();
