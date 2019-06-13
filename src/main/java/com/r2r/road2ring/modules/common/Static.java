@@ -27,6 +27,9 @@ public final class Static {
 
   public static final String GALLERY = "/gallery";
   public static final String TESTIMONIAL = "/testimonial";
+  public static final String REQUEST_TRIP = "/request-trip";
+
+  public static final String HEADLINE = "/headline";
 
   public static final Integer ROLE_ID = 2;
 

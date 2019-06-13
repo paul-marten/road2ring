@@ -2,6 +2,7 @@ package com.r2r.road2ring.modules.trip;
 
 import com.fasterxml.jackson.annotation.JsonView;
 import com.r2r.road2ring.modules.common.ResponseView;
+import com.r2r.road2ring.modules.user.User;
 import java.io.Serializable;
 import java.util.Date;
 import javax.persistence.Column;
@@ -13,6 +14,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 import lombok.Data;
 
 @Entity
@@ -33,8 +35,14 @@ public class RequestTrip implements Serializable {
   @Column(name = "request_start_date")
   private Date startDate;
 
+  @Column(name = "request_user_email")
+  private String userEmail;
+
   @ManyToOne(fetch = FetchType.LAZY , optional = true)
   @JoinColumn(name = "request_trip_trip_id" , nullable = true)
   @JsonView(ResponseView.DetailedTripPrice.class)
   private Trip trip;
+
+  @Transient
+  private long startTimestamp;
 }
