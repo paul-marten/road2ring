@@ -73,8 +73,14 @@ public class User implements Serializable {
   @Column(name = "user_activation")
   private Integer activation;
 
-//  private String facebookPageID;
-//  private String twitterPageID;
-//  private String facebookPassword;
-//  private String twitterPassword;
+  @Column(name = "user_verification_code_password")
+  private String verificationCodePassword;
+
+  @Column(name = "user_verification_code_password_last_send")
+  private Date verificationCodePasswordLastSend;
+
+  //  private String facebookPageID;
+  //  private String twitterPageID;
+  //  private String facebookPassword;
+  //  private String twitterPassword;
 }

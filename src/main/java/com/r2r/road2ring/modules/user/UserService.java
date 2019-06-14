@@ -144,7 +144,10 @@ public class UserService {
     saved = userRepository.save(saved);
 
     /*ADD SERVICE EMAIL VERIFICATION*/
-    mailClient.sendRegistrationEmail(saved.getEmail(),saved.getEmail(),saved.getVerificationCode());
+    int index = saved.getEmail().indexOf('@');
+    String username = saved.getEmail().substring(0,index);
+
+    mailClient.sendRegistrationEmail(saved.getEmail(),username,saved.getVerificationCode());
 
     return saved;
   }
@@ -205,6 +208,37 @@ public class UserService {
     }
     saved.setActivation(Static.IS_ACTIVE);
     saved.setVerificationCode(null);
+    return userRepository.save(saved);
+  }
+
+  public User forgotPassword(User user) throws Road2RingException {
+    user = userRepository.findOneByEmailIgnoreCase(user.getEmail());
+
+    if (user != null) {
+      if(user.getVerificationCodePasswordLastSend() == null) {
+        user.setVerificationCodePassword(r2rTools.generateRandomCode(12));
+        user.setVerificationCodePasswordLastSend(new Date());
+        userRepository.save(user);
+
+        /*SEND EMAIL*/
+      }
+
+    } else {
+      throw new Road2RingException("email not found", 702);
+    }
+    return user;
+  }
+
+  public User resetPassword(User user) throws Exception {
+    User saved = userRepository
+        .findOneByVerificationCodePassword(user.getVerificationCodePassword());
+
+    if (saved == null) {
+      throw new Road2RingException("Tautan setel ulang kata sandi sudah tidak berlaku lagi.", 800);
+    }
+    saved.setPassword(r2rTools.hashingPassword(user.getPassword()));
+    saved.setVerificationCodePassword(null);
+    saved.setVerificationCodePasswordLastSend(null);
     return userRepository.save(saved);
   }
 

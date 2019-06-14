@@ -157,7 +157,7 @@ public class UserAPIController {
     return responseMessage;
   }
 
-  @RequestMapping(value = "verification/code", method = RequestMethod.POST)
+  @RequestMapping(value = "/verification/code", method = RequestMethod.POST)
   public ResponseMessage verificationEmail(@ModelAttribute User user,
       HttpServletResponse httpStatus) {
     ResponseMessage response = new ResponseMessage();
@@ -179,4 +179,42 @@ public class UserAPIController {
 
     return response;
   }
+
+  @PostMapping(value = "/forgot-password")
+  public ResponseMessage forgotPassword(@ModelAttribute User user,
+      HttpServletResponse httpStatus){
+    ResponseMessage response  = new ResponseMessage();
+    try{
+     userService.forgotPassword(user);
+    }catch (Road2RingException e) {
+      response.setMessage(e.getMessage());
+      response.setCode(e.getCode());
+      httpStatus.setStatus(HttpStatus.BAD_REQUEST.value());
+    }catch (Exception e){
+      response.setCode(800);
+      e.printStackTrace();
+      response.setMessage(e.getMessage());
+      httpStatus.setStatus(HttpStatus.BAD_REQUEST.value());
+    }
+    return response;
+  }
+
+  @PostMapping(value = "/reset-password")
+  public ResponseMessage resetPassword(@ModelAttribute User user,
+      HttpServletResponse httpStatus){
+    ResponseMessage response  = new ResponseMessage();
+    try{
+      userService.resetPassword(user);
+    }catch (Road2RingException e){
+      response.setCode(800);
+      response.setMessage(e.getMessage());
+      httpStatus.setStatus(HttpStatus.BAD_REQUEST.value());
+    }catch (Exception e){
+      response.setCode(800);
+      response.setMessage(e.getMessage());
+      httpStatus.setStatus(HttpStatus.BAD_REQUEST.value());
+    }
+    return response;
+  }
+
 }
