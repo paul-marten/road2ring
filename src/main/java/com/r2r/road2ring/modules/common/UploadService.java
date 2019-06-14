@@ -55,7 +55,7 @@ public class UploadService {
     File picture = new File(pathImageWebApp);
     file.transferTo(picture);
 
-    this.uploadImagePicture(linkUrl, 600, 400);
+    this.uploadImagePicture(linkUrl);
     this.deleteBaseImage(pathImageWebApp);
 
     return linkUrl;
@@ -67,7 +67,7 @@ public class UploadService {
     file.delete();
   }
 
-  private void uploadImagePicture(String name, Integer imgWitdh, Integer imgHeight)
+  private void uploadImagePicture(String name)
       throws IOException {
     String pathtoUploads = request.getServletContext().getRealPath("/uploads/");
 
@@ -77,12 +77,12 @@ public class UploadService {
     String outputImagePath = IMAGE_ASSETS + name;
 
     // creates output image
-    BufferedImage outputImage = new BufferedImage(imgWitdh,
-        imgHeight, inputImage.getType());
+    BufferedImage outputImage = new BufferedImage(inputImage.getWidth(),
+        inputImage.getWidth(), inputImage.getType());
 
     // scales the input image to the output image
     Graphics2D g2d = outputImage.createGraphics();
-    g2d.drawImage(inputImage, 0, 0, imgWitdh, imgHeight, null);
+    g2d.drawImage(inputImage, 0, 0, inputImage.getWidth(), inputImage.getWidth(), null);
     g2d.dispose();
 
     // extracts extension of output file
