@@ -117,4 +117,7 @@ public class Transaction implements Serializable {
   @Transient
   private Long startTimestamp;
 
+  @Transient
+  private Date endDate;
+
 }
