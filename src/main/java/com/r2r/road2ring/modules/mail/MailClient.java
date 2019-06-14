@@ -1,9 +1,12 @@
 package com.r2r.road2ring.modules.mail;
 
+import static com.r2r.road2ring.modules.common.Static.BASE_URL;
+
 import com.r2r.road2ring.modules.accessory.Accessory;
 import com.r2r.road2ring.modules.accessory.AccessoryRepository;
 import com.r2r.road2ring.modules.motor.Motor;
 import com.r2r.road2ring.modules.transaction.Transaction;
+import com.r2r.road2ring.modules.transaction.TransactionRepository;
 import com.r2r.road2ring.modules.trip.TripPrice;
 import java.util.HashMap;
 import java.util.List;
@@ -27,6 +30,8 @@ public class MailClient {
 
   AccessoryRepository accessoryRepository;
 
+  TransactionRepository transactionRepository;
+
   @Autowired
   private TemplateEngine templateEngine;
 
@@ -38,6 +43,11 @@ public class MailClient {
   @Autowired
   public void setAccessoryRepository(AccessoryRepository accessoryRepository){
     this.accessoryRepository = accessoryRepository;
+  }
+
+  @Autowired
+  public void setTransactionRepository(TransactionRepository transactionRepository){
+    this.transactionRepository = transactionRepository;
   }
 
   public void prepareAndSend(String recipient, String messages) throws MessagingException {
@@ -125,6 +135,8 @@ public class MailClient {
   public void sendCheckoutEmail(String recipient, String consumerName, Transaction transaction,
       Motor motor, List<Accessory> accessories, TripPrice tripPrice) {
 
+    Transaction resultTransaction = transactionRepository.findOne(transaction.getTrip().getId());
+
     MimeMessagePreparator messagePreparator = mimeMessage -> {
       MimeMessageHelper message = new MimeMessageHelper(mimeMessage, true);
       message.setTo(recipient);
@@ -133,22 +145,24 @@ public class MailClient {
       message.setSubject("Congratulation for your transaction");
       Map model = new HashMap();
       model.put("username", consumerName);
-      model.put("image", transaction.getTrip().getCoverLandscape());
-      model.put("iconCover", transaction.getTrip().getIconCover());
-      model.put("startDate", transaction.getStartDate());
-      model.put("endDate", consumerName);
-      model.put("meetingPoint", transaction.getTrip().getMeetingPoint());
+      model.put("image", BASE_URL + resultTransaction.getTrip().getCoverLandscape());
+      model.put("iconCover", BASE_URL + resultTransaction.getTrip().getIconCover());
+      model.put("startDate", tripPrice.getStartTrip());
+      model.put("endDate", tripPrice.getFinishTrip());
+      model.put("meetingPoint", resultTransaction.getTrip().getMeetingPoint());
       model.put("motorName", motor.getTitle());
-      model.put("motorImage", motor.getPicture());
+      model.put("motorImage", BASE_URL + motor.getPicture());
       model.put("expiredDate", transaction.getExpiredPaymentDate());
-      model.put("tripTitle", transaction.getTrip().getTitle());
+      model.put("tripTitle", resultTransaction.getTrip().getTitle());
       model.put("tripPrice", tripPrice.getPrice());
-      model.put("invoiceId", transaction.getCode());
+      model.put("invoiceId", transaction.getCode().toUpperCase());
+      model.put("expiredPaymentDate", transaction.getExpiredPaymentDate());
 
       for(int i = 0; i < accessories.size(); i++) {
         Accessory accessory = accessoryRepository.findOne(accessories.get(i).getId());
         if(accessory.getAccessoryCategory().getTitle().toLowerCase().equalsIgnoreCase("helm")){
           model.put("accossoriesTitle", accessory.getTitle());
+          model.put("accossoriesImage", BASE_URL + accessory.getPicture());
           model.put("accessoriesSize", accessories.get(0).getSize());
         }
       }
@@ -177,6 +191,8 @@ public class MailClient {
 
       Map model = new HashMap();
       model.put("consumerName", consumerName);
+
+      /*CODE VERIFYNYA HARUS DIUBAH LINK*/
       model.put("codeVerify", codeVerify);
 
       Context context = new Context();

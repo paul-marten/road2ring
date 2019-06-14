@@ -5,6 +5,7 @@ $(document).ready( function () {
 	 "dom": '<"row"<"col-sm-2"<"newRecord">><"col-sm-10"<"toolbar">>><"row"<"col-sm-12"tr>><"row"<"col-sm-6"i><"col-sm-6"p>>',
 			"sAjaxSource": "/api/transaction/data",
 			"sAjaxDataProp": "",
+			"autoWidth" : false,
 			"aoColumns": [
 			    {"mData": "id",
             "width": "5%",
@@ -19,8 +20,7 @@ $(document).ready( function () {
 			    { "mData": "trip.title"},
 			    { "mData": "created"},
 			    { "mData": "createdBy"},
-			    { "mData": "updated"},
-			    { "mData": "updatedBy"},
+//			    { "mData": "updated"},
 			    { "mData": "id",
             "width": "10%",
             "searchable": false,
@@ -49,8 +49,8 @@ $(document).ready( function () {
         "searchable": false,
         "orderable": true,
         "targets": 0
-      } ],
-      "order": [[ 0, "asc" ]],
+      }],
+      "order": [[ 2, "asc" ]],
 
 	 });
 	 table.on( 'draw.dt', function () {
@@ -62,33 +62,30 @@ $(document).ready( function () {
        var parseTs = moment(cell.innerHTML, 'x');
        cell.innerHTML = cell.innerHTML != '' ? moment(parseTs).format('DD/MM/YYYY') : '-';
     } );
-    table.column(6, { page: 'current' }).nodes().each( function (cell, i) {
-       var parseTs = moment(cell.innerHTML, 'x');
-       cell.innerHTML = cell.innerHTML != '' ? moment(parseTs).format('DD/MM/YYYY') : '-';
-    } );
+//    table.column(6, { page: 'current' }).nodes().each( function (cell, i) {
+//       var parseTs = moment(cell.innerHTML, 'x');
+//       cell.innerHTML = cell.innerHTML != '' ? moment(parseTs).format('DD/MM/YYYY') : '-';
+//    } );
   });
 //
 //  var btnNew = '<a href="'+window.location.pathname+'/add" class="btn btn-default btn-sm"><span class="fa fa-plus-circle fa-lg"></span> Add New Record</a>';
-//  var filterStatus = 'Filter by : <select class="form-control isIncluded"><option value="">--- All Status ---</option><option value="true">Include</option><option value="false">Not Include</option></select>';
+  var filterStatus = 'Filter by : <select class="form-control isIncluded"><option value="">--- All Status ---</option><option value="BOOKED">BOOKED</option><option value="PAID">PAID</option><option value="CANCEL">CANCEL</option><option value="FAILED">FAILED</option><option value="WAITING">WAITING</option></select>';
 ////  var filterCaptain = '&nbsp;<input class="form-control findCaptain" size="24" type="text" name="findCaptain" placeholder="Find Specific Captain">';
-//  var filterTitle = '&nbsp;<input class="form-control findTitle" size="47" type="text" name="findTitle" placeholder="Find Specific Facility Name">';
-//  var filter = filterStatus + filterTitle;
+  var filterTitle = '&nbsp;<input class="form-control findTitle" size="47" type="text" name="findTitle" placeholder="Type to find">';
+  var filter = filterStatus + filterTitle;
 //  $("div.newRecord").html(btnNew);
-//  $("div.toolbar").html(filter);
+  $("div.toolbar").html(filter);
 //
-//  $('.isIncluded').on('change', function(event){
-//    if ($(this).val() != "")
-//        table.columns(2).search(this.value).draw();
-//    else
-//        table.columns(2).search('').draw();
-//  })
+  $('.isIncluded').on('change', function(event){
+    if ($(this).val() != "")
+        table.columns(2).search(this.value).draw();
+    else
+        table.columns(2).search('').draw();
+  })
 //
-//  $('.findTitle').on('keyup', function(event) {
-//      if ($(this).val().length > 2)
-//          table.columns(1).search(this.value).draw();
-//      else
-//          table.columns(1).search('').draw();
-//  });
+  $('.findTitle').on('keyup', function(event) {
+      table.search( this.value ).draw();
+  });
 //  $('.findCaptain').on('keyup', function(event) {
 //      if ($(this).val().length > 2)
 //          table.columns(3).search(this.value).draw();

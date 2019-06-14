@@ -36,4 +36,6 @@ public final class Static {
   public static final Integer IS_NOT_ACTIVE = 0;
   public static final Integer IS_ACTIVE = 1;
 
+  public static final String BASE_URL = "http://road2ring.com";
+
 }
