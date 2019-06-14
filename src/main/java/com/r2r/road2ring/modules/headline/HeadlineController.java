@@ -44,8 +44,6 @@ public class HeadlineController {
     response.setObject(headline);
 
     model.addAttribute("response", response);
-    model.addAttribute("video", null);
-    model.addAttribute("picture", null);
     model.addAttribute("baseUrl", baseUrl);
 
     return "admin/form/headline";
@@ -60,20 +58,9 @@ public class HeadlineController {
     ResponseMessage response = new ResponseMessage();
 
     Headline headline = headlineService.getHeadlineById(id);
-    String video = "";
-    String picture = "";
-
-    if(headline.getIsVideo()){
-      video = headline.getMediaUrl();
-    }else{
-      picture = headline.getMediaUrl();
-    }
 
     response.setObject(headline);
-
     model.addAttribute("response", response);
-    model.addAttribute("video", video);
-    model.addAttribute("picture", picture);
     model.addAttribute("baseUrl", baseUrl);
 
     return "admin/forms/headline";
@@ -87,8 +74,6 @@ public class HeadlineController {
     ResponseMessage response = new ResponseMessage();
     response.setObject(headlineService.saveHeadline(headline));
     model.addAttribute("response", response);
-    model.addAttribute("video", null);
-    model.addAttribute("picture", null);
     model.addAttribute("baseUrl", baseUrl);
 
     return "redirect:/headline";

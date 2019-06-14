@@ -24,35 +24,30 @@ $(document).ready( function () {
 //          "createdCell": function(td, cellData, rowData, row, col) {
 //              $(td).attr('data-th', "Captain");
 //          }},
-//			    { "mData": "id",
-//            "width": "10%",
-//            "searchable": false,
-//            "orderable": false,
-//            "createdCell": function(td, cellData, rowData, row, col) {
-//               var image = "icon-icon_action";
-//               var text = "Action ";
-//
-//               if (rowData.isPublished == "PUBLISHED" || rowData.isPublished == "EDITED") {
-//                   image = "icon-icon_published";
-//                   text = "Published";
-//               }
-//               var buttonIcon = $('<span>', {'class':'buttonIcon'}).append($('<i>', {'class':image}));
-//               var buttonText = $('<span>', {'class':'buttonText'}).append($('<a>', {'text': text}));
-//               var button = $('<button>', {'class':'btn btn-default dropdown-toggle', 'type':'button', 'data-toggle':'dropdown'}).append(buttonIcon).append(buttonText).append($('<span>', {'class':'caret'}));
-//
-//               var hiddenId = $('<input>', {
-//                   'type': 'hidden',
-//                   'value': cellData
-//               });
-//
-//               var list = $('<ul>', {'class':'dropdown-menu'}).append(drawListAction(rowData, cellData));
-//               var element = $('<div>', {'class':'dropdown'}).append(button).append(list).add(hiddenId);
-//
-//               $(td).html(element);
-//               $(td).attr('data-th', 'Action');
-//
-//           }
-//         },
+			    { "mData": "id",
+                      "width": "10%",
+                      "searchable": false,
+                      "orderable": false,
+                      "createdCell": function(td, cellData, rowData, row, col) {
+                         var text = "View";
+                         var href = $('<a>', {'href': '/request-trip/detail?id='+ cellData})
+                         var buttonText = $('<span>', {'class':'buttonText', 'text': text})
+                         href.append(buttonText)
+                         var button = $('<button>', {'class':'btn btn-default', 'type':'button'}).append(href);
+
+                         var hiddenId = $('<input>', {
+                             'type': 'hidden',
+                             'value': cellData
+                         });
+
+          //               var list = $('<ul>', {'class':'dropdown-menu'}).append(drawListAction(rowData, cellData));
+                         var element = $('<div>', {'class':'dropdown'}).append(button).add(hiddenId);
+
+                         $(td).html(element);
+                         $(td).attr('data-th', 'Action');
+
+                     }
+                   },
 			],
 			"columnDefs": [ {
         "searchable": false,
@@ -87,21 +82,19 @@ $(document).ready( function () {
   var btnNew = '<a href="'+window.location.pathname+'/add" class="btn btn-default btn-sm"><span class="fa fa-plus-circle fa-lg"></span> Add New Record</a>';
   var filterStatus = 'Filter by : <select class="form-control tripStatus"><option value="">--- All Status ---</option><option value="WAITING">Waiting</option><option value="EXPIRED">Expired</option><option value="COMPLETE">Complete</option><option value="CANCEL">Cancel</option></select>';
   var filterCaptain = '&nbsp;<input class="form-control findCaptain" size="24" type="text" name="findCaptain" placeholder="Find Specific Captain">';
-  var filterTitle = '&nbsp;<input class="form-control findTitle" size="47" type="text" name="findTitle" placeholder="Find Specific Title">';
-  var filter = filterStatus;
-  $("div.newRecord").html(btnNew);
+  var filterTitle = '&nbsp;<input class="form-control findTitle" size="47" type="text" name="findTitle" placeholder="Type to find">';
+  var filter = filterTitle;
+//  $("div.newRecord").html(btnNew);
+  $("div.toolbar").css("text-align", "right");
   $("div.toolbar").html(filter);
 
   $('.tripStatus').on('change', function() {
-          table.columns(4).search(this.value).draw();
+          table.search( this.value ).draw();
       });
 
 
   $('.findTitle').on('keyup', function(event) {
-      if ($(this).val().length > 2)
-          table.columns(1).search(this.value).draw();
-      else
-          table.columns(1).search('').draw();
+     table.search( this.value ).draw();
   });
   $('.findCaptain').on('keyup', function(event) {
       if ($(this).val().length > 2)

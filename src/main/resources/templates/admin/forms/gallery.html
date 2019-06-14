@@ -73,21 +73,13 @@ form.form-border .form-group {
           <input id="type" type="checkbox" name="isVideo" th:checked="${response.object.isVideo}" />
         </div>
 
-        <input id="hidden_mediaUrl" type="hidden" name="coverLandscape" th:value="${response.object.coverLandscape}">
-
-        <div th:class="${response.object.isVideo == true ? 'form-group type-true' : 'form-group type-true collapse'}">
-          <label for="videoUrl">Cover Video Url</label>
-          <input type="text" class="form-control" id="videoUrl" placeholder="Enter video url" th:value="${video}">
-        </div>
-
-
-        <div th:class="${response.object.isVideo == true ? 'form-group type-false collapse' : 'form-group type-false'}">
+        <div th:class="form-group">
           <label for="cover_trip">Cover Picture</label>
           <div class="wrap-file">
             <input type="file" id="cover_trip">
           </div>
-          <input type="hidden" id="hidden_cover_trip"
-                 th:value="${picture}">
+          <input type="hidden" id="hidden_cover_trip" name="coverLandscape"
+                 th:value="${response.object.coverLandscape}">
           <!-- <input type="hidden" id="hidden_upload_thumb" name="thumbnail" th:value="${response.object.thumbnail}"> -->
           <div class="wrap_cover_trip collapse">
             <div class="progress">
@@ -101,9 +93,9 @@ form.form-border .form-group {
               <img src="" alt="">
             </div>
           </div>
-          <div th:if="${not #strings.isEmpty(picture)}"
+          <div th:if="${not #strings.isEmpty(response.object.coverLandscape)}"
                class="wrap-img-cover_trip p-top-sm">
-            <img th:src="${baseUrl + picture}"/>
+            <img th:src="${baseUrl + response.object.coverLandscape}"/>
           </div>
         </div>
 
