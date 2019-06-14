@@ -153,7 +153,11 @@ public class TransactionService {
       view.setTransactionCodeId(result.getCode());
 
       /*CREATE EMAIL DATA INVOICE*/
-      mailClient.sendCheckoutEmail(result.getUser().getEmail(),user.getEmail(),result,
+
+      int index = result.getUser().getEmail().indexOf('@');
+      String username = result.getUser().getEmail().substring(0,index);
+
+      mailClient.sendCheckoutEmail(result.getUser().getEmail(),username,result,
           transaction.getMotor(), transaction.getAccessories(), tripPrice);
       return view;
     } else {
@@ -167,6 +171,16 @@ public class TransactionService {
     TransactionLog saved = new TransactionLog();
     saved.setUsername(transaction.getUser().getEmail());
     saved.setAction("CREATED TRANSACTION BY USER");
+    saved.setTransactionId(transaction.getId());
+    saved.setCreator(TransactionCreator.USER);
+    transactionLogService.setTransactionLog(saved);
+  }
+
+  @Async
+  private void createTransactionLogBookedByUser(Transaction transaction){
+    TransactionLog saved = new TransactionLog();
+    saved.setUsername(transaction.getUser().getEmail());
+    saved.setAction("TRANSACTION BOOKED BY USER");
     saved.setTransactionId(transaction.getId());
     saved.setCreator(TransactionCreator.USER);
     transactionLogService.setTransactionLog(saved);
@@ -202,6 +216,16 @@ public class TransactionService {
     transactionLogService.setTransactionLog(saved);
   }
 
+  @Async
+  private void failedTransactionPayment(Transaction transaction, Consumer consumer){
+    TransactionLog saved = new TransactionLog();
+    saved.setUsername(consumer.getEmail());
+    saved.setTransactionId(transaction.getId());
+    saved.setCreator(TransactionCreator.ADMIN);
+    saved.setAction("FAILED PAYMENT BY ADMIN");
+    transactionLogService.setTransactionLog(saved);
+  }
+
   @Transactional
   public void acceptPayment(Transaction transaction, Consumer consumer){
     Transaction saved  = transactionRepository.findOneByCode(transaction.getCode());
@@ -232,6 +256,19 @@ public class TransactionService {
     this.cancelTransactionPayment(saved, consumer);
     transactionRepository.save(saved);
   }
+
+  @Transactional
+  public void failedPayment(Transaction transaction, Consumer consumer){
+    Transaction saved  = transactionRepository.findOneByCode(transaction.getCode());
+    saved.setPaymentStatus(PaymentStatus.FAILED);
+    saved.setCompletePaymentDate(new Date());
+    saved.setUpdated(new Date());
+    saved.setUpdatedBy(consumer.getEmail());
+    saved.setTransactionCreator(TransactionCreator.ADMIN);
+    this.failedTransactionPayment(saved, consumer);
+    transactionRepository.save(saved);
+  }
+
 
   public void changeStatusLatePayment(){
     List<Transaction> transactions = transactionRepository.
@@ -322,6 +359,8 @@ public class TransactionService {
       this.acceptPayment(saved,consumer);
     } else if(statusId == PaymentStatus.CANCEL){
       this.cancelPayment(saved, consumer);
+    } else if(statusId == PaymentStatus.FAILED){
+      this.failedPayment(saved,consumer);
     } else {
       throw new Road2RingException("cannot set value", 900);
     }
@@ -338,5 +377,14 @@ public class TransactionService {
   private int getRidersNeeded(Transaction transaction, Date startDate){
     TripPrice tripPrice = tripPriceService.getTripPrice(transaction.getTrip().getId(),startDate);
     return (transaction.getTrip().getMaxRider() - tripPrice.getPersonPaid());
+  }
+
+  @Transactional
+  public Transaction changeStatusPayment(String transactionCode){
+    Transaction result = transactionRepository.findOneByCode(transactionCode);
+    result.setPaymentStatus(PaymentStatus.BOOKED);
+    transactionRepository.save(result);
+    this.createTransactionLogBookedByUser(result);
+    return result;
   }
 }
