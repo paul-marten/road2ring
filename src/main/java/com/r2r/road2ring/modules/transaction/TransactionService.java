@@ -265,8 +265,9 @@ public class TransactionService {
     saved.setUpdated(new Date());
     saved.setUpdatedBy(consumer.getEmail());
     saved.setTransactionCreator(TransactionCreator.ADMIN);
-    this.failedTransactionPayment(saved, consumer);
     transactionRepository.save(saved);
+    tripPriceService.minPersonTripPrice(transaction.getTrip().getId(), transaction.getStartDate());
+    this.failedTransactionPayment(saved, consumer);
   }
 
 
