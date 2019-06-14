@@ -82,21 +82,19 @@ $(document).ready( function () {
   var btnNew = '<a href="'+window.location.pathname+'/add" class="btn btn-default btn-sm"><span class="fa fa-plus-circle fa-lg"></span> Add New Record</a>';
   var filterStatus = 'Filter by : <select class="form-control tripStatus"><option value="">--- All Status ---</option><option value="WAITING">Waiting</option><option value="EXPIRED">Expired</option><option value="COMPLETE">Complete</option><option value="CANCEL">Cancel</option></select>';
   var filterCaptain = '&nbsp;<input class="form-control findCaptain" size="24" type="text" name="findCaptain" placeholder="Find Specific Captain">';
-  var filterTitle = '&nbsp;<input class="form-control findTitle" size="47" type="text" name="findTitle" placeholder="Find Specific Title">';
-  var filter = filterStatus;
-  $("div.newRecord").html(btnNew);
+  var filterTitle = '&nbsp;<input class="form-control findTitle" size="47" type="text" name="findTitle" placeholder="Type to find">';
+  var filter = filterTitle;
+//  $("div.newRecord").html(btnNew);
+  $("div.toolbar").css("text-align", "right");
   $("div.toolbar").html(filter);
 
   $('.tripStatus').on('change', function() {
-          table.columns(4).search(this.value).draw();
+          table.search( this.value ).draw();
       });
 
 
   $('.findTitle').on('keyup', function(event) {
-      if ($(this).val().length > 2)
-          table.columns(1).search(this.value).draw();
-      else
-          table.columns(1).search('').draw();
+     table.search( this.value ).draw();
   });
   $('.findCaptain').on('keyup', function(event) {
       if ($(this).val().length > 2)

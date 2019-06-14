@@ -29,14 +29,14 @@
 //  $('#hidden_mediaUrl').val(value)
 //}
 
-//$("#submit-btn").click(function(){
-//  //submit here
-////  setToHiddenMediaUrl()
-//
-//  if(!isError){
-//    $.post( "/headline/save/", $('#headlineForm').serialize()).done(function(data) {
-//          window.location.href = "/headline";
-//    })
-//   }
-//
-//})
+$("#submit-btn").click(function(){
+  //submit here
+//  setToHiddenMediaUrl()
+  tinyMCE.triggerSave();
+
+    $.post( "/headline/save/", $('#headlineForm').serialize()).done(function(data) {
+          window.location.href = "/headline";
+    })
+
+
+})

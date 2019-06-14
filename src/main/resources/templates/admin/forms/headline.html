@@ -30,6 +30,11 @@
         </div>
 
         <div class="form-group">
+          <label for="title">Headline Subtitle</label>
+          <textarea type="text" class="form-control mce-general" name="subtitle" id="subtitle" placeholder="Enter Title" th:text="${response.object.subtitle}" required></textarea>
+        </div>
+
+        <div class="form-group">
           <label for="linkUrl">Headline Link Url</label>
           <input type="text" class="form-control" name="linkUrl" id="linkUrl" placeholder="Enter Title" th:value="${response.object.linkUrl}" required>
         </div>
@@ -66,18 +71,25 @@
         </div>
 
       <div class="box-footer">
-        <button id="submit-btn" type="submit" class="btn btn-primary">Submit</button>
+        <button id="submit-btn" type="button" class="btn btn-primary">Submit</button>
       </div>
     </form>
   </div>
 </div>
 <th:block layout:fragment="footer-js">
+  <script src="//tinymce.cachefly.net/4.3/tinymce.min.js"></script>
   <script src="../../js/si/jquery.html5uploader.min.js"></script>
+  <script src="../../js/si/tiny_mce.js"></script>
   <script src="../../js/si/upload.js"></script>
   <script src="../../js/si/parsley.min.js"></script>
-  <!--<script src="../../js/si/headline.js"></script>-->
+  <script src="../../js/si/headline.js"></script>
   <script>
-    upload_trip("/api/trip/upload_icon", "image","#image", "#hidden_image",640,640, "landscape");
+  $(function() {
+      $(document).ready(function () {
+        upload_trip("/api/trip/upload_icon", "image","#image", "#hidden_image",640,640, "landscape");
+        general_editor()
+      })
+  })
   </script>
 </th:block>
 </body>

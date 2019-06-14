@@ -24,6 +24,9 @@ public class Headline implements Serializable {
   @Column(name = "headline_title")
   private String title;
 
+  @Column(name = "headline_subtitle")
+  private String subtitle;
+
   @Column(name = "headline_link_url")
   private String linkUrl;
 

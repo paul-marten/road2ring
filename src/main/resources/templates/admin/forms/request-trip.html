@@ -66,7 +66,7 @@
 <div layout:fragment="content">
   <div class="box box-primary">
     <div class="box-header with-border">
-      <h1 class="box-title">Transaction Form</h1>
+      <h1 class="box-title">Request Trip Detail</h1>
     </div>
     <div class="box-body">
       <div class="info-table">
@@ -117,6 +117,16 @@
             <td class="title">Trip Distance </td>
             <td class="separator"> : </td>
             <td th:text="${response.object.trip.distance + ' KMs'}"></td>
+          </tr>
+          <tr>
+            <td class="title">Trip Max Rider </td>
+            <td class="separator"> : </td>
+            <td th:text="${response.object.trip.maxRider}"></td>
+          </tr>
+          <tr>
+            <td class="title">Trip Map </td>
+            <td class="separator"> : </td>
+            <td><img id="myImg" th:src="${response.object.trip.map}"></td>
           </tr>
         </table>
       </div>

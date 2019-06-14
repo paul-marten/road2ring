@@ -59,10 +59,6 @@ public class HeadlineController {
 
     Headline headline = headlineService.getHeadlineById(id);
 
-    System.out.println();
-    System.out.println(headline.toString());
-    System.out.println();
-
     response.setObject(headline);
     model.addAttribute("response", response);
     model.addAttribute("baseUrl", baseUrl);
