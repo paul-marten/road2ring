@@ -30,4 +30,7 @@ public class RequestTripService {
     return requestTripRepository.findAll();
   }
 
+  public RequestTrip findRequest(int id) {
+    return requestTripRepository.findOne(id);
+  }
 }

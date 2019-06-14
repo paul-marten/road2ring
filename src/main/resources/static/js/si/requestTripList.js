@@ -24,35 +24,30 @@ $(document).ready( function () {
 //          "createdCell": function(td, cellData, rowData, row, col) {
 //              $(td).attr('data-th', "Captain");
 //          }},
-//			    { "mData": "id",
-//            "width": "10%",
-//            "searchable": false,
-//            "orderable": false,
-//            "createdCell": function(td, cellData, rowData, row, col) {
-//               var image = "icon-icon_action";
-//               var text = "Action ";
-//
-//               if (rowData.isPublished == "PUBLISHED" || rowData.isPublished == "EDITED") {
-//                   image = "icon-icon_published";
-//                   text = "Published";
-//               }
-//               var buttonIcon = $('<span>', {'class':'buttonIcon'}).append($('<i>', {'class':image}));
-//               var buttonText = $('<span>', {'class':'buttonText'}).append($('<a>', {'text': text}));
-//               var button = $('<button>', {'class':'btn btn-default dropdown-toggle', 'type':'button', 'data-toggle':'dropdown'}).append(buttonIcon).append(buttonText).append($('<span>', {'class':'caret'}));
-//
-//               var hiddenId = $('<input>', {
-//                   'type': 'hidden',
-//                   'value': cellData
-//               });
-//
-//               var list = $('<ul>', {'class':'dropdown-menu'}).append(drawListAction(rowData, cellData));
-//               var element = $('<div>', {'class':'dropdown'}).append(button).append(list).add(hiddenId);
-//
-//               $(td).html(element);
-//               $(td).attr('data-th', 'Action');
-//
-//           }
-//         },
+			    { "mData": "id",
+                      "width": "10%",
+                      "searchable": false,
+                      "orderable": false,
+                      "createdCell": function(td, cellData, rowData, row, col) {
+                         var text = "View";
+                         var href = $('<a>', {'href': '/request-trip/detail?id='+ cellData})
+                         var buttonText = $('<span>', {'class':'buttonText', 'text': text})
+                         href.append(buttonText)
+                         var button = $('<button>', {'class':'btn btn-default', 'type':'button'}).append(href);
+
+                         var hiddenId = $('<input>', {
+                             'type': 'hidden',
+                             'value': cellData
+                         });
+
+          //               var list = $('<ul>', {'class':'dropdown-menu'}).append(drawListAction(rowData, cellData));
+                         var element = $('<div>', {'class':'dropdown'}).append(button).add(hiddenId);
+
+                         $(td).html(element);
+                         $(td).attr('data-th', 'Action');
+
+                     }
+                   },
 			],
 			"columnDefs": [ {
         "searchable": false,
