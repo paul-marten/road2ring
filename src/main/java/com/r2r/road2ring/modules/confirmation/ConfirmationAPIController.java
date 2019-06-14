@@ -5,6 +5,7 @@ import static com.r2r.road2ring.modules.common.Static.IMAGE_ASSETS_URL;
 import static com.r2r.road2ring.modules.common.Static.M_API;
 
 import com.r2r.road2ring.modules.common.ResponseMessage;
+import com.r2r.road2ring.modules.common.Road2RingException;
 import com.r2r.road2ring.modules.common.UploadService;
 import com.r2r.road2ring.modules.user.User;
 import com.r2r.road2ring.modules.user.UserService;
@@ -64,7 +65,13 @@ public class ConfirmationAPIController {
 
       confirmation.setPicture(IMAGE_ASSETS_URL + picture);
 
-      responseMessage.setObject(confirmationService.saveConfirmation(confirmation));
+      try {
+        responseMessage.setObject(confirmationService.saveConfirmation(confirmation));
+      } catch (Road2RingException e) {
+        e.printStackTrace();
+        responseMessage.setCode(e.getCode());
+        responseMessage.setMessage(e.getMessage());
+      }
     }
     return responseMessage;
   }
