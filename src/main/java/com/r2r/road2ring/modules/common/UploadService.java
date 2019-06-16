@@ -78,11 +78,11 @@ public class UploadService {
 
     // creates output image
     BufferedImage outputImage = new BufferedImage(inputImage.getWidth(),
-        inputImage.getWidth(), inputImage.getType());
+        inputImage.getHeight(), inputImage.getType());
 
     // scales the input image to the output image
     Graphics2D g2d = outputImage.createGraphics();
-    g2d.drawImage(inputImage, 0, 0, inputImage.getWidth(), inputImage.getWidth(), null);
+    g2d.drawImage(inputImage, 0, 0, inputImage.getWidth(), inputImage.getHeight(), null);
     g2d.dispose();
 
     // extracts extension of output file

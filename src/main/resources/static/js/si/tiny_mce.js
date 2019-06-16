@@ -1,4 +1,5 @@
 function multi_page_editor(){
+  var hostname = $(location).attr('protocol') + '//' + $(location).attr('host');
   tinymce.init({
           selector: ".mce-editor",
           force_br_newlines : true,
@@ -22,6 +23,9 @@ function multi_page_editor(){
 
           image_caption: true,
           file_picker_types: 'image',
+          relative_urls : false,
+          remove_script_host : false,
+          document_base_url : hostname,
           file_picker_callback: function (cb, value, meta) {
               var input = document.createElement('input');
               input.setAttribute('type', 'file');
@@ -31,22 +35,18 @@ function multi_page_editor(){
                 var file = this.files[0];
                 var reader = new FileReader();
                 reader.onload = function () {
-                  var hostname = $(location).attr('protocol') + '//' + $(location).attr('host');
+//                  var hostname = $(location).attr('protocol') + '//' + $(location).attr('host');
                   var api = hostname + "/api";
                   var formData = new FormData();
                   formData.append("file", file)
                   var json_data = new XMLHttpRequest();
                   var url = api + '/trip/upload_trip/potrait';
-                  console.log(url)
                   var data;
 
                   json_data.onreadystatechange = function() {
-                  console.log(this.status)
                       if (this.readyState == 4 && this.status == 200) {
                           var response = JSON.parse(this.responseText);
-                          data = '/img/assets/'+ response.object;
-                          console.log('/img/assets/'+file.name)
-                          console.log(response)
+                          data = '/img/assets/'+response.object;
                           cb(data);
                       }
                   };
@@ -143,6 +143,7 @@ function multi_page_editor(){
 }
 
 function general_editor(){
+var hostname = $(location).attr('protocol') + '//' + $(location).attr('host');
   tinymce.init({
             selector: ".mce-general",
             forced_root_block: false,
@@ -164,6 +165,9 @@ function general_editor(){
 
             image_caption: true,
             file_picker_types: 'image',
+            relative_urls : false,
+            remove_script_host : false,
+            document_base_url : hostname,
             file_picker_callback: function (cb, value, meta) {
                 var input = document.createElement('input');
                 input.setAttribute('type', 'file');
@@ -186,9 +190,7 @@ function general_editor(){
                     console.log(this.status)
                         if (this.readyState == 4 && this.status == 200) {
                             var response = JSON.parse(this.responseText);
-                            data = '/img/assets/'+ response.object;
-                            console.log('/img/assets/'+file.name)
-                            console.log(response)
+                            data = '/img/assets/'+response.object;
                             cb(data);
                         }
                     };
