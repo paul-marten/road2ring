@@ -13,7 +13,6 @@ $(document).on("click", "#add-article", function(event) {
 });
 
 function clickAddTextArea(subtitle){
-console.log(subtitle)
   var formGroup = $('.article-list')
   var contArticle = $('<div>', {
     'class' : 'container-article form-group'
@@ -98,7 +97,6 @@ $(document).on("click", '#delete-body', function(event){
 
 function goDelete(){
   var container = contDel.parent().parent();
-  console.log(container)
   container.remove();
   addButtonWhenDelete();
   setToHidden();
@@ -125,7 +123,7 @@ var i = 0;
   $('.ta_tmce').each(function(){
     var title = '';
     if($(this).val().trim() != "" && $(this).val().trim() != null){
-      title = '<div class="text-center mb-4"><span class="h2 title-section title-section_with-border">'
+      title = '<div class="text-center mb-4"><span class="h2 title-section title-section__with-border">'
               +$(this).parent().children('input').val() + '</span></div>';
 
       text += '<div class="pt-4 mt-4">' + title +'<div class="body-desc">' + $(this).val() + '</div></div>';
@@ -148,14 +146,14 @@ function setPageBreak(){
 
   var splitSub = ''
   for(var i = 0; i < sum; i++ ){
-    splitSub = subtitle[i].match('<span class="h2 title-section title-section_with-border">(.*)</span>')
+    splitSub = subtitle[i].match('<span class="h2 title-section title-section__with-border">(.*)</span>')
+    console.log(splitSub[1])
     if(i > 0){
      clickAddTextArea(splitSub[1])
     }else{
      $(".subtitle").val(splitSub[1])
     }
   }
-  console.log(body)
   setAllTextArea(body)
   reDrawButton();
   setToHidden();
@@ -167,7 +165,6 @@ function setAllTextArea(val){
   var value = '';
   $('.ta_tmce').each(function(){
     value = val[i].match('<div class="body-desc">(.*)</div>');
-    console.log(value[1])
     $(this).text(value[1])
     i++;
   })

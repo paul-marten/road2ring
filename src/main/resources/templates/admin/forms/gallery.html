@@ -74,7 +74,7 @@ form.form-border .form-group {
         </div>
 
         <div th:class="form-group">
-          <label for="cover_trip">Cover Picture</label>
+          <label for="cover_trip">Cover Landscape (Maks Size 600x400, 100kb)</label>
           <div class="wrap-file">
             <input type="file" id="cover_trip">
           </div>
@@ -96,6 +96,32 @@ form.form-border .form-group {
           <div th:if="${not #strings.isEmpty(response.object.coverLandscape)}"
                class="wrap-img-cover_trip p-top-sm">
             <img th:src="${baseUrl + response.object.coverLandscape}"/>
+          </div>
+        </div>
+
+        <div th:class="form-group">
+          <label for="cover_trips">Cover Potrait (Maks Size 400x600, 100kb)</label>
+          <div class="wrap-file">
+            <input type="file" id="cover_trips">
+          </div>
+          <input type="hidden" id="hidden_cover_trips" name="coverPotrait"
+                 th:value="${response.object.coverPotrait}">
+          <!-- <input type="hidden" id="hidden_upload_thumb" name="thumbnail" th:value="${response.object.thumbnail}"> -->
+          <div class="wrap_cover_trips collapse">
+            <div class="progress">
+              <div class="progress-bar progress-bar-info progress-bar-striped"
+                   role="progressbar" aria-valuenow="" aria-valuemin="0" aria-valuemax="100"
+                   style="">
+              </div>
+            </div>
+            <div class="msg collapse text-info"><i class="fa fa-check"></i> Upload Succeed</div>
+            <div class="pre_img">
+              <img src="" alt="">
+            </div>
+          </div>
+          <div th:if="${not #strings.isEmpty(response.object.coverPotrait)}"
+               class="wrap-img-cover_trips p-top-sm">
+            <img th:src="${baseUrl + response.object.coverPotrait}"/>
           </div>
         </div>
 
@@ -216,6 +242,7 @@ form.form-border .form-group {
       $(document).ready(function () {
           upload_trip("/api/trip/upload_icon", "icon_cover","#icon_cover", "#hidden_icon_cover",640,640, "landscape");
           upload_trip("/api/trip/upload_trip", "cover_trip","#cover_trip", "#hidden_cover_trip",640,640, "potrait");
+          upload_trip("/api/trip/upload_trip", "cover_trips","#cover_trips", "#hidden_cover_trips",640,640, "potrait");
           multi_page_editor();
           general_editor()
           if($('.ta_tmce').val()!= null && $('.ta_tmce').val()!=""){

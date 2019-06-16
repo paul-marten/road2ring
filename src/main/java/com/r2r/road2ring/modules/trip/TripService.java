@@ -69,7 +69,7 @@ public class TripService {
     saved.setTerrain(trip.getTerrain());
     saved.setDuration(trip.getDuration());
     saved.setCoverLandscape(trip.getCoverLandscape());
-    saved.setCoverPotrait(trip.getCoverLandscape());
+    saved.setCoverPotrait(trip.getCoverPotrait());
     saved.setMap(trip.getMap());
     if(trip.getRoadCaptain() != null && trip.getRoadCaptain().getId() != 0) {
       saved.setRoadCaptain(trip.getRoadCaptain());
