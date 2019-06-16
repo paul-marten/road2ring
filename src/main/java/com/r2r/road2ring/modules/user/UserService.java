@@ -221,6 +221,11 @@ public class UserService {
         userRepository.save(user);
 
         /*SEND EMAIL*/
+        int index = user.getEmail().indexOf('@');
+        String username = user.getEmail().substring(0,index);
+
+        mailClient.sendForgotPassword(user.getEmail(),username,
+            user.getVerificationCodePassword());
       }
 
     } else {
