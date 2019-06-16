@@ -15,4 +15,5 @@ public interface TransactionRepository extends DataTablesRepository<Transaction,
   List<Transaction> findAllByPaymentStatusAndExpiredPaymentDateLessThan(PaymentStatus paymentStatus, Date paydate);
   List<Transaction> findAllByUserIdOrderByCreatedDesc(Integer userId, Pageable pageable);
   Transaction findOneByIdAndUserId(int id, int userId);
+  List<Transaction> findAllByPaymentStatusAndStartDate(PaymentStatus paymentStatus, Date startDate);
 }

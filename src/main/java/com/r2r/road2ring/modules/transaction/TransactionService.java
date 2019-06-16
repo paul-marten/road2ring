@@ -13,7 +13,9 @@ import com.r2r.road2ring.modules.transactionlog.TransactionCreator;
 import com.r2r.road2ring.modules.transactionlog.TransactionLog;
 import com.r2r.road2ring.modules.transactionlog.TransactionLogService;
 import com.r2r.road2ring.modules.trip.TripPrice;
+import com.r2r.road2ring.modules.trip.TripPriceRepository;
 import com.r2r.road2ring.modules.trip.TripPriceService;
+import com.r2r.road2ring.modules.trip.TripPriceStatus;
 import com.r2r.road2ring.modules.trip.TripRepository;
 import com.r2r.road2ring.modules.user.User;
 import java.sql.Timestamp;
@@ -50,6 +52,8 @@ public class TransactionService {
   ConfirmationService confirmationService;
 
   MailClient mailClient;
+
+  TripPriceRepository tripPriceRepository;
 
   @Autowired
   public void setTransactionRepository(TransactionRepository transactionRepository){
@@ -100,6 +104,11 @@ public class TransactionService {
   @Autowired
   public void setMailClient(MailClient mailClient){
     this.mailClient = mailClient;
+  }
+
+  @Autowired
+  public void setTripPriceRepository(TripPriceRepository tripPriceRepository){
+    this.tripPriceRepository = tripPriceRepository;
   }
 
   @Transactional
@@ -235,14 +244,37 @@ public class TransactionService {
     saved.setUpdated(new Date());
     saved.setTransactionCreator(TransactionCreator.ADMIN);
     this.acceptTransactionPayment(saved, consumer);
+
+    int index = saved.getUser().getEmail().indexOf('@');
+    String username = saved.getUser().getEmail().substring(0,index);
     try {
       /*change email recipient*/
-      mailClient.sendPaidEmail("paulmartensimanjuntak19@gmail.com",saved.getUser().getEmail(),
+      mailClient.sendPaidEmail(saved.getUser().getEmail(),username,
           this.getRidersNeeded(saved, saved.getStartDate()));
     } catch (MessagingException e) {
       e.printStackTrace();
     }
     transactionRepository.save(saved);
+
+    /*Check All Paid User*/
+    this.checkPaidUser(saved);
+  }
+
+  @Transactional
+  public void checkPaidUser(Transaction transaction){
+    int maxRider = transaction.getTrip().getMaxRider();
+    TripPrice tripPrice = tripPriceService.getTripPrice(transaction.getTrip().getId(),transaction.getStartDate());
+    List<Transaction> transactions = this.findPaidTransaction(transaction.getStartDate());
+    if(maxRider == transactions.size()){
+      tripPrice.setStatus(TripPriceStatus.COMPLETE);
+      tripPriceRepository.save(tripPrice);
+
+      /*SENT EMAIL*/
+      for(Transaction result : transactions){
+        mailClient.sentEmailCompleteTrip(result.getUser().getEmail(),
+            result.getTrip().getMeetingPoint());
+      }
+    }
   }
 
   @Transactional
@@ -386,6 +418,11 @@ public class TransactionService {
     result.setPaymentStatus(PaymentStatus.BOOKED);
     transactionRepository.save(result);
     this.createTransactionLogBookedByUser(result);
+    return result;
+  }
+
+  public List<Transaction> findPaidTransaction(Date startDate){
+    List<Transaction> result = transactionRepository.findAllByPaymentStatusAndStartDate(PaymentStatus.PAID, startDate);
     return result;
   }
 }
