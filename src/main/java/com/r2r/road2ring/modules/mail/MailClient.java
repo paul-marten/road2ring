@@ -204,4 +204,48 @@ public class MailClient {
 
     mailSender.send(messagePreparator);
   }
+
+  public void sendForgotPassword(String recipient, String consumerName, String codeResetPassword) {
+
+    MimeMessagePreparator messagePreparator = mimeMessage -> {
+      MimeMessageHelper message = new MimeMessageHelper(mimeMessage, true);
+      message.setTo(recipient);
+      message.setFrom(new InternetAddress("bolalobintern@gmail.com"));
+      message.setSubject("Reset Password On Road2Ring");
+
+      Map model = new HashMap();
+      model.put("consumerName", consumerName);
+
+      /*CODE VERIFYNYA HARUS DIUBAH LINK*/
+      model.put("codeResetPassword", codeResetPassword);
+
+      Context context = new Context();
+      context.setVariables(model);
+      String html = templateEngine.process("admin/email/forgot-password", context);
+
+      message.setText(html, true);
+    };
+
+    mailSender.send(messagePreparator);
+  }
+
+  public void sentEmailCompleteTrip(String recipient, String location){
+    MimeMessagePreparator messagePreparator = mimeMessage -> {
+      MimeMessageHelper message = new MimeMessageHelper(mimeMessage, true);
+      message.setTo(recipient);
+      message.setFrom(new InternetAddress("bolalobintern@gmail.com"));
+      message.setSubject("Be Ready For Your Touring");
+
+      Map model = new HashMap();
+      model.put("location", location);
+
+      Context context = new Context();
+      context.setVariables(model);
+      String html = templateEngine.process("admin/email/complete-trip", context);
+
+      message.setText(html, true);
+    };
+
+    mailSender.send(messagePreparator);
+  }
 }
