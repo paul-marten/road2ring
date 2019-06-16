@@ -137,17 +137,17 @@ function setPageBreak(){
   var text = $('.ta_tmce').val();
 
   var rgx = /\<div class=\"pt-4 mt-4\">/g;
-  var rgxSub = /\<span(.+?)\>(.+?)\<\/span\>/g;
+  var rgxSub = /\<span class=\"h2 title-section title-section__with-border\"\>(.+?)\<\/span\>/g;
   var rgxBody = /\<div class="body-desc"\>(.+?)\<\/div\>/g;
   var body = text.match(rgxBody)
   var listSubtitle = text.match(rgx);
   var sum = listSubtitle.length
   var subtitle = text.match(rgxSub)
 
+
   var splitSub = ''
   for(var i = 0; i < sum; i++ ){
     splitSub = subtitle[i].match('<span class="h2 title-section title-section__with-border">(.*)</span>')
-    console.log(splitSub[1])
     if(i > 0){
      clickAddTextArea(splitSub[1])
     }else{

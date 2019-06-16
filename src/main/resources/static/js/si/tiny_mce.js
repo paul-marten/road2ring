@@ -34,7 +34,7 @@ function multi_page_editor(){
               input.onchange = function () {
                 var file = this.files[0];
                 var reader = new FileReader();
-                reader.onload = function () {
+                reader.onload = function (e) {
 //                  var hostname = $(location).attr('protocol') + '//' + $(location).attr('host');
                   var api = hostname + "/api";
                   var formData = new FormData();
@@ -53,10 +53,9 @@ function multi_page_editor(){
 
                   json_data.open("POST", url, true);
 
-                  console.log(formData)
+//                  console.log(formData)
                   json_data.send(formData);
                 };
-                console.log(file)
                 reader.readAsDataURL(file);
               };
 
@@ -74,12 +73,15 @@ function multi_page_editor(){
           setup: function (ed) {
               ed.on('NodeChange', function (e) {
                 if(e.element.tagName === "IMG"){
+                  var edt = tinymce.get(ed.id);
+                  $(edt.selection.getNode()).wrap("<span class='d-block img__wrap' />");
+
                   e.element.setAttribute("class", 'img-fluid d-block');
+
                 }if(e.element.tagName == "P"){
                   e.element.setAttribute("class", 'container mb-0');
                 }
               });
-
 
               ed.addButton('inlineimage', {
                   title: 'Add Image',

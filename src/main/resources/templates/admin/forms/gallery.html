@@ -49,6 +49,9 @@ form.form-border .form-group {
     padding-bottom: 15px;
     border-bottom: 1px solid #ddd;
 }
+.sub-label{
+  font-size: 8pt;
+}
 
 </style>
 </head>
@@ -74,7 +77,7 @@ form.form-border .form-group {
         </div>
 
         <div th:class="form-group">
-          <label for="cover_trip">Cover Landscape (Maks Size 600x400, 100kb)</label>
+          <label for="cover_trip">Cover Landscape <span class="sub-label">(ukuran gambar 600x400, maksimum 100kb)</span></label>
           <div class="wrap-file">
             <input type="file" id="cover_trip">
           </div>
@@ -100,7 +103,7 @@ form.form-border .form-group {
         </div>
 
         <div th:class="form-group">
-          <label for="cover_trips">Cover Potrait (Maks Size 400x600, 100kb)</label>
+          <label for="cover_trips">Cover Potrait <span class="sub-label">(ukuran gambar 400x600, maksimum 100kb)</span></label>
           <div class="wrap-file">
             <input type="file" id="cover_trips">
           </div>
