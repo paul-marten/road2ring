@@ -1,11 +1,14 @@
 package com.r2r.road2ring.modules.pdf;
 
+import static com.r2r.road2ring.modules.common.Static.BASE_URL;
+
 import com.itextpdf.text.BaseColor;
 import com.itextpdf.text.Chunk;
 import com.itextpdf.text.Document;
 import com.itextpdf.text.DocumentException;
 import com.itextpdf.text.Element;
 import com.itextpdf.text.Font;
+import com.itextpdf.text.Font.FontFamily;
 import com.itextpdf.text.Image;
 import com.itextpdf.text.Paragraph;
 import com.itextpdf.text.Phrase;
@@ -59,7 +62,7 @@ public class PdfService {
       document.open();
       document.addTitle("Invoice "+ transactionCodeId);
 
-      Font titleFont = new Font(Font.FontFamily.TIMES_ROMAN, 15,
+      Font titleFont = new Font(Font.FontFamily.HELVETICA, 15,
           Font.BOLD, new BaseColor(34,76,152));
 
       String imageUrl = "http://road2ring.com/img/assets/logo-pdf.png";
@@ -73,7 +76,7 @@ public class PdfService {
       table.setWidths(columnWidths);
 
       PdfPCell cell1 = new PdfPCell(new Paragraph(
-         "INVOICE " + transaction.getCode(),titleFont));
+         "INVOICE " + transaction.getCode().toUpperCase(),titleFont));
       cell1.setBorderColor(BaseColor.WHITE);
       cell1.setPaddingLeft(0);
       cell1.setHorizontalAlignment(Element.ALIGN_LEFT);
@@ -91,6 +94,44 @@ public class PdfService {
       table.addCell(cell2);
       table.getDefaultCell().setBorderColor(BaseColor.WHITE);
       document.add(table);
+
+
+//      PdfPTable tableDescription = new PdfPTable(2); // 2 columns.
+//      tableDescription.setWidthPercentage(100); //Width 100%
+//      tableDescription.setSpacingBefore(10f); //Space before table
+//      tableDescription.setSpacingAfter(10f);
+//
+//      float[] columnWidthsDescription = {0.1f, 1f};
+//      table.setWidths(columnWidthsDescription);
+//
+//      Image image = Image.getInstance(new URL(BASE_URL + transaction.getTrip().getCoverLandscape()));
+//      image.scaleToFit(100,100);
+//
+//      PdfPCell cell1Description = new PdfPCell(
+//          image, true
+//      );
+//      cell1Description.setBorderColor(BaseColor.WHITE);
+//      cell1Description.setPaddingLeft(0);
+//      cell1Description.setHorizontalAlignment(Element.ALIGN_RIGHT);
+//      cell1Description.setVerticalAlignment(Element.ALIGN_MIDDLE);
+//
+//      Phrase phrase = new Phrase();
+//      phrase.add(
+//          new Chunk("aaaaaaaaa",  new Font(FontFamily.HELVETICA, 15, Font.BOLD))
+//      );
+//      phrase.add( Chunk.NEWLINE );
+//      phrase.add(new Chunk("bbbbbbbbb", new Font()));
+//      phrase.add( Chunk.NEWLINE );
+//      phrase.add( Chunk.NEWLINE );
+//
+//      PdfPCell cell2Description = new PdfPCell(phrase);
+//      cell2Description.setBorderColor(BaseColor.WHITE);
+//
+//      tableDescription.addCell(cell1Description);
+//      tableDescription.addCell(cell2Description);
+//      tableDescription.getDefaultCell().setBorderColor(BaseColor.WHITE);
+//      document.add(tableDescription);
+
 
       document.add(new Paragraph("DETAIL"));
 //      document.add(new Phrase(Chunk.NEWLINE));
@@ -155,7 +196,7 @@ public class PdfService {
   public Phrase bindPrice(String price){
     Phrase phrase = new Phrase();
     phrase.add(
-        new Chunk(price,  new Font(Font.FontFamily.TIMES_ROMAN, 15, Font.BOLD))
+        new Chunk(price,  new Font(Font.FontFamily.HELVETICA, 15, Font.BOLD))
     );
     return phrase;
   }
@@ -163,7 +204,7 @@ public class PdfService {
   public Phrase bindTripDetail(String title, String description){
     Phrase phrase = new Phrase();
     phrase.add(
-        new Chunk(title,  new Font(Font.FontFamily.TIMES_ROMAN, 15, Font.BOLD))
+        new Chunk(title,  new Font(Font.FontFamily.HELVETICA, 15, Font.BOLD))
     );
     phrase.add( Chunk.NEWLINE );
     phrase.add(new Chunk(description, new Font()));
@@ -184,11 +225,11 @@ public class PdfService {
   public Phrase bindTotalPrice(String title, String description){
     Phrase phrase = new Phrase();
     phrase.add(
-        new Chunk(title,  new Font(Font.FontFamily.TIMES_ROMAN, 13, Font.BOLD))
+        new Chunk(title,  new Font(Font.FontFamily.HELVETICA, 13, Font.BOLD))
     );
     phrase.add( Chunk.NEWLINE );
     phrase.add(
-        new Chunk(description,  new Font(Font.FontFamily.TIMES_ROMAN, 13, Font.BOLD))
+        new Chunk(description,  new Font(Font.FontFamily.HELVETICA, 13, Font.BOLD))
     );
     phrase.add( Chunk.NEWLINE );
     phrase.add( Chunk.NEWLINE );

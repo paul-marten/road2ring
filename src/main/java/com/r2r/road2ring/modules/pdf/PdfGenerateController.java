@@ -46,21 +46,21 @@ public class PdfGenerateController {
     this.mailClient = mailClient;
   }
 
-  @GetMapping(value = "/test/{transactionCodeId}", produces = MediaType.APPLICATION_PDF_VALUE)
+  @GetMapping(value = "/generate/{transactionCodeId}", produces = MediaType.APPLICATION_PDF_VALUE)
   public ResponseEntity<InputStreamResource> generatedPdf (
       @PathVariable (value = "transactionCodeId") String transactionCodeId) throws IOException {
     ByteArrayInputStream bis = new ByteArrayInputStream(pdfService.generatePdf(transactionCodeId).toByteArray());
     HttpHeaders headers = new HttpHeaders();
     headers.add("Content-Disposition", "inline; filename=road2ring-transaction.pdf");
 
-    try{
+//    try{
 //      mailClient.sendEmail();
 //      mailClient.prepareAndSend("aa","a");
-        mailClient.sendEmail("paulmartensimanjuntak19@gmail.com","Paul Marten",12);
-    } catch (MailException e){
+//        mailClient.sendEmail("paulmartensimanjuntak19@gmail.com","Paul Marten",12);
+//    } catch (MailException e){
       //catch error
-      System.out.println(e);
-    }
+//      System.out.println(e);
+//    }
 
     return ResponseEntity
         .ok()
@@ -68,15 +68,4 @@ public class PdfGenerateController {
         .contentType(MediaType.APPLICATION_PDF)
         .body(new InputStreamResource(bis));
   }
-
-//  @GetMapping(value = "/test/{transactionCodeId}", produces = MediaType.APPLICATION_PDF_VALUE)
-//  public void generatedPdf (
-//      @PathVariable (value = "transactionCodeId") String transactionCodeId) {
-//    try{
-//      pdfService.createPdf();
-//    } catch (Exception e){
-//      //catch error
-//      System.out.println(e);
-//    }
-//  }
 }
