@@ -1,15 +1,23 @@
 package com.r2r.road2ring.modules.transaction;
 
 import com.r2r.road2ring.modules.common.PaymentStatus;
+import com.r2r.road2ring.modules.trip.TripPriceRepository;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
 public class TransactionViewService {
 
+  TripPriceRepository tripPriceRepository;
+
+  @Autowired
+  public void setTripPriceRepository(TripPriceRepository tripPriceRepository){
+    this.tripPriceRepository = tripPriceRepository;
+  }
 
   public List<TransactionView> bindListTransactionView(List<Transaction> transactions){
     List<TransactionView> transactionViews = new ArrayList<>();
@@ -32,7 +40,8 @@ public class TransactionViewService {
     result.setTripStatus(transaction.getTripStatus());
     result.setPaymentStatus(transaction.getPaymentStatus());
     result.setStartDate(transaction.getStartDate());
-
+    result.setTripPrice(tripPriceRepository.findOneByTripIdAndStartTrip(transaction.getTrip().getId(),
+        transaction.getStartDate()).getPrice());
     if(result.getPaymentStatus().equals(PaymentStatus.WAITING)){
       result.setExpiredDate(transaction.getExpiredPaymentDate());
     }
@@ -60,6 +69,11 @@ public class TransactionViewService {
     result.setLocation(transaction.getTrip().getLocation());
     result.setMeetingPoint(transaction.getTrip().getMeetingPoint());
     result.setAccessoryViews(this.getAccessories(transactionDetails));
+    result.setTripPrice(tripPriceRepository.findOneByTripIdAndStartTrip(transaction.getTrip().getId(),
+        transaction.getStartDate()).getPrice());
+    if(result.getPaymentStatus().equals(PaymentStatus.WAITING)){
+      result.setExpiredDate(transaction.getExpiredPaymentDate());
+    }
 
     return result;
   }
