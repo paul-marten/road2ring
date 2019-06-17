@@ -85,7 +85,7 @@ public class TripViewService {
     tripView.setIconCover(trip.getIconCover());
     // TODO: CHANGE ID TRIP
     tripView.setTripPrice(tripPriceRepository.
-        findTop1ByTripIdAndStartTripGreaterThanOrderByPriceAsc(1, new Date()).getPrice());
+        findTop1ByTripIdAndStartTripGreaterThanOrderByPriceAsc(trip.getId(), new Date()).getPrice());
     return tripView;
   }
 
