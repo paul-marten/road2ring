@@ -32,6 +32,7 @@ function drawInputSubtitle(value){
     'class': 'form-control subtitle',
     'placeholder': 'Enter Sub Title',
     'data-parsley-required': 'true',
+    'required': true,
     'value': value
   })
 
@@ -42,7 +43,6 @@ function drawTextArea(){
   var input = $('<textarea>', {
       'class': 'form-control mce-editor ta_tmce',
       'placeholder': 'Enter Description',
-      'data-parsley-required': 'true',
     }).text('')
 
   return input
@@ -216,7 +216,7 @@ $("#submit-btn-gallery").click(function(){
   tinyMCE.triggerSave();
   setToHidden()
 
-
+if($('#headlineForm').parsley().validate()){
     $.post( "/gallery/save", $('#headlineForm').serialize()).done(function(data) {
   //      if(data.length != 0){
           window.location.href = "/gallery";
@@ -226,6 +226,7 @@ $("#submit-btn-gallery").click(function(){
   //        }
   //      }
       })
+      }
 
 })
 
@@ -234,7 +235,7 @@ $("#submit-btn-testi").click(function(){
   tinyMCE.triggerSave();
   setToHidden()
 
-
+if($('#headlineForm').parsley().validate()){
     $.post( "/testimonial/save", $('#headlineForm').serialize()).done(function(data) {
   //      if(data.length != 0){
           window.location.href = "/testimonial";
@@ -244,5 +245,6 @@ $("#submit-btn-testi").click(function(){
   //        }
   //      }
       })
+      }
 
 })
