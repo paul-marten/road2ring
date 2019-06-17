@@ -1,5 +1,6 @@
 package com.r2r.road2ring.modules.transaction;
 
+import com.r2r.road2ring.modules.common.PaymentStatus;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -23,10 +24,19 @@ public class TransactionViewService {
     result.setId(transaction.getId());
     result.setTitle(transaction.getTrip().getTitle());
     result.setDuration(transaction.getTrip().getDuration());
-    result.setPicture(transaction.getTrip().getCoverLandscape());
+    result.setCoverLandscape(transaction.getTrip().getCoverLandscape());
+    result.setCoverPortrait(transaction.getTrip().getCoverPotrait());
+    result.setIconCover(transaction.getTrip().getIconCover());
+    result.setIconPublisher(transaction.getTrip().getIconPublisher());
+    result.setLocation(transaction.getTrip().getLocation());
     result.setTripStatus(transaction.getTripStatus());
     result.setPaymentStatus(transaction.getPaymentStatus());
     result.setStartDate(transaction.getStartDate());
+
+    if(result.getPaymentStatus().equals(PaymentStatus.WAITING)){
+      result.setExpiredDate(transaction.getExpiredPaymentDate());
+    }
+
     return result;
   }
 
@@ -43,7 +53,11 @@ public class TransactionViewService {
     result.setCreated(transaction.getCreated());
     result.setPaymentStatus(transaction.getPaymentStatus());
     result.setNotes(transaction.getNotes());
-    result.setPicture(transaction.getTrip().getCoverLandscape());
+    result.setCoverLandscape(transaction.getTrip().getCoverLandscape());
+    result.setCoverPortrait(transaction.getTrip().getCoverPotrait());
+    result.setIconCover(transaction.getTrip().getIconCover());
+    result.setIconPublisher(transaction.getTrip().getIconPublisher());
+    result.setLocation(transaction.getTrip().getLocation());
     result.setMeetingPoint(transaction.getTrip().getMeetingPoint());
     result.setAccessoryViews(this.getAccessories(transactionDetails));
 

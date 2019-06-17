@@ -8,9 +8,14 @@ import lombok.Data;
 
 @Data
 public class TransactionView extends BaseView {
-  public String picture;
+  public String coverLandscape;
+  public String coverPortrait;
+  public String iconPublisher;
+  public String iconCover;
+  public String location;
   public TripStatus tripStatus;
   public Date startDate;
+  public Date expiredDate;
   public Integer duration;
   public PaymentStatus paymentStatus;
 }
