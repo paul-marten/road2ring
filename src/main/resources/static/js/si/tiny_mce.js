@@ -2,9 +2,9 @@ function multi_page_editor(){
   var hostname = $(location).attr('protocol') + '//' + $(location).attr('host');
   tinymce.init({
           selector: ".mce-editor",
-          force_br_newlines : true,
-          force_p_newlines : false,
-          forced_root_block : 'p',
+//          force_br_newlines : true,
+          force_p_newlines : true,
+//          forced_root_block : 'p',
           content_style: "body {font-size:13px !important; font-family: Roboto, sans-serif !important; color: #555 !important}",
           invalid_elements: "span",
           plugins: "autoresize",
@@ -26,6 +26,7 @@ function multi_page_editor(){
           relative_urls : false,
           remove_script_host : false,
           document_base_url : hostname,
+          keep_styles: false,
           file_picker_callback: function (cb, value, meta) {
               var input = document.createElement('input');
               input.setAttribute('type', 'file');
@@ -34,7 +35,7 @@ function multi_page_editor(){
               input.onchange = function () {
                 var file = this.files[0];
                 var reader = new FileReader();
-                reader.onload = function () {
+                reader.onload = function (e) {
 //                  var hostname = $(location).attr('protocol') + '//' + $(location).attr('host');
                   var api = hostname + "/api";
                   var formData = new FormData();
@@ -48,18 +49,20 @@ function multi_page_editor(){
                           var response = JSON.parse(this.responseText);
                           data = '/img/assets/'+response.object;
                           cb(data);
+                          console.log($(this))
                       }
                   };
 
                   json_data.open("POST", url, true);
 
-                  console.log(formData)
+//                  console.log(formData)
                   json_data.send(formData);
+                  console.log($(this))
                 };
-                console.log(file)
+                console.log($(this))
                 reader.readAsDataURL(file);
               };
-
+              console.log($(this))
               input.click();
           },
           valid_elements : '+*[*]',
@@ -74,12 +77,14 @@ function multi_page_editor(){
           setup: function (ed) {
               ed.on('NodeChange', function (e) {
                 if(e.element.tagName === "IMG"){
+                    console.log(e.element)
+                  $(e.element).wrap("<span class='d-block img__wrap' />");
                   e.element.setAttribute("class", 'img-fluid d-block');
+
                 }if(e.element.tagName == "P"){
                   e.element.setAttribute("class", 'container mb-0');
                 }
               });
-
 
               ed.addButton('inlineimage', {
                   title: 'Add Image',
@@ -168,6 +173,7 @@ var hostname = $(location).attr('protocol') + '//' + $(location).attr('host');
             relative_urls : false,
             remove_script_host : false,
             document_base_url : hostname,
+            keep_styles: false,,
             file_picker_callback: function (cb, value, meta) {
                 var input = document.createElement('input');
                 input.setAttribute('type', 'file');
@@ -213,6 +219,19 @@ var hostname = $(location).attr('protocol') + '//' + $(location).attr('host');
             paste_remove_styles: true,
             paste_remove_styles_if_webkit: true,
             paste_strip_class_attributes: true,
+            setup: function (ed) {
+              ed.on('NodeChange', function (e) {
+                if(e.element.tagName === "IMG"){
+//                    console.log(e.element)
+//                  $(e.element).wrap("<span class='d-block img__wrap' />");
+                  e.element.setAttribute("class", 'img-fluid d-block');
+
+                }
+//                if(e.element.tagName == "P"){
+//                  e.element.setAttribute("class", 'container mb-0');
+//                }
+              });
+            }
 
   })
 }

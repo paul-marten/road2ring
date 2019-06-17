@@ -32,6 +32,7 @@ function drawInputSubtitle(value){
     'class': 'form-control subtitle',
     'placeholder': 'Enter Sub Title',
     'data-parsley-required': 'true',
+    'required': true,
     'value': value
   })
 
@@ -42,7 +43,6 @@ function drawTextArea(){
   var input = $('<textarea>', {
       'class': 'form-control mce-editor ta_tmce',
       'placeholder': 'Enter Description',
-      'data-parsley-required': 'true',
     }).text('')
 
   return input
@@ -137,17 +137,17 @@ function setPageBreak(){
   var text = $('.ta_tmce').val();
 
   var rgx = /\<div class=\"pt-4 mt-4\">/g;
-  var rgxSub = /\<span(.+?)\>(.+?)\<\/span\>/g;
+  var rgxSub = /\<span class=\"h2 title-section title-section__with-border\"\>(.+?)\<\/span\>/g;
   var rgxBody = /\<div class="body-desc"\>(.+?)\<\/div\>/g;
   var body = text.match(rgxBody)
   var listSubtitle = text.match(rgx);
   var sum = listSubtitle.length
   var subtitle = text.match(rgxSub)
 
+
   var splitSub = ''
   for(var i = 0; i < sum; i++ ){
     splitSub = subtitle[i].match('<span class="h2 title-section title-section__with-border">(.*)</span>')
-    console.log(splitSub[1])
     if(i > 0){
      clickAddTextArea(splitSub[1])
     }else{
@@ -216,7 +216,7 @@ $("#submit-btn-gallery").click(function(){
   tinyMCE.triggerSave();
   setToHidden()
 
-
+if($('#headlineForm').parsley().validate()){
     $.post( "/gallery/save", $('#headlineForm').serialize()).done(function(data) {
   //      if(data.length != 0){
           window.location.href = "/gallery";
@@ -226,6 +226,7 @@ $("#submit-btn-gallery").click(function(){
   //        }
   //      }
       })
+      }
 
 })
 
@@ -234,7 +235,7 @@ $("#submit-btn-testi").click(function(){
   tinyMCE.triggerSave();
   setToHidden()
 
-
+if($('#headlineForm').parsley().validate()){
     $.post( "/testimonial/save", $('#headlineForm').serialize()).done(function(data) {
   //      if(data.length != 0){
           window.location.href = "/testimonial";
@@ -244,5 +245,6 @@ $("#submit-btn-testi").click(function(){
   //        }
   //      }
       })
+      }
 
 })
