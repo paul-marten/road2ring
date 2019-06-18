@@ -10,5 +10,5 @@ import org.springframework.stereotype.Repository;
 public interface MotorRepository extends DataTablesRepository<Motor,Integer> {
   List<Motor> findAll();
   List<Motor> findAllByOrderByIdDesc(Pageable pageable);
-
+  Motor findOneByTitle(String title);
 }
