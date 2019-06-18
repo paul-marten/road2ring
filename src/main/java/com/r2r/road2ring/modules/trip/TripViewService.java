@@ -84,9 +84,19 @@ public class TripViewService {
     tripView.setCoverPortrait(trip.getCoverPotrait());
     tripView.setIconCover(trip.getIconCover());
     // TODO: CHANGE ID TRIP
-    tripView.setTripPrice(tripPriceRepository.
-        findTop1ByTripIdAndStartTripGreaterThanOrderByPriceAsc(trip.getId(), new Date()).getPrice());
+    tripView.setTripPrice(this.bindTripPrice(trip.getId()));
     return tripView;
+  }
+
+  private int bindTripPrice(int tripId){
+    int tripPrice;
+    try {
+      tripPrice = tripPriceRepository.
+          findTop1ByTripIdAndStartTripGreaterThanOrderByPriceAsc(tripId, new Date()).getPrice();
+    } catch (NullPointerException e){
+      return 0;
+    }
+    return tripPrice;
   }
 
   public TripViewDetail getDetailTripView(Integer tripId){

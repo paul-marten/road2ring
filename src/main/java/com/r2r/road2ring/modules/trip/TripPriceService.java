@@ -1,5 +1,6 @@
 package com.r2r.road2ring.modules.trip;
 
+import com.r2r.road2ring.modules.common.Road2RingException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -27,13 +28,17 @@ public class TripPriceService {
     return tripPriceView;
   }
 
-  public List<TripPriceView> bindListTripPriceView(Integer tripId){
+  public List<TripPriceView> bindListTripPriceView(Integer tripId) throws Road2RingException {
     List<TripPriceView> tripPriceViews = new ArrayList<>();
     List<TripPrice> tripPrices = tripPriceRepository.
         findAllByTripIdAndStatusAndStartTripGreaterThanOrderByStartTripAsc(
             tripId, TripPriceStatus.WAITING, new Date());
-    for(TripPrice tripPrice : tripPrices){
-      tripPriceViews.add(this.bindTripPriceView(tripPrice));
+    if(tripPrices.size() != 0){
+      for(TripPrice tripPrice : tripPrices){
+        tripPriceViews.add(this.bindTripPriceView(tripPrice));
+      }
+    } else {
+      throw new Road2RingException("not found", 200);
     }
     return tripPriceViews;
   }

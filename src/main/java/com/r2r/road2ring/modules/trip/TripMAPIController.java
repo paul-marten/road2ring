@@ -5,6 +5,7 @@ import static com.r2r.road2ring.modules.common.Static.TRIP;
 import static com.r2r.road2ring.modules.common.Static.TRIPS;
 
 import com.r2r.road2ring.modules.common.ResponseMessage;
+import com.r2r.road2ring.modules.common.Road2RingException;
 import java.security.Principal;
 import java.util.List;
 import org.apache.commons.lang3.StringUtils;
@@ -86,7 +87,12 @@ public class TripMAPIController {
     }
 
     ResponseMessage responseMessage = new ResponseMessage();
-    responseMessage.setObject(tripPriceService.bindListTripPriceView(tripId));
+    try {
+      responseMessage.setObject(tripPriceService.bindListTripPriceView(tripId));
+    } catch (Road2RingException e) {
+      responseMessage.setMessage(e.getMessage());
+      responseMessage.setCode(e.getCode());
+    }
     return responseMessage;
   }
 
