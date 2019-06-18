@@ -19,6 +19,7 @@ import com.r2r.road2ring.modules.trip.TripPriceStatus;
 import com.r2r.road2ring.modules.trip.TripRepository;
 import com.r2r.road2ring.modules.user.User;
 import java.sql.Timestamp;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
@@ -316,10 +317,16 @@ public class TransactionService {
     }
   }
 
-  public List<TransactionView> getAllMyTransaction(User user, int pageId, int limit){
+  public List<TransactionView> getAllMyTransaction(User user, int pageId, int limit)
+      throws Road2RingException {
     Pageable pageable = new PageRequest(pageId, limit);
     List<Transaction> transactions = transactionRepository.findAllByUserIdOrderByCreatedDesc(user.getId(),pageable);
-    List<TransactionView> result = transactionViewService.bindListTransactionView(transactions);
+    List<TransactionView> result;
+    if(transactions.size() != 0) {
+      result = transactionViewService.bindListTransactionView(transactions);
+    } else {
+      throw new Road2RingException("you have 0 transaction yet", 200);
+    }
     return result;
   }
 

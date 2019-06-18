@@ -78,8 +78,13 @@ public class TransactionMAPIController {
       Authentication auth = (Authentication) principal;
       UserDetails currentConsumer = (UserDetails) auth.getPrincipal();
       User user = userService.findUserByEmail(currentConsumer.getUsername());
-      responseMessage.setCode(200);
-      responseMessage.setObject(transactionService.getAllMyTransaction(user,pageId,limit));
+      try {
+        responseMessage.setObject(transactionService.getAllMyTransaction(user,pageId,limit));
+        responseMessage.setCode(200);
+      } catch (Road2RingException e) {
+        responseMessage.setMessage(e.getMessage());
+        responseMessage.setCode(e.getCode());
+      }
       httpStatus.setStatus(HttpStatus.OK.value());
     } else {
       httpStatus.setStatus(HttpStatus.BAD_REQUEST.value());
