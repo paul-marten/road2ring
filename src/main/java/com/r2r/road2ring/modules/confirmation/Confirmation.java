@@ -25,7 +25,7 @@ public class Confirmation implements Serializable {
   private String picture;
 
   @Column(name = "confirmation_account_number")
-  private Integer accountNumber;
+  private String accountNumber;
 
   @Column(name = "confirmation_account_name")
   private String accountName;

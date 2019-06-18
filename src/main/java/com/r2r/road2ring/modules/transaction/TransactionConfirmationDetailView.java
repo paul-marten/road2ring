@@ -30,7 +30,7 @@ public class TransactionConfirmationDetailView {
   //confirmation info
   private Integer confirmationId;
   private String picture;
-  private Integer accountNumber;
+  private String accountNumber;
   private String bank;
   private String codeTrx;
 
