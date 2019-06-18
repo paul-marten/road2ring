@@ -1,6 +1,8 @@
 package com.r2r.road2ring.modules.transaction;
 
 import com.r2r.road2ring.modules.common.PaymentStatus;
+import com.r2r.road2ring.modules.motor.Motor;
+import com.r2r.road2ring.modules.motor.MotorRepository;
 import com.r2r.road2ring.modules.trip.TripPriceRepository;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -14,9 +16,16 @@ public class TransactionViewService {
 
   TripPriceRepository tripPriceRepository;
 
+  MotorRepository motorRepository;
+
   @Autowired
   public void setTripPriceRepository(TripPriceRepository tripPriceRepository){
     this.tripPriceRepository = tripPriceRepository;
+  }
+
+  @Autowired
+  public void setMotorRepository(MotorRepository motorRepository){
+    this.motorRepository = motorRepository;
   }
 
   public List<TransactionView> bindListTransactionView(List<Transaction> transactions){
@@ -68,7 +77,8 @@ public class TransactionViewService {
     result.setIconPublisher(transaction.getTrip().getIconPublisher());
     result.setLocation(transaction.getTrip().getLocation());
     result.setMeetingPoint(transaction.getTrip().getMeetingPoint());
-    result.setAccessoryViews(this.getAccessories(transactionDetails));
+    result.setAccessories(this.getAccessories(transactionDetails));
+    result.setMotor(this.bindMotor(transactionDetails));
     result.setTripPrice(tripPriceRepository.findOneByTripIdAndStartTrip(transaction.getTrip().getId(),
         transaction.getStartDate()).getPrice());
     if(result.getPaymentStatus().equals(PaymentStatus.WAITING)){
@@ -90,9 +100,21 @@ public class TransactionViewService {
   private List<TransactionDetailAccessoryView> getAccessories(List<TransactionDetail> transactionDetails){
     List<TransactionDetailAccessoryView> result = new ArrayList<>();
     for(TransactionDetail transaction : transactionDetails){
-      result.add(this.bindAccessoriesDetailTransaction(transaction));
+      if(!transaction.getType().equalsIgnoreCase("motor")){
+        result.add(this.bindAccessoriesDetailTransaction(transaction));
+      }
     }
     return result;
+  }
+
+  private Motor bindMotor(List<TransactionDetail> transactionDetails){
+    Motor motor = new Motor();
+    for(TransactionDetail transaction : transactionDetails){
+      if(transaction.getType().equalsIgnoreCase("motor")){
+        motor = motorRepository.findOneByTitle(transaction.getTitle());
+      }
+    }
+    return motor;
   }
 
   private TransactionDetailAccessoryView bindAccessoriesDetailTransaction(TransactionDetail transactionDetail){
@@ -100,7 +122,7 @@ public class TransactionViewService {
     result.setId(transactionDetail.getId());
     result.setType(transactionDetail.getType());
     result.setTitle(transactionDetail.getTitle());
-    result.setBrand(transactionDetail.getBrand());
+    result.setDescription(transactionDetail.getDescription());
     result.setDiscount(transactionDetail.getDiscount());
     result.setPrice(transactionDetail.getPrice());
     result.setSize(transactionDetail.getSize());

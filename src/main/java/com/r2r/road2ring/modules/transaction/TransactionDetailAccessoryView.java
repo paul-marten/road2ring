@@ -10,5 +10,5 @@ public class TransactionDetailAccessoryView extends BaseView {
   private String type;
   private Integer discount;
   private Integer price;
-  private String brand;
+  private String description;
 }

@@ -48,6 +48,9 @@ public class TransactionDetail implements Serializable {
   private String brand;
 
   @Transient
+  private String description;
+
+  @Transient
   private Integer capacity;
 
   @ManyToOne(fetch = FetchType.LAZY , optional = true)
