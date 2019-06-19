@@ -61,7 +61,7 @@ public class TestimonialService {
 
   public List<TestimonialView> getAllTestimonial(int pageId, int limit) {
     Pageable pageable = new PageRequest(pageId, limit);
-    List<Testimonial> testimonials = testimonialRepository.findAllByOrderByIdDesc(pageable);
+    List<Testimonial> testimonials = testimonialRepository.findAllByPublishedStatusOrderByIdDesc(pageable, PublishedStatus.PUBLISHED);
     List<TestimonialView> result = testimonialViewService.bindListTestimonials(testimonials);
     return result;
   }
