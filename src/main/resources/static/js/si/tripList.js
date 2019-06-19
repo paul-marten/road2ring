@@ -15,6 +15,7 @@ $(document).ready( function () {
           { "mData": "title"},
 			    { "mData": "duration"},
 			    { "mData": "roadCaptain.name"},
+			    { "mData": "publishedStatus"},
 //          { "data": "roadCaptain.name",
 //          "width": "12%",
 //          "orderable": false,
@@ -62,7 +63,11 @@ $(document).ready( function () {
               return data != null && data != '' ? data : '' ;
           }
       }],
-      "order": [[ 1, "asc" ]],
+      "columnDefs": [{
+          "targets": 4,
+          "visible": false,
+      }],
+      "order": [[ 4, "asc" ]],
 
 	 });
 	 table.on( 'draw.dt', function () {

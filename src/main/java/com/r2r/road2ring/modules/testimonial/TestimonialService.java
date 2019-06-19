@@ -31,6 +31,8 @@ public class TestimonialService {
 
     if (testimonial.getId() != null && testimonial.getId() != 0) {
       saved = testimonialRepository.findOne(testimonial.getId());
+    }else{
+      saved.setPublishedStatus(PublishedStatus.UNPUBLISHED);
     }
 
     saved.setArticle(testimonial.getArticle());

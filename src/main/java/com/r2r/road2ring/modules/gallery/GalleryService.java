@@ -38,6 +38,8 @@ public class GalleryService {
 
     if(gallery.getId() != null && gallery.getId() != 0){
       saved = galleryRepository.findOne(gallery.getId());
+    }else{
+      saved.setPublishedStatus(PublishedStatus.UNPUBLISHED);
     }
 
     saved.setArticle(gallery.getArticle());

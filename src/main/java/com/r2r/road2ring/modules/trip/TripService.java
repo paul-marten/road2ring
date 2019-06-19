@@ -60,6 +60,7 @@ public class TripService {
       saved = tripRepository.findOne(trip.getId());
     } else {
       saved.setCreated(new Date());
+      saved.setPublishedStatus(TripPublishedStatus.UNPUBLISHED);
     }
     saved.setDescription(trip.getDescription());
     saved.setDistance(trip.getDistance());
@@ -71,6 +72,8 @@ public class TripService {
     saved.setCoverLandscape(trip.getCoverLandscape());
     saved.setCoverPotrait(trip.getCoverPotrait());
     saved.setMap(trip.getMap());
+
+
     if(trip.getRoadCaptain() != null && trip.getRoadCaptain().getId() != 0) {
       saved.setRoadCaptain(trip.getRoadCaptain());
     }

@@ -173,7 +173,7 @@ var hostname = $(location).attr('protocol') + '//' + $(location).attr('host');
             relative_urls : false,
             remove_script_host : false,
             document_base_url : hostname,
-            keep_styles: false,,
+            keep_styles: false,
             file_picker_callback: function (cb, value, meta) {
                 var input = document.createElement('input');
                 input.setAttribute('type', 'file');
