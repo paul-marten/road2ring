@@ -130,26 +130,25 @@ public class UserAPIController {
       throws IOException, FileSizeLimitExceededException {
     ResponseMessage responseMessage = new ResponseMessage();
     if(principal != null ){
-      String userIdentityUrl = null;
-      String driverLicenseUrl = null;
-      String pictureUserUrl = null;
+      String userIdentityUrl;
+      String driverLicenseUrl;
+      String pictureUserUrl;
       if(userIdentitiy != null) {
         userIdentityUrl = uploadService.uploadImagePicture(userIdentitiy, "jpeg");
+        user.setUserIdentityPicture(IMAGE_ASSETS_URL + userIdentityUrl);
       }
       if(driverLicense != null){
         driverLicenseUrl = uploadService.uploadImagePicture(driverLicense, "jpeg");
+        user.setDriverLicensePicture(IMAGE_ASSETS_URL + driverLicenseUrl);
       }
       if(pictureUser != null){
         pictureUserUrl = uploadService.uploadImagePicture(pictureUser, "jpeg");
+        user.setPicture(IMAGE_ASSETS_URL + pictureUserUrl);
       }
-
-      user.setDriverLicensePicture(IMAGE_ASSETS_URL + driverLicenseUrl);
-      user.setUserIdentityPicture(IMAGE_ASSETS_URL + userIdentityUrl);
-      user.setPicture(IMAGE_ASSETS_URL + pictureUserUrl);
       responseMessage.setCode(200);
       responseMessage.setObject(userViewService.bindUserViewDetail(userService.saveUserProfile(user)));
       httpStatus.setStatus(HttpStatus.OK.value());
-    }else {
+    } else {
       httpStatus.setStatus(HttpStatus.BAD_REQUEST.value());
       responseMessage.setCode(703);
       responseMessage.setMessage("Please login first");

@@ -52,7 +52,7 @@ public class ConfirmationAPIController {
   @PostMapping(CONFIRMATION)
   public ResponseMessage saveConfirmation(
       @ModelAttribute Confirmation confirmation,
-      @RequestParam("file") MultipartFile file,
+      @RequestParam(value = "file", required = false) MultipartFile file,
       Principal principal, HttpServletResponse httpStatus)
       throws IOException, FileSizeLimitExceededException {
     ResponseMessage responseMessage = new ResponseMessage();
@@ -60,11 +60,11 @@ public class ConfirmationAPIController {
       Authentication auth = (Authentication) principal;
       UserDetails currentConsumer = (UserDetails) auth.getPrincipal();
       User user = userService.findUserByEmail(currentConsumer.getUsername());
-
-      String picture = uploadService.uploadImagePicture(file, "jpeg");
-
-      confirmation.setPicture(IMAGE_ASSETS_URL + picture);
-
+      String picture;
+      if(file != null) {
+        picture = uploadService.uploadImagePicture(file, "jpeg");
+        confirmation.setPicture(IMAGE_ASSETS_URL + picture);
+      }
       try {
         responseMessage.setObject(confirmationService.saveConfirmation(confirmation));
       } catch (Road2RingException e) {

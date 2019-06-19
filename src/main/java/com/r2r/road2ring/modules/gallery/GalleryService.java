@@ -59,7 +59,7 @@ public class GalleryService {
 
   public List<GalleryView> getAllGallery(int pageId, int limit){
     Pageable pageable = new PageRequest(pageId, limit);
-    List<Gallery> galleries = galleryRepository.findAllByOrderByIdDesc(pageable);
+    List<Gallery> galleries = galleryRepository.findAllByPublishedStatusOrderByIdDesc(pageable, PublishedStatus.PUBLISHED);
     List<GalleryView> result = galleryViewService.bindListGallery(galleries);
     return result;
   }
