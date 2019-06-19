@@ -64,6 +64,12 @@ public class User implements Serializable {
   @Column(name = "user_identity_picture")
   private String userIdentityPicture;
 
+  @Column(name = "user_phone_number")
+  private String phoneNumber;
+
+  @Column(name = "user_blood_type")
+  private String bloodType;
+
   @Transient
   private Long userBirthday;
 

@@ -124,8 +124,8 @@ public class UserAPIController {
   @PostMapping(value = "/profile")
   public ResponseMessage saveProfileUser(@ModelAttribute (value = "user") User user,
   Principal principal, HttpServletResponse httpStatus,
-  @RequestParam(value = "user", required = false) MultipartFile userIdentitiy,
-  @RequestParam(value = "driver", required = false) MultipartFile driverLicense,
+  @RequestParam(value = "useridentityPicture", required = false) MultipartFile userIdentitiy,
+  @RequestParam(value = "driverlicensePicture", required = false) MultipartFile driverLicense,
   @RequestParam(value = "userPicture", required = false) MultipartFile pictureUser)
       throws IOException, FileSizeLimitExceededException {
     ResponseMessage responseMessage = new ResponseMessage();

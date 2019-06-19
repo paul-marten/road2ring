@@ -7,9 +7,12 @@ import lombok.Data;
 public class UserViewDetail extends UserView {
   private String fullName;
   private String driverLicenseNumber;
-  private String driverLicensePicture;
+  private String driverlicensePicture;
   private UserIdentity userIdentity;
+  private String userPicture;
   private String userIdentityNumber;
-  private String userIdentityPicture;
+  private String useridentityPicture;
   private Date birthday;
+  private String phoneNumber;
+  private String bloodType;
 }

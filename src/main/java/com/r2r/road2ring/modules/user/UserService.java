@@ -195,6 +195,9 @@ public class UserService {
         user.getUserIdentityPicture() : saved.getUserIdentityPicture());
     saved.setPicture(user.getPicture() != null ?
         user.getPicture() : saved.getPicture());
+
+    saved.setBloodType(user.getBloodType());
+    saved.setPhoneNumber(user.getPhoneNumber());
     return userRepository.save(saved);
   }
 
