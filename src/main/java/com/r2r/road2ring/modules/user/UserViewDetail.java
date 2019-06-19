@@ -4,7 +4,9 @@ import java.util.Date;
 import lombok.Data;
 
 @Data
-public class UserViewDetail extends UserView {
+public class UserViewDetail {
+  private int id;
+  private String email;
   private String fullName;
   private String driverLicenseNumber;
   private String driverlicensePicture;

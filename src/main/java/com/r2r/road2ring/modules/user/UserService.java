@@ -184,13 +184,16 @@ public class UserService {
 
   public User saveUserProfile(User user){
     User saved = userRepository.findOneByEmailIgnoreCase(user.getEmail());
-    saved.setBirthday(user.getBirthday());
+    saved.setBirthday(user.getBirthday() != null ? user.getBirthday() : saved.getBirthday());
     saved.setDriverLicensePicture(user.getDriverLicensePicture() != null ?
         user.getDriverLicensePicture() : saved.getDriverLicensePicture());
-    saved.setDriverLicenseNumber(user.getDriverLicenseNumber());
-    saved.setFullName(user.getFullName());
-    saved.setUserIdentity(user.getUserIdentity());
-    saved.setUserIdentitiyNumber(user.getUserIdentitiyNumber());
+    saved.setDriverLicenseNumber(user.getDriverLicenseNumber() != null ? user.getDriverLicenseNumber() :
+        saved.getDriverLicenseNumber());
+    saved.setFullName(user.getFullName() != null ? user.getFullName() : saved.getFullName());
+    saved.setUserIdentity(user.getUserIdentity() != null ? user.getUserIdentity() :
+        saved.getUserIdentity());
+    saved.setUserIdentitiyNumber(user.getUserIdentitiyNumber() != null ? user.getUserIdentitiyNumber() :
+        saved.getUserIdentitiyNumber());
     saved.setUserIdentityPicture(user.getUserIdentityPicture() != null ?
         user.getUserIdentityPicture() : saved.getUserIdentityPicture());
     saved.setPicture(user.getPicture() != null ?
