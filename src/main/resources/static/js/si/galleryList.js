@@ -115,51 +115,50 @@ $(document).ready( function () {
   });
 
   $(document).on('click', '#publishContent', function() {
-        /* Act on the event */
-        var data = table.row( $(this).parents('tr') ).data()
-        console.log(data)
+      /* Act on the event */
+      var data = table.row( $(this).parents('tr') ).data()
+      console.log(data)
 //        if(data.tripPrices == 0){
 //          alert("Trip Price atau Itinerary Kosong, harap input data terlebih dahulu sebelum publish")
 //        }else{
-          var hide_id = $(this).parent().parent().parent().find('input').val();
-          $('#publishConfirm').popup('show');
-          $('#publishConfirm input[name=api_id]').val(data.id);
+        var hide_id = $(this).parent().parent().parent().find('input').val();
+        $('#publishConfirm').popup('show');
+        $('#publishConfirm input[name=api_id]').val(data.id);
 //        }
-        return false;
-    });
+      return false;
+  });
 
-    $(document).on("click", '#publishConfirm .do-it', function() {
-        var dataId = $('#publishConfirm input[name=api_id]').val()
-        $.post( "/api/gallery/change-status/"+ dataId + "/PUBLISHED").done(function(data) {
-          window.location.reload()
-        })
-    });
+  $(document).on("click", '#publishConfirm .do-it', function() {
+      var dataId = $('#publishConfirm input[name=api_id]').val()
+      $.post( "/api/gallery/change-status/"+ dataId + "/PUBLISHED").done(function(data) {
+        window.location.reload()
+      })
+  });
 
-    $(document).on('click', '#publishConfirm .cancel', function(event) {
-        /* Act on the event */
-        $('#publishConfirm').popup('hide');
-    });
+  $(document).on('click', '#publishConfirm .cancel', function(event) {
+      /* Act on the event */
+      $('#publishConfirm').popup('hide');
+  });
 
+  $(document).on('click', '#unpublishContent', function() {
+      /* Act on the event */
+      var data = table.row( $(this).parents('tr') ).data()
+      $('#takeoutConfirm').popup('show');
+      $('#takeoutConfirm input[name=api_id]').val(data.id);
+      return false;
+  });
 
-    $(document).on('click', '#unpublishContent', function() {
-        /* Act on the event */
-        var data = table.row( $(this).parents('tr') ).data()
-        $('#takeoutConfirm').popup('show');
-        $('#takeoutConfirm input[name=api_id]').val(data.id);
-        return false;
-    });
+  $(document).on("click", '#takeoutConfirm .do-it', function() {
+      var dataId = $('#takeoutConfirm input[name=api_id]').val()
+      $.post( "/api/gallery/change-status/"+ dataId + "/UNPUBLISHED").done(function(data) {
+        window.location.reload()
+      })
+  });
 
-    $(document).on("click", '#takeoutConfirm .do-it', function() {
-        var dataId = $('#takeoutConfirm input[name=api_id]').val()
-        $.post( "/api/gallery/change-status/"+ dataId + "/UNPUBLISHED").done(function(data) {
-          window.location.reload()
-        })
-    });
-
-    $(document).on('click', '#takeoutConfirm .cancel', function(event) {
-        /* Act on the event */
-        $('#takeoutConfirm').popup('hide');
-    });
+  $(document).on('click', '#takeoutConfirm .cancel', function(event) {
+      /* Act on the event */
+      $('#takeoutConfirm').popup('hide');
+  });
 
 });
 

@@ -1,5 +1,7 @@
 package com.r2r.road2ring.modules.motor;
 
+import com.r2r.road2ring.modules.common.PublishedStatus;
+import com.r2r.road2ring.modules.common.Road2RingException;
 import java.util.List;
 import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -49,4 +51,9 @@ public class MotorService {
     return result;
   }
 
+  public void changeStatus(PublishedStatus statusId, int id) throws Road2RingException {
+    Motor save = motorRepository.findOne(id);
+    save.setStatus(statusId);
+    motorRepository.save(save);
+  }
 }

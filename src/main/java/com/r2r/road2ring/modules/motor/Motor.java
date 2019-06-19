@@ -1,5 +1,6 @@
 package com.r2r.road2ring.modules.motor;
 
+import com.r2r.road2ring.modules.common.PublishedStatus;
 import java.io.Serializable;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -41,4 +42,7 @@ public class Motor implements Serializable {
 
   @Column(name = "motor_picture")
   private String picture;
+
+  @Column(name = "motor_status")
+  private PublishedStatus status;
 }
