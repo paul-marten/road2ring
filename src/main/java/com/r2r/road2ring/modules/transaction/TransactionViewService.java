@@ -49,6 +49,7 @@ public class TransactionViewService {
     result.setTripStatus(transaction.getTripStatus());
     result.setPaymentStatus(transaction.getPaymentStatus());
     result.setStartDate(transaction.getStartDate());
+    result.setCode(transaction.getCode());
     result.setTripPrice(tripPriceRepository.findOneByTripIdAndStartTrip(transaction.getTrip().getId(),
         transaction.getStartDate()).getPrice());
     if(result.getPaymentStatus().equals(PaymentStatus.WAITING)){

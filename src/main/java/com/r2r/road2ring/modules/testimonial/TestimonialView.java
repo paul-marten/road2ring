@@ -6,4 +6,5 @@ import lombok.Data;
 @Data
 public class TestimonialView extends BaseView {
   private String coverPotrait;
+  private String coverLandscape;
 }
