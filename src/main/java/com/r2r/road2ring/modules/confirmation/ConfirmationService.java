@@ -30,7 +30,8 @@ public class ConfirmationService {
     saved.setAccountName(confirmation.getAccountName());
     saved.setAccountNumber(confirmation.getAccountNumber());
     saved.setCodeTransaction(confirmation.getCodeTransaction());
-    saved.setPicture(confirmation.getPicture());
+    saved.setPicture(confirmation.getPicture() != null ?
+        confirmation.getPicture() : "");
     if(confirmationRepository.save(saved) != null){
       if(transactionService.changeStatusPayment(saved.getCodeTransaction())!=null){
 
