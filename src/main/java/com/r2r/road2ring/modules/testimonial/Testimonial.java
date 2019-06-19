@@ -1,6 +1,7 @@
 package com.r2r.road2ring.modules.testimonial;
 
 import com.fasterxml.jackson.annotation.JsonView;
+import com.r2r.road2ring.modules.common.PublishedStatus;
 import com.r2r.road2ring.modules.common.ResponseView;
 import com.r2r.road2ring.modules.gallery.Gallery;
 import com.r2r.road2ring.modules.roadcaptain.RoadCaptain;
@@ -77,5 +78,9 @@ public class Testimonial implements Serializable {
   @Column(name = "testimonial_trip_duration")
   @JsonView(ResponseView.LimitedTestimonial.class)
   private Integer duration;
+
+  @Column(name = "testimonial_status")
+  @JsonView(ResponseView.LimitedTestimonial.class)
+  private PublishedStatus publishedStatus;
 
 }

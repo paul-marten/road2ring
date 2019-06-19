@@ -1,18 +1,13 @@
 package com.r2r.road2ring.modules.gallery;
 
-import com.fasterxml.jackson.annotation.JsonView;
-import com.r2r.road2ring.modules.media.Media;
+import com.r2r.road2ring.modules.common.PublishedStatus;
 import java.io.Serializable;
 import java.util.Date;
-import java.util.List;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.OneToMany;
-import javax.persistence.OrderBy;
 import javax.persistence.Table;
 import lombok.Data;
 
@@ -57,6 +52,9 @@ public class Gallery implements Serializable {
 
   @Column(name = "gallery_article")
   private String article;
+
+  @Column(name = "gallery_status")
+  private PublishedStatus publishedStatus;
 
 
 //  @OneToMany(fetch = FetchType.LAZY, mappedBy = "gallery")

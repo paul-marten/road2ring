@@ -1,5 +1,7 @@
 package com.r2r.road2ring.modules.gallery;
 
+import com.r2r.road2ring.modules.common.PublishedStatus;
+import com.r2r.road2ring.modules.common.Road2RingException;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
@@ -63,5 +65,11 @@ public class GalleryService {
   public GalleryDetailView getDetailGallery(int galleryId){
     GalleryDetailView result = galleryViewService.bindDetailGallery(galleryRepository.findOne(galleryId));
     return result;
+  }
+
+  public void changeStatus(PublishedStatus statusId, int id) throws Road2RingException {
+    Gallery gallery = galleryRepository.findOne(id);
+    gallery.setPublishedStatus(statusId);
+    galleryRepository.save(gallery);
   }
 }
