@@ -148,7 +148,7 @@ public class UserAPIController {
       responseMessage.setCode(200);
       responseMessage.setObject(userViewService.bindUserViewDetail(userService.saveUserProfile(user)));
       httpStatus.setStatus(HttpStatus.OK.value());
-    }else {
+    } else {
       httpStatus.setStatus(HttpStatus.BAD_REQUEST.value());
       responseMessage.setCode(703);
       responseMessage.setMessage("Please login first");

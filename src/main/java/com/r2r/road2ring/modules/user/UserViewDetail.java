@@ -17,4 +17,5 @@ public class UserViewDetail {
   private Date birthday;
   private String phoneNumber;
   private String bloodType;
+  private Long userBirthday;
 }

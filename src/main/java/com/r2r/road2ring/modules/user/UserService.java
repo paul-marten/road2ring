@@ -133,7 +133,7 @@ public class UserService {
     role.setId(ROLE_ID);
 
     saved.setRole(role);
-    saved.setBirthday( user.getBirthday() == null ? null : new Date(user.getUserBirthday()));
+    saved.setBirthday( user.getUserBirthday() == 0 ? null : new Date(user.getUserBirthday()));
     saved.setPassword(r2rTools.hashingPassword(user.getPassword()));
 
     saved.setEmail(user.getEmail());
@@ -184,7 +184,7 @@ public class UserService {
 
   public User saveUserProfile(User user){
     User saved = userRepository.findOneByEmailIgnoreCase(user.getEmail());
-    saved.setBirthday(user.getBirthday() != null ? user.getBirthday() : saved.getBirthday());
+    saved.setBirthday(user.getUserBirthday() != 0 ? new Date(user.getUserBirthday()) : saved.getBirthday());
     saved.setDriverLicensePicture(user.getDriverLicensePicture() != null ?
         user.getDriverLicensePicture() : saved.getDriverLicensePicture());
     saved.setDriverLicenseNumber(user.getDriverLicenseNumber() != null ? user.getDriverLicenseNumber() :
