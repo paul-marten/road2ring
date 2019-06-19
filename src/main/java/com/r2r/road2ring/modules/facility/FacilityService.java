@@ -1,5 +1,7 @@
 package com.r2r.road2ring.modules.facility;
 
+import com.r2r.road2ring.modules.common.PublishedStatus;
+import com.r2r.road2ring.modules.common.Road2RingException;
 import java.util.List;
 import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -37,5 +39,11 @@ public class FacilityService {
 
   public Facility getFacilityById(int id){
     return facilityRepository.findOne(id);
+  }
+
+  public void changeStatus(PublishedStatus statusId, int id) throws Road2RingException {
+    Facility save = facilityRepository.findOne(id);
+    save.setStatus(statusId);
+    facilityRepository.save(save);
   }
 }

@@ -1,5 +1,6 @@
 package com.r2r.road2ring.modules.facility;
 
+import com.r2r.road2ring.modules.common.PublishedStatus;
 import java.io.Serializable;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -26,4 +27,7 @@ public class Facility implements Serializable {
 
   @Column(name = "facility_image")
   private String image;
+
+  @Column(name = "facility_status")
+  private PublishedStatus status;
 }
