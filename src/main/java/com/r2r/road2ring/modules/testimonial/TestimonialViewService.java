@@ -21,6 +21,7 @@ public class TestimonialViewService {
     TestimonialView result = new TestimonialView();
 
     result.setCoverPotrait(testimonial.getCoverPotrait());
+    result.setCoverLandscape(testimonial.getCoverLandscape());
     result.setId(testimonial.getId());
     result.setTitle(testimonial.getTitle());
     return result;
@@ -34,11 +35,11 @@ public class TestimonialViewService {
     cal.add(Calendar.DATE, testimonial.getDuration());
     Date endTripDate = cal.getTime();
 
-    result.setCoverLandscape(testimonial.getCoverPotrait());
+    result.setCoverLandscape(testimonial.getCoverLandscape());
     result.setDescription(testimonial.getDescription());
     result.setDistance(testimonial.getDistance());
     result.setDuration(testimonial.getDuration());
-    result.setCoverPotrait(testimonial.getCoverLandscape());
+    result.setCoverPotrait(testimonial.getCoverPotrait());
     result.setIconCover(testimonial.getIconCover());
     result.setId(testimonial.getId());
     result.setTitle(testimonial.getTitle());

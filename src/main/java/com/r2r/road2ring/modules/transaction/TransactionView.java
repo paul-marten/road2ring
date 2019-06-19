@@ -18,5 +18,6 @@ public class TransactionView extends BaseView {
   public Date expiredDate;
   public Integer duration;
   public Integer tripPrice;
+  public String code;
   public PaymentStatus paymentStatus;
 }
