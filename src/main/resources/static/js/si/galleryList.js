@@ -217,9 +217,9 @@ $(document).ready( function () {
 
    if (rowData.publishedStatus == "PUBLISHED" || rowData.publishedStatus == "EDITED") {
                    btnScheduled = $('<li>', {'style':'display: none;'});
-                   list = btnEdit.add(btnIternary).add(btnUnpublish);
+                   list = btnEdit.add(btnUnpublish);
    }
-   if (rowData.isPublished == "SCHEDULED") {
+   if (rowData.publishedStatus == "SCHEDULED") {
        list = btnEdit.add(btnPublish).add(btnUnpublish).add(btnScheduled);
    }
 
