@@ -68,7 +68,7 @@ $(document).ready( function () {
 
     var length = PageInfo.recordsTotal;
             console.log(length)
-        var btnNew = '<a href="/trip/add" class="btn btn-default btn-sm"><span class="fa fa-plus-circle fa-lg"></span> Add New Record</a>';
+        var btnNew = '<a href="/headline/add" class="btn btn-default btn-sm"><span class="fa fa-plus-circle fa-lg"></span> Add New Record</a>';
         if(length == 0)
           $("div.newRecord").html(btnNew);
 

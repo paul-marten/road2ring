@@ -46,7 +46,7 @@ public class HeadlineController {
     model.addAttribute("response", response);
     model.addAttribute("baseUrl", baseUrl);
 
-    return "admin/form/headline";
+    return "admin/forms/headline";
   }
 
   @RequestMapping(value = "/edit", method = RequestMethod.GET)
