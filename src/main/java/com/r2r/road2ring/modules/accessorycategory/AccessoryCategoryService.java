@@ -1,5 +1,7 @@
 package com.r2r.road2ring.modules.accessorycategory;
 
+import com.r2r.road2ring.modules.common.PublishedStatus;
+import com.r2r.road2ring.modules.common.Road2RingException;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -40,9 +42,18 @@ public class AccessoryCategoryService {
     return accessoryCategoryRepository.findAllByOrderByIdAsc();
   }
 
+  public List<AccessoryCategory> getAccessoryCategoriesByStatus(PublishedStatus status){
+    return accessoryCategoryRepository.findAllByStatus(status);
+  }
+
   public List<AccessoryCategory> getAccessoryCategoriesIdNotContaionHelm(){
     List<AccessoryCategory> result = accessoryCategoryRepository.findAllByTitleIgnoreCaseNotLike("helm");
     return result;
   }
 
+  public void changeStatus(PublishedStatus statusId, int id) throws Road2RingException {
+    AccessoryCategory save = accessoryCategoryRepository.findOne(id);
+    save.setStatus(statusId);
+    accessoryCategoryRepository.save(save);
+  }
 }

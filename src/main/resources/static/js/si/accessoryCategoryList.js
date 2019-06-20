@@ -13,6 +13,7 @@ $(document).ready( function () {
             }
           },
           { "mData": "title"},
+          { "mData": "status"},
 			    { "mData": "id",
             "width": "10%",
             "searchable": false,
@@ -21,7 +22,7 @@ $(document).ready( function () {
                var image = "icon-icon_action";
                var text = "Action ";
 
-               if (rowData.isPublished == "PUBLISHED" || rowData.isPublished == "EDITED") {
+               if (rowData.status == "PUBLISHED") {
                    image = "icon-icon_published";
                    text = "Published";
                }
@@ -47,8 +48,11 @@ $(document).ready( function () {
         "searchable": false,
         "orderable": true,
         "targets": 0
+      },{
+        "targets": 2,
+        "visible": false
       } ],
-      "order": [[ 0, "asc" ]],
+      "order": [[ 2, "asc" ]],
 
 	 });
 	 table.on( 'draw.dt', function () {
@@ -117,6 +121,52 @@ $.fn.dataTable.ext.search.push(
       else
           table.columns(3).search('').draw();
   });
+
+  $(document).on('click', '#publishContent', function() {
+      /* Act on the event */
+      var data = table.row( $(this).parents('tr') ).data()
+      console.log(data)
+//        if(data.tripPrices == 0){
+//          alert("Trip Price atau Itinerary Kosong, harap input data terlebih dahulu sebelum publish")
+//        }else{
+        var hide_id = $(this).parent().parent().parent().find('input').val();
+        $('#publishConfirm').popup('show');
+        $('#publishConfirm input[name=api_id]').val(data.id);
+//        }
+      return false;
+  });
+
+  $(document).on("click", '#publishConfirm .do-it', function() {
+      var dataId = $('#publishConfirm input[name=api_id]').val()
+      $.post( "/api/accessory_category/change-status/"+ dataId + "/PUBLISHED").done(function(data) {
+        window.location.reload()
+      })
+  });
+
+  $(document).on('click', '#publishConfirm .cancel', function(event) {
+      /* Act on the event */
+      $('#publishConfirm').popup('hide');
+  });
+
+  $(document).on('click', '#unpublishContent', function() {
+      /* Act on the event */
+      var data = table.row( $(this).parents('tr') ).data()
+      $('#takeoutConfirm').popup('show');
+      $('#takeoutConfirm input[name=api_id]').val(data.id);
+      return false;
+  });
+
+  $(document).on("click", '#takeoutConfirm .do-it', function() {
+      var dataId = $('#takeoutConfirm input[name=api_id]').val()
+      $.post( "/api/accessory_category/change-status/"+ dataId + "/UNPUBLISHED").done(function(data) {
+        window.location.reload()
+      })
+  });
+
+  $(document).on('click', '#takeoutConfirm .cancel', function(event) {
+      /* Act on the event */
+      $('#takeoutConfirm').popup('hide');
+  });
 });
 
  function drawListAction(rowData, cellData) {
@@ -144,12 +194,12 @@ $.fn.dataTable.ext.search.push(
 //  var btnIternary= $('<li>').append(textIternary);
 
   //Draw buttom Publish
-//  var iconPublish =$('<span>').append($('<i>', {'class':'icon-icon_publish'}));
-//  var textPublish =$('<span>').append( $('<a>', {
-//                                  'text':'Publish ',
-//                                  'href': '',
-//                              }));
-//  var btnPublish = $('<li>', {'id':'publishContent'}).append(iconPublish).append(textPublish);
+  var iconPublish =$('<span>').append($('<i>', {'class':'icon-icon_publish'}));
+  var textPublish =$('<span>').append( $('<a>', {
+                                  'text':'Publish ',
+                                  'href': '',
+                              }));
+  var btnPublish = $('<li>', {'id':'publishContent'}).append(iconPublish).append(textPublish);
 
   //Draw buttom Publish
   var iconUnpublish =$('<span>').append($('<i>', {'class':'icon-icon_unpublish'}));
@@ -166,13 +216,13 @@ $.fn.dataTable.ext.search.push(
 //                                      'href': '',
 //                                      }));
 //  var btnScheduled = $('<li>', {'id':'schedule'}).append(iconScheduled).append(textScheduled);
-  var list = btnEdit;
+  var list = btnEdit.add(btnPublish);
 
-  if (rowData.isPublished == "PUBLISHED" || rowData.isPublished == "EDITED") {
+  if (rowData.status == "PUBLISHED") {
                   btnScheduled = $('<li>', {'style':'display: none;'});
                   list = btnEdit.add(btnUnpublish);
   }
-  if (rowData.isPublished == "SCHEDULED") {
+  if (rowData.status == "SCHEDULED") {
       list = btnEdit.add(btnPublish).add(btnUnpublish).add(btnScheduled);
   }
   return list;

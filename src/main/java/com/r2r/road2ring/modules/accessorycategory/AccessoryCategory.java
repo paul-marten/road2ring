@@ -1,5 +1,6 @@
 package com.r2r.road2ring.modules.accessorycategory;
 
+import com.r2r.road2ring.modules.common.PublishedStatus;
 import java.io.Serializable;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -24,5 +25,8 @@ public class AccessoryCategory implements Serializable {
 
   @Column(name = "accessory_category_image")
   private String image;
+
+  @Column(name = "accessory_category_status")
+  private PublishedStatus status;
 
 }

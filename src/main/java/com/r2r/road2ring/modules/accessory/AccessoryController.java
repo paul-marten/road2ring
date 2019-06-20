@@ -2,6 +2,7 @@ package com.r2r.road2ring.modules.accessory;
 
 import com.r2r.road2ring.modules.accessorycategory.AccessoryCategory;
 import com.r2r.road2ring.modules.accessorycategory.AccessoryCategoryService;
+import com.r2r.road2ring.modules.common.PublishedStatus;
 import com.r2r.road2ring.modules.common.ResponseMessage;
 import com.r2r.road2ring.modules.facility.Facility;
 import java.security.Principal;
@@ -44,7 +45,8 @@ public class AccessoryController {
     Accessory facility = new Accessory();
     facility.setAccessoryCategory(new AccessoryCategory());
     response.setObject(facility);
-    model.addAttribute("categories", accessoryCategoryService.getAccessoryCategories());
+    model.addAttribute("categories", accessoryCategoryService.getAccessoryCategoriesByStatus(
+        PublishedStatus.PUBLISHED));
     model.addAttribute("response", response);
     return "admin/forms/accessory";
   }
@@ -57,7 +59,8 @@ public class AccessoryController {
 
     Accessory accessory = accessoryService.getAccessoryById(id);
     response.setObject(accessory);
-    model.addAttribute("categories", accessoryCategoryService.getAccessoryCategories());
+    model.addAttribute("categories", accessoryCategoryService.getAccessoryCategoriesByStatus(
+        PublishedStatus.PUBLISHED));
     model.addAttribute("response", response);
     model.addAttribute("baseUrl", baseUrl);
     return "admin/forms/accessory";
