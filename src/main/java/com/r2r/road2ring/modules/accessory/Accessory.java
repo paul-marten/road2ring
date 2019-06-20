@@ -2,6 +2,7 @@ package com.r2r.road2ring.modules.accessory;
 
 import com.fasterxml.jackson.annotation.JsonView;
 import com.r2r.road2ring.modules.accessorycategory.AccessoryCategory;
+import com.r2r.road2ring.modules.common.PublishedStatus;
 import com.r2r.road2ring.modules.common.ResponseView;
 import java.io.Serializable;
 import javax.persistence.Column;
@@ -53,6 +54,10 @@ public class Accessory implements Serializable {
   @JoinColumn(name = "accessory_accessory_category" , nullable = true)
   @JsonView(ResponseView.DetailedAccessory.class)
   private AccessoryCategory accessoryCategory;
+
+  @Column(name = "accessory_status")
+  @JsonView(ResponseView.DefaultAccessory.class)
+  private PublishedStatus status;
 
   @Transient
   private String size;

@@ -1,5 +1,7 @@
 package com.r2r.road2ring.modules.accessory;
 
+import com.r2r.road2ring.modules.common.PublishedStatus;
+import com.r2r.road2ring.modules.common.Road2RingException;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -39,5 +41,11 @@ public class AccessoryService {
 
   public List<Accessory> getAllAccessoryByCategory(Integer accessoryCategory){
     return accessoryRepository.findAllByAccessoryCategoryIdOrderByIdAsc(accessoryCategory);
+  }
+
+  public void changeStatus(PublishedStatus statusId, int id) throws Road2RingException {
+    Accessory save = accessoryRepository.findOne(id);
+    save.setStatus(statusId);
+    accessoryRepository.save(save);
   }
 }
