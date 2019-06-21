@@ -148,12 +148,20 @@ public class TransactionService {
       result.setCreatedBy(user.getEmail());
       result.setUpdatedBy(user.getEmail());
       result.setTransactionCreator(TransactionCreator.USER);
+
+      if(transaction.getBringOwnHelm() == null){
+        transaction.setBringOwnHelm(false);
+      }
+      if(transaction.getBringOwnMotor() == null){
+        transaction.setBringOwnMotor(false);
+      }
       if (transactionRepository.save(result) != null) {
         tripPrice = tripPriceService.addPersonTripPrice(transaction.getTrip().getId(), result.getStartDate());
         Transaction transactionSaved = transactionRepository.findOneByCode(result.getCode());
-        transactionDetailService.saveMotor(transaction.getMotor(), transactionSaved);
+        transactionDetailService.saveMotor(transaction.getMotor(), transactionSaved, transaction.getBringOwnMotor());
         transactionDetailService
-            .saveListTransactionalAccessory(transaction.getAccessories(), transactionSaved);
+            .saveListTransactionalAccessory(transaction.getAccessories(), transactionSaved,
+                transaction.getBringOwnHelm());
         this.createTransactionLogByUser(transactionSaved);
       }
 
@@ -168,7 +176,8 @@ public class TransactionService {
       String username = result.getUser().getEmail().substring(0,index);
 
       mailClient.sendCheckoutEmail(result.getUser().getEmail(),username,result,
-          transaction.getMotor(), transaction.getAccessories(), tripPrice);
+          transaction.getMotor(), transaction.getAccessories(), tripPrice,
+          transaction.getBringOwnHelm(), transaction.getBringOwnMotor());
       return view;
     } else {
       throw new Road2RingException("CAN NOT CREATE TRANSACTION, ALREADY FULL", 705);

@@ -120,4 +120,10 @@ public class Transaction implements Serializable {
   @Transient
   private Date endDate;
 
+  @Transient
+  private Boolean bringOwnMotor;
+
+  @Transient
+  private Boolean bringOwnHelm;
+
 }
