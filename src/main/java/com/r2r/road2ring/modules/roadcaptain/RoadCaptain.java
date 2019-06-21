@@ -1,6 +1,7 @@
 package com.r2r.road2ring.modules.roadcaptain;
 
 import com.fasterxml.jackson.annotation.JsonView;
+import com.r2r.road2ring.modules.common.PublishedStatus;
 import com.r2r.road2ring.modules.common.ResponseView;
 import com.r2r.road2ring.modules.consumer.Consumer;
 import com.r2r.road2ring.modules.trip.Trip;
@@ -38,4 +39,7 @@ public class RoadCaptain implements Serializable {
 
   @Column(name = "road_captain_description")
   private String description;
+
+  @Column(name = "road_captain_status")
+  private PublishedStatus status;
 }

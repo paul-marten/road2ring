@@ -1,5 +1,7 @@
 package com.r2r.road2ring.modules.roadcaptain;
 
+import com.r2r.road2ring.modules.common.PublishedStatus;
+import com.r2r.road2ring.modules.common.Road2RingException;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -29,7 +31,8 @@ public class RoadCaptainService {
     return roadCaptainRepository.save(saved);
   }
   public List<RoadCaptain> getAutoCompleteCaptain(String keyword){
-    return roadCaptainRepository.findTop5ByNameIgnoreCaseContainingOrderByNameAsc(keyword);
+//    return roadCaptainRepository.findTop5ByNameIgnoreCaseContainingOrderByNameAsc(keyword);
+    return roadCaptainRepository.findTop5ByStatusAndNameIgnoreCaseContaining(PublishedStatus.PUBLISHED, keyword);
   }
 
   public RoadCaptain getCaptainById(int id){
@@ -38,5 +41,11 @@ public class RoadCaptainService {
 
   public List<RoadCaptain> getAllCaptain(){
     return roadCaptainRepository.findAll();
+  }
+
+  public void changeStatus(PublishedStatus statusId, int id) throws Road2RingException {
+    RoadCaptain save = roadCaptainRepository.findOne(id);
+    save.setStatus(statusId);
+    roadCaptainRepository.save(save);
   }
 }
