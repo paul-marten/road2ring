@@ -73,8 +73,10 @@ public class TestimonialService {
   }
 
   public void changeStatus(PublishedStatus statusId, int id) throws Road2RingException {
+    System.out.println("here");
     Testimonial save = testimonialRepository.findOne(id);
     save.setPublishedStatus(statusId);
     testimonialRepository.save(save);
+    System.out.println(testimonialRepository.save(save).toString());
   }
 }

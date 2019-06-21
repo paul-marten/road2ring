@@ -29,27 +29,27 @@ $(document).ready( function () {
             "searchable": false,
             "orderable": false,
             "createdCell": function(td, cellData, rowData, row, col) {
-               var image = "icon-icon_action";
-               var text = "Action ";
+              var image = "icon-icon_action";
+              var text = "Action ";
 
-               if (rowData.isPublished == "PUBLISHED" || rowData.isPublished == "EDITED") {
+              if (rowData.publishedStatus == "PUBLISHED") {
                    image = "icon-icon_published";
                    text = "Published";
-               }
-               var buttonIcon = $('<span>', {'class':'buttonIcon'}).append($('<i>', {'class':image}));
-               var buttonText = $('<span>', {'class':'buttonText'}).append($('<a>', {'text': text}));
-               var button = $('<button>', {'class':'btn btn-default dropdown-toggle', 'type':'button', 'data-toggle':'dropdown'}).append(buttonIcon).append(buttonText).append($('<span>', {'class':'caret'}));
+              }
+              var buttonIcon = $('<span>', {'class':'buttonIcon'}).append($('<i>', {'class':image}));
+              var buttonText = $('<span>', {'class':'buttonText'}).append($('<a>', {'text': text}));
+              var button = $('<button>', {'class':'btn btn-default dropdown-toggle', 'type':'button', 'data-toggle':'dropdown'}).append(buttonIcon).append(buttonText).append($('<span>', {'class':'caret'}));
 
-               var hiddenId = $('<input>', {
+              var hiddenId = $('<input>', {
                    'type': 'hidden',
                    'value': cellData
-               });
+              });
 
-               var list = $('<ul>', {'class':'dropdown-menu'}).append(drawListAction(rowData, cellData));
-               var element = $('<div>', {'class':'dropdown'}).append(button).append(list).add(hiddenId);
+              var list = $('<ul>', {'class':'dropdown-menu'}).append(drawListAction(td, rowData, cellData, row, col));
+              var element = $('<div>', {'class':'dropdown'}).append(button).append(list).add(hiddenId);
 
-               $(td).html(element);
-               $(td).attr('data-th', 'Action');
+              $(td).html(element);
+              $(td).attr('data-th', 'Action');
 
            }
          },
@@ -130,7 +130,7 @@ $(document).ready( function () {
 
   $(document).on("click", '#publishConfirm .do-it', function() {
       var dataId = $('#publishConfirm input[name=api_id]').val()
-      $.post( "/api/gallery/change-status/"+ dataId + "/PUBLISHED").done(function(data) {
+      $.post( "/api/testimonial/change-status/"+ dataId + "/PUBLISHED").done(function(data) {
         window.location.reload()
       })
   });
@@ -151,7 +151,7 @@ $(document).ready( function () {
 
   $(document).on("click", '#takeoutConfirm .do-it', function() {
       var dataId = $('#takeoutConfirm input[name=api_id]').val()
-      $.post( "/api/gallery/change-status/"+ dataId + "/UNPUBLISHED").done(function(data) {
+      $.post( "/api/testimonial/change-status/"+ dataId + "/UNPUBLISHED").done(function(data) {
         window.location.reload()
       })
   });
@@ -167,7 +167,7 @@ $(document).ready( function () {
     var iconEdit = $('<span>').append($('<i>', {'class':'icon-icon_edit'}));
     var textEdit =$('<span>').append( $('<a>', {
                                 'text':'Edit ',
-                                'href': '/gallery/edit?id=' + cellData,
+                                'href': '/testimonial/edit?id=' + cellData,
                             }));
     var btnEdit = $('<li>').append(iconEdit).append(textEdit);
 
@@ -215,12 +215,12 @@ $(document).ready( function () {
   //  .add(btnPublish);
 
     if (rowData.publishedStatus == "PUBLISHED" || rowData.publishedStatus == "EDITED") {
-                    btnScheduled = $('<li>', {'style':'display: none;'});
-                    list = btnEdit.add(btnIternary).add(btnUnpublish);
-    }
-    if (rowData.isPublished == "SCHEDULED") {
-        list = btnEdit.add(btnPublish).add(btnUnpublish).add(btnScheduled);
-    }
+                       btnScheduled = $('<li>', {'style':'display: none;'});
+                       list = btnEdit.add(btnUnpublish);
+       }
+       if (rowData.publishedStatus == "SCHEDULED") {
+           list = btnEdit.add(btnPublish).add(btnUnpublish).add(btnScheduled);
+       }
 
     return list;
   }
