@@ -170,7 +170,7 @@ public class MailClient {
       } else if(bringOwnHelm){
         model.put("accossoriesTitle", "Bring Own Helm");
         model.put("accossoriesImage", "");
-        model.put("accessoriesSize", "");
+        model.put("accessoriesSize", "-");
       }
       Context context = new Context();
       context.setVariables(model);
