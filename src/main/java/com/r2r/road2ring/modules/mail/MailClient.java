@@ -77,29 +77,23 @@ public class MailClient {
   }
 
   public void sendPaidEmail(String recipient, String consumerName, int ridersNeeded) throws MessagingException {
-    //TODO implement
-    MimeMessage message = mailSender.createMimeMessage();
-    MimeMessageHelper helper = new MimeMessageHelper(message);
+    MimeMessagePreparator messagePreparator = mimeMessage -> {
+      MimeMessageHelper message = new MimeMessageHelper(mimeMessage, true);
+      message.setTo(recipient);
+      message.setFrom(new InternetAddress("bolalobintern@gmail.com"));
+      message.setSubject("Paid Transaction Road2Ring");
 
-    Map model = new HashMap();
-    model.put("consumerName", consumerName);
-    model.put("ridersNeeded", ridersNeeded);
+      Map model = new HashMap();
+      model.put("consumerName", consumerName);
+      model.put("ridersNeeded", ridersNeeded);
 
-    Context context = new Context();
-    context.setVariables(model);
-    String html = templateEngine.process("admin/email/paid", context);
+      Context context = new Context();
+      context.setVariables(model);
+      String html = templateEngine.process("admin/email/paid", context);
 
-    helper.setTo(recipient);
-    helper.setText(html, true);
-    helper.setSubject("Paid Transaction Road2Ring");
-
-    /*Change email*/
-    helper.setFrom(new InternetAddress("bolalobintern@gmail.com"));
-    try {
-      mailSender.send(message);
-    } catch (MailException e) {
-      // runtime exception; compiler will not force you to handle it
-    }
+      message.setText(html, true);
+    };
+    mailSender.send(messagePreparator);
   }
 
   public void sendEmail(String recipient, String consumerName, int ridersNeeded) {
@@ -133,7 +127,8 @@ public class MailClient {
   }
 
   public void sendCheckoutEmail(String recipient, String consumerName, Transaction transaction,
-      Motor motor, List<Accessory> accessories, TripPrice tripPrice) {
+      Motor motor, List<Accessory> accessories, TripPrice tripPrice,
+      boolean bringOwnHelm, boolean bringOwnMotor) {
 
     Transaction resultTransaction = transactionRepository.findOne(transaction.getTrip().getId());
 
@@ -150,27 +145,40 @@ public class MailClient {
       model.put("startDate", tripPrice.getStartTrip());
       model.put("endDate", tripPrice.getFinishTrip());
       model.put("meetingPoint", resultTransaction.getTrip().getMeetingPoint());
-      model.put("motorName", motor.getTitle());
-      model.put("motorImage", BASE_URL + motor.getPicture());
+      if(!bringOwnHelm) {
+        model.put("motorName", motor.getTitle());
+        model.put("motorImage", BASE_URL + motor.getPicture());
+      } else if(bringOwnHelm){
+        model.put("motorName", "Bring Own Motor");
+        model.put("motorImage", "");
+      }
       model.put("expiredDate", transaction.getExpiredPaymentDate());
       model.put("tripTitle", resultTransaction.getTrip().getTitle());
       model.put("tripPrice", tripPrice.getPrice());
       model.put("invoiceId", transaction.getCode().toUpperCase());
       model.put("expiredPaymentDate", transaction.getExpiredPaymentDate());
 
-      for(int i = 0; i < accessories.size(); i++) {
-        Accessory accessory = accessoryRepository.findOne(accessories.get(i).getId());
-        if(accessory.getAccessoryCategory().getTitle().toLowerCase().equalsIgnoreCase("helm")){
-          model.put("accossoriesTitle", accessory.getTitle());
-          model.put("accossoriesImage", BASE_URL + accessory.getPicture());
-          model.put("accessoriesSize", accessories.get(0).getSize());
+      if(!bringOwnHelm) {
+        for (int i = 0; i < accessories.size(); i++) {
+          Accessory accessory = accessoryRepository.findOne(accessories.get(i).getId());
+          if (accessory.getAccessoryCategory().getTitle().toLowerCase().equalsIgnoreCase("helm")) {
+            model.put("accossoriesTitle", accessory.getTitle());
+            model.put("accossoriesImage", BASE_URL + accessory.getPicture());
+            model.put("accessoriesSize", accessories.get(0).getSize());
+          }
         }
+      } else if(bringOwnHelm){
+        model.put("accossoriesTitle", "Bring Own Helm");
+        model.put("accossoriesImage", "");
+        model.put("accessoriesSize", "");
       }
       Context context = new Context();
       context.setVariables(model);
       String html = templateEngine.process("admin/email/checkout", context);
 
       message.setText(html, true);
+//      if (attachmentPath != null) {
+//      if (attachmentPath != null) {
 //      if (attachmentPath != null) {
 //        message.addAttachment(attachmentName, attachmentPath);
 //      }
