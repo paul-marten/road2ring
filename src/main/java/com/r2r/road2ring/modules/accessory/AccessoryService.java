@@ -40,7 +40,7 @@ public class AccessoryService {
   }
 
   public List<Accessory> getAllAccessoryByCategory(Integer accessoryCategory){
-    return accessoryRepository.findAllByAccessoryCategoryIdOrderByIdAsc(accessoryCategory);
+    return accessoryRepository.findAllByAccessoryCategoryIdAndStatusOrderByIdAsc(accessoryCategory,PublishedStatus.PUBLISHED);
   }
 
   public void changeStatus(PublishedStatus statusId, int id) throws Road2RingException {
