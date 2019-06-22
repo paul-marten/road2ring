@@ -115,6 +115,7 @@ public class TransactionViewService {
         if(!transaction.getTitle().equalsIgnoreCase("bring own motor")) {
           motor = motorRepository.findOneByTitle(transaction.getTitle());
         }else{
+          motor.setId(transaction.getId());
           motor.setTitle("Bring Own Helm");
         }
       }
