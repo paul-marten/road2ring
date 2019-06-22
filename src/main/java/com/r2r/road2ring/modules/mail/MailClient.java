@@ -201,7 +201,8 @@ public class MailClient {
       model.put("consumerName", consumerName);
 
       /*CODE VERIFYNYA HARUS DIUBAH LINK*/
-      model.put("codeVerify", codeVerify);
+      /*CHANGE LINK FOR REAL LINK SOON*/
+      model.put("codeVerify", "http://road2ring.com/preview");
 
       Context context = new Context();
       context.setVariables(model);
@@ -225,7 +226,7 @@ public class MailClient {
       model.put("consumerName", consumerName);
 
       /*CODE VERIFYNYA HARUS DIUBAH LINK*/
-      model.put("codeResetPassword", codeResetPassword);
+      model.put("codeResetPassword", "http://road2ring.com/reset-password?code="+codeResetPassword);
 
       Context context = new Context();
       context.setVariables(model);
