@@ -22,7 +22,7 @@ public class MotorService {
   }
 
   public List<Motor> getAllMotor(){
-    return motorRepository.findAll();
+    return motorRepository.findAllByStatus(PublishedStatus.PUBLISHED);
   }
 
   public Motor saveMotor(Motor motor){
