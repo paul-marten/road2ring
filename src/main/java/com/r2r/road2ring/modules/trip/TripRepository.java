@@ -15,10 +15,9 @@ public interface TripRepository extends DataTablesRepository<Trip,Integer> {
   List<Trip> findAll();
   Trip findByCreated(Date date);
 
-  @Query(value = "select itinerary_id as id, count(itinerary_id) as countEvent, itinerary_group as groupEvent, "
-      + "itinerary_group_title as groupTitleEvent, itinerary_status as status "
+  @Query(value = "select count(itinerary_id) as countEvent, itinerary_group as groupEvent, itinerary_group_title as groupTitleEvent "
       + "from itinerary where itinerary_trip_id = :tripId "
-      + "group by id, groupEvent, groupTitleEvent, status order by groupEvent asc",
+      + "group by groupEvent, groupTitleEvent order by groupEvent asc",
       nativeQuery = true)
   List<Object[]> groupByItineraryGroup(@Param("tripId") int tripId);
 

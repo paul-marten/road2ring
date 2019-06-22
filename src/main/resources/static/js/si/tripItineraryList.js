@@ -17,7 +17,7 @@ $(document).ready( function () {
           },
           { "mData": "groupTitleEvent"},
 			    { "mData": "countEvent"},
-			    { "mData": "status"},
+//			    { "mData": "status"},
 //			    { "mData": "groupTitle"},
 			    { "mData": "groupEvent",
             "width": "10%",
@@ -53,11 +53,13 @@ $(document).ready( function () {
         "searchable": false,
         "orderable": true,
         "targets": 0
-      },{
-      "targets": 3,
-      "visible": false
-      } ],
-      "order": [[ 3, "asc" ]],
+      },
+//      {
+//      "targets": 3,
+//      "visible": false
+//      }
+       ],
+      "order": [[ 0, "asc" ]],
 
 	 });
 	 table.on( 'draw.dt', function () {
@@ -183,7 +185,7 @@ $(document).ready( function () {
 //                                      'href': '',
 //                                      }));
 //  var btnScheduled = $('<li>', {'id':'schedule'}).append(iconScheduled).append(textScheduled);
-  var list = btnEdit.add(btnPublish);
+  var list = btnEdit;
 //  .add(btnFacility).add(btnIternary).add(btnPublish);
 
   if (rowData.status == "PUBLISHED") {
