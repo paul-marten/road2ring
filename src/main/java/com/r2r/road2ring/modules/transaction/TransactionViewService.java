@@ -112,7 +112,11 @@ public class TransactionViewService {
     Motor motor = new Motor();
     for(TransactionDetail transaction : transactionDetails){
       if(transaction.getType().equalsIgnoreCase("motor")){
-        motor = motorRepository.findOneByTitle(transaction.getTitle());
+        if(!transaction.getTitle().equalsIgnoreCase("bring own motor")) {
+          motor = motorRepository.findOneByTitle(transaction.getTitle());
+        }else{
+          motor.setTitle("Bring Own Helm");
+        }
       }
     }
     return motor;

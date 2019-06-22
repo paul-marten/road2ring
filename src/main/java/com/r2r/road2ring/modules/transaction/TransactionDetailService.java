@@ -45,7 +45,7 @@ public class TransactionDetailService {
       transactionDetailRepository.save(transactionDetail);
     } else {
       transactionDetail.setTransaction(transaction);
-      transactionDetail.setTitle(accessory.getTitle());
+      transactionDetail.setTitle("Bring Own Helm");
       transactionDetail.setType("Helm");
       transactionDetailRepository.save(transactionDetail);
     }
