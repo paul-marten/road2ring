@@ -37,6 +37,10 @@ public class FacilityService {
     return facilityRepository.findAll();
   }
 
+  public List<Facility> getAllFacilityPublished(){
+    return facilityRepository.findAllByStatus(PublishedStatus.PUBLISHED);
+  }
+
   public Facility getFacilityById(int id){
     return facilityRepository.findOne(id);
   }

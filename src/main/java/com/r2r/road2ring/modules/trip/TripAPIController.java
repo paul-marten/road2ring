@@ -5,6 +5,7 @@ import static com.r2r.road2ring.modules.common.Static.M_API;
 import static com.r2r.road2ring.modules.common.Static.TRIP;
 
 import com.fasterxml.jackson.annotation.JsonView;
+import com.r2r.road2ring.modules.common.PublishedStatus;
 import com.r2r.road2ring.modules.common.ResponseCode;
 import com.r2r.road2ring.modules.common.ResponseMessage;
 import com.r2r.road2ring.modules.common.ResponseView;
@@ -137,6 +138,22 @@ public class TripAPIController {
     ResponseMessage responseMessage = new ResponseMessage();
     try{
       tripService.changeTripStatus(statusId,tripId);
+    } catch (Road2RingException e){
+      responseMessage.setCode(e.getCode());
+      responseMessage.setMessage(e.getMessage());
+    }
+
+    return responseMessage;
+  }
+
+
+
+  @PostMapping("/itinerary/change-status/{id}/{statusId}")
+  public ResponseMessage changeStatus(@PathVariable("id") int id,
+      @PathVariable("statusId") PublishedStatus statusId, Principal principal){
+    ResponseMessage responseMessage = new ResponseMessage();
+    try{
+      itineraryService.changeStatus(statusId,id);
     } catch (Road2RingException e){
       responseMessage.setCode(e.getCode());
       responseMessage.setMessage(e.getMessage());

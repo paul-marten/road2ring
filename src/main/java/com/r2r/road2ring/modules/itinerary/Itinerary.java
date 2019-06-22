@@ -2,6 +2,7 @@ package com.r2r.road2ring.modules.itinerary;
 
 import com.fasterxml.jackson.annotation.JsonView;
 import com.r2r.road2ring.modules.common.Language;
+import com.r2r.road2ring.modules.common.PublishedStatus;
 import com.r2r.road2ring.modules.common.ResponseView;
 import com.r2r.road2ring.modules.trip.Trip;
 import java.io.Serializable;
@@ -58,6 +59,10 @@ public class Itinerary implements Serializable {
   @Column(name = "itinerary_related_itinerary_id")
   @JsonView(ResponseView.DefaultTrip.class)
   private Integer relatedItinerary;
+
+  @Column(name = "itinerary_status")
+  @JsonView(ResponseView.DefaultTrip.class)
+  private PublishedStatus status;
 
   @ManyToOne(fetch = FetchType.LAZY , optional = true)
   @JoinColumn(name = "itinerary_trip_id" , nullable = true)

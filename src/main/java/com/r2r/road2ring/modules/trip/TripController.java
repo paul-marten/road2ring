@@ -68,7 +68,7 @@ public class TripController {
     Trip trip = new Trip();
     response.setObject(trip);
 
-    List<Facility> facilityList = facilityService.getAllFacility();
+    List<Facility> facilityList = facilityService.getAllFacilityPublished();
 
     model.addAttribute("response", response);
     model.addAttribute("facilities", facilityList);
@@ -85,7 +85,7 @@ public class TripController {
     Trip trip = tripService.getTripById(id);
     response.setObject(trip);
 
-    List<Facility> facilityList = facilityService.getAllFacility();
+    List<Facility> facilityList = facilityService.getAllFacilityPublished();
 
     model.addAttribute("response", response);
     model.addAttribute("facilities", facilityList);

@@ -1,5 +1,7 @@
 package com.r2r.road2ring.modules.itinerary;
 
+import com.r2r.road2ring.modules.common.PublishedStatus;
+import com.r2r.road2ring.modules.common.Road2RingException;
 import com.r2r.road2ring.modules.trip.Trip;
 import com.r2r.road2ring.modules.trip.TripService;
 import java.util.ArrayList;
@@ -82,5 +84,11 @@ public class ItineraryService {
   public List<Itinerary> getItineraryTripByGroup(Integer groupId, Integer tripId){
     List<Itinerary> result = itineraryRepository.findAllByGroupAndTripIdOrderByIdAsc(groupId,tripId);
     return result;
+  }
+
+  public void changeStatus(PublishedStatus statusId, int id) throws Road2RingException {
+    Itinerary save = itineraryRepository.findOne(id);
+    save.setStatus(statusId);
+    itineraryRepository.save(save);
   }
 }

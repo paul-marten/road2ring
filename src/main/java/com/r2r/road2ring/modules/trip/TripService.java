@@ -2,6 +2,7 @@ package com.r2r.road2ring.modules.trip;
 
 import com.r2r.road2ring.modules.TripFacility.TripFacility;
 import com.r2r.road2ring.modules.TripFacility.TripFacilityService;
+import com.r2r.road2ring.modules.common.PublishedStatus;
 import com.r2r.road2ring.modules.common.Road2RingException;
 import com.r2r.road2ring.modules.itinerary.Itinerary;
 import com.r2r.road2ring.modules.itinerary.ItineraryService;
@@ -175,10 +176,11 @@ public class TripService {
     int index = 1;
     for(Object[] s : a){
       tripItineraryDataView = new TripItineraryDataView();
-      tripItineraryDataView.setId(index);
-      tripItineraryDataView.setCountEvent(((BigInteger)s[0]).intValue());
-      tripItineraryDataView.setGroupEvent((int)s[1]);
-      tripItineraryDataView.setGroupTitleEvent((String)s[2]);
+      tripItineraryDataView.setId((int)s[0]);
+      tripItineraryDataView.setCountEvent(((BigInteger)s[1]).intValue());
+      tripItineraryDataView.setGroupEvent((int)s[2]);
+      tripItineraryDataView.setGroupTitleEvent((String)s[3]);
+      tripItineraryDataView.setStatus(PublishedStatus.values()[(int)s[4]]);
       list.add(tripItineraryDataView);
       index++;
     }

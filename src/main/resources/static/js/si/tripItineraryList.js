@@ -17,6 +17,7 @@ $(document).ready( function () {
           },
           { "mData": "groupTitleEvent"},
 			    { "mData": "countEvent"},
+			    { "mData": "status"},
 //			    { "mData": "groupTitle"},
 			    { "mData": "groupEvent",
             "width": "10%",
@@ -26,7 +27,7 @@ $(document).ready( function () {
                var image = "icon-icon_action";
                var text = "Action ";
 
-               if (rowData.isPublished == "PUBLISHED" || rowData.isPublished == "EDITED") {
+               if (rowData.status == "PUBLISHED") {
                    image = "icon-icon_published";
                    text = "Published";
                }
@@ -52,8 +53,11 @@ $(document).ready( function () {
         "searchable": false,
         "orderable": true,
         "targets": 0
+      },{
+      "targets": 3,
+      "visible": false
       } ],
-      "order": [[ 0, "asc" ]],
+      "order": [[ 3, "asc" ]],
 
 	 });
 	 table.on( 'draw.dt', function () {
@@ -83,6 +87,53 @@ $(document).ready( function () {
       else
           table.columns(3).search('').draw();
   });
+
+  $(document).on('click', '#publishContent', function() {
+      /* Act on the event */
+      var data = table.row( $(this).parents('tr') ).data()
+      console.log(data)
+//        if(data.tripPrices == 0){
+//          alert("Trip Price atau Itinerary Kosong, harap input data terlebih dahulu sebelum publish")
+//        }else{
+        var hide_id = $(this).parent().parent().parent().find('input').val();
+        $('#publishConfirm').popup('show');
+        $('#publishConfirm input[name=api_id]').val(data.id);
+//        }
+      return false;
+  });
+
+  $(document).on("click", '#publishConfirm .do-it', function() {
+      var dataId = $('#publishConfirm input[name=api_id]').val()
+      $.post( "/api/trip/itinerary/change-status/"+ dataId + "/PUBLISHED").done(function(data) {
+        window.location.reload()
+      })
+  });
+
+  $(document).on('click', '#publishConfirm .cancel', function(event) {
+      /* Act on the event */
+      $('#publishConfirm').popup('hide');
+  });
+
+  $(document).on('click', '#unpublishContent', function() {
+      /* Act on the event */
+      var data = table.row( $(this).parents('tr') ).data()
+      $('#takeoutConfirm').popup('show');
+      $('#takeoutConfirm input[name=api_id]').val(data.id);
+      return false;
+  });
+
+  $(document).on("click", '#takeoutConfirm .do-it', function() {
+      var dataId = $('#takeoutConfirm input[name=api_id]').val()
+      $.post( "/api/trip/itinerary/change-status/"+ dataId + "/UNPUBLISHED").done(function(data) {
+        window.location.reload()
+      })
+  });
+
+  $(document).on('click', '#takeoutConfirm .cancel', function(event) {
+      /* Act on the event */
+      $('#takeoutConfirm').popup('hide');
+  });
+
 });
 
  function drawListAction(rowData, cellData) {
@@ -132,14 +183,14 @@ $(document).ready( function () {
 //                                      'href': '',
 //                                      }));
 //  var btnScheduled = $('<li>', {'id':'schedule'}).append(iconScheduled).append(textScheduled);
-  var list = btnEdit;
+  var list = btnEdit.add(btnPublish);
 //  .add(btnFacility).add(btnIternary).add(btnPublish);
 
-  if (rowData.isPublished == "PUBLISHED" || rowData.isPublished == "EDITED") {
+  if (rowData.status == "PUBLISHED") {
                   btnScheduled = $('<li>', {'style':'display: none;'});
                   list = btnEdit.add(btnUnpublish);
   }
-  if (rowData.isPublished == "SCHEDULED") {
+  if (rowData.status == "SCHEDULED") {
       list = btnEdit.add(btnPublish).add(btnUnpublish).add(btnScheduled);
   }
   return list;
