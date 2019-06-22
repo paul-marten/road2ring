@@ -47,7 +47,7 @@ public class AccessoryCategoryService {
   }
 
   public List<AccessoryCategory> getAccessoryCategoriesIdNotContaionHelm(){
-    List<AccessoryCategory> result = accessoryCategoryRepository.findAllByTitleIgnoreCaseNotLike("helm");
+    List<AccessoryCategory> result = accessoryCategoryRepository.findAllByTitleIgnoreCaseNotLikeAndStatus("helm", PublishedStatus.PUBLISHED);
     return result;
   }
 

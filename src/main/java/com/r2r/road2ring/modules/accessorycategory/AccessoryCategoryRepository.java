@@ -12,4 +12,5 @@ public interface AccessoryCategoryRepository extends DataTablesRepository<Access
   List<AccessoryCategory> findAllByTitleIgnoreCaseNotLike(String title);
   AccessoryCategory findOneByTitleIgnoreCase(String title);
   List<AccessoryCategory> findAllByStatus(PublishedStatus status);
+  List<AccessoryCategory> findAllByTitleIgnoreCaseNotLikeAndStatus(String title, PublishedStatus publishedStatus);
 }
