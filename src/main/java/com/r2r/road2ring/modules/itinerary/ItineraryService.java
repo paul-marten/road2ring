@@ -88,7 +88,7 @@ public class ItineraryService {
 
   public void changeStatus(PublishedStatus statusId, int id) throws Road2RingException {
     Itinerary save = itineraryRepository.findOne(id);
-    save.setStatus(statusId);
+//    save.setStatus(statusId);
     itineraryRepository.save(save);
   }
 }

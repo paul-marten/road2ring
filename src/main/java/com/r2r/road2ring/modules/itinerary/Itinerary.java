@@ -60,9 +60,9 @@ public class Itinerary implements Serializable {
   @JsonView(ResponseView.DefaultTrip.class)
   private Integer relatedItinerary;
 
-  @Column(name = "itinerary_status")
-  @JsonView(ResponseView.DefaultTrip.class)
-  private PublishedStatus status;
+//  @Column(name = "itinerary_status")
+//  @JsonView(ResponseView.DefaultTrip.class)
+//  private PublishedStatus status;
 
   @ManyToOne(fetch = FetchType.LAZY , optional = true)
   @JoinColumn(name = "itinerary_trip_id" , nullable = true)
