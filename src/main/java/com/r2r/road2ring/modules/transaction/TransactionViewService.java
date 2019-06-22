@@ -116,7 +116,7 @@ public class TransactionViewService {
           motor = motorRepository.findOneByTitle(transaction.getTitle());
         }else{
           motor.setId(transaction.getId());
-          motor.setTitle("Bring Own Helm");
+          motor.setTitle("Bring Own Motor");
         }
       }
     }
