@@ -27,6 +27,8 @@ public class FacilityService {
     Facility saved = new Facility();
     if(facility.getId() != 0 && facility.getId() != null){
       saved = this.getFacilityById(facility.getId());
+    }else{
+      saved.setStatus(PublishedStatus.UNPUBLISHED);
     }
     saved.setImage(facility.getImage());
     saved.setName(facility.getName());

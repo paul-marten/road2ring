@@ -24,6 +24,8 @@ public class AccessoryCategoryService {
     AccessoryCategory saved = new AccessoryCategory();
     if(accessoryCategory.getId() != 0 && accessoryCategory.getId() != null){
       saved = accessoryCategoryRepository.findOne(accessoryCategory.getId());
+    }else{
+      saved.setStatus(PublishedStatus.UNPUBLISHED);
     }
     saved.setImage(accessoryCategory.getImage());
     saved.setTitle(accessoryCategory.getTitle());
