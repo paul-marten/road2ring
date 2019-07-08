@@ -22,6 +22,8 @@ public class RoadCaptainService {
 
     if(captain.getId() != 0 && captain.getId() != null){
       saved = this.getCaptainById(captain.getId());
+    }else{
+      saved.setStatus(PublishedStatus.UNPUBLISHED);
     }
 
     saved.setName(captain.getName());

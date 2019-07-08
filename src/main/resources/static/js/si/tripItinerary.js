@@ -24,6 +24,7 @@ $(document).on("change", "#group", function(event) {
 });
 
  $(document).on("click", "#itinerarySaveBtn", function(event){
+    tinyMCE.triggerSave();
     setInputHidden()
     var uri = window.location.pathname.split('/');
     if($("#itineraryForm").parsley().validate() === true){
@@ -77,6 +78,7 @@ var formGroup = $('#itinerary-form')
   formGroup.append(itineraryEvent);
 
   upload_trip("/api/trip/upload_trip", "picture-"+index,"#picture-"+index, "#hidden_picture-"+index,640,640, "potrait");
+  general_editor()
 }
 
 function drawPictureField(section, value) {
@@ -202,7 +204,7 @@ function drawDescriptionField(section, value){
   }).text('Description')
 
   var input = $('<textarea>', {
-    'class': 'form-control',
+    'class': 'form-control mce-general',
     'placeholder': 'Enter Description',
     'id': section,
     'name': 'itineraries['+index+'].description',

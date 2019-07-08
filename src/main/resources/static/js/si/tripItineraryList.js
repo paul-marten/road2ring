@@ -89,11 +89,13 @@ $(document).ready( function () {
       else
           table.columns(3).search('').draw();
   });
+  var groupEvent;
 
   $(document).on('click', '#publishContent', function() {
       /* Act on the event */
       var data = table.row( $(this).parents('tr') ).data()
       console.log(data)
+      groupEvent = data.groupEvent
 //        if(data.tripPrices == 0){
 //          alert("Trip Price atau Itinerary Kosong, harap input data terlebih dahulu sebelum publish")
 //        }else{
@@ -106,7 +108,9 @@ $(document).ready( function () {
 
   $(document).on("click", '#publishConfirm .do-it', function() {
       var dataId = $('#publishConfirm input[name=api_id]').val()
-      $.post( "/api/trip/itinerary/change-status/"+ dataId + "/PUBLISHED").done(function(data) {
+      var data = table.row( $(this).parents('tr') ).data()
+      console.log(groupEvent)
+      $.post( "/trip/"+tripId[2]+"/itinerary/delete/"+ groupEvent ).done(function(data) {
         window.location.reload()
       })
   });
@@ -165,7 +169,7 @@ $(document).ready( function () {
   //Draw buttom Publish
   var iconPublish =$('<span>').append($('<i>', {'class':'icon-icon_publish'}));
   var textPublish =$('<span>').append( $('<a>', {
-                                  'text':'Publish ',
+                                  'text':'Delete ',
                                   'href': '',
                               }));
   var btnPublish = $('<li>', {'id':'publishContent'}).append(iconPublish).append(textPublish);
@@ -185,7 +189,7 @@ $(document).ready( function () {
 //                                      'href': '',
 //                                      }));
 //  var btnScheduled = $('<li>', {'id':'schedule'}).append(iconScheduled).append(textScheduled);
-  var list = btnEdit;
+  var list = btnEdit.add(btnPublish);
 //  .add(btnFacility).add(btnIternary).add(btnPublish);
 
   if (rowData.status == "PUBLISHED") {

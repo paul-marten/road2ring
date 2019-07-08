@@ -231,6 +231,9 @@ var hostname = $(location).attr('protocol') + '//' + $(location).attr('host');
 //                  e.element.setAttribute("class", 'container mb-0');
 //                }
               });
+              ed.on('change', function () {
+                  tinymce.triggerSave();
+              });
             }
 
   })

@@ -34,4 +34,7 @@ public interface ItineraryRepository extends DataTablesRepository<Itinerary, Int
 
   List<Itinerary> findAllByGroupAndTripIdOrderByIdAsc(Integer groupId, Integer tripId);
 
+  Itinerary deleteById(Integer id);
+
+  List<Itinerary> findAllByGroupAndTripId(int day, int id);
 }

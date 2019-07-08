@@ -31,7 +31,7 @@ public class MotorAPIController {
   @RequestMapping(value = "/data", method = RequestMethod.GET)
   public List<Motor> datatable(
       HttpServletRequest request) {
-    return motorService.getAllMotor();
+    return motorService.getAllMotorDatatable();
   }
 
   @PostMapping("/change-status/{id}/{statusId}")

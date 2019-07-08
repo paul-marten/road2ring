@@ -72,7 +72,7 @@
 
                 <div class="form-group">
                   <label th:for="description-+${iterStat.index}">Description</label>
-                  <textarea class="form-control" th:id="description-+${iterStat.index}" th:name="itineraries[+${iterStat.index}+].description" th:text="${response.object[iterStat.index].description}" placeholder="Enter Description" required></textarea>
+                  <textarea class="form-control mce-general" th:id="description-+${iterStat.index}" th:name="itineraries[+${iterStat.index}+].description" th:text="${response.object[iterStat.index].description}" placeholder="Enter Description" required></textarea>
                 </div>
 
                 <input type="hidden" class="group" th:name="itineraries[+${iterStat.index}+].group" th:value="${response.object[iterStat.index].group}" required>
@@ -93,6 +93,8 @@
   </div>
 </div>
 <th:block layout:fragment="footer-js">
+  <script src="//tinymce.cachefly.net/4.3/tinymce.min.js"></script>
+  <script src="/js/si/tiny_mce.js"></script>
   <script src="/js/si/tripItinerary.js"></script>
   <script src="/js/si/upload.js"></script>
   <script src="/js/si/jquery.html5uploader.min.js"></script>
@@ -100,6 +102,8 @@
   <script>
   $(function() {
     $(document).ready(function () {
+      general_editor()
+      tinyMCE.triggerSave();
       if($('#group').val() != "Select"){
         $('#group').prop( "disabled", true );
       }

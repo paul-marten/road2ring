@@ -66,7 +66,7 @@
 
         <div class="form-group">
           <label for="description">Description</label>
-          <textarea class="form-control" name="description" th:text="${response.object.description}" id="description" placeholder="Enter Motor Description here" required></textarea>
+          <textarea class="form-control mce-general" name="description" th:text="${response.object.description}" id="description" placeholder="Enter Motor Description here" required></textarea>
         </div>
 
         <div class="form-group">
@@ -92,11 +92,15 @@
   </div>
 </div>
 <th:block layout:fragment="footer-js">
+  <script src="//tinymce.cachefly.net/4.3/tinymce.min.js"></script>
+  <script src="../../js/si/tiny_mce.js"></script>
   <script src="../../js/si/jquery.html5uploader.min.js"></script>
   <script src="../../js/si/upload.js"></script>
   <script src="../../js/si/parsley.min.js"></script>
   <script>
     upload_trip("/api/trip/upload_icon", "image","#image", "#hidden_image",640,640, "landscape");
+    general_editor()
+    tinyMCE.triggerSave();
   </script>
 </th:block>
 </body>

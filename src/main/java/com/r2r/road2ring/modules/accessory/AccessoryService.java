@@ -25,6 +25,8 @@ public class AccessoryService {
 
     if(accessory.getId() != null && accessory.getId() != 0){
       saved = getAccessoryById(accessory.getId());
+    }else{
+      saved.setStatus(PublishedStatus.UNPUBLISHED);
     }
     saved.setDescription(accessory.getDescription());
     saved.setDiscount(accessory.getDiscount());

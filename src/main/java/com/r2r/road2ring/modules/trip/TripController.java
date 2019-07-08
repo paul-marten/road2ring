@@ -102,6 +102,16 @@ public class TripController {
     return "redirect:/trip";
   }
 
+  @RequestMapping(value = "/{tripId}/itinerary/delete/{day}")
+  public String deleteTripItinerary(@PathVariable("tripId") int id,@PathVariable("day") int day, @ModelAttribute Trip trip){
+    System.out.println();
+    System.out.println(day);
+    System.out.println(id);
+    System.out.println();
+    itineraryService.deleteItinerary(id, day);
+    return "redirect:/trip/"+id+"/itinerary";
+  }
+
   @RequestMapping(value = "/{tripId}/itinerary/save")
   public String saveTripItinerary(@PathVariable("tripId") int id, @ModelAttribute Trip trip, Model model, Principal principal){
     Trip theTrip = tripService.getTripById(id);

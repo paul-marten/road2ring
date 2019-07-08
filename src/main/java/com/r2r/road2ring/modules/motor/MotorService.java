@@ -21,6 +21,10 @@ public class MotorService {
     this.motorRepository = motorRepository;
   }
 
+  public List<Motor> getAllMotorDatatable(){
+    return motorRepository.findAll();
+  }
+
   public List<Motor> getAllMotor(){
     return motorRepository.findAllByStatus(PublishedStatus.PUBLISHED);
   }
@@ -29,6 +33,8 @@ public class MotorService {
     Motor saved = new Motor();
     if(motor.getId() != 0 && motor.getId() != null){
       saved = motorRepository.findOne(motor.getId());
+    }else{
+      saved.setStatus(PublishedStatus.UNPUBLISHED);
     }
     saved.setBrand(motor.getBrand());
     saved.setCapacity(motor.getCapacity());
@@ -38,6 +44,7 @@ public class MotorService {
     saved.setTitle(motor.getTitle());
     saved.setBrand(motor.getBrand());
     saved.setPicture(motor.getPicture());
+
     return motorRepository.save(saved);
   }
 
