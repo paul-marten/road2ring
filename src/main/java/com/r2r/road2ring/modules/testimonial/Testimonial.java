@@ -83,4 +83,7 @@ public class Testimonial implements Serializable {
   @JsonView(ResponseView.LimitedTestimonial.class)
   private PublishedStatus publishedStatus;
 
+  @Column(name = "testimonial_album_id")
+  @JsonView(ResponseView.LimitedTestimonial.class)
+  private Integer albumId;
 }

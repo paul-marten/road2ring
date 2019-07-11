@@ -56,9 +56,7 @@ public class Gallery implements Serializable {
   @Column(name = "gallery_status")
   private PublishedStatus publishedStatus;
 
-
-//  @OneToMany(fetch = FetchType.LAZY, mappedBy = "gallery")
-//  @OrderBy("id ASC")
-//  private List<Media> media;
+  @Column(name = "gallery_album_id")
+  private Integer albumId;
 
 }
