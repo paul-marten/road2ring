@@ -366,7 +366,6 @@ public class TransactionService {
   public TransactionConfirmationDetailView getTransactionDetailView(int id){
     Transaction trx = this.getTransactionById(id);
     Confirmation confirmation = confirmationService.getByTransactionCode(trx.getCode());
-//    System.out.println(confirmation.toString());
     TransactionConfirmationDetailView saved = new TransactionConfirmationDetailView();
     //transcation info
     saved.setTrxId(trx.getId());

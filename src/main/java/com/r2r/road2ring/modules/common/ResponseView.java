@@ -55,4 +55,10 @@ public class ResponseView {
   public interface LimitedRequestTrip extends Base{}
   public interface DefaultRequestTrip extends LimitedRequestTrip, DefaultTrip{}
 
+  public interface LimitedAlbum extends Base{}
+  public interface DefaultAlbum extends LimitedAlbum, DefaultMedia{}
+
+  public interface LimitedMedia extends Base{}
+  public interface DefaultMedia extends LimitedMedia{}
+
 }

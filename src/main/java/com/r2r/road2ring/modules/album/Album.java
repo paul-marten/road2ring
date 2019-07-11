@@ -1,6 +1,9 @@
 package com.r2r.road2ring.modules.album;
 
+import com.fasterxml.jackson.annotation.JsonView;
 import com.r2r.road2ring.modules.common.PublishedStatus;
+import com.r2r.road2ring.modules.common.ResponseView;
+import com.r2r.road2ring.modules.media.AlbumType;
 import com.r2r.road2ring.modules.media.Media;
 import java.io.Serializable;
 import java.util.Date;
@@ -27,19 +30,32 @@ public class Album implements Serializable {
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   @Column(name = "album_id")
+  @JsonView(ResponseView.DefaultAlbum.class)
   private Integer id;
 
   @Column(name = "album_title")
+  @JsonView(ResponseView.DefaultAlbum.class)
   private String title;
 
   @Column(name = "album_created")
+  @JsonView(ResponseView.DefaultAlbum.class)
   private Date created;
 
   @Column(name = "album_status")
+  @JsonView(ResponseView.DefaultAlbum.class)
   private PublishedStatus status;
+
+  @Column(name = "album_picture")
+  @JsonView(ResponseView.DefaultAlbum.class)
+  private String picture;
+
+  @Column(name = "album_type")
+  @JsonView(ResponseView.DefaultAlbum.class)
+  private AlbumType type;
 
   @OneToMany(fetch = FetchType.EAGER, mappedBy = "album")
   @OrderBy("id ASC")
+  @JsonView(ResponseView.DefaultAlbum.class)
   private List<Media> media;
 
   @Transient

@@ -31,22 +31,18 @@ public class AlbumService {
 
 
   public Album saveAlbum(Album album){
+    System.out.println();
+    System.out.println(album.toString());
+    System.out.println();
     Album saved = new Album();
-    if(album.getId() != 0 || album.getId() != null){
+    if(album.getId() != null &&  album.getId() != 0){
       saved = albumRepository.findOne(album.getId());
     } else {
       saved.setCreated(new Date());
     }
     saved.setTitle(album.getTitle());
-
-    /*List Delete Media*/
-    List<Media> deletedMedias = album.getDeleteMedia();
-
-    if (deletedMedias != null) {
-      for (Media deleteMedia : deletedMedias) {
-        mediaService.removeMedia(deleteMedia.getId());
-      }
-    }
+    saved.setPicture(album.getPicture());
+    saved.setType(album.getType());
 
     Album result = albumRepository.save(saved);
 
@@ -59,7 +55,19 @@ public class AlbumService {
       }
     }
 
+     /*List Delete Media*/
+    List<Media> deletedMedias = album.getDeleteMedia();
+
+    if (deletedMedias != null) {
+      for (Media deleteMedia : deletedMedias) {
+        mediaService.removeMedia(deleteMedia.getId());
+      }
+    }
+
     return result;
   }
 
+  public List<Album> getAllAlbum() {
+    return albumRepository.findAll();
+  }
 }

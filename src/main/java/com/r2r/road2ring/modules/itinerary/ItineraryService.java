@@ -88,19 +88,14 @@ public class ItineraryService {
 
   public void changeStatus(PublishedStatus statusId, int id) throws Road2RingException {
     Itinerary save = itineraryRepository.findOne(id);
-//    save.setStatus(statusId);
     itineraryRepository.save(save);
   }
 
   public void deleteItinerary(int id, int day) {
     List<Itinerary> deleteList = itineraryRepository.findAllByGroupAndTripId(day, id);
-    System.out.println();
-    System.out.println(deleteList.size());
-    System.out.println();
 
     for(Itinerary obj : deleteList){
       itineraryRepository.delete(obj.getId());
-//      itineraryRepository.deleteById(obj.getId());
     }
 
   }

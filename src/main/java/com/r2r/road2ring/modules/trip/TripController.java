@@ -104,10 +104,6 @@ public class TripController {
 
   @RequestMapping(value = "/{tripId}/itinerary/delete/{day}")
   public String deleteTripItinerary(@PathVariable("tripId") int id,@PathVariable("day") int day, @ModelAttribute Trip trip){
-    System.out.println();
-    System.out.println(day);
-    System.out.println(id);
-    System.out.println();
     itineraryService.deleteItinerary(id, day);
     return "redirect:/trip/"+id+"/itinerary";
   }
