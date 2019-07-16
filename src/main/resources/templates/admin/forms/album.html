@@ -101,11 +101,9 @@
     <div class="box-header with-border">
       <h1 class="box-title">Album Form</h1>
     </div>
-    <form role="form" id="contentForm" th:action="@{'/album/save'}" th:object="${response}" method="post">
+    <form role="form" id="contentForm" th:action="@{'/album/save'}" th:object="${response}" method="post" data-parsley-validate>
       <div class="box-body">
         <input id="object_id" type="hidden" name="id" th:if="${response.object.id != 0}" th:value="${response.object.id != null && response.object.id != 0 ? response.object.id : 0}">
-        <input type="hidden" name="picture" th:value="${response.object.picture}" placeholder="">
-        <input type="hidden" name="type" th:value="${response.object.type}" placeholder="">
         <div class="form-group">
           <label for="title">Album Title</label>
           <input type="text" class="form-control" name="title" id="title" placeholder="Album Title" th:value="${response.object.title}" required>
@@ -140,10 +138,7 @@
                         </select>
                       </div>
                       <div class="m-bottom-xs">
-                        <input type="text" th:name="listMedia[+${iterStat.index}+].link" th:value="${media.link}" placeholder="Youtube Link" disabled="disabled" class="form-control link">
-                      </div>
-                      <div class="m-top-sm">
-                        <button type="button" class="btn btn-primary" th:disabled="${media.picture == response.object.picture}" id="pick-cover">Pick as Cover</button>
+                        <input type="text" th:name="listMedia[+${iterStat.index}+].link" th:value="${media.link}" placeholder="Youtube Link" th:disabled="${media.type != T(com.r2r.road2ring.modules.media.AlbumType).YOUTUBE}" class="form-control link">
                       </div>
                     </div>
                     <div class="list-del collapse"> </div>
@@ -171,11 +166,11 @@
   <script type="text/javascript">
         $(function() {
             upload_gallery("/api/trip/upload_trip", "#up2");
-            if ($('.type').val() == 'YOUTUBE') {
-                $('.type').parent().next().find('input').prop('disabled', false);
-            } else {
-                $('.type').parent().next().find('input').prop('disabled', true);
-            }
+            <!--if ($('.type').val() == 'YOUTUBE') {-->
+                <!--$('.type').parent().next().find('input').prop('disabled', false);-->
+            <!--} else {-->
+                <!--$('.type').parent().next().find('input').prop('disabled', true);-->
+            <!--}-->
             $('#autoCompleteTag').tokenfield({
                 autocomplete: {
                     source: function(request, response) {
@@ -255,16 +250,16 @@
             $('input[name=type]').val('');
             $('.push .btn-primary').removeAttr('disabled');
         });
-        $(document).on('click', '#pick-cover', function(event) {
-            /* Act on the event */
-            $('.push .btn-primary').removeAttr('disabled');
-            var urlPic = $(this).parent().parent().find('.picture').val();
-            var urlThumb = $(this).parent().parent().find('.picture_thumb').val();
-            var typeGallery = $(this).parent().parent().find('.type option:selected').val();
-            $('input[name=picture]').val(urlPic);
-            $('input[name=type]').val(typeGallery);
-            $(this).prop('disabled', true);
-        });
+        <!--$(document).on('click', '#pick-cover', function(event) {-->
+            <!--/* Act on the event */-->
+            <!--$('.push .btn-primary').removeAttr('disabled');-->
+            <!--var urlPic = $(this).parent().parent().find('.picture').val();-->
+            <!--var urlThumb = $(this).parent().parent().find('.picture_thumb').val();-->
+            <!--var typeGallery = $(this).parent().parent().find('.type option:selected').val();-->
+            <!--$('input[name=picture]').val(urlPic);-->
+            <!--$('input[name=type]').val(typeGallery);-->
+            <!--$(this).prop('disabled', true);-->
+        <!--});-->
 
         $(document).on('click', '#submit-btn', function(){
           console.log($('#contentForm').serializeArray())

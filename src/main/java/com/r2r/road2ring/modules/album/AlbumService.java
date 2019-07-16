@@ -1,7 +1,11 @@
 package com.r2r.road2ring.modules.album;
 
+import com.r2r.road2ring.modules.accessorycategory.AccessoryCategory;
+import com.r2r.road2ring.modules.common.PublishedStatus;
+import com.r2r.road2ring.modules.common.Road2RingException;
 import com.r2r.road2ring.modules.media.Media;
 import com.r2r.road2ring.modules.media.MediaService;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,9 +35,6 @@ public class AlbumService {
 
 
   public Album saveAlbum(Album album){
-    System.out.println();
-    System.out.println(album.toString());
-    System.out.println();
     Album saved = new Album();
     if(album.getId() != null &&  album.getId() != 0){
       saved = albumRepository.findOne(album.getId());
@@ -67,7 +68,33 @@ public class AlbumService {
     return result;
   }
 
+public List<AlbumView> bindAlbum(List<Album> albums){
+  List<AlbumView> albumViewList = new ArrayList<>();
+  AlbumView saved;
+
+  for(Album a : albums){
+    saved = new AlbumView();
+
+    saved.setTitle(a.getTitle());
+    saved.setId(a.getId());
+
+    albumViewList.add(saved);
+  }
+
+  return albumViewList;
+}
+
   public List<Album> getAllAlbum() {
     return albumRepository.findAll();
+  }
+
+  public List<Album> getAutoCompleteAlbum(String keyword){
+    return albumRepository.findTop5ByStatusAndTitleIgnoreCaseContaining(PublishedStatus.PUBLISHED, keyword);
+  }
+
+  public void changeStatus(PublishedStatus statusId, int id) throws Road2RingException {
+    Album save = albumRepository.findOne(id);
+    save.setStatus(statusId);
+    albumRepository.save(save);
   }
 }

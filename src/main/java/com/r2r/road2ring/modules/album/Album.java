@@ -19,10 +19,13 @@ import javax.persistence.OrderBy;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 
 @Entity
 @Table(name = "album")
-@Data
+@Getter
+@Setter
 public class Album implements Serializable {
 
   private static final long serialVersionUID = 6466151266577375864L;
@@ -55,7 +58,7 @@ public class Album implements Serializable {
 
   @OneToMany(fetch = FetchType.EAGER, mappedBy = "album")
   @OrderBy("id ASC")
-  @JsonView(ResponseView.DefaultAlbum.class)
+  @JsonView(ResponseView.DetailedAlbum.class)
   private List<Media> media;
 
   @Transient

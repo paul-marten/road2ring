@@ -114,28 +114,34 @@ function upload_gallery(url_upload, image_field, page) {
 
             var indexEl = $('.push').length - 1;
             var json = $.parseJSON(responseText);
-            var selIndex = '.custom-file #' + slugify(i.name);
-            $(selIndex + ' .progress').delay(500).fadeOut('fast', function() {
-                $(selIndex + ' .msg').fadeIn('slow');
-                $(selIndex + ' .btn').fadeIn('slow');
-            });
-            var hidden_val = "";
-            var thumbnail = "";
-            var base_url = window.location.origin;
-            if (responseText != "") {
-                hidden_val = json.object;
-                thumbnail = json.object;
+            if(json.code == 600){
+              var selIndex = '.custom-file #' + slugify(i.name);
+              $(selIndex + ' .progress').delay(500).fadeOut('fast', function() {
+                  $(selIndex + ' .msg').fadeIn('slow');
+                  $(selIndex + ' .btn').fadeIn('slow');
+              });
+              var hidden_val = "";
+              var thumbnail = "";
+              var base_url = window.location.origin;
+              if (responseText != "") {
+                  hidden_val = json.object;
+                  thumbnail = json.object;
+              }
+              $(selIndex + ' .picture').val(base_url + '/img/assets/'+ hidden_val);
+              $(selIndex + ' .picture_thumb').val(base_url + '/img/assets/'+ thumbnail);
+              $(selIndex + ' .pre_img img').attr('src', base_url + '/img/assets/'+ thumbnail);
+              $('.push').each(function(index, el) {
+                  $(this).find('.title').attr('name', 'listMedia[' + index + '].title');
+                  $(this).find('.picture').attr('name', 'listMedia[' + index + '].picture');
+                  $(this).find('.type').attr('name', 'listMedia[' + index + '].type');
+                  $(this).find('.link').attr('name', 'listMedia[' + index + '].link');
+              });
             }
-            $(selIndex + ' .picture').val(base_url + '/img/assets/'+ hidden_val);
-            $(selIndex + ' .picture_thumb').val(base_url + '/img/assets/'+ thumbnail);
-            $(selIndex + ' .pre_img img').attr('src', base_url + '/img/assets/'+ thumbnail);
-            $('.push').each(function(index, el) {
-                $(this).find('.title').attr('name', 'listMedia[' + index + '].title');
-                $(this).find('.picture').attr('name', 'listMedia[' + index + '].picture');
-                $(this).find('.type').attr('name', 'listMedia[' + index + '].type');
-                $(this).find('.link').attr('name', 'listMedia[' + index + '].link');
-            });
-            $('#up2').prop('disabled', false);
+            else{
+               alert("Size Image kebesaran, tidak boleh lebih dari 100Kb")
+               $('#'+slugify(i.name)).remove();
+            }
+              $('#up2').prop('disabled', false);
         }
     });
 }
@@ -214,15 +220,8 @@ function drawElMedia(fname) {
             'class': 'form-control link',
             'disabled': true,
             'placeholder': 'Youtube Link'
-        })),
-        pickCover = $('<div>', {
-            'class': 'm-top-sm'
-        }).append($('<button>', {
-            'id': 'pick-cover',
-            'class' :  'btn btn-primary',
-            'type' : 'button'
-        }).text('Pick as Cover'));
+        }));
 
-    var tpl_view = elMediaWrap.append(innerSt.append(hiddenLink).append(progress).append(msg).append(img).append(btnRemove)).append(title).append(typeMedia).append(link).append(pickCover);
+    var tpl_view = elMediaWrap.append(innerSt.append(hiddenLink).append(progress).append(msg).append(img).append(btnRemove)).append(title).append(typeMedia).append(link);
     return tpl_view;
 }

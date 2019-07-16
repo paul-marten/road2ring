@@ -138,7 +138,7 @@ $.fn.dataTable.ext.search.push(
 
   $(document).on("click", '#publishConfirm .do-it', function() {
       var dataId = $('#publishConfirm input[name=api_id]').val()
-      $.post( "/api/accessory_category/change-status/"+ dataId + "/PUBLISHED").done(function(data) {
+      $.post( "/api/album/change-status/"+ dataId + "/PUBLISHED").done(function(data) {
         window.location.reload()
       })
   });
@@ -158,7 +158,7 @@ $.fn.dataTable.ext.search.push(
 
   $(document).on("click", '#takeoutConfirm .do-it', function() {
       var dataId = $('#takeoutConfirm input[name=api_id]').val()
-      $.post( "/api/accessory_category/change-status/"+ dataId + "/UNPUBLISHED").done(function(data) {
+      $.post( "/api/album/change-status/"+ dataId + "/UNPUBLISHED").done(function(data) {
         window.location.reload()
       })
   });

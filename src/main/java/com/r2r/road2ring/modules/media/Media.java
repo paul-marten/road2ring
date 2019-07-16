@@ -47,5 +47,6 @@ public class Media implements Serializable {
 
   @ManyToOne(fetch = FetchType.LAZY)
   @JoinColumn(name = "media_album_id", nullable = false)
+  @JsonView(ResponseView.DetailedMedia.class)
   private Album album;
 }
