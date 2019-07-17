@@ -24,6 +24,7 @@ public final class Static {
   public static final String ACCESSORIES = "/accessories";
   public static final String TRANSACTION = "/transaction";
   public static final String CONFIRMATION = "/confirmation";
+  public static final String ALBUM = "/album";
 
   public static final String GALLERY = "/gallery";
   public static final String TESTIMONIAL = "/testimonial";

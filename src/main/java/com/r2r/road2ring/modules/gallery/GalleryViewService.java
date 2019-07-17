@@ -55,6 +55,7 @@ public class GalleryViewService {
     result.setTags(gallery.getTag());
     result.setArticle(gallery.getArticle());
     result.setIsVideo(gallery.getIsVideo());
+    result.setAlbumId(gallery.getAlbumId() != null ? gallery.getAlbumId() : 0);
     return result;
   }
 }

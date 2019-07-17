@@ -11,4 +11,5 @@ public class GalleryDetailView extends GalleryView {
   private String tags;
   private String article;
   private Boolean isVideo;
+  private int albumId;
 }
