@@ -217,7 +217,8 @@ form.form-border .form-group {
 
         <div class="form-group">
           <label for="albumId">Album</label>
-          <input type="text" name="albumId" class="form-control" th:value="${response.object.albumId}" id="albumId" placeholder="Pick your album" required>
+          <input type="text" class="form-control" th:value="${response.object.albumId}" id="albumId" placeholder="Pick your album" required>
+          <input type="hidden" class="hidden albumId" name="albumId" th:value="${response.object.albumId}">
         </div>
       </div>
       <div class="box-footer">
@@ -259,6 +260,11 @@ form.form-border .form-group {
           general_editor()
           if($('.ta_tmce').val()!= null && $('.ta_tmce').val()!=""){
               setPageBreak();
+          }
+
+          var albumId = $('.albumId').val()
+          if(albumId != null && albumId != undefined && albumId != ''){
+            getAlbum(albumId)
           }
       });
       $('#datepickers').datepicker({

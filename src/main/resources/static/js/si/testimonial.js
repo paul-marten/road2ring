@@ -211,6 +211,13 @@ function addButtonWhenDelete(){
     i++;
   })
 }
+
+function getAlbum(id){
+  $.get( "/api/album/get/"+id).done(function(data) {
+    $('#albumId').val(data.object.title)
+  })
+}
+
 $("#submit-btn-gallery").click(function(){
   //submit here
   tinyMCE.triggerSave();

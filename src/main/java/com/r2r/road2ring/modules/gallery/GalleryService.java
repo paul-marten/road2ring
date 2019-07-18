@@ -53,6 +53,7 @@ public class GalleryService {
     saved.setDistance(gallery.getDistance());
     saved.setDuration(gallery.getDuration());
     saved.setIsVideo(gallery.getIsVideo() != null ? gallery.getIsVideo() : false);
+    saved.setAlbumId(gallery.getAlbumId());
 
     return galleryRepository.save(saved);
   }

@@ -9,6 +9,7 @@ import java.security.Principal;
 import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -54,6 +55,14 @@ public class AlbumAPIController {
       responseMessage.setCode(e.getCode());
       responseMessage.setMessage(e.getMessage());
     }
+
+    return responseMessage;
+  }
+
+  @GetMapping("/get/{id}")
+  public ResponseMessage getAlbum(@PathVariable("id") int id, Principal principal){
+    ResponseMessage responseMessage = new ResponseMessage();
+    responseMessage.setObject(albumService.bindAlbum(albumService.getAlbumById(id)));
 
     return responseMessage;
   }

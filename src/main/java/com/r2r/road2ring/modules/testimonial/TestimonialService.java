@@ -47,6 +47,7 @@ public class TestimonialService {
     saved.setDuration(testimonial.getDuration());
     saved.setRoadCaptain(testimonial.getRoadCaptain());
     saved.setIsVideo(testimonial.getIsVideo() != null ? testimonial.getIsVideo() : false);
+    saved.setAlbumId(testimonial.getAlbumId());
 
     return testimonialRepository.save(saved);
   }

@@ -97,4 +97,12 @@ public List<AlbumView> bindAlbum(List<Album> albums){
     save.setStatus(statusId);
     albumRepository.save(save);
   }
+
+  public Album bindAlbum(Album album) {
+
+    Album saved = new Album();
+    saved.setTitle(album.getTitle());
+    saved.setId(album.getId());
+    return saved;
+  }
 }
