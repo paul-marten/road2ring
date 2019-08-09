@@ -1,0 +1,137 @@
+<!DOCTYPE html SYSTEM "http://www.thymeleaf.org/dtd/xhtml1-strict-thymeleaf-spring4-4.dtd">
+<html xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:th="http://www.w3.org/1999/html" layout:decorator="admin/layout">
+<head>
+  <title>R2R-Trip</title>
+  <link type="text/css" href="../../css/jquery-ui-1.10.0.custom.css" rel="stylesheet"/>
+  <link type="text/css" href="../../css/bootstrap-tokenfield.min.css" rel="stylesheet"/>
+  <style>
+.ck-editor__editable {
+    min-height: 200px;
+}
+
+.box-inline{
+      box-shadow: 0 1px 1px rgba(0,0,0,0.5) !important;
+      padding: 5px 10px;
+}
+
+.collapse{
+  display: none;
+}
+
+.separator{
+  width: 20px;
+  text-align: center;
+}
+
+.title{
+  font-weight: 600;
+}
+
+.btn-confirmation{
+  width: 40%;
+  text-align: right;
+}
+.custom-popup .popup-body {
+    padding: 15px;
+}
+.text-center {
+    text-align: center;
+}
+.custom-popup {
+    background-color: #fff;
+    color: #777;
+    text-align: center!important;
+    border-radius: 10px;
+    -moz-border-radius: 10px;
+    -webkit-border-radius: 10px;
+    margin-top: 50px;
+}
+
+<!--.info-table{-->
+  <!--width: 100%;-->
+  <!--display: table-cell;-->
+<!--}-->
+.detailtrx-table{
+  width: 400px;
+}
+.upper-info{
+  width: 100%;
+  display: table;
+}
+
+</style>
+</head>
+<body>
+<div layout:fragment="content">
+  <div class="box box-primary">
+    <div class="box-header with-border">
+      <h1 class="box-title">Request Trip Detail</h1>
+    </div>
+    <div class="box-body">
+      <div class="info-table">
+        <h4><b>Request Info</b></h4>
+        <table>
+          <tr>
+            <td class="title">User Email </td>
+            <td class="separator"> : </td>
+            <td th:text="${response.object.userEmail}"></td>
+          </tr>
+          <tr>
+            <td class="title">Start Date </td>
+            <td class="separator"> : </td>
+            <td th:text="${response.object.startDate}"></td>
+          </tr>
+          <tr>
+            <td class="title">Max Rider </td>
+            <td class="separator"> : </td>
+            <td th:text="${response.object.maxRider}"></td>
+          </tr>
+        </table>
+      </div>
+      <hr/>
+      <div class="info-trip-table">
+        <h4><b>Request Trip Info</b></h4>
+        <table>
+          <tr>
+            <td class="title">Trip Title </td>
+            <td class="separator"> : </td>
+            <td th:text="${response.object.trip.title}"></td>
+          </tr>
+          <tr>
+            <td class="title">Trip Duration </td>
+            <td class="separator"> : </td>
+            <td th:text="${response.object.trip.duration + ' days'}"></td>
+          </tr>
+          <tr>
+            <td class="title">Trip Captain </td>
+            <td class="separator"> : </td>
+            <td th:text="${response.object.trip.roadCaptain.name}"></td>
+          </tr>
+          <tr>
+            <td class="title">Trip Location </td>
+            <td class="separator"> : </td>
+            <td th:text="${response.object.trip.location}"></td>
+          </tr>
+          <tr>
+            <td class="title">Trip Distance </td>
+            <td class="separator"> : </td>
+            <td th:text="${response.object.trip.distance + ' KMs'}"></td>
+          </tr>
+          <tr>
+            <td class="title">Trip Max Rider </td>
+            <td class="separator"> : </td>
+            <td th:text="${response.object.trip.maxRider}"></td>
+          </tr>
+          <tr>
+            <td class="title">Trip Map </td>
+            <td class="separator"> : </td>
+            <td><img id="myImg" th:src="${response.object.trip.map}"></td>
+          </tr>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
+</body>
+</html>

@@ -1,0 +1,449 @@
+<!DOCTYPE html SYSTEM "http://www.thymeleaf.org/dtd/xhtml1-strict-thymeleaf-spring4-4.dtd">
+<html xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:th="http://www.w3.org/1999/html" layout:decorator="admin/layout">
+<head>
+  <title>R2R-Trip</title>
+  <link type="text/css" href="../../css/jquery-ui-1.10.0.custom.css" rel="stylesheet"/>
+  <link type="text/css" href="../../css/bootstrap-tokenfield.min.css" rel="stylesheet"/>
+  <style>
+.ck-editor__editable {
+    min-height: 200px;
+}
+
+.box-inline{
+      box-shadow: 0 1px 1px rgba(0,0,0,0.5) !important;
+      padding: 5px 10px;
+}
+
+.collapse{
+  display: none;
+}
+
+.separator{
+  width: 20px;
+  text-align: center;
+}
+
+.title{
+  font-weight: 600;
+}
+
+.bukti_pembayaran{
+  vertical-align: top;
+}
+
+#myImg {
+  border-radius: 5px;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+#myImg:hover {opacity: 0.7;}
+
+/* The Modal (background) */
+.modal {
+  display: none; /* Hidden by default */
+  position: fixed; /* Stay in place */
+  z-index: 1; /* Sit on top */
+  padding-top: 100px; /* Location of the box */
+  left: 0;
+  top: 0;
+  width: 100%; /* Full width */
+  height: 100%; /* Full height */
+  overflow: auto; /* Enable scroll if needed */
+  background-color: rgb(0,0,0); /* Fallback color */
+  background-color: rgba(0,0,0,0.9); /* Black w/ opacity */
+}
+
+/* Modal Content (Image) */
+.modal-content {
+  margin: auto;
+  display: block;
+  width: 80%;
+  max-width: 700px;
+}
+
+/* Caption of Modal Image (Image Text) - Same Width as the Image */
+#caption {
+  margin: auto;
+  display: block;
+  width: 80%;
+  max-width: 700px;
+  text-align: center;
+  color: #ccc;
+  padding: 10px 0;
+  height: 150px;
+}
+
+/* Add Animation - Zoom in the Modal */
+.modal-content, #caption {
+  animation-name: zoom;
+  animation-duration: 0.6s;
+}
+
+@keyframes zoom {
+  from {transform:scale(0)}
+  to {transform:scale(1)}
+}
+
+/* The Close Button */
+.close {
+  position: absolute;
+  top: 15px;
+  right: 35px;
+  color: #f1f1f1;
+  font-size: 40px;
+  font-weight: bold;
+  transition: 0.3s;
+}
+
+.close:hover,
+.close:focus {
+  color: #bbb;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+/* 100% Image Width on Smaller Screens */
+@media only screen and (max-width: 700px){
+  .modal-content {
+    width: 100%;
+  }
+}
+
+.btn-confirmation{
+  width: 40%;
+  text-align: right;
+}
+.custom-popup .popup-body {
+    padding: 15px;
+}
+.text-center {
+    text-align: center;
+}
+.custom-popup {
+    background-color: #fff;
+    color: #777;
+    text-align: center!important;
+    border-radius: 10px;
+    -moz-border-radius: 10px;
+    -webkit-border-radius: 10px;
+    margin-top: 50px;
+}
+
+.info-table{
+  width: 45%;
+  display: table-cell;
+}
+.detailtrx-table{
+  width: 400px;
+}
+.upper-info{
+  width: 100%;
+  display: table;
+}
+
+.detail-title{
+  width: 140px;
+}
+.detail-price{
+  width: 50px;
+}
+.total-price{
+  height: 60px;
+}
+
+
+</style>
+</head>
+<body>
+<div layout:fragment="content">
+  <div class="box box-primary">
+    <div class="box-header with-border">
+      <h1 class="box-title">Transaction Form</h1>
+    </div>
+    <div class="box-body">
+      <div class="upper-info">
+        <div class="info-table">
+      <h4><b>Transaction Info</b></h4>
+      <input id="object_id" type="hidden" name="id" th:if="${response.object.trxId != 0}" th:value="${response.object.trxId != null && response.object.trxId != 0 ? response.object.trxId : 0}">
+    <table>
+      <tr>
+        <td class="title">Transaction Code </td>
+        <td class="separator"> : </td>
+        <td th:text="${response.object.code}"></td>
+      </tr>
+      <tr>
+        <td class="title">Payment Status </td>
+        <td class="separator"> : </td>
+        <td th:text="${response.object.paymentStatus}"></td>
+      </tr>
+      <tr>
+        <td class="title">Trip </td>
+        <td class="separator"> : </td>
+        <td th:text="${response.object.trip.title}"></td>
+      </tr>
+      <tr>
+        <td class="title">Trip Status </td>
+        <td class="separator"> : </td>
+        <td th:text="${response.object.tripStatus}"></td>
+      </tr>
+      <tr>
+        <td class="title">Price </td>
+        <td class="separator"> : </td>
+        <td th:text="${'$ ' + response.object.price + '.00'}"></td>
+      </tr>
+      <tr>
+        <td class="title">User </td>
+        <td class="separator"> : </td>
+        <td th:text="${response.object.user.fullName}"></td>
+      </tr>
+      <tr>
+        <td class="title">Start Date </td>
+        <td class="separator"> : </td>
+        <td th:text="${#dates.format(response.object.startDate, 'dd-MMM-yyyy')}"></td>
+      </tr>
+      <tr>
+        <td class="title">Transaction Created Date </td>
+        <td class="separator"> : </td>
+        <td th:text="${#dates.format(response.object.created, 'dd-MMM-yyyy HH:mm')}"></td>
+      </tr>
+      <tr>
+        <td class="title">Transaction Created By </td>
+        <td class="separator"> : </td>
+        <td th:text="${response.object.createdBy != null ? response.object.createdBy : '-'}"></td>
+      </tr>
+      <tr>
+        <td class="title">Transaction Last Update </td>
+        <td class="separator"> : </td>
+        <td th:text="${response.object.updated != null ? #dates.format(response.object.updated, 'dd-MMM-yyyy HH:mm') : '-'}"></td>
+      </tr>
+      <tr>
+        <td class="title">Transaction Last Update By </td>
+        <td class="separator"> : </td>
+        <td th:text="${response.object.updatedBy != null ? response.object.updatedBy : '-'}"></td>
+      </tr>
+      <tr>
+        <td class="title">Complete Payment Date </td>
+        <td class="separator"> : </td>
+        <td th:text="${response.object.completePaymentDate != null ? #dates.format(response.object.completePaymentDate, 'dd-MMM-yyyy HH:mm') : '-'}"></td>
+      </tr>
+      <tr>
+        <td class="title">Expired Payment Date </td>
+        <td class="separator"> : </td>
+        <td th:text="${response.object.expiredPaymentDate != null ? #dates.format(response.object.expiredPaymentDate, 'dd-MMM-yyyy HH:mm') : '-'}"></td>
+      </tr>
+      <tr>
+        <td class="title">Notes </td>
+        <td class="separator"> : </td>
+        <td th:text="${response.object.notes != '' ? response.object.notes : '-'}"></td>
+      </tr>
+    </table>
+    </div>
+      <div class="detailtrx-table">
+        <h4><b>Detail Payment</b></h4>
+        <div class="smart-widget">
+          <div class="smart-widget-inner">
+            <table id="rsp-tbls" class="table table-striped">
+              <thead>
+              <th>#</th>
+              <th>Type</th>
+              <th class="detail-title">Title</th>
+              <th class="detail-price">Price</th>
+              <th>Discount</th>
+              </thead>
+              <tbody>
+              <tr th:each="detail, iterStat : ${detail}">
+                <td th:text="${iterStat.index + 1}"></td>
+                <td th:text="${detail.type}"></td>
+                <td th:text="${detail.title}"></td>
+                <td th:text="${detail.price}"></td>
+                <td th:text="${detail.discount != null && detail.discount != '' ? detail.discount : '-'}"></td>
+              </tr>
+              </tbody>
+              <tfoot>
+              <tr>
+                <td class="total-price" colspan="2">Total</td>
+                <td></td>
+                <td></td>
+                <td th:text="${'$ ' + response.object.price + '.00'}"></td>
+              </tr>
+              </tfoot>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+      <hr/>
+      <div>
+        <h4><b>Confirmation Info</b></h4>
+        <th:block th:if="${response.object.confirmed == true}">
+          <input id="object_confirmation_id" type="hidden" name="id" th:if="${response.object.confirmationId != 0}" th:value="${response.object.confirmationId != null && response.object.confirmationId != 0 ? response.object.confirmationId : 0}">
+          <table>
+            <tr>
+              <td class="title">Account Number </td>
+              <td class="separator"> : </td>
+              <td th:text="${response.object.accountNumber}"></td>
+              <td class="btn-confirmation" rowspan="2"><button id="confirmPayment" class="confirm-btn btn btn-primary">Confirm Payment</button></td>
+            </tr>
+            <tr>
+              <td class="title">Bank </td>
+              <td class="separator"> : </td>
+              <td th:text="${response.object.bank}"></td>
+              <td></td>
+            </tr>
+            <tr>
+              <td class="title">Transaction Code </td>
+              <td class="separator"> : </td>
+              <td th:text="${response.object.codeTrx}"></td>
+            </tr>
+            <tr>
+              <td class="title bukti_pembayaran">Bukti Pembayaran </td>
+              <td class="separator bukti_pembayaran"> : </td>
+              <td><img id="myImg" th:src="${response.object.picture}"></td>
+            </tr>
+          </table>
+
+          <div id="myModal" class="modal">
+
+            <!-- The Close Button -->
+            <span class="close">&times;</span>
+
+            <!-- Modal Content (The Image) -->
+            <img class="modal-content" id="img01">
+
+            <!-- Modal Caption (Image Text) -->
+            <div id="caption"></div>
+          </div>
+        </th:block>
+        <th:block th:unless="${response.object.confirmed == true}">
+          <p>no confirmation</p>
+        </th:block>
+      </div>
+      <hr/>
+      <div>
+        <h4><b>Log Info</b></h4>
+        <div class="smart-widget">
+          <div class="smart-widget-inner">
+            <table id="rsp-tbl" class="table table-striped">
+              <thead>
+              <th >#</th>
+              <th >Action</th>
+              <th>Creator</th>
+              <th>Date</th>
+              <th>Username</th>
+              </thead>
+              <tbody>
+              <tr th:each="log, iterStat : ${log}">
+                <td th:text="${iterStat.index + 1}"></td>
+                <td th:text="${log.action}"></td>
+                <td th:text="${log.creator}"></td>
+                <td th:text="${log.created}"></td>
+                <td th:text="${log.username}"></td>
+              </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+      <div class="custom-popup collapse" id="publishConfirm">
+        <div class="popup-body text-center">
+          <input id="hide_trx-code" type="hidden" th:value="${response.object.codeTrx}">
+          <div class="form-group">
+            <h5 style="text-align: left"><strong>please select the status you want to choose,</strong></h5><h5><strong>and make sure that the status you choose is correct</strong></h5>
+            <!--<strong class="block m-top-xs"><i class="fa fa-exclamation-circle m-right-xs text-danger"></i>This action cannot be undone</strong>-->
+            <select class="form-control" id="group">
+              <option th:each="state : ${T(com.r2r.road2ring.modules.common.PaymentStatus).values()}"
+                      th:value="${state}"
+                      th:text="${state}"
+                      th:selected="${response.object.paymentStatus != null ? state == response.object.paymentStatus : false}">
+              </option>
+            </select>
+          </div>
+          <div class="text-center m-top-lg">
+            <a class="btn btn-info m-right-sm do-it">Yes</a>
+            <a class="btn btn-default cancel">Cancel</a>
+          </div>
+        </div>
+      </div>
+    </div>
+      <!--<form role="form" th:action="@{'/transaction/save'}" th:object="${response}" method="post" data-parsley-validate>-->
+        <!--<input id="object_id" type="hidden" name="id" th:if="${response.object.id != 0}" th:value="${response.object.id != null && response.object.id != 0 ? response.object.id : 0}">-->
+        <!--<div class="form-group">-->
+          <!--<label for="code">Transaction Code</label>-->
+          <!--<input type="text" class="form-control" name="code" id="code" th:value="${response.object.code}" readonly>-->
+        <!--</div>-->
+      <!--</form>-->
+  </div>
+</div>
+<th:block layout:fragment="footer-js">
+  <script src="../../js/si/jquery.popupoverlay.min.js"></script>
+  <script>
+    // Get the modal
+var modal = document.getElementById("myModal");
+
+// Get the image and insert it inside the modal - use its "alt" text as a caption
+var img = document.getElementById("myImg");
+var modalImg = document.getElementById("img01");
+var captionText = document.getElementById("caption");
+img.onclick = function(){
+  modal.style.display = "block";
+  modalImg.src = this.src;
+}
+
+// Get the <span> element that closes the modal
+var span = document.getElementsByClassName("close")[0];
+
+// When the user clicks on <span> (x), close the modal
+span.onclick = function() {
+  modal.style.display = "none";
+}
+
+$(document).keyup(function(e) {
+     if (e.key === "Escape") { // escape key maps to keycode `27`
+        modal.style.display = "none";
+    }
+});
+
+$(document).on('click', '#confirmPayment', function() {
+    /* Act on the event */
+    <!--var hide_id = $(this).parent().parent().parent().find('input').val();-->
+    $('#publishConfirm').popup('show');
+    <!--$('#publishConfirm input[name=api_id]').val(hide_id);-->
+
+    return false;
+});
+
+var selectedStatus = $("#group").val();
+var curStatus = $("#group").val();
+var code = $("#hide_trx-code").val()
+console.log(curStatus)
+
+$(document).on('change', '#group', function() {
+      selectedStatus = $(this).val();
+});
+
+
+$(document).on('click', '.do-it', function() {
+  if(curStatus != selectedStatus){
+    $.post('/api/transaction/change-status-transaction/'+ selectedStatus +'/' + code).done(function(data) {
+          if(data.code == 900 )
+            alert("status yang dipilih salah")
+          else
+            window.location.href = "/transaction";
+    });
+  }else{
+    alert('harap pilih status yang berbeda dengan yang sebelumnya')
+  }
+});
+
+$(document).on('click', '.cancel', function(){
+  $('#publishConfirm').popup('hide');
+})
+
+<!--function check-->
+
+  </script>
+</th:block>
+</body>
+</html>
