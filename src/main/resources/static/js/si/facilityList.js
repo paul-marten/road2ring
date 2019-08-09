@@ -1,4 +1,7 @@
 $(document).ready( function () {
+	 if (/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)) {
+	  $("div.mobile-tbl").addClass("mbl-tbl");
+	 }
 	 var table = $('#rsp-tbl').DataTable({
 	 "dom": '<"row"<"col-sm-2"<"newRecord">><"col-sm-10"<"toolbar">>><"row"<"col-sm-12"tr>><"row"<"col-sm-6"i><"col-sm-6"p>>',
 			"sAjaxSource": "/api/facility/data",
@@ -12,9 +15,18 @@ $(document).ready( function () {
                 $(td).attr('data-th', 'No.');
             }
           },
-          { "mData": "name"},
-			    { "mData": "image"},
-			    { "mData": "status"},
+          { "mData": "name",
+            "createdCell": function(td, cellData, rowData, row, col) {
+                $(td).attr('data-th', 'Name');
+            }},
+			    { "mData": "image",
+            "createdCell": function(td, cellData, rowData, row, col) {
+                $(td).attr('data-th', 'Picture');
+            }},
+			    { "mData": "status",
+            "createdCell": function(td, cellData, rowData, row, col) {
+                $(td).attr('data-th', 'Status');
+            }},
 			    { "mData": "id",
             "width": "10%",
             "searchable": false,

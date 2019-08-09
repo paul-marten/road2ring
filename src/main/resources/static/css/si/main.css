@@ -17,3 +17,34 @@ label.parsley-error {
     color: #d02d2d;
     font-size: 0.9em;
 }
+
+.col-sm-12
+{
+    position: relative;
+    min-height: 1px;
+    padding-right: 15px;
+    padding-left: 15px;
+}
+
+
+.mbl-tbl #rsp-tbl caption {
+   background-image: none;
+}
+.mbl-tbl table#rsp-tbl thead {
+   display: none;
+}
+.mbl-tbl table#rsp-tbl tbody td {
+   display: block;
+   padding: .6rem;
+}
+.mbl-tbl table#rsp-tbl tbody tr td:first-child {
+   background: #666;
+   color: #fff;
+   padding-left: .6rem;
+}
+.mbl-tbl table#rsp-tbl tbody td:before {
+   content: attr(data-th);
+   font-weight: bold;
+   display: inline-block;
+   width: 8.5rem;
+}
