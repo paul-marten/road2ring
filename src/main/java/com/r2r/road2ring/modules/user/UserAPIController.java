@@ -40,6 +40,9 @@ public class UserAPIController {
   UserViewService userViewService;
 
   @Autowired
+  UserRequestRoleService userRequestRoleService;
+
+  @Autowired
   public void setUserService(UserService userService){
     this.userService = userService;
   }
@@ -214,6 +217,50 @@ public class UserAPIController {
       httpStatus.setStatus(HttpStatus.BAD_REQUEST.value());
     }
     return response;
+  }
+
+  /**
+   * RC Request
+   */
+
+  @PostMapping(value="/request-rc")
+  public ResponseMessage requestRc(Principal principal,
+      HttpServletResponse httpStatus){
+    ResponseMessage response = new ResponseMessage();
+    try{
+      if(principal != null ){
+        Authentication auth = (Authentication) principal;
+        UserDetails currentConsumer = (UserDetails) auth.getPrincipal();
+        User user = userService.findUserByEmail(currentConsumer.getUsername());
+
+        response.setObject(userRequestRoleService.save(user));
+      }
+    }catch (Road2RingException e){
+      response.setCode(800);
+      response.setMessage(e.getMessage());
+      httpStatus.setStatus(HttpStatus.BAD_REQUEST.value());
+    }catch (Exception e){
+      response.setCode(800);
+      response.setMessage(e.getMessage());
+      httpStatus.setStatus(HttpStatus.BAD_REQUEST.value());
+    }
+    return response;
+
+  }
+
+  @PostMapping(value="/approve-rc")
+  public ResponseMessage approveRoadCaptain(@ModelAttribute UserRequestRole userRequestRole,
+      HttpServletResponse httpStatus){
+    ResponseMessage response = new ResponseMessage();
+    try{
+        response.setObject(userRequestRoleService.update(userRequestRole));
+    }catch (Exception e){
+      response.setCode(800);
+      response.setMessage(e.getMessage());
+      httpStatus.setStatus(HttpStatus.BAD_REQUEST.value());
+    }
+    return response;
+
   }
 
 }
