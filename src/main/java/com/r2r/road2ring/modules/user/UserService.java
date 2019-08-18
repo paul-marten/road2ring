@@ -253,4 +253,14 @@ public class UserService {
     return userRepository.save(saved);
   }
 
+  public User changeRole(User user, int roleId) {
+    User result = userRepository.findOne(user.getId());
+    Role role = new Role();
+    role.setId(roleId);
+    result.setRole(role);
+
+    return userRepository.save(result);
+
+  }
+
 }
