@@ -1,7 +1,7 @@
 $(document).ready( function () {
 //	 var tripId = window.location.pathname.split('/')
 //	 console.log(tripId[2])
-	 var table = $('#rsp-tbl').DataTable({
+	 if (/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)) {    				$("div.mobile-tbl").addClass("mbl-tbl");    			}	 var table = $('#rsp-tbl').DataTable({
 	 "dom": '<"row"<"col-sm-2"<"newRecord">><"col-sm-10"<"toolbar">>><"row"<"col-sm-12"tr>><"row"<"col-sm-6"i><"col-sm-6"p>>',
 			"sAjaxSource": "/api/transaction/data",
 			"sAjaxDataProp": "",
@@ -15,11 +15,26 @@ $(document).ready( function () {
                 $(td).attr('data-th', 'No.');
             }
           },
-          { "mData": "code"},
-			    { "mData": "paymentStatus"},
-			    { "mData": "trip.title"},
-			    { "mData": "created"},
-			    { "mData": "createdBy"},
+          { "mData": "code",
+            "createdCell": function(td, cellData, rowData, row, col) {
+                $(td).attr('data-th', 'Code');
+            }},
+			    { "mData": "paymentStatus",
+            "createdCell": function(td, cellData, rowData, row, col) {
+                $(td).attr('data-th', 'Status');
+            }},
+			    { "mData": "trip.title",
+            "createdCell": function(td, cellData, rowData, row, col) {
+                $(td).attr('data-th', 'Trip');
+            }},
+			    { "mData": "created",
+            "createdCell": function(td, cellData, rowData, row, col) {
+                $(td).attr('data-th', 'Created Date');
+            }},
+			    { "mData": "createdBy",
+            "createdCell": function(td, cellData, rowData, row, col) {
+                $(td).attr('data-th', 'Created By');
+            }},
 //			    { "mData": "updated"},
 			    { "mData": "id",
             "width": "10%",

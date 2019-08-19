@@ -1,7 +1,7 @@
 $(document).ready( function () {
    var tripId = window.location.pathname.split('/')
 //	 console.log(tripId[2])
-	 var table = $('#rsp-tbl').DataTable({
+	 if (/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)) {    				$("div.mobile-tbl").addClass("mbl-tbl");    			}	 var table = $('#rsp-tbl').DataTable({
 	 "dom": '<"row"<"col-sm-2"<"newRecord">><"col-sm-10"<"toolbar">>><"row"<"col-sm-12"tr>><"row"<"col-sm-6"i><"col-sm-6"p>>',
 			"sAjaxSource": "/api/testimonial/data",
 			"sAjaxDataProp": "",
@@ -14,9 +14,18 @@ $(document).ready( function () {
                 $(td).attr('data-th', 'No.');
             }
           },
-          { "mData": "title"},
-			    { "mData": "roadCaptain.name"},
-			    { "mData": "tripDate"},
+          { "mData": "title",
+            "createdCell": function(td, cellData, rowData, row, col) {
+                $(td).attr('data-th', 'Title');
+            }},
+			    { "mData": "roadCaptain.name",
+            "createdCell": function(td, cellData, rowData, row, col) {
+                $(td).attr('data-th', 'Captain');
+            }},
+			    { "mData": "tripDate",
+            "createdCell": function(td, cellData, rowData, row, col) {
+                $(td).attr('data-th', 'Date');
+            }},
 			    { "mData": "publishedStatus"},
 //          { "data": "roadCaptain.name",
 //          "width": "12%",

@@ -1,7 +1,7 @@
 $(document).ready( function () {
 	 var tripId = window.location.pathname.split('/')
 	 console.log(tripId[2])
-	 var table = $('#rsp-tbl').DataTable({
+	 if (/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)) {    				$("div.mobile-tbl").addClass("mbl-tbl");    			}	 var table = $('#rsp-tbl').DataTable({
 	 "dom": '<"row"<"col-sm-2"<"newRecord">><"col-sm-10"<"toolbar">>><"row"<"col-sm-12"tr>><"row"<"col-sm-6"i><"col-sm-6"p>>',
 			"sAjaxSource": "/api/trip/"+tripId[2]+"/itinerary/data",
 //			"sAjaxSource": "/api/trip/test",
@@ -15,8 +15,16 @@ $(document).ready( function () {
                 $(td).attr('data-th', 'No.');
             }
           },
-          { "mData": "groupTitleEvent"},
-			    { "mData": "countEvent"},
+          {
+          "mData": "groupTitleEvent",
+          "createdCell": function(td, cellData, rowData, row, col) {
+              $(td).attr('data-th', 'Event Group Title');
+          }
+          },{ "mData": "countEvent",
+            "createdCell": function(td, cellData, rowData, row, col) {
+                $(td).attr('data-th', 'Event Total');
+            }
+          },
 //			    { "mData": "status"},
 //			    { "mData": "groupTitle"},
 			    { "mData": "groupEvent",

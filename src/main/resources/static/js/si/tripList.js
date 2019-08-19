@@ -1,8 +1,12 @@
 $(document).ready( function () {
-	 var table = $('#rsp-tbl').DataTable({
+if (/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)) {
+    				$("div.mobile-tbl").addClass("mbl-tbl");
+    			}
+	 if (/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)) {    				$("div.mobile-tbl").addClass("mbl-tbl");    			}	 var table = $('#rsp-tbl').DataTable({
 	 "dom": '<"row"<"col-sm-2"<"newRecord">><"col-sm-10"<"toolbar">>><"row"<"col-sm-12"tr>><"row"<"col-sm-6"i><"col-sm-6"p>>',
 			"sAjaxSource": "/api/trip/data",
 			"sAjaxDataProp": "",
+			 "responsive": true,
 			"aoColumns": [
 			    {"mData": "id",
             "width": "5%",
@@ -12,17 +16,25 @@ $(document).ready( function () {
                 $(td).attr('data-th', 'No.');
             }
           },
-          { "mData": "title"},
-			    { "mData": "duration"},
-			    { "mData": "roadCaptain.name"},
-			    { "mData": "publishedStatus"},
-//          { "data": "roadCaptain.name",
-//          "width": "12%",
-//          "orderable": false,
-//          "createdCell": function(td, cellData, rowData, row, col) {
-//              $(td).attr('data-th', "Captain");
-//          }},
-			    { "mData": "id",
+          { "mData": "title",
+            "createdCell": function(td, cellData, rowData, row, col) {
+                $(td).attr('data-th', 'Title.');
+            }
+          },
+			    { "mData": "duration",
+            "createdCell": function(td, cellData, rowData, row, col) {
+                 $(td).attr('data-th', 'Duration');
+             }
+          },
+			    { "mData": "roadCaptain.name",
+            "createdCell": function(td, cellData, rowData, row, col) {
+                 $(td).attr('data-th', 'Captain');
+             }
+          },{ "mData": "publishedStatus",
+			      "createdCell": function(td, cellData, rowData, row, col) {
+                $(td).attr('data-th', 'Status');
+            }
+			    },{ "mData": "id",
             "width": "10%",
             "searchable": false,
             "orderable": false,
