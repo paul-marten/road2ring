@@ -58,7 +58,6 @@ public class TripViewService {
     TripView item = new TripView();
     Page<Trip> trips = tripService.findTripPageablePage(page,limit);
     for(Trip trip : trips){
-      item = new TripView();
       item = this.getTripView(trip);
       if(item.getTripPrice() > 0) {
         result.add(item);
@@ -73,7 +72,6 @@ public class TripViewService {
     List<TripView> tripViews = new ArrayList<>();
     TripView item = new TripView();
     for(Trip trip : trips){
-      item = new TripView();
       item = this.getTripView(trip);
       if(item.getTripPrice() >0)
         tripViews.add(item);
