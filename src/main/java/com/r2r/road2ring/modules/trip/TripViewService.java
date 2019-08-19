@@ -55,9 +55,14 @@ public class TripViewService {
   public ResponseMessage getListTripView(Integer page, Integer limit){
     ResponseMessage responseMessage = new ResponseMessage();
     List<TripView> result = new ArrayList<>();
+    TripView item = new TripView();
     Page<Trip> trips = tripService.findTripPageablePage(page,limit);
     for(Trip trip : trips){
-      result.add(this.getTripView(trip));
+      item = new TripView();
+      item = this.getTripView(trip);
+      if(item.getTripPrice() > 0) {
+        result.add(item);
+      }
     }
     responseMessage.setObject(result);
     responseMessage.setTotalPage(trips.getTotalPages());
@@ -66,8 +71,12 @@ public class TripViewService {
 
   public List<TripView> bindListTripView(List<Trip> trips){
     List<TripView> tripViews = new ArrayList<>();
+    TripView item = new TripView();
     for(Trip trip : trips){
-      tripViews.add(this.getTripView(trip));
+      item = new TripView();
+      item = this.getTripView(trip);
+      if(item.getTripPrice() >0)
+        tripViews.add(item);
     }
     return tripViews;
   }

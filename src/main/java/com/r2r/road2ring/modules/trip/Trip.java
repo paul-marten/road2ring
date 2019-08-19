@@ -142,4 +142,37 @@ public class Trip implements Serializable {
   @Transient
   public List<Itinerary> deletedItinerary;
 
+  @Override
+  public String toString() {
+    return "Trip{" +
+        "id=" + id +
+        ", title='" + title + '\'' +
+        ", meetingPoint='" + meetingPoint + '\'' +
+        ", description='" + description + '\'' +
+        ", location='" + location + '\'' +
+        ", iconCover='" + iconCover + '\'' +
+        ", iconPublisher='" + iconPublisher + '\'' +
+        ", coverLandscape='" + coverLandscape + '\'' +
+        ", coverPotrait='" + coverPotrait + '\'' +
+        ", duration=" + duration +
+        ", distance=" + distance +
+        ", terrain='" + terrain + '\'' +
+        ", maxRider=" + maxRider +
+        ", tag='" + tag + '\'' +
+        ", map='" + map + '\'' +
+        ", created=" + created +
+        ", updated=" + updated +
+        ", publishedStatus=" + publishedStatus +
+        ", language=" + language +
+        ", relatedTrip=" + relatedTrip +
+        ", roadCaptain=" + roadCaptain +
+        ", tripFacilities=" + tripFacilities +
+        ", facilityNot='" + facilityNot + '\'' +
+        ", itineraries=" + itineraries +
+        ", tripPrices=" + tripPrices +
+        ", requestTrips=" + requestTrips +
+        ", facilityInclude=" + facilityInclude +
+        ", deletedItinerary=" + deletedItinerary +
+        '}';
+  }
 }
