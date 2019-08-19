@@ -22,6 +22,38 @@
 .sub-label{
   font-size: 8pt;
 }
+
+.btn-embed{
+  width: 100%;
+  background-color: #dddddd;
+  border: 1px solid #c3c3c3;
+}
+
+#embed-map{
+  margin-bottom: 10px;
+}
+
+.btn-confirmation{
+  width: 40%;
+  text-align: right;
+}
+.custom-popup .popup-body {
+    padding: 15px;
+}
+.text-center {
+    text-align: center;
+}
+.custom-popup {
+    background-color: #fff;
+    color: #777;
+    text-align: center!important;
+    border-radius: 10px;
+    -moz-border-radius: 10px;
+    -webkit-border-radius: 10px;
+    margin-top: 50px;
+}
+
+
 </style>
 </head>
 <body>
@@ -212,38 +244,32 @@
         </div>
 
         <div class="form-group">
-          <label for="map">Map</label>
-          <div class="wrap-file">
-            <input type="file" id="map" data-parsley-required="false">
-          </div>
-          <input type="hidden" id="hidden_map" name="map"
-                 th:value="${response.object.map}">
-          <!-- <input type="hidden" id="hidden_upload_thumb" name="thumbnail" th:value="${response.object.thumbnail}"> -->
-          <div class="wrap_map collapse">
-            <div class="progress">
-              <div class="progress-bar progress-bar-info progress-bar-striped"
-                   role="progressbar" aria-valuenow="" aria-valuemin="0" aria-valuemax="100"
-                   style="">
-              </div>
-            </div>
-            <div class="msg collapse text-info"><i class="fa fa-check"></i> Upload Succeed</div>
-            <div class="pre_img">
-              <img src="" alt="">
-            </div>
-          </div>
-          <div th:if="${not #strings.isEmpty(response.object.map)}"
-               class="wrap-img-map p-top-sm">
-            <img th:src="${baseUrl + response.object.map}"/>
-          </div>
+          <label for="location">Map</label>
+          <button type="button" class="btn btn-embed" id="embed-map">Embed Map</button>
+          <iframe class="collapse" src="" width="400" height="200" frameborder="0" style="border:0" allowfullscreen></iframe>
+          <input type="hidden" name="map;" id="hiddenMapLink" th:value="${response.object.map}">
         </div>
+
       </div>
       <div class="box-footer">
         <button type="submit" class="btn btn-primary">Submit</button>
       </div>
     </form>
   </div>
+
+  <div class="custom-popup collapse" id="publishConfirm">
+    <div class="popup-body-embed text-center">
+      <h5>Link Embeded</h5>
+      <input type="text" value="" class="embed-input" style="width:100%">
+      <div class="text-center m-top-sm">
+        <a class="btn btn-info m-right-sm do-it">Yes</a>
+        <a class="btn btn-default cancel">Cancel</a>
+      </div>
+    </div>
+  </div>
 </div>
 <th:block layout:fragment="footer-js">
+  <script src="../../js/si/jquery.popupoverlay.min.js"></script>
   <script src="https://code.jquery.com/ui/1.10.4/jquery-ui.min.js"></script>
   <script src="//tinymce.cachefly.net/4.3/tinymce.min.js"></script>
   <script src="../../js/si/jquery.html5uploader.min.js"></script>
@@ -251,6 +277,7 @@
   <script src="../../js/si/typehead.bundle.min.js"></script>
   <script src="../../js/si/parsley.min.js"></script>
   <script src="../../js/si/upload.js"></script>
+  <script src="../../js/si/trip.js"></script>
   <script src="../../js/si/tiny_mce.js"></script>
   <script>
 $(function() {
@@ -259,7 +286,6 @@ $(function() {
       upload_trip("/api/trip/upload_icon", "icon_publisher","#icon_publisher", "#hidden_icon_publisher",640,640, "potrait");
       upload_trip("/api/trip/upload_trip", "cover_trip","#cover_trip", "#hidden_cover_trip",640,640, "potrait");
       upload_trip("/api/trip/upload_trip", "cover_trips","#cover_trips", "#hidden_cover_trips",640,640, "potrait");
-      upload_trip("/api/trip/upload_trip", "map","#map", "#hidden_map",640,640, "potrait");
       console.log($('#trip-facility').val())
       general_editor()
       var facility = $('#trip-facility').val()

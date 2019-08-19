@@ -1,3 +1,7 @@
+.m-top-sm {
+    margin-top: 10px
+}
+
 .parsley-error {
     border-color: #d02d2d !important;
     color: #d02d2d
@@ -47,4 +51,31 @@ label.parsley-error {
    font-weight: bold;
    display: inline-block;
    width: 8.5rem;
+}
+
+@media(min-width: 320px){
+  .custom-popup .popup-body-embed {
+      padding: 15px !important;
+      width: 250px !important;
+  }
+}
+
+@media(min-width: 375px){
+  .custom-popup .popup-body-embed {
+      padding: 15px !important;
+      width: 305px !important;
+  }
+}
+
+@media(min-width: 425px){
+  .custom-popup .popup-body-embed {
+      padding: 15px !important;
+      width: 355px !important;
+  }
+}
+@media(min-width: 768px){
+  .custom-popup .popup-body-embed {
+    padding: 15px;
+    width: 400px;
+  }
 }
