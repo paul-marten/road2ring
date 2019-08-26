@@ -8,6 +8,7 @@ import com.r2r.road2ring.modules.common.Static;
 import com.r2r.road2ring.modules.mail.MailClient;
 import com.r2r.road2ring.modules.role.Role;
 import java.util.Date;
+import java.util.List;
 import java.util.regex.Pattern;
 import org.apache.commons.codec.binary.Base64;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -263,4 +264,12 @@ public class UserService {
 
   }
 
+  public List<User> rcList(){
+    return userRepository.findAllByRoleId(3);
+  }
+
+  public User update(User user) {
+    user = userRepository.findOne(user.getId());
+    return this.changeRole(user, 2);
+  }
 }
