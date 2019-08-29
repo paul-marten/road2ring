@@ -47,11 +47,11 @@ public class TripFeature {
   private PublishedStatus publishStatus;
 
   @CreationTimestamp
-  @Column(name="user_request_rc_created_at")
+  @Column(name="trip_feature_created_at")
   private Date created;
 
   @UpdateTimestamp
-  @Column(name="user_request_rc_updated_at")
+  @Column(name="trip_feature_updated_at")
   private Date updated;
 
 

@@ -8,8 +8,7 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface TripFeatureRepository extends DataTablesRepository<TripFeature,Integer> {
 
-
   List<TripFeature> findAllByPublishStatusOrderByUpdatedDesc(PublishedStatus status);
 
-
+  List<TripFeature> findAll();
 }
