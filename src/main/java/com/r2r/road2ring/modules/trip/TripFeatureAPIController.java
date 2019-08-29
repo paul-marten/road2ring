@@ -38,10 +38,6 @@ public class TripFeatureAPIController {
   @PostMapping("/update-publish-status")
   public ResponseMessage changeStatus(@ModelAttribute TripFeature tripFeature,HttpServletRequest request) {
 
-    System.out.println();
-    System.out.println(tripFeature.getId());
-    System.out.println();
-
     ResponseMessage response = new ResponseMessage();
 
     response.setObject(tripFeatureService.updatePublishStatus(tripFeature));
