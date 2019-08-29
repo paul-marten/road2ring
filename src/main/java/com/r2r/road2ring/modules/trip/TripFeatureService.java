@@ -15,32 +15,6 @@ public class TripFeatureService {
   @Autowired
   TripFeatureRepository tripFeatureRepository;
 
-  @Autowired
-  TripService tripService;
-
-  @Autowired
-  TripViewService tripViewService;
-
-
-  public List<TripFeature> bindTripToTripFeature(){
-    List<TripView> trips = (List<TripView>) tripViewService.getListTripView(0,5).getObject();
-    TripFeature item;
-    List<TripFeature> result = new ArrayList<TripFeature>();
-    for(TripView trip : trips){
-      item = new TripFeature();
-      item.setId(1);
-      item.setCover(trip.getCoverLandscape());
-      item.setIcon(trip.getIconCover());
-      item.setTitle(trip.getTitle());
-      item.setLink("#");
-      result.add(item);
-
-    }
-
-    return result;
-
-  }
-
   public TripFeature save(TripFeature saved){
     if(saved.getId() == null){
       saved.setPublishStatus(PublishedStatus.UNPUBLISHED);

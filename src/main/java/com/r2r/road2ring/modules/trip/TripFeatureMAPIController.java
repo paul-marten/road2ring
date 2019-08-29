@@ -32,7 +32,7 @@ public class TripFeatureMAPIController {
     }
 
     ResponseMessage responseMessage = new ResponseMessage();
-    responseMessage.setObject(tripFeatureService.bindTripToTripFeature());
+    responseMessage.setObject(tripFeatureService.getTripFeature());
     return responseMessage;
   }
 
