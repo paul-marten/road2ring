@@ -1,8 +1,8 @@
 $(document).ready( function () {
-if (/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)) {
-    				$("div.mobile-tbl").addClass("mbl-tbl");
-    			}
-	 if (/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)) {    				$("div.mobile-tbl").addClass("mbl-tbl");    			}	 var table = $('#rsp-tbl').DataTable({
+	 if (/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)) {
+	  $("div.mobile-tbl").addClass("mbl-tbl");
+	 }
+	 var table = $('#rsp-tbl').DataTable({
 	 "dom": '<"row"<"col-sm-2"<"newRecord">><"col-sm-10"<"toolbar">>><"row"<"col-sm-12"tr>><"row"<"col-sm-6"i><"col-sm-6"p>>',
 			"sAjaxSource": "/api/trip/data",
 			"sAjaxDataProp": "",
@@ -114,7 +114,6 @@ if (/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(naviga
           table.columns(3).search('').draw();
   });
 
-
   $(document).on('click', '#publishContent', function() {
       /* Act on the event */
       var data = table.row( $(this).parents('tr') ).data()
@@ -140,7 +139,6 @@ if (/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(naviga
       /* Act on the event */
       $('#publishConfirm').popup('hide');
   });
-
 
   $(document).on('click', '#unpublishContent', function() {
       /* Act on the event */
