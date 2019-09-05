@@ -4,6 +4,7 @@ import com.r2r.road2ring.modules.common.ResponseMessage;
 import javax.persistence.criteria.CriteriaBuilder.In;
 import javax.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -21,6 +22,9 @@ public class GalleryMAPIController {
   GalleryService galleryService;
 
   @Autowired
+  GalleryViewService galleryViewService;
+
+  @Autowired
   public void setGalleryService(GalleryService galleryService){
     this.galleryService = galleryService;
   }
@@ -31,9 +35,13 @@ public class GalleryMAPIController {
       @PathVariable(value = "limit") Integer limit,
       HttpServletResponse httpStatus) {
     ResponseMessage responseMessage = new ResponseMessage();
-
     responseMessage.setCode(200);
-    responseMessage.setObject(galleryService.getAllGallery(pageId, limit));
+
+    Page<Gallery> galleries  = galleryService.getAllGallery(pageId, limit);
+
+    responseMessage.setObject(galleryViewService.bindListGallery(galleries.getContent()));
+    responseMessage.setTotalPage(galleries.getTotalPages());
+
     httpStatus.setStatus(HttpStatus.OK.value());
 
     return responseMessage;
