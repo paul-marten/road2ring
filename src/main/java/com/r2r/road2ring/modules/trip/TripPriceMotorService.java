@@ -1,6 +1,8 @@
 package com.r2r.road2ring.modules.trip;
 
 import com.r2r.road2ring.modules.common.Road2RingException;
+import com.r2r.road2ring.modules.motor.Motor;
+import com.r2r.road2ring.modules.motor.MotorService;
 import java.util.ArrayList;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,6 +13,26 @@ public class TripPriceMotorService {
 
   @Autowired
   TripPriceMotorRepository tripPriceMotorRepository;
+
+  @Autowired
+  MotorService motorService;
+
+
+
+  public List<Motor> getTripPriceMotor(Integer tripPriceMotorId){
+    List<Motor> result = new ArrayList<Motor>();
+//    List<TripPriceMotor> listTripPriceMotor = tripPriceMotorRepository
+//        .findAllByTripPriceIdAndStockGreaterThan(tripPriceMotorId,0);
+//    for (TripPriceMotor item :
+//        listTripPriceMotor) {
+//      result.add(item.getBikes());
+//    }
+
+    result = motorService.getAllMotor();
+
+    return result;
+  }
+
 
   public List<TripPriceMotor> saveList(List<TripPriceMotor> listTripPriceMotor){
     List<TripPriceMotor> result = new ArrayList<TripPriceMotor>();
