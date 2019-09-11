@@ -36,6 +36,9 @@ public class TripController {
   FacilityService facilityService;
 
   @Autowired
+  TripPriceMotorService tripPriceMotorService;
+
+  @Autowired
   public void setFacilityService(FacilityService facility) {
     this.facilityService = facility;
   }
@@ -234,5 +237,14 @@ public class TripController {
     model.addAttribute("response", response);
     model.addAttribute("action", "/trip/"+tripId+"/price-list/save");
     return "admin/forms/price-list";
+  }
+
+  @RequestMapping(value = "/{tripId}/price-list/{tripPriceId}/bike",method = RequestMethod.GET)
+  public String listBikeTripPrice(@PathVariable("tripId") int tripId,
+      @PathVariable("tripId") int tripPriceId, Model model) {
+
+    ResponseMessage response = new ResponseMessage();
+    model.addAttribute("response", response);
+    return "admin/page/trip-bike";
   }
 }
