@@ -27,7 +27,7 @@ public class TripPriceMotor {
 
   @ManyToOne(fetch = FetchType.LAZY , optional = true)
   @JoinColumn(name = "trip_price_motor_motor_id" )
-  private Motor bikes;
+  private Motor bike;
 
   @ManyToOne(fetch = FetchType.LAZY , optional = true)
   @JoinColumn(name = "trip_price_motor_trip_price_id" )

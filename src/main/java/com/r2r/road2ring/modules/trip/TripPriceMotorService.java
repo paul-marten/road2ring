@@ -25,7 +25,7 @@ public class TripPriceMotorService {
 //        .findAllByTripPriceIdAndStockGreaterThan(tripPriceMotorId,0);
 //    for (TripPriceMotor item :
 //        listTripPriceMotor) {
-//      result.add(item.getBikes());
+//      result.add(item.getBike());
 //    }
 
     result = motorService.getAllMotor();

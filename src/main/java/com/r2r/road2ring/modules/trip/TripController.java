@@ -6,6 +6,7 @@ import com.r2r.road2ring.modules.facility.Facility;
 import com.r2r.road2ring.modules.facility.FacilityService;
 import com.r2r.road2ring.modules.itinerary.Itinerary;
 import com.r2r.road2ring.modules.itinerary.ItineraryService;
+import com.r2r.road2ring.modules.motor.Motor;
 import java.security.Principal;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -246,5 +247,17 @@ public class TripController {
     ResponseMessage response = new ResponseMessage();
     model.addAttribute("response", response);
     return "admin/page/trip-bike";
+  }
+  @RequestMapping(value = "/{tripId}/price-list/{tripPriceId}/bike/add",method = RequestMethod.GET)
+  public String addBikeTripPrice(@PathVariable("tripId") int tripId,
+      @PathVariable("tripId") int tripPriceId, Model model) {
+
+    ResponseMessage response = new ResponseMessage();
+    TripPriceMotor tripPriceMotor = new TripPriceMotor();
+    Motor motor = new Motor();
+    tripPriceMotor.setBike(motor);
+    response.setObject(tripPriceMotor);
+    model.addAttribute("response", response);
+    return "admin/forms/bike";
   }
 }
