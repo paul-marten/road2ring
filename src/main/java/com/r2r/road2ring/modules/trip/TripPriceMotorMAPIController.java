@@ -1,33 +1,28 @@
-package com.r2r.road2ring.modules.motor;
+package com.r2r.road2ring.modules.trip;
 
 import static com.r2r.road2ring.modules.common.Static.MOTORS;
 import static com.r2r.road2ring.modules.common.Static.M_API;
+import static com.r2r.road2ring.modules.common.Static.TRIPMOTOR;
 
 import com.r2r.road2ring.modules.common.ResponseMessage;
 import java.security.Principal;
-import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping(value = M_API)
-public class MotorMAPIController {
-
-  MotorService motorService;
+public class TripPriceMotorMAPIController {
 
   @Autowired
-  public void setMotorService(MotorService motorService){
-    this.motorService = motorService;
-  }
+  TripPriceMotorService tripPriceMotorService;
 
-  @GetMapping(MOTORS)
-  public ResponseMessage getAllMotor(
+  @GetMapping(TRIPMOTOR+"/{tripPriceId}")
+  public ResponseMessage getTripMotor(@PathVariable("tripPriceId") int tripPriceId,
       Principal principal) {
 
     if (principal != null) {
@@ -36,7 +31,7 @@ public class MotorMAPIController {
     }
 
     ResponseMessage responseMessage = new ResponseMessage();
-    responseMessage.setObject(motorService.getAllMotor());
+    responseMessage.setObject(tripPriceMotorService.getTripPriceMotor(tripPriceId));
     return responseMessage;
   }
 

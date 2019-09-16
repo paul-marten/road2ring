@@ -17,6 +17,7 @@ public final class Static {
   public static final String API = "/api";
 
   public static final String TRIP = "/trip";
+  public static final String TRIPMOTOR = "/trip/motor";
   public static final String TRIPS = "/trips";
   public static final String TRIP_FEATURE = "/trip-feature";
   public static final String USER = "/user";
