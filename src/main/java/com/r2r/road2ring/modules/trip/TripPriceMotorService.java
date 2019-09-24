@@ -6,6 +6,8 @@ import com.r2r.road2ring.modules.motor.MotorService;
 import java.util.ArrayList;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.jpa.datatables.mapping.DataTablesInput;
+import org.springframework.data.jpa.datatables.mapping.DataTablesOutput;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -18,6 +20,9 @@ public class TripPriceMotorService {
   MotorService motorService;
 
 
+  public List<TripPriceMotor> getDatatable(){
+    return tripPriceMotorRepository.findAll();
+  }
 
   public List<Motor> getTripPriceMotor(Integer tripPriceMotorId){
     List<Motor> result = new ArrayList<Motor>();

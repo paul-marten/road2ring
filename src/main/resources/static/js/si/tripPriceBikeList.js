@@ -1,7 +1,7 @@
 $(document).ready( function () {
 	 var table = $('#rsp-tbl').DataTable({
 	 "dom": '<"row"<"col-sm-2"<"newRecord">><"col-sm-10"<"toolbar">>><"row"<"col-sm-12"tr>><"row"<"col-sm-6"i><"col-sm-6"p>>',
-			"sAjaxSource": "/api/motor/data",
+			"sAjaxSource": "/api/trip/trip-price-motor/datatable",
 			"sAjaxDataProp": "",
 			"aoColumns": [
 			    {"mData": "id",
@@ -12,11 +12,11 @@ $(document).ready( function () {
                 $(td).attr('data-th', 'No.');
             }
           },
-          { "mData": "title"},
-			    { "mData": "capacity"},
-			    { "mData": "brand"},
+          { "mData": "bike.title"},
+			    { "mData": "bike.capacity"},
+			    { "mData": "bike.brand"},
 			    { "mData": "price"},
-			    { "mData": "status"},
+			    { "mData": "bike.status"},
 			    { "mData": "id",
             "width": "10%",
             "searchable": false,

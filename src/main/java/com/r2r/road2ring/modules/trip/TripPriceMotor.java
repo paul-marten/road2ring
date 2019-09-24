@@ -1,5 +1,7 @@
 package com.r2r.road2ring.modules.trip;
 
+import com.fasterxml.jackson.annotation.JsonView;
+import com.r2r.road2ring.modules.common.ResponseView;
 import com.r2r.road2ring.modules.motor.Motor;
 import java.util.Date;
 import javax.persistence.Column;
@@ -23,27 +25,34 @@ public class TripPriceMotor {
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   @Column(name = "trip_price_motor_id")
+  @JsonView(ResponseView.LimitedTripPriceMotor.class)
   private Integer id;
 
   @ManyToOne(fetch = FetchType.LAZY , optional = true)
   @JoinColumn(name = "trip_price_motor_motor_id" )
+  @JsonView(ResponseView.LimitedTripPriceMotor.class)
   private Motor bike;
 
   @ManyToOne(fetch = FetchType.LAZY , optional = true)
   @JoinColumn(name = "trip_price_motor_trip_price_id" )
+  @JsonView(ResponseView.DefaultTripPriceMotor.class)
   private TripPrice tripPrice;
 
   @Column(name = "trip_price_motor_price")
+  @JsonView(ResponseView.DefaultTripPriceMotor.class)
   private Integer price;
 
   @Column(name = "trip_price_motor_stock")
+  @JsonView(ResponseView.DefaultTripPriceMotor.class)
   private Integer stock;
 
   @CreationTimestamp
   @Column(name="trip_price_motor_created_at")
+  @JsonView(ResponseView.DetailedTripPriceMotor.class)
   private Date created;
 
   @UpdateTimestamp
   @Column(name="trip_price_motor_updated_at")
+  @JsonView(ResponseView.DetailedTripPriceMotor.class)
   private Date updated;
 }

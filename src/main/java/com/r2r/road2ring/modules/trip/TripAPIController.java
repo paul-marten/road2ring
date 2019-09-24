@@ -41,6 +41,9 @@ public class TripAPIController {
   ItineraryService itineraryService;
 
   @Autowired
+  TripPriceMotorService tripPriceMotorService;
+
+  @Autowired
   public void setItineraryService(ItineraryService itineraryService) {
     this.itineraryService = itineraryService;
   }
@@ -70,6 +73,14 @@ public class TripAPIController {
       HttpServletRequest request) {
 
     return tripService.getAllTrip();
+  }
+
+  @RequestMapping(value = "/trip-price-motor/datatable", method = RequestMethod.GET)
+  @JsonView(ResponseView.Base.class)
+  public List<TripPriceMotor> tripPriceMotorDatatable(
+      HttpServletRequest request) {
+
+    return tripPriceMotorService.getDatatable();
   }
 
   @RequestMapping(value = "/{tripId}/itinerary/data", method = RequestMethod.GET)

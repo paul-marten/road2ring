@@ -24,6 +24,10 @@ public class MotorService {
   public List<Motor> getAllMotorDatatable(){
     return motorRepository.findAll();
   }
+  public List<Motor> getAutocompletPublishedMotorByTitle(String keyword){
+    return motorRepository.findTop5ByStatusAndTitleIgnoreCaseContainingOrderByTitleAsc(
+        PublishedStatus.PUBLISHED,keyword);
+  }
 
   public List<Motor> getAllMotor(){
     return motorRepository.findAllByStatus(PublishedStatus.PUBLISHED);

@@ -13,4 +13,7 @@ public interface MotorRepository extends DataTablesRepository<Motor,Integer> {
   List<Motor> findAllByOrderByIdDesc(Pageable pageable);
   Motor findOneByTitle(String title);
   List<Motor> findAllByStatus(PublishedStatus publishedStatus);
+
+
+  List<Motor> findTop5ByStatusAndTitleIgnoreCaseContainingOrderByTitleAsc(PublishedStatus status,String title);
 }

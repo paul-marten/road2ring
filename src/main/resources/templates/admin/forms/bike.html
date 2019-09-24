@@ -21,7 +21,7 @@
     <div class="box-header with-border">
       <h1 class="box-title">Bike Form</h1>
     </div>
-    <form role="form" th:action="@{'/motor/save'}" th:object="${response}" method="post" data-parsley-validate>
+    <form role="form" th:action="@{'/trip-motor/save'}" th:object="${response}" method="post" data-parsley-validate>
       <div class="box-body">
         <input id="object_id" type="hidden" name="id" th:if="${response.object.id != 0}" th:value="${response.object.id != null && response.object.id != 0 ? response.object.id : 0}">
         <div class="form-group">
@@ -60,14 +60,10 @@
   </div>
 </div>
 <th:block layout:fragment="footer-js">
-  <script src="//tinymce.cachefly.net/4.3/tinymce.min.js"></script>
-  <script src="../../js/si/tiny_mce.js"></script>
-  <script src="../../js/si/jquery.html5uploader.min.js"></script>
-  <script src="../../js/si/upload.js"></script>
+
   <script src="../../js/si/parsley.min.js"></script>
   <script>
-    upload_trip("/api/trip/upload_icon", "image","#image", "#hidden_image",640,640, "landscape");
-    general_editor()
+
   </script>
 </th:block>
 </body>
