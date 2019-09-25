@@ -12,6 +12,9 @@ public class AccessorySubCategoryService {
   @Autowired
   AccessorySubCategoryRepository accessorySubCategoryRepository;
 
+  @Autowired
+  AccessoryCategoryService accessoryCategoryService;
+
   public List<AccessorySubCategory> findAllSubCategoryByAccessoryCategoryId(Integer accessoryCategoryId){
     List<AccessorySubCategory> result = accessorySubCategoryRepository
         .findAllByAccessoryCategoryIdAndStatus(accessoryCategoryId,PublishedStatus.PUBLISHED);
@@ -24,9 +27,16 @@ public class AccessorySubCategoryService {
     return this.generateDataDummy();
   }
 
-  public AccessorySubCategory save(AccessorySubCategory accessorySubCategory){
+  public AccessorySubCategory save(AccessorySubCategory accessorySubCategory,Integer categoryId){
+    AccessoryCategory category = accessoryCategoryService.getAccessoryCategoryById(categoryId);
+    accessorySubCategory.setAccessoryCategory(category);
     accessorySubCategory.setStatus(PublishedStatus.UNPUBLISHED);
     return accessorySubCategoryRepository.save(accessorySubCategory);
+  }
+
+  public AccessorySubCategory getAccessorySubCategroryById(Integer accessorySubCategoryId){
+    return accessorySubCategoryRepository.findOne(accessorySubCategoryId);
+
   }
 
   public AccessorySubCategory setPublishedStatus(AccessorySubCategory accessorySubCategory){
