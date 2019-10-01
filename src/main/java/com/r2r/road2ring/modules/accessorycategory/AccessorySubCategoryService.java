@@ -22,6 +22,10 @@ public class AccessorySubCategoryService {
     return result;
   }
 
+  public AccessorySubCategory getOneByName(String name){
+    return accessorySubCategoryRepository.findAllByTitleIgnoreCaseNotLikeAndStatus(name,PublishedStatus.PUBLISHED);
+  }
+
   public List<AccessorySubCategory> findAllDummySubCategory(Integer accessoryCategoryId){
 
     return this.generateDataDummy();
