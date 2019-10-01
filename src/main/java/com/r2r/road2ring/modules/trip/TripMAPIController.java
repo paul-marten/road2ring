@@ -107,4 +107,5 @@ public class TripMAPIController {
     responseMessage.setObject(tripViewService.bindListTripView(trips));
     return responseMessage;
   }
+
 }
