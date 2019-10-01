@@ -17,6 +17,7 @@ import com.r2r.road2ring.modules.trip.TripPriceRepository;
 import com.r2r.road2ring.modules.trip.TripPriceService;
 import com.r2r.road2ring.modules.trip.TripPriceStatus;
 import com.r2r.road2ring.modules.trip.TripRepository;
+import com.r2r.road2ring.modules.trip.TripService;
 import com.r2r.road2ring.modules.user.User;
 import java.sql.Timestamp;
 import java.util.ArrayList;
@@ -24,6 +25,7 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import javax.mail.MessagingException;
+import javax.persistence.criteria.CriteriaBuilder.In;
 import javax.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
@@ -55,6 +57,9 @@ public class TransactionService {
   MailClient mailClient;
 
   TripPriceRepository tripPriceRepository;
+
+  @Autowired
+  TripService tripService;
 
   @Autowired
   public void setTransactionRepository(TransactionRepository transactionRepository){
@@ -438,6 +443,15 @@ public class TransactionService {
 
   public List<Transaction> findPaidTransaction(Date startDate){
     List<Transaction> result = transactionRepository.findAllByPaymentStatusAndStartDate(PaymentStatus.PAID, startDate);
+    return result;
+  }
+
+  public List<TransactionView> getDummyData(Integer page, Integer limit) throws Road2RingException {
+    List<TransactionView> result = transactionViewService.createDummyMyTransaction(
+        tripService.findTripPageablePage(page,limit).getContent());
+    if(result.size() == 0){
+      throw new Road2RingException("you have 0 transaction yet", 200);
+    }
     return result;
   }
 }
