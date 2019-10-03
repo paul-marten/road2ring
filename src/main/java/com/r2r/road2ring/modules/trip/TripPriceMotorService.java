@@ -19,9 +19,15 @@ public class TripPriceMotorService {
   @Autowired
   MotorService motorService;
 
+  TripPriceService tripPriceService;
 
-  public List<TripPriceMotor> getDatatable(){
-    return tripPriceMotorRepository.findAll();
+  @Autowired
+  public void setTripPriceService(TripPriceService tripPriceService) {
+    this.tripPriceService = tripPriceService;
+  }
+
+  public List<TripPriceMotor> getDatatable(Integer tripPriceID){
+    return tripPriceMotorRepository.findAllByTripPriceId(tripPriceID);
   }
 
   public List<Motor> getTripPriceMotor(Integer tripPriceMotorId){
@@ -36,6 +42,10 @@ public class TripPriceMotorService {
     result = motorService.getAllMotor();
 
     return result;
+  }
+
+  public TripPriceMotor getOneTripPriceMotor(Integer id){
+    return tripPriceMotorRepository.findOne(id);
   }
 
 
@@ -66,6 +76,33 @@ public class TripPriceMotorService {
   public TripPriceMotor save(TripPriceMotor saved){
 
     return tripPriceMotorRepository.save(saved);
+  }
+
+  public TripPriceMotor saveTripPriceMotor(TripPriceMotor motor, Integer tripPriceId){
+    TripPriceMotor saved = new TripPriceMotor();
+    TripPrice tripPrice = tripPriceService.getOneTripPrice(tripPriceId);
+    if(motor.getId() != null && motor.getId() != 0){
+      saved = tripPriceMotorRepository.findOne(motor.getId());
+    }
+    saved.setTripPrice(tripPrice);
+    saved.setStock(motor.getStock());
+    saved.setBike(motor.getBike());
+    saved.setPrice(motor.getPrice());
+
+    return tripPriceMotorRepository.save(saved);
+  }
+
+  public boolean ifExist(TripPriceMotor tripPriceMotor, Integer tripPriceId){
+    if(tripPriceMotor.getId() != null && tripPriceMotor.getId() != 0){
+      TripPriceMotor current = getOneTripPriceMotor(tripPriceMotor.getId());
+      if(tripPriceMotor.getBike().getId() == current.getBike().getId()){
+        return false;
+      }else{
+        return tripPriceMotorRepository.findAllByBikeIdAndTripPriceId(tripPriceMotor.getBike().getId(), tripPriceId).size() != 0;
+      }
+    }else{
+      return tripPriceMotorRepository.findAllByBikeIdAndTripPriceId(tripPriceMotor.getBike().getId(), tripPriceId).size() != 0;
+    }
   }
 
 }

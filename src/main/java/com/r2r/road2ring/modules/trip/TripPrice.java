@@ -3,6 +3,8 @@ package com.r2r.road2ring.modules.trip;
 import com.fasterxml.jackson.annotation.JsonView;
 import com.r2r.road2ring.modules.common.ResponseView;
 import java.util.Date;
+import java.util.List;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -11,6 +13,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import lombok.Data;
 
@@ -53,4 +56,8 @@ public class TripPrice {
   @JoinColumn(name = "trip_price_trip_id" , nullable = true)
   @JsonView(ResponseView.DetailedTripPrice.class)
   private Trip trip;
+
+  @OneToMany(fetch = FetchType.LAZY, mappedBy = "tripPrice")
+  @JsonView(ResponseView.DetailedTripPrice.class)
+  private List<TripPriceMotor> tripPriceMotorList;
 }

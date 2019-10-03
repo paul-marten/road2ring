@@ -15,7 +15,6 @@ $(document).ready( function () {
           { "mData": "title"},
 			    { "mData": "capacity"},
 			    { "mData": "brand"},
-			    { "mData": "price"},
 			    { "mData": "status"},
 			    { "mData": "id",
             "width": "10%",
@@ -53,10 +52,10 @@ $(document).ready( function () {
         "targets": 0
       } ],
 			"columnDefs": [ {
-        "targets": 5,
+        "targets": 4,
         "visible": false,
       } ],
-      "order": [[ 5, "asc" ]],
+      "order": [[ 4, "asc" ]],
 
 	 });
 	 table.on( 'draw.dt', function () {

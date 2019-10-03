@@ -1,7 +1,9 @@
 $(document).ready( function () {
+   var tripId = window.location.pathname.split('/')
+	 console.log(tripId[4])
 	 var table = $('#rsp-tbl').DataTable({
 	 "dom": '<"row"<"col-sm-2"<"newRecord">><"col-sm-10"<"toolbar">>><"row"<"col-sm-12"tr>><"row"<"col-sm-6"i><"col-sm-6"p>>',
-			"sAjaxSource": "/api/trip/trip-price-motor/datatable",
+			"sAjaxSource": "/api/trip/"+tripId[4]+"/trip-price-motor/datatable",
 			"sAjaxDataProp": "",
 			"aoColumns": [
 			    {"mData": "id",
@@ -12,11 +14,43 @@ $(document).ready( function () {
                 $(td).attr('data-th', 'No.');
             }
           },
-          { "mData": "bike.title"},
-			    { "mData": "bike.capacity"},
-			    { "mData": "bike.brand"},
-			    { "mData": "price"},
-			    { "mData": "bike.status"},
+
+
+          { "mData": "bike.title",
+            "searchable": false,
+            "orderable": false,
+            "createdCell": function(td, cellData, rowData, row, col) {
+                $(td).attr('data-th', 'Title');
+            }
+          },
+			    { "mData": "bike.capacity",
+            "searchable": false,
+            "orderable": false,
+            "createdCell": function(td, cellData, rowData, row, col) {
+                $(td).attr('data-th', 'Capacity(cc)');
+            }
+          },
+			    { "mData": "bike.brand",
+            "searchable": false,
+            "orderable": false,
+            "createdCell": function(td, cellData, rowData, row, col) {
+                $(td).attr('data-th', 'Brand');
+            }
+          },
+			    { "mData": "price",
+            "searchable": false,
+            "orderable": false,
+            "createdCell": function(td, cellData, rowData, row, col) {
+                $(td).attr('data-th', 'Price($)');
+            }
+          },
+			    { "mData": "stock",
+            "searchable": false,
+            "orderable": false,
+            "createdCell": function(td, cellData, rowData, row, col) {
+                $(td).attr('data-th', 'Stock');
+            }
+          },
 			    { "mData": "id",
             "width": "10%",
             "searchable": false,
@@ -52,11 +86,7 @@ $(document).ready( function () {
         "orderable": true,
         "targets": 0
       } ],
-			"columnDefs": [ {
-        "targets": 5,
-        "visible": false,
-      } ],
-      "order": [[ 5, "asc" ]],
+      "order": [[ 4, "asc" ]],
 
 	 });
 	 table.on( 'draw.dt', function () {
@@ -179,7 +209,7 @@ $.fn.dataTable.ext.search.push(
   var iconEdit = $('<span>').append($('<i>', {'class':'icon-icon_edit'}));
   var textEdit =$('<span>').append( $('<a>', {
                               'text':'Edit ',
-                              'href': '/motor/edit?id=' + cellData,
+                              'href': window.location.pathname + '/edit?id=' + cellData,
                           }));
   var btnEdit = $('<li>').append(iconEdit).append(textEdit);
 
@@ -206,7 +236,7 @@ $.fn.dataTable.ext.search.push(
 //                                      'href': '',
 //                                      }));
 //  var btnScheduled = $('<li>', {'id':'schedule'}).append(iconScheduled).append(textScheduled);
-  var list = btnEdit.add(btnPublish);
+  var list = btnEdit;
 
   if (rowData.status == "PUBLISHED") {
                   btnScheduled = $('<li>', {'style':'display: none;'});

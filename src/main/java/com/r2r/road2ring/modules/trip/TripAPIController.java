@@ -40,8 +40,13 @@ public class TripAPIController {
 
   ItineraryService itineraryService;
 
-  @Autowired
   TripPriceMotorService tripPriceMotorService;
+
+  @Autowired
+  public void setTripPriceMotorService(
+      TripPriceMotorService tripPriceMotorService) {
+    this.tripPriceMotorService = tripPriceMotorService;
+  }
 
   @Autowired
   public void setItineraryService(ItineraryService itineraryService) {
@@ -75,12 +80,12 @@ public class TripAPIController {
     return tripService.getAllTrip();
   }
 
-  @RequestMapping(value = "/trip-price-motor/datatable", method = RequestMethod.GET)
-  @JsonView(ResponseView.Base.class)
-  public List<TripPriceMotor> tripPriceMotorDatatable(
+  @RequestMapping(value = "/{tripPriceId}/trip-price-motor/datatable", method = RequestMethod.GET)
+  @JsonView(ResponseView.DetailedTripPriceMotor.class)
+  public List<TripPriceMotor> tripPriceMotorDatatable(@PathVariable("tripPriceId") Integer id,
       HttpServletRequest request) {
 
-    return tripPriceMotorService.getDatatable();
+    return tripPriceMotorService.getDatatable(id);
   }
 
   @RequestMapping(value = "/{tripId}/itinerary/data", method = RequestMethod.GET)
