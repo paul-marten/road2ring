@@ -1,7 +1,7 @@
 $(document).ready( function () {
    var tripId = window.location.pathname.split('/')
 //	 console.log(tripId[2])
-	 var table = $('#rsp-tbl').DataTable({
+	 if (/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)) {    				$("div.mobile-tbl").addClass("mbl-tbl");    			}	 var table = $('#rsp-tbl').DataTable({
 	 "dom": '<"row"<"col-sm-2"<"newRecord">><"col-sm-10"<"toolbar">>><"row"<"col-sm-12"tr>><"row"<"col-sm-6"i><"col-sm-6"p>>',
 			"sAjaxSource": "/api/trip/"+tripId[2]+"/price-list/data",
 			"sAjaxDataProp": "",
@@ -14,18 +14,30 @@ $(document).ready( function () {
                 $(td).attr('data-th', 'No.');
             }
           },
-          { "mData": "startTrip"},
-			    { "mData": "finishTrip"},
-			    { "mData": "price"},
-			    { "mData": "status"},
+          { "mData": "startTrip",
+            "createdCell": function(td, cellData, rowData, row, col) {
+                $(td).attr('data-th', 'Start Date');
+            }},
+			    { "mData": "finishTrip",
+            "createdCell": function(td, cellData, rowData, row, col) {
+                $(td).attr('data-th', 'End Date');
+            }},
+			    { "mData": "price",
+            "createdCell": function(td, cellData, rowData, row, col) {
+                $(td).attr('data-th', 'Price');
+            }},
+			    { "mData": "status",
+            "createdCell": function(td, cellData, rowData, row, col) {
+                $(td).attr('data-th', 'Status');
+            }},
 			    { "mData": "personPaid",
-              "width": "12%",
-              "orderable": false,
               "createdCell": function(td, cellData, rowData, row, col) {
                   $(td).attr('data-th', "Person Paid");
-              }
-          },
-			    { "mData": "discount"},
+            }},
+			    { "mData": "discount",
+            "createdCell": function(td, cellData, rowData, row, col) {
+                $(td).attr('data-th', 'Discount');
+            }},
 			    { "mData": "id",
             "width": "10%",
             "searchable": false,

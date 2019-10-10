@@ -37,4 +37,13 @@ public class AccessoryMAPIController {
     return responseMessage;
   }
 
+  @GetMapping (ACCESSORIES + "/{titleAccessoryCategory}/{titleAccessorySubCategory}")
+  public ResponseMessage getAccessoryByCategory(Principal principal,
+      @PathVariable("titleAccessoryCategory") String titleCategory,
+      @PathVariable("titleAccessorySubCategory") String titleSubCategory){
+    ResponseMessage responseMessage = new ResponseMessage();
+    responseMessage.setObject(accessoryViewService.getDummy(titleCategory));
+    return responseMessage;
+  }
+
 }

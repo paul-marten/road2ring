@@ -19,9 +19,16 @@ public class AccessoryCategoryAPIController {
 
   AccessoryCategoryService accessoryCategoryService;
 
+  AccessorySubCategoryService accessorySubCategoryService;
+
   @Autowired
   public void setAccessoryCategoryService(AccessoryCategoryService accessoryCategoryService){
     this.accessoryCategoryService = accessoryCategoryService;
+  }
+
+  @Autowired
+  public void setAccessorySubCategoryService(AccessorySubCategoryService accessorySubCategoryService){
+    this.accessorySubCategoryService = accessorySubCategoryService;
   }
 
   @RequestMapping(value = "/data", method = RequestMethod.GET)
@@ -30,6 +37,13 @@ public class AccessoryCategoryAPIController {
       HttpServletRequest request) {
 
     return accessoryCategoryService.getAllAccessoryCategory();
+  }
+  @RequestMapping(value = "{categoryId}/sub-category/data", method = RequestMethod.GET)
+//  @JsonView(ResponseView..class)
+  public List<AccessorySubCategory> datatableSubCatrgory(@PathVariable("categoryId") Integer categoryId,
+      HttpServletRequest request) {
+
+    return accessorySubCategoryService.findAllSubCategoryByAccessoryCategoryId(categoryId);
   }
 
   @PostMapping("/change-status/{id}/{statusId}")

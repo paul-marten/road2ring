@@ -1,9 +1,8 @@
-package com.r2r.road2ring.modules.album;
+package com.r2r.road2ring.modules.trip;
 
 import com.r2r.road2ring.modules.common.ResponseMessage;
-import com.r2r.road2ring.modules.media.Media;
 import java.security.Principal;
-import java.util.Iterator;
+import javax.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -13,58 +12,52 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
 @Controller
-@RequestMapping(value = "/album")
-public class AlbumController {
+@RequestMapping(value = "/trip-feature")
+public class TripFeatureController {
 
-  AlbumService albumService;
+  TripFeatureService tripFeatureService;
 
   @Autowired
-  public void setAlbumService(AlbumService albumService) {
-    this.albumService = albumService;
+  public void setTripFeatureService(TripFeatureService tripFeatureService) {
+    this.tripFeatureService = tripFeatureService;
   }
 
   @RequestMapping(value = "", method = RequestMethod.GET)
   public String index(Model model) {
-    ResponseMessage response = new ResponseMessage();
-    model.addAttribute("response", response);
-    return "admin/page/album";
+    return "admin/page/trip-feature";
   }
 
   @RequestMapping(value = "/add", method = RequestMethod.GET)
   public String add(Model model) {
     ResponseMessage response = new ResponseMessage();
-    Album album= new Album();
-    response.setObject(album);
+    TripFeature tripFeature = new TripFeature();
+    response.setObject(tripFeature);
+
     model.addAttribute("response", response);
-    return "admin/forms/album";
+    return "admin/forms/trip-feature";
   }
 
   @RequestMapping(value = "/edit", method = RequestMethod.GET)
-  public String edit(Model model, @RequestParam int id) {
+  public String edit(Model model, @RequestParam int id, HttpServletRequest request) {
     ResponseMessage response = new ResponseMessage();
-    Album album= albumService.getAlbumById(id);
-    response.setObject(album);
+    TripFeature tripFeature = tripFeatureService.getTripFeatureById(id);
+    response.setObject(tripFeature);
+
+    String baseUrl = request.getRequestURL().toString()
+        .replace(request.getRequestURI().substring(1), request.getContextPath());
+
     model.addAttribute("response", response);
-    return "admin/forms/album";
+    model.addAttribute("baseUrl", baseUrl);
+    return "admin/forms/trip-feature";
   }
 
   @RequestMapping(value = "/save", method = RequestMethod.POST)
-  public String save(@ModelAttribute Album album, Model model, Principal principal) {
+  public String save(@ModelAttribute TripFeature tripFeature, Model model, Principal principal) {
     ResponseMessage response = new ResponseMessage();
-
-
-    if(album.getDeleteMedia()!= null) {
-      for (Iterator<Media> iter = album.getDeleteMedia().listIterator();
-          iter.hasNext(); ) {
-        Media deleted = iter.next();
-        if (deleted.getId() == 0) {
-          iter.remove();
-        }
-      }
-    }
-
-    response.setObject(albumService.saveAlbum(album));
+    response.setObject(tripFeatureService.save(tripFeature));
     model.addAttribute("response", response);
-    return "redirect:/album";
+
+    return "redirect:/trip-feature";
   }
+
 }

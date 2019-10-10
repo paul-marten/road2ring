@@ -1,10 +1,10 @@
 $(document).ready( function () {
-	 var tripId = window.location.pathname.split('/')
-	 console.log(tripId[2])
-	 if (/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)) {    				$("div.mobile-tbl").addClass("mbl-tbl");    			}	 var table = $('#rsp-tbl').DataTable({
+	 if (/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)) {
+	 $("div.mobile-tbl").addClass("mbl-tbl");
+	     			}
+	 var table = $('#rsp-tbl').DataTable({
 	 "dom": '<"row"<"col-sm-2"<"newRecord">><"col-sm-10"<"toolbar">>><"row"<"col-sm-12"tr>><"row"<"col-sm-6"i><"col-sm-6"p>>',
-			"sAjaxSource": "/api/trip/"+tripId[2]+"/itinerary/data",
-//			"sAjaxSource": "/api/trip/test",
+			"sAjaxSource": "/api/accessory_category/1/sub-category/data",
 			"sAjaxDataProp": "",
 			"aoColumns": [
 			    {"mData": "id",
@@ -15,19 +15,15 @@ $(document).ready( function () {
                 $(td).attr('data-th', 'No.');
             }
           },
-          {
-          "mData": "groupTitleEvent",
-          "createdCell": function(td, cellData, rowData, row, col) {
-              $(td).attr('data-th', 'Event Group Title');
-          }
-          },{ "mData": "countEvent",
+          { "mData": "title",
             "createdCell": function(td, cellData, rowData, row, col) {
-                $(td).attr('data-th', 'Event Total');
-            }
-          },
-//			    { "mData": "status"},
-//			    { "mData": "groupTitle"},
-			    { "mData": "groupEvent",
+                $(td).attr('data-th', 'Title');
+            }},
+          { "mData": "status",
+            "createdCell": function(td, cellData, rowData, row, col) {
+                $(td).attr('data-th', 'Status');
+            }},
+			    { "mData": "id",
             "width": "10%",
             "searchable": false,
             "orderable": false,
@@ -61,13 +57,11 @@ $(document).ready( function () {
         "searchable": false,
         "orderable": true,
         "targets": 0
-      },
-//      {
-//      "targets": 3,
-//      "visible": false
-//      }
-       ],
-      "order": [[ 0, "asc" ]],
+      },{
+        "targets": 2,
+        "visible": false
+      } ],
+      "order": [[ 2, "asc" ]],
 
 	 });
 	 table.on( 'draw.dt', function () {
@@ -78,12 +72,21 @@ $(document).ready( function () {
   });
 
   var btnNew = '<a href="'+window.location.pathname+'/add" class="btn btn-default btn-sm"><span class="fa fa-plus-circle fa-lg"></span> Add New Record</a>';
-//  var filterStatus = 'Filter by : <select class="form-control isPublished"><option value="">--- All Status ---</option><option value="0">Unpublish Content</option><option value="1">Published Content</option><option value="3">Scheduled</option></select>';
+  var filterStatus = 'Filter by : <select class="form-control isIncluded"><option value="">--- All Status ---</option><option value="true">Include</option><option value="false">Not Include</option></select>';
 //  var filterCaptain = '&nbsp;<input class="form-control findCaptain" size="24" type="text" name="findCaptain" placeholder="Find Specific Captain">';
-  var filterTitle = '&nbsp;<input class="form-control findTitle" size="47" type="text" name="findTitle" placeholder="Find Specific Title">';
+  var filterTitle = '&nbsp;<input class="form-control findTitle" size="47" type="text" name="findTitle" placeholder="Find Accessory Sub Category By Name">';
+  var filterCapacity = '&nbsp;<input class="form-control findCapacity" type="number" min="0" size="17" type="text" name="findCapacity" placeholder="Find Specific Motor Capacity">';
+  var filterPrice = '&nbsp;<input class="form-control findPrice" size="17" type="number" min="0" name="findPrice" placeholder="Find Price Below or Equal">';
   var filter = filterTitle;
   $("div.newRecord").html(btnNew);
   $("div.toolbar").html(filter);
+
+  $('.isIncluded').on('change', function(event){
+    if ($(this).val() != "")
+        table.columns(2).search(this.value).draw();
+    else
+        table.columns(2).search('').draw();
+  })
 
   $('.findTitle').on('keyup', function(event) {
       if ($(this).val().length > 2)
@@ -91,19 +94,47 @@ $(document).ready( function () {
       else
           table.columns(1).search('').draw();
   });
+
+$('.findCapacity').on('keyup', function(event) {
+    table.draw();
+//      if ($(this).val().length > 0)
+//          table.columns(2).search(this.value).draw();
+//      else
+//          table.columns(2).search('').draw();
+  });
+
+$.fn.dataTable.ext.search.push(
+  function(settings, data, dataIndex) {
+      var inputPrice = parseInt($('.findPrice').val());
+      var inputCapacity = parseInt($('.findCapacity').val());
+      if (isNaN(inputPrice) && isNaN(inputCapacity))  {
+        return true;
+      }
+      var price = parseFloat( data[4] ) || 0;
+      var capacities = parseFloat( data[2] ) || 0;
+      if ((inputPrice >= price) || (inputCapacity >= capacities)) {
+          return true;
+      }
+
+      return false;
+  }
+);
+
+  $('.findPrice').on('keyup', function(event) {
+      table.draw();
+  });
+
   $('.findCaptain').on('keyup', function(event) {
       if ($(this).val().length > 2)
           table.columns(3).search(this.value).draw();
       else
           table.columns(3).search('').draw();
   });
-  var groupEvent;
 
   $(document).on('click', '#publishContent', function() {
       /* Act on the event */
       var data = table.row( $(this).parents('tr') ).data()
       console.log(data)
-      groupEvent = data.groupEvent
 //        if(data.tripPrices == 0){
 //          alert("Trip Price atau Itinerary Kosong, harap input data terlebih dahulu sebelum publish")
 //        }else{
@@ -116,9 +147,7 @@ $(document).ready( function () {
 
   $(document).on("click", '#publishConfirm .do-it', function() {
       var dataId = $('#publishConfirm input[name=api_id]').val()
-      var data = table.row( $(this).parents('tr') ).data()
-      console.log(groupEvent)
-      $.post( "/trip/"+tripId[2]+"/itinerary/delete/"+ groupEvent ).done(function(data) {
+      $.post( "/api/accessory_category/change-status/"+ dataId + "/PUBLISHED").done(function(data) {
         window.location.reload()
       })
   });
@@ -138,7 +167,7 @@ $(document).ready( function () {
 
   $(document).on("click", '#takeoutConfirm .do-it', function() {
       var dataId = $('#takeoutConfirm input[name=api_id]').val()
-      $.post( "/api/trip/itinerary/change-status/"+ dataId + "/UNPUBLISHED").done(function(data) {
+      $.post( "/api/accessory_category/change-status/"+ dataId + "/UNPUBLISHED").done(function(data) {
         window.location.reload()
       })
   });
@@ -147,7 +176,6 @@ $(document).ready( function () {
       /* Act on the event */
       $('#takeoutConfirm').popup('hide');
   });
-
 });
 
  function drawListAction(rowData, cellData) {
@@ -155,29 +183,29 @@ $(document).ready( function () {
   var iconEdit = $('<span>').append($('<i>', {'class':'icon-icon_edit'}));
   var textEdit =$('<span>').append( $('<a>', {
                               'text':'Edit ',
-                              'href': window.location.pathname + '/edit?id=' + cellData,
+                              'href': '/accessory-category/edit?id=' + cellData,
                           }));
   var btnEdit = $('<li>').append(iconEdit).append(textEdit);
 
 //  var iconEdit = $('<span>').append($('<i>', {'class':'icon-icon_edit'}));
-  var textFacility =$('<span>').append( $('<a>', {
-                                'text':'Facility ',
-                                'href': '/trip/'+cellData+'/facility',
-                            }));
-  var btnFacility= $('<li>').append(textFacility);
-
+//  var textFacility =$('<span>').append( $('<a>', {
+//                                'text':'Facility ',
+//                                'href': '/trip/'+cellData+'/facility',
+//                            }));
+//  var btnFacility= $('<li>').append(textFacility);
+//
 
 //  var iconEdit = $('<span>').append($('<i>', {'class':'icon-icon_edit'}));
-  var textIternary =$('<span>').append( $('<a>', {
-                                'text':'Iternary ',
-                                'href': '/trip/'+cellData+'/itinerary',
-                            }));
-  var btnIternary= $('<li>').append(textIternary);
+//  var textIternary =$('<span>').append( $('<a>', {
+//                                'text':'Iternary ',
+//                                'href': '/trip/'+cellData+'/itinerary',
+//                            }));
+//  var btnIternary= $('<li>').append(textIternary);
 
   //Draw buttom Publish
   var iconPublish =$('<span>').append($('<i>', {'class':'icon-icon_publish'}));
   var textPublish =$('<span>').append( $('<a>', {
-                                  'text':'Delete ',
+                                  'text':'Publish ',
                                   'href': '',
                               }));
   var btnPublish = $('<li>', {'id':'publishContent'}).append(iconPublish).append(textPublish);
@@ -198,7 +226,6 @@ $(document).ready( function () {
 //                                      }));
 //  var btnScheduled = $('<li>', {'id':'schedule'}).append(iconScheduled).append(textScheduled);
   var list = btnEdit.add(btnPublish);
-//  .add(btnFacility).add(btnIternary).add(btnPublish);
 
   if (rowData.status == "PUBLISHED") {
                   btnScheduled = $('<li>', {'style':'display: none;'});
