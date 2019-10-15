@@ -63,4 +63,8 @@ public class ResponseView {
   public interface DefaultMedia extends LimitedMedia{}
   public interface DetailedMedia extends DefaultMedia{}
 
+  public interface LimitedTripPriceMotor extends Base{}
+  public interface DefaultTripPriceMotor extends LimitedTripPriceMotor{}
+  public interface DetailedTripPriceMotor extends DefaultTripPriceMotor{}
+
 }

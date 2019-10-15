@@ -24,10 +24,6 @@ $(document).ready( function () {
             "createdCell": function(td, cellData, rowData, row, col) {
                 $(td).attr('data-th', 'Brand');
             }},
-			    { "mData": "price",
-            "createdCell": function(td, cellData, rowData, row, col) {
-                $(td).attr('data-th', 'Price($)');
-            }},
 			    { "mData": "status",
             "createdCell": function(td, cellData, rowData, row, col) {
                 $(td).attr('data-th', 'Status');
@@ -68,10 +64,10 @@ $(document).ready( function () {
         "targets": 0
       } ],
 			"columnDefs": [ {
-        "targets": 5,
+        "targets": 4,
         "visible": false,
       } ],
-      "order": [[ 5, "asc" ]],
+      "order": [[ 4, "asc" ]],
 
 	 });
 	 table.on( 'draw.dt', function () {
