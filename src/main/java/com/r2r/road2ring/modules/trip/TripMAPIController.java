@@ -32,7 +32,7 @@ public class TripMAPIController {
   public void setTripViewService(TripViewService tripViewService) {
     this.tripViewService = tripViewService;
   }
-
+` `
   @Autowired
   public void setTripPriceService(TripPriceService tripPriceService){
     this.tripPriceService = tripPriceService;
