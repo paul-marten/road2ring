@@ -4,7 +4,7 @@ $(document).ready( function () {
 	     			}
 	 var table = $('#rsp-tbl').DataTable({
 	 "dom": '<"row"<"col-sm-2"<"newRecord">><"col-sm-10"<"toolbar">>><"row"<"col-sm-12"tr>><"row"<"col-sm-6"i><"col-sm-6"p>>',
-			"sAjaxSource": "/api/accessory_category/1/sub-category/data",
+			"sAjaxSource": "/api/accessory_category/sub-category/data",
 			"sAjaxDataProp": "",
 			"aoColumns": [
 			    {"mData": "id",
@@ -22,7 +22,13 @@ $(document).ready( function () {
           { "mData": "status",
             "createdCell": function(td, cellData, rowData, row, col) {
                 $(td).attr('data-th', 'Status');
-            }},
+            }
+          },
+          { "mData": "accessoryCategory.title",
+            "createdCell": function(td, cellData, rowData, row, col) {
+                $(td).attr('data-th', 'Category');
+            }
+          },
 			    { "mData": "id",
             "width": "10%",
             "searchable": false,
@@ -73,11 +79,11 @@ $(document).ready( function () {
 
   var btnNew = '<a href="'+window.location.pathname+'/add" class="btn btn-default btn-sm"><span class="fa fa-plus-circle fa-lg"></span> Add New Record</a>';
   var filterStatus = 'Filter by : <select class="form-control isIncluded"><option value="">--- All Status ---</option><option value="true">Include</option><option value="false">Not Include</option></select>';
-//  var filterCaptain = '&nbsp;<input class="form-control findCaptain" size="24" type="text" name="findCaptain" placeholder="Find Specific Captain">';
-  var filterTitle = '&nbsp;<input class="form-control findTitle" size="47" type="text" name="findTitle" placeholder="Find Accessory Sub Category By Name">';
-  var filterCapacity = '&nbsp;<input class="form-control findCapacity" type="number" min="0" size="17" type="text" name="findCapacity" placeholder="Find Specific Motor Capacity">';
-  var filterPrice = '&nbsp;<input class="form-control findPrice" size="17" type="number" min="0" name="findPrice" placeholder="Find Price Below or Equal">';
-  var filter = filterTitle;
+  var filterTitle = '&nbsp;<input class="form-control findTitle" size="27" type="text" name="findTitle" placeholder="Find By Name">';
+  var filterByCategory = '&nbsp;<input class="form-control findCategory" size="27" type="text" name="findTitle" placeholder="Find By Category">';
+
+
+  var filter = filterTitle + filterByCategory;
   $("div.newRecord").html(btnNew);
   $("div.toolbar").html(filter);
 
@@ -94,6 +100,13 @@ $(document).ready( function () {
       else
           table.columns(1).search('').draw();
   });
+
+  $('.findCategory').on('keyup', function(event) {
+        if ($(this).val().length > 2)
+            table.columns(3).search(this.value).draw();
+        else
+            table.columns(3).search('').draw();
+    });
 
 $('.findCapacity').on('keyup', function(event) {
     table.draw();
@@ -147,7 +160,7 @@ $.fn.dataTable.ext.search.push(
 
   $(document).on("click", '#publishConfirm .do-it', function() {
       var dataId = $('#publishConfirm input[name=api_id]').val()
-      $.post( "/api/accessory_category/change-status/"+ dataId + "/PUBLISHED").done(function(data) {
+      $.post( "/api/accessory_category/sub-category/change-status/"+ dataId + "/PUBLISHED").done(function(data) {
         window.location.reload()
       })
   });
@@ -167,7 +180,7 @@ $.fn.dataTable.ext.search.push(
 
   $(document).on("click", '#takeoutConfirm .do-it', function() {
       var dataId = $('#takeoutConfirm input[name=api_id]').val()
-      $.post( "/api/accessory_category/change-status/"+ dataId + "/UNPUBLISHED").done(function(data) {
+      $.post( "/api/accessory_category/sub-category/change-status/"+ dataId + "/UNPUBLISHED").done(function(data) {
         window.location.reload()
       })
   });
@@ -183,7 +196,7 @@ $.fn.dataTable.ext.search.push(
   var iconEdit = $('<span>').append($('<i>', {'class':'icon-icon_edit'}));
   var textEdit =$('<span>').append( $('<a>', {
                               'text':'Edit ',
-                              'href': '/accessory-category/edit?id=' + cellData,
+                              'href': '/accessory-category/sub-category/edit?id=' + cellData,
                           }));
   var btnEdit = $('<li>').append(iconEdit).append(textEdit);
 
