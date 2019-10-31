@@ -31,9 +31,12 @@ public class AccessorySubCategoryService {
     return accessorySubCategoryRepository.findAllByTitleIgnoreCaseNotLikeAndStatus(name,PublishedStatus.PUBLISHED);
   }
 
-  public List<AccessorySubCategory> findAllDummySubCategory(Integer accessoryCategoryId){
+  public AccessoryCategoryView findAllDummySubCategory(Integer accessoryCategoryId){
 
-    return this.generateDataDummy();
+    AccessoryCategoryView result = new AccessoryCategoryView();
+    result.setCategoryName("Safety");
+    result.setSubCategories(this.generateDataDummy());
+    return result;
   }
 
   public AccessorySubCategory save(AccessorySubCategory accessorySubCategory){

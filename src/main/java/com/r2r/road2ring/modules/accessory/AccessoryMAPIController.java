@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
@@ -43,6 +44,14 @@ public class AccessoryMAPIController {
       @PathVariable("titleAccessorySubCategory") String titleSubCategory){
     ResponseMessage responseMessage = new ResponseMessage();
     responseMessage.setObject(accessoryViewService.getDummy(titleCategory));
+    return responseMessage;
+  }
+
+  @GetMapping (ACCESSORIES + "/by-sub-category")
+  public ResponseMessage getAccessoryByCategory(Principal principal,
+      @RequestParam("subCategoryId") Integer subcategoryId){
+    ResponseMessage responseMessage = new ResponseMessage();
+    responseMessage.setObject(accessoryViewService.getDummy(subcategoryId.toString()));
     return responseMessage;
   }
 

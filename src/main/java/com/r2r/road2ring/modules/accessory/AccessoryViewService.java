@@ -1,6 +1,8 @@
 package com.r2r.road2ring.modules.accessory;
 
+import com.r2r.road2ring.modules.accessorycategory.AccessoryCategory;
 import com.r2r.road2ring.modules.accessorycategory.AccessoryCategoryService;
+import com.r2r.road2ring.modules.accessorycategory.AccessoryCategoryView;
 import com.r2r.road2ring.modules.accessorycategory.AccessorySubCategoryService;
 import java.util.ArrayList;
 import java.util.List;
@@ -67,7 +69,9 @@ public class AccessoryViewService {
   }
 
 
-  public List<AccessoryView> getDummy(String subCategoryName){
+  public AccessoryCategoryView getDummy(String subCategoryName){
+    AccessoryCategoryView dummyResult = new AccessoryCategoryView();
+    dummyResult.setCategoryName("Helmet");
     AccessoryView item = new AccessoryView();
     List<AccessoryView> result = new ArrayList<AccessoryView>();
 
@@ -106,7 +110,8 @@ public class AccessoryViewService {
     item.setPicture("http://lorempixel.com/768/432/technics/6/");
     result.add(item);
 
-    return result;
+    dummyResult.setAccessories(result);
+    return dummyResult;
   }
 
 }
