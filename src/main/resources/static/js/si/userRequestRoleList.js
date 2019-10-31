@@ -1,4 +1,7 @@
 $(document).ready( function () {
+    if (/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)) {
+        $("div.mobile-tbl").addClass("mbl-tbl");
+    }
 	 var table = $('#rsp-tbl').DataTable({
 	 "dom": '<"row"<"col-sm-2"<"newRecord">><"col-sm-10"<"toolbar">>><"row"<"col-sm-12"tr>><"row"<"col-sm-6"i><"col-sm-6"p>>',
 			"sAjaxSource": "/api/user/request-rc/data",
@@ -12,15 +15,31 @@ $(document).ready( function () {
                 $(td).attr('data-th', 'No.');
             }
           },
-          { "mData": "name"},
-          { "mData": "email"},
-			    {
-			      "mData": "status",
-			      "visible": false
-			    },
-			    { "mData": "created"},
-			    { "mData": "updated"},
-			    { "mData": "id",
+          { "mData": "name",
+              "createdCell": function(td, cellData, rowData, row, col) {
+                  $(td).attr('data-th', 'Name');
+              }
+          },
+          { "mData": "email",
+              "createdCell": function(td, cellData, rowData, row, col) {
+                  $(td).attr('data-th', 'Email');
+              }
+          },
+          {
+            "mData": "status",
+            "visible": false
+          },
+          { "mData": "created",
+              "createdCell": function(td, cellData, rowData, row, col) {
+                  $(td).attr('data-th', 'Created');
+              }
+          },
+          { "mData": "updated",
+              "createdCell": function(td, cellData, rowData, row, col) {
+                  $(td).attr('data-th', 'Updated');
+              }
+          },
+            { "mData": "id",
             "width": "10%",
             "searchable": false,
             "orderable": false,

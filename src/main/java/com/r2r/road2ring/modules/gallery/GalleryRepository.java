@@ -12,5 +12,5 @@ import org.springframework.stereotype.Repository;
 public interface GalleryRepository extends DataTablesRepository<Gallery, Integer> {
   List<Gallery> findAll();
   List<Gallery> findAllByOrderByIdDesc(Pageable pageable);
-  List<Gallery> findAllByPublishedStatusOrderByIdDesc(Pageable pageable, PublishedStatus publishedStatus);
+  Page<Gallery> findAllByPublishedStatusOrderByIdDesc(Pageable pageable, PublishedStatus publishedStatus);
 }

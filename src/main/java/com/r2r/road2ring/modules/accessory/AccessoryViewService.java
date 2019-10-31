@@ -1,6 +1,7 @@
 package com.r2r.road2ring.modules.accessory;
 
 import com.r2r.road2ring.modules.accessorycategory.AccessoryCategoryService;
+import com.r2r.road2ring.modules.accessorycategory.AccessorySubCategoryService;
 import java.util.ArrayList;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,6 +13,9 @@ public class AccessoryViewService {
   AccessoryService accessoryService;
 
   AccessoryCategoryService accessoryCategoryService;
+
+  @Autowired
+  AccessorySubCategoryService accessorySubCategoryService;
 
   @Autowired
   public void setAccessoryService(AccessoryService accessoryService){
@@ -52,6 +56,56 @@ public class AccessoryViewService {
     Integer accessoryCategoryId = accessoryCategoryService.getAccessoryCategoryByTitle(title).getId();
     List<Accessory> accessories = accessoryService.getAllAccessoryByCategory(accessoryCategoryId);
     List<AccessoryView> result = this.bindListAccessoryView(accessories);
+    return result;
+  }
+
+  public List<AccessoryView> getListAccessoriesBySubCategoryName(String subCategoryName){
+    Integer accessorySubCategoryId = accessorySubCategoryService.getOneByName(subCategoryName).getId();
+    List<Accessory> accessories = accessoryService.getAllAccessoryBySubCategory(accessorySubCategoryId);
+    List<AccessoryView> result = this.bindListAccessoryView(accessories);
+    return result;
+  }
+
+
+  public List<AccessoryView> getDummy(String subCategoryName){
+    AccessoryView item = new AccessoryView();
+    List<AccessoryView> result = new ArrayList<AccessoryView>();
+
+    item = new AccessoryView();
+    item.setTitle("MDS");
+    item.setDescription("helmet");
+    item.setPrice(100);
+    item.setPicture("http://lorempixel.com/768/432/technics/6/");
+    result.add(item);
+
+    item = new AccessoryView();
+    item.setTitle("Arai");
+    item.setDescription("helmet");
+    item.setPrice(200);
+    item.setPicture("http://lorempixel.com/768/432/technics/4/");
+    result.add(item);
+
+    item = new AccessoryView();
+    item.setTitle("Ink");
+    item.setDescription("helmet");
+    item.setPrice(300);
+    item.setPicture("http://lorempixel.com/768/432/technics/7/");
+    result.add(item);
+
+    item = new AccessoryView();
+    item.setTitle("KYT");
+    item.setDescription("helmet");
+    item.setPrice(400);
+    item.setPicture("http://lorempixel.com/768/432/technics/2/");
+    result.add(item);
+
+    item = new AccessoryView();
+    item.setTitle("Arai");
+    item.setDescription("helmet");
+    item.setPrice(500);
+    item.setPicture("http://lorempixel.com/768/432/technics/6/");
+    result.add(item);
+
     return result;
   }
 

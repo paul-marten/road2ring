@@ -1,6 +1,8 @@
 package com.r2r.road2ring.modules.motor;
 
+import com.fasterxml.jackson.annotation.JsonView;
 import com.r2r.road2ring.modules.common.PublishedStatus;
+import com.r2r.road2ring.modules.common.ResponseView;
 import java.io.Serializable;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -20,15 +22,19 @@ public class Motor implements Serializable {
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   @Column(name = "motor_id")
+  @JsonView(ResponseView.DefaultTripPriceMotor.class)
   private Integer id;
 
   @Column(name = "motor_title")
+  @JsonView(ResponseView.DefaultTripPriceMotor.class)
   private String title;
 
   @Column(name = "motor_capacity")
+  @JsonView(ResponseView.DefaultTripPriceMotor.class)
   private Integer capacity;
 
   @Column(name = "motor_brand")
+  @JsonView(ResponseView.DefaultTripPriceMotor.class)
   private String brand;
 
   @Column(name = "motor_price")
@@ -38,9 +44,11 @@ public class Motor implements Serializable {
   private Integer discount;
 
   @Column(name = "motor_description")
+  @JsonView(ResponseView.DetailedTripPriceMotor.class)
   private String description;
 
   @Column(name = "motor_picture")
+  @JsonView(ResponseView.DefaultTripPriceMotor.class)
   private String picture;
 
   @Column(name = "motor_status")

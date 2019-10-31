@@ -1,41 +1,39 @@
-//$(document).on("click", "#tripSaveBtn", function(event){
-////    setInputHidden()
-//
-//  var validate = $("#tripForm").parsley().validate();
-//  var isTextAreaFill = validateTextArea($("#description"))
-//
-//  var uri = window.location.pathname.split('/');
-//  console.log($("#tripForm"))
-//  console.log('here')
-//  if(validate === true && isTextAreaFill === true){
-//    $.post( "/trip/save", $("#itineraryForm").serialize()).done(function(data) {
-//      window.location.href = "/trip";
-//    })
-//  }
-//})
-//
-////$('#tripForm').submit(function(event){
-////    if(!this.checkValidity())
-////    {
-////        event.preventDefault();
-////        $('#tripForm :input:visible[required="required"]').each(function()
-////        {
-////            if(this.validity.valid)
-////            {
-////                $(this).focus();
-////                // break
-////                return false;
-////            }
-////        });
-////    }
-////});
-//
-//function validateTextArea(field){
-//  var value = field.next().find(".ck-editor__main").first().first().text();
-//  if(value === ''){
-//    field.next().find(".ck-editor__main").first().first().text('-')
-//    return false
-//  }
-//  else
-//    return true
-//}
+
+$(document).on('click', '.btn-embed', function() {
+    /* Act on the event */
+//    var hide_id = $(this).parent().find('input').val();
+//    console.log($(this).parent());
+    $('#publishConfirm').popup('show');
+//    $('#publishConfirm input[name=api_id]').val(hide_id);
+    return false;
+});
+
+$(document).on("click", '#publishConfirm .do-it', function() {
+  var link = $('.embed-input').val();
+  var iframe = new RegExp('<iframe(.+)</iframe>');
+
+  if(iframe.test(link)){
+    var pattern = /src="([^"]+)"/
+    var match = pattern.exec(link);
+    var url = match[1];
+    console.log(url)
+    $('#embed-map').next().removeClass("collapse")
+    $('#embed-map').next().attr("src",url)
+    $('#hiddenMapLink').val(url);
+  }
+
+  $('#publishConfirm').popup('hide');
+});
+
+$(document).on('click', '#publishConfirm .cancel', function(event) {
+    /* Act on the event */
+    $('#publishConfirm').popup('hide');
+});
+
+function setVenueGMaps(){
+  var link = $('#hiddenMapLink').val()
+  if(link != null && link != ''){
+    $('#embed-map').next().removeClass("collapse")
+    $('#embed-map').next().attr("src",link)
+  }
+}

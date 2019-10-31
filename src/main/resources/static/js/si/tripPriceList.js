@@ -1,7 +1,7 @@
 $(document).ready( function () {
    var tripId = window.location.pathname.split('/')
 //	 console.log(tripId[2])
-	 var table = $('#rsp-tbl').DataTable({
+	 if (/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)) {    				$("div.mobile-tbl").addClass("mbl-tbl");    			}	 var table = $('#rsp-tbl').DataTable({
 	 "dom": '<"row"<"col-sm-2"<"newRecord">><"col-sm-10"<"toolbar">>><"row"<"col-sm-12"tr>><"row"<"col-sm-6"i><"col-sm-6"p>>',
 			"sAjaxSource": "/api/trip/"+tripId[2]+"/price-list/data",
 			"sAjaxDataProp": "",
@@ -14,17 +14,30 @@ $(document).ready( function () {
                 $(td).attr('data-th', 'No.');
             }
           },
-          { "mData": "startTrip"},
-			    { "mData": "finishTrip"},
-			    { "mData": "price"},
-			    { "mData": "status"},
-			    { "mData": "discount"},
-//          { "data": "roadCaptain.name",
-//          "width": "12%",
-//          "orderable": false,
-//          "createdCell": function(td, cellData, rowData, row, col) {
-//              $(td).attr('data-th', "Captain");
-//          }},
+          { "mData": "startTrip",
+            "createdCell": function(td, cellData, rowData, row, col) {
+                $(td).attr('data-th', 'Start Date');
+            }},
+			    { "mData": "finishTrip",
+            "createdCell": function(td, cellData, rowData, row, col) {
+                $(td).attr('data-th', 'End Date');
+            }},
+			    { "mData": "price",
+            "createdCell": function(td, cellData, rowData, row, col) {
+                $(td).attr('data-th', 'Price');
+            }},
+			    { "mData": "status",
+            "createdCell": function(td, cellData, rowData, row, col) {
+                $(td).attr('data-th', 'Status');
+            }},
+			    { "mData": "personPaid",
+              "createdCell": function(td, cellData, rowData, row, col) {
+                  $(td).attr('data-th', "Person Paid");
+            }},
+			    { "mData": "discount",
+            "createdCell": function(td, cellData, rowData, row, col) {
+                $(td).attr('data-th', 'Discount');
+            }},
 			    { "mData": "id",
             "width": "10%",
             "searchable": false,
@@ -63,25 +76,31 @@ $(document).ready( function () {
       "columnDefs": [{
           "targets": 3,
           "render": function(data, type, row) {
-//              console.log(data)
               return data != null && data != '' ? data : '' ;
+          }
+      },{
+          "targets":1,
+          "render": function(data, type, row) {
+            var parseTs = moment(data, 'x');
+            return data != null && data != '' ? moment(parseTs).format('DD/MM/YYYY') : '-'
+          }
+      },{
+          "targets":2,
+          "render": function(data, type, row) {
+            var parseTs = moment(data, 'x');
+            return data != null && data != '' ? moment(parseTs).format('DD/MM/YYYY') : '-'
           }
       }],
       "order": [[ 0, "asc" ]],
 
 	 });
+
+	 table.columns(4).search("waiting").draw();
+
 	 table.on( 'draw.dt', function () {
     var PageInfo = $('#rsp-tbl').DataTable().page.info();
     table.column(0, { page: 'current' }).nodes().each( function (cell, i) {
        cell.innerHTML = i + 1 + PageInfo.start;
-    } );
-    table.column(1, { page: 'current' }).nodes().each( function (cell, i) {
-       var parseTs = moment(cell.innerHTML, 'x');
-       cell.innerHTML = cell.innerHTML != '-' ? moment(parseTs).format('DD/MM/YYYY') : '-';
-    } );
-    table.column(2, { page: 'current' }).nodes().each( function (cell, i) {
-       var parseTs = moment(cell.innerHTML, 'x');
-       cell.innerHTML = cell.innerHTML != '-' ? moment(parseTs).format('DD/MM/YYYY') : '-';
     } );
   });
 
@@ -121,45 +140,14 @@ $(document).ready( function () {
                           }));
   var btnEdit = $('<li>').append(iconEdit).append(textEdit);
 
-//  var iconEdit = $('<span>').append($('<i>', {'class':'icon-icon_edit'}));
-  var textFacility =$('<span>').append( $('<a>', {
-                                'text':'Facility ',
-                                'href': '/trip/'+cellData+'/facility',
-                            }));
-  var btnFacility= $('<li>').append(textFacility);
+  var iconAddMotor = $('<span>').append($('<i>', {'class':'icon-icon_motor'}));
+  var textAddMotor =$('<span>').append( $('<a>', {
+                              'text':'List Motor ',
+                              'href': window.location.pathname+'/' + cellData + '/bike',
+                          }));
+  var btnAddMotor = $('<li>').append(iconAddMotor).append(textAddMotor);
 
-
-//  var iconEdit = $('<span>').append($('<i>', {'class':'icon-icon_edit'}));
-  var textIternary =$('<span>').append( $('<a>', {
-                                'text':'Iternary ',
-                                'href': '/trip/'+cellData+'/itinerary',
-                            }));
-  var btnIternary= $('<li>').append(textIternary);
-
-  //Draw buttom Publish
-  var iconPublish =$('<span>').append($('<i>', {'class':'icon-icon_publish'}));
-  var textPublish =$('<span>').append( $('<a>', {
-                                  'text':'Publish ',
-                                  'href': '',
-                              }));
-  var btnPublish = $('<li>', {'id':'publishContent'}).append(iconPublish).append(textPublish);
-
-  //Draw buttom Publish
-  var iconUnpublish =$('<span>').append($('<i>', {'class':'icon-icon_unpublish'}));
-  var textUnpublish =$('<span>').append( $('<a>', {
-                                  'text':'Unpublish',
-                                  'href': '',
-                              }));
-  var btnUnpublish = $('<li>', {'id':'unpublishContent'}).append(iconUnpublish).append(textUnpublish);
-
-  //Draw button Scheduled
-//  var iconScheduled = $('<span>').append($('<i>', {'class':'icon-icon_schedule_post'}));
-//  var textScheduled =$('<span>').append( $('<a>', {
-//                                      'text':'Schedule Publish',
-//                                      'href': '',
-//                                      }));
-//  var btnScheduled = $('<li>', {'id':'schedule'}).append(iconScheduled).append(textScheduled);
-  var list = btnEdit;
+  var list = btnEdit.add(btnAddMotor);
 
   if (rowData.isPublished == "PUBLISHED" || rowData.isPublished == "EDITED") {
                   btnScheduled = $('<li>', {'style':'display: none;'});

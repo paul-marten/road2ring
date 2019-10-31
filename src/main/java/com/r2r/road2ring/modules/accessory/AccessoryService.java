@@ -45,6 +45,10 @@ public class AccessoryService {
     return accessoryRepository.findAllByAccessoryCategoryIdAndStatusOrderByIdAsc(accessoryCategory,PublishedStatus.PUBLISHED);
   }
 
+  public List<Accessory> getAllAccessoryBySubCategory(Integer accessorySubCategory){
+    return accessoryRepository.findAllByAccessoryCategoryIdAndStatusOrderByIdAsc(accessorySubCategory,PublishedStatus.PUBLISHED);
+  }
+
   public void changeStatus(PublishedStatus statusId, int id) throws Road2RingException {
     Accessory save = accessoryRepository.findOne(id);
     save.setStatus(statusId);

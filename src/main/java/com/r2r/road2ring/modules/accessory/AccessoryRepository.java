@@ -11,4 +11,5 @@ public interface AccessoryRepository extends DataTablesRepository<Accessory,Inte
   List<Accessory> findAll();
   List<Accessory> findAllByAccessoryCategoryIdOrderByIdAsc(Integer categoryId);
   List<Accessory> findAllByAccessoryCategoryIdAndStatusOrderByIdAsc(Integer categoryId, PublishedStatus publishedStatus);
+  List<Accessory> findAllByAccessorySubCategoryIdAndStatusOrderByIdAsc(Integer subCategoryId, PublishedStatus publishedStatus);
 }

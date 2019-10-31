@@ -4,6 +4,7 @@ import com.r2r.road2ring.modules.common.PublishedStatus;
 import com.r2r.road2ring.modules.common.Road2RingException;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -58,11 +59,11 @@ public class GalleryService {
     return galleryRepository.save(saved);
   }
 
-  public List<GalleryView> getAllGallery(int pageId, int limit){
+  public Page<Gallery> getAllGallery(int pageId, int limit){
     Pageable pageable = new PageRequest(pageId, limit);
-    List<Gallery> galleries = galleryRepository.findAllByPublishedStatusOrderByIdDesc(pageable, PublishedStatus.PUBLISHED);
-    List<GalleryView> result = galleryViewService.bindListGallery(galleries);
-    return result;
+    Page<Gallery> galleries = galleryRepository.findAllByPublishedStatusOrderByIdDesc(pageable, PublishedStatus.PUBLISHED);
+    List<GalleryView> result = galleryViewService.bindListGallery(galleries.getContent());
+    return galleries;
   }
 
   public GalleryDetailView getDetailGallery(int galleryId){
