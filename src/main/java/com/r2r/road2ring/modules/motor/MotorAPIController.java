@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
@@ -32,6 +33,14 @@ public class MotorAPIController {
   public List<Motor> datatable(
       HttpServletRequest request) {
     return motorService.getAllMotorDatatable();
+  }
+
+  @RequestMapping(value = "/autocomplete", method = RequestMethod.GET)
+  public ResponseMessage autocomplete(@RequestParam("keyword") String keyword,
+      HttpServletRequest request) {
+    ResponseMessage responseMessage = new ResponseMessage();
+    responseMessage.setObject(motorService.getAutocompletPublishedMotorByTitle(keyword));
+    return responseMessage;
   }
 
   @PostMapping("/change-status/{id}/{statusId}")

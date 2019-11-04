@@ -1,7 +1,11 @@
 package com.r2r.road2ring.modules.user;
 
 import com.r2r.road2ring.modules.common.Road2RingException;
+import java.util.ArrayList;
+import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.jpa.datatables.mapping.DataTablesInput;
+import org.springframework.data.jpa.datatables.mapping.DataTablesOutput;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -34,5 +38,28 @@ public class UserRequestRoleService {
       userRequestRole.setStatus(false);
     }
     return userRequestRoleRepository.save(userRequestRole);
+  }
+
+  public List<UserRequestRoleView> bindUserRequestRole(List<UserRequestRole> requestRoleList){
+    List<UserRequestRoleView> dataList = dataList = new ArrayList<>();;
+    UserRequestRoleView save;
+
+    for(UserRequestRole bind : requestRoleList){
+      save = new UserRequestRoleView();
+      save.setId(bind.getId());
+      save.setName(bind.getUser().getFullName());
+      save.setEmail(bind.getUser().getEmail());
+      save.setCreated(bind.getCreated());
+      save.setUpdated(bind.getUpdated());
+      save.setStatus(bind.getStatus());
+
+      dataList.add(save);
+    }
+
+    return dataList;
+  }
+
+  public List<UserRequestRole> getAllRequest() {
+    return userRequestRoleRepository.findAllByStatus(true);
   }
 }

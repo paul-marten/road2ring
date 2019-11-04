@@ -70,4 +70,10 @@ public class ResponseView {
   public interface LimitedCategory extends Base {}
   public interface DefaultCategory extends LimitedCategory {}
   public interface DetailedCategory extends DefaultCategory {}
+
+  public interface LimitedTripPriceMotor extends Base{}
+  public interface DefaultTripPriceMotor extends LimitedTripPriceMotor{}
+  public interface DetailedTripPriceMotor extends DefaultTripPriceMotor{}
+
+
 }
