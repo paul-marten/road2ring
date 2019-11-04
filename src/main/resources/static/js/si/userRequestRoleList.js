@@ -1,7 +1,10 @@
 $(document).ready( function () {
-	 if (/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)) {    				$("div.mobile-tbl").addClass("mbl-tbl");    			}	 var table = $('#rsp-tbl').DataTable({
+    if (/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)) {
+        $("div.mobile-tbl").addClass("mbl-tbl");
+    }
+	 var table = $('#rsp-tbl').DataTable({
 	 "dom": '<"row"<"col-sm-2"<"newRecord">><"col-sm-10"<"toolbar">>><"row"<"col-sm-12"tr>><"row"<"col-sm-6"i><"col-sm-6"p>>',
-			"sAjaxSource": "/api/user/rc/data",
+			"sAjaxSource": "/api/user/request-rc/data",
 			"sAjaxDataProp": "",
 			"aoColumns": [
 			    {"mData": "id",
@@ -12,14 +15,30 @@ $(document).ready( function () {
                 $(td).attr('data-th', 'No.');
             }
           },
-            { "mData": "fullName",
-            "createdCell": function(td, cellData, rowData, row, col) {
-                $(td).attr('data-th', 'Name');
-            }},
-            { "mData": "email",
-            "createdCell": function(td, cellData, rowData, row, col) {
-                $(td).attr('data-th', 'Email');
-            }},
+          { "mData": "name",
+              "createdCell": function(td, cellData, rowData, row, col) {
+                  $(td).attr('data-th', 'Name');
+              }
+          },
+          { "mData": "email",
+              "createdCell": function(td, cellData, rowData, row, col) {
+                  $(td).attr('data-th', 'Email');
+              }
+          },
+          {
+            "mData": "status",
+            "visible": false
+          },
+          { "mData": "created",
+              "createdCell": function(td, cellData, rowData, row, col) {
+                  $(td).attr('data-th', 'Created');
+              }
+          },
+          { "mData": "updated",
+              "createdCell": function(td, cellData, rowData, row, col) {
+                  $(td).attr('data-th', 'Updated');
+              }
+          },
             { "mData": "id",
             "width": "10%",
             "searchable": false,
@@ -55,7 +74,7 @@ $(document).ready( function () {
         "orderable": true,
         "targets": 0
       },],
-      "order": [[ 3, "asc" ]],
+      "order": [[ 4, "asc" ]],
 
 	 });
 	 table.on( 'draw.dt', function () {
@@ -63,13 +82,22 @@ $(document).ready( function () {
     table.column(0, { page: 'current' }).nodes().each( function (cell, i) {
        cell.innerHTML = i + 1 + PageInfo.start;
     } );
+    table.column(4).nodes().each(function(cell, i) {
+        var parseTs = moment(cell.innerHTML, 'x');
+        cell.innerHTML = cell.innerHTML != '-' ? moment(parseTs).format('DD/MM/YYYY  H:mm') : '-';
+    });
+    table.column(5).nodes().each(function(cell, i) {
+        var parseTs = moment(cell.innerHTML, 'x');
+        cell.innerHTML = cell.innerHTML != '-' ? moment(parseTs).format('DD/MM/YYYY  H:mm') : '-';
+    });
   });
 
   var btnNew = '<a href="'+window.location.pathname+'/add" class="btn btn-default btn-sm"><span class="fa fa-plus-circle fa-lg"></span> Add New Record</a>';
   var filterStatus = 'Filter by : <select class="form-control isIncluded"><option value="">--- All Status ---</option><option value="true">Include</option><option value="false">Not Include</option></select>';
 //  var filterCaptain = '&nbsp;<input class="form-control findCaptain" size="24" type="text" name="findCaptain" placeholder="Find Specific Captain">';
-  var filterTitle = '&nbsp;<input class="form-control findTitle" size="47" type="text" name="findTitle" placeholder="Find Specific Captain Name">';
+  var filterTitle = '&nbsp;<input class="form-control findTitle" size="47" type="text" name="findTitle" placeholder="Find Specific Name">';
   var filter = filterTitle;
+//  $("div.newRecord").html(btnNew);
   $("div.toolbar").html(filter);
 
   $('.isIncluded').on('change', function(event){
@@ -85,26 +113,24 @@ $(document).ready( function () {
       else
           table.columns(1).search('').draw();
   });
-  $('.findCaptain').on('keyup', function(event) {
-      if ($(this).val().length > 2)
-          table.columns(3).search(this.value).draw();
-      else
-          table.columns(3).search('').draw();
-  });
 
   $(document).on('click', '#publishContent', function() {
       /* Act on the event */
       var data = table.row( $(this).parents('tr') ).data()
       console.log(data)
+//        if(data.tripPrices == 0){
+//          alert("Trip Price atau Itinerary Kosong, harap input data terlebih dahulu sebelum publish")
+//        }else{
         var hide_id = $(this).parent().parent().parent().find('input').val();
         $('#publishConfirm').popup('show');
         $('#publishConfirm input[name=api_id]').val(data.id);
+//        }
       return false;
   });
 
   $(document).on("click", '#publishConfirm .do-it', function() {
       var dataId = $('#publishConfirm input[name=api_id]').val()
-      $.post("/api/user/remove-rc",{ id: dataId }).done(function(data) {
+      $.post("/api/user/approve-rc",{ id: dataId }).done(function(data) {
         window.location.reload()
       })
   });
@@ -113,7 +139,7 @@ $(document).ready( function () {
       /* Act on the event */
       $('#publishConfirm').popup('hide');
   });
- });
+});
 
  function drawListAction(rowData, cellData) {
   //Draw button Edit
@@ -124,19 +150,13 @@ $(document).ready( function () {
                           }));
   var btnEdit = $('<li>').append(iconEdit).append(textEdit);
 
+  //Draw buttom Publish
   var iconPublish =$('<span>').append($('<i>', {'class':'icon-icon_publish'}));
   var textPublish =$('<span>').append( $('<a>', {
-                                  'text':'remove ',
+                                  'text':'Accept ',
                                   'href': '',
                               }));
   var btnPublish = $('<li>', {'id':'publishContent'}).append(iconPublish).append(textPublish);
-
-  //Draw buttom Publish
-  var iconUnpublish =$('<span>').append($('<i>', {'class':'icon-icon_unpublish'}));
-  var textUnpublish =$('<span>').append( $('<a>', {
-                                  'text':'Unpublish',
-                                  'href': '',
-                              }));
 
   var list = btnPublish;
 
