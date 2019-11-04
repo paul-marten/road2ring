@@ -83,24 +83,24 @@ public class AccessoryViewService {
     item.setPicture("http://lorempixel.com/768/432/technics/6/");
     result.add(item);
 
-    item.setId(2);
     item = new AccessoryView();
+    item.setId(2);
     item.setTitle("Arai");
     item.setDescription("helmet");
     item.setPrice(200);
     item.setPicture("http://lorempixel.com/768/432/technics/4/");
     result.add(item);
 
-    item.setId(3);
     item = new AccessoryView();
+    item.setId(3);
     item.setTitle("Ink");
     item.setDescription("helmet");
     item.setPrice(300);
     item.setPicture("http://lorempixel.com/768/432/technics/7/");
     result.add(item);
 
-    item.setId(4);
     item = new AccessoryView();
+    item.setId(4);
     item.setTitle("KYT");
     item.setDescription("helmet");
     item.setPrice(400);
