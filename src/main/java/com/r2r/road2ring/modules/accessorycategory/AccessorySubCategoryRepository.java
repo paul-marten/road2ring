@@ -13,4 +13,7 @@ public interface AccessorySubCategoryRepository extends DataTablesRepository<Acc
 
   AccessorySubCategory findAllByTitleIgnoreCaseNotLikeAndStatus(String name,PublishedStatus status);
 
+  List<AccessorySubCategory> findAllByStatus(PublishedStatus published);
+
+  List<AccessorySubCategory> findAll();
 }

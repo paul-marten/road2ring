@@ -1,6 +1,8 @@
 package com.r2r.road2ring.modules.accessorycategory;
 
+import com.fasterxml.jackson.annotation.JsonView;
 import com.r2r.road2ring.modules.common.PublishedStatus;
+import com.r2r.road2ring.modules.common.ResponseView;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -31,19 +33,23 @@ public class AccessorySubCategory {
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   @Column(name = "accessory_sub_category_id")
+  @JsonView(ResponseView.LimitedSubCategory.class)
   private Integer id;
 
   @Column(name = "accessory_sub_category_name")
+  @JsonView(ResponseView.DefaultSubCategory.class)
   private String title;
 
   @Column(name = "accessory_sub_category_image")
+  @JsonView(ResponseView.DetailSubCategory.class)
   private String image;
 
   @Column(name = "accessory_sub_category_status")
+  @JsonView(ResponseView.DefaultSubCategory.class)
   private PublishedStatus status;
 
   @ManyToOne(fetch = FetchType.LAZY)
   @JoinColumn(name = "accessory_sub_category_category_id", nullable = false)
+  @JsonView(ResponseView.DefaultSubCategory.class)
   private AccessoryCategory accessoryCategory;
-
 }

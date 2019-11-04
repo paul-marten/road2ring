@@ -21,19 +21,44 @@
     <div class="box-header with-border">
       <h1 class="box-title">Sub Accessory Category Form</h1>
     </div>
-    <form role="form" th:action="@{'/accessory-category/1/sub-category/save'}" th:object="${response}" method="post">
+    <form role="form" th:action="@{'/accessory-category/sub-category/save'}" th:object="${response}" method="post">
       <div class="box-body">
         <input id="object_id" type="hidden" name="id" th:if="${response.object.id != 0}" th:value="${response.object.id != null && response.object.id != 0 ? response.object.id : 0}">
+
+        <div class="form-group">
+          <label for="title">Pick Category</label>
+          <input type="text" class="form-control" id="categoryId" th:value="${response.object.accessoryCategory != null ? response.object.accessoryCategory.title : ''}" required>
+          <input type="hidden" id="hidden_motor" name="accessoryCategory.id" th:value="${response.object.accessoryCategory != null && response.object.accessoryCategory.id != 0 ? response.object.accessoryCategory.id : 0}">
+        </div>
+
         <div class="form-group">
           <label for="title">Sub Accessory Category Title</label>
           <input type="text" class="form-control" name="title" id="title" placeholder="Accessory Sub Category Title" th:value="${response.object.title}" required>
         </div>
 
         <div class="form-group">
-          <label for="picture">Picture</label>
-          <input type="file" id="picture">
-
-          <!--<p class="help-block">Example block-level help text here.</p>-->
+          <label for="image">Picture</label>
+          <div class="wrap-file">
+            <input type="file" id="image">
+          </div>
+          <input type="hidden" id="hidden_image" name="image"
+                 th:value="${response.object.image}">
+          <div class="wrap_image collapse">
+            <div class="progress">
+              <div class="progress-bar progress-bar-info progress-bar-striped"
+                   role="progressbar" aria-valuenow="" aria-valuemin="0" aria-valuemax="100"
+                   style="">
+              </div>
+            </div>
+            <div class="msg collapse text-info"><i class="fa fa-check"></i> Upload Succeed</div>
+            <div class="pre_img">
+              <img src="" alt="">
+            </div>
+          </div>
+          <div th:if="${not #strings.isEmpty(response.object.image)}"
+               class="wrap-img-image p-top-sm">
+            <img th:src="${response.object.image}"/>
+          </div>
         </div>
       </div>
       <div class="box-footer">
@@ -42,6 +67,18 @@
     </form>
   </div>
 </div>
-
+<th: block layout:fragment="footer-js">
+  <script src="../../js/si/jquery.html5uploader.min.js"></script>
+  <script src="../../js/si/upload.js"></script>
+  <script src="../../js/si/subcategory.js"></script>
+  <script>
+  $(function() {
+      $(document).ready(function () {
+        upload_trip("/api/trip/upload_icon", "image","#image", "#hidden_image",640,640, "landscape");
+        general_editor()
+      })
+  })
+  </script>
+</th:>
 </body>
 </html>

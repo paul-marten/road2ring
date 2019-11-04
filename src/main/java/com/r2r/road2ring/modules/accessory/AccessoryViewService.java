@@ -1,6 +1,8 @@
 package com.r2r.road2ring.modules.accessory;
 
+import com.r2r.road2ring.modules.accessorycategory.AccessoryCategory;
 import com.r2r.road2ring.modules.accessorycategory.AccessoryCategoryService;
+import com.r2r.road2ring.modules.accessorycategory.AccessoryCategoryView;
 import com.r2r.road2ring.modules.accessorycategory.AccessorySubCategoryService;
 import java.util.ArrayList;
 import java.util.List;
@@ -67,17 +69,21 @@ public class AccessoryViewService {
   }
 
 
-  public List<AccessoryView> getDummy(String subCategoryName){
+  public AccessoryCategoryView getDummy(String subCategoryName){
+    AccessoryCategoryView dummyResult = new AccessoryCategoryView();
+    dummyResult.setCategoryName("Helmet");
     AccessoryView item = new AccessoryView();
     List<AccessoryView> result = new ArrayList<AccessoryView>();
 
     item = new AccessoryView();
+    item.setId(1);
     item.setTitle("MDS");
     item.setDescription("helmet");
     item.setPrice(100);
     item.setPicture("http://lorempixel.com/768/432/technics/6/");
     result.add(item);
 
+    item.setId(2);
     item = new AccessoryView();
     item.setTitle("Arai");
     item.setDescription("helmet");
@@ -85,6 +91,7 @@ public class AccessoryViewService {
     item.setPicture("http://lorempixel.com/768/432/technics/4/");
     result.add(item);
 
+    item.setId(3);
     item = new AccessoryView();
     item.setTitle("Ink");
     item.setDescription("helmet");
@@ -92,6 +99,7 @@ public class AccessoryViewService {
     item.setPicture("http://lorempixel.com/768/432/technics/7/");
     result.add(item);
 
+    item.setId(4);
     item = new AccessoryView();
     item.setTitle("KYT");
     item.setDescription("helmet");
@@ -99,6 +107,7 @@ public class AccessoryViewService {
     item.setPicture("http://lorempixel.com/768/432/technics/2/");
     result.add(item);
 
+    item.setId(5);
     item = new AccessoryView();
     item.setTitle("Arai");
     item.setDescription("helmet");
@@ -106,7 +115,8 @@ public class AccessoryViewService {
     item.setPicture("http://lorempixel.com/768/432/technics/6/");
     result.add(item);
 
-    return result;
+    dummyResult.setAccessories(result);
+    return dummyResult;
   }
 
 }
