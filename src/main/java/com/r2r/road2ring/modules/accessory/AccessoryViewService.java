@@ -107,8 +107,8 @@ public class AccessoryViewService {
     item.setPicture("http://lorempixel.com/768/432/technics/2/");
     result.add(item);
 
-    item.setId(5);
     item = new AccessoryView();
+    item.setId(5);
     item.setTitle("Arai");
     item.setDescription("helmet");
     item.setPrice(500);
