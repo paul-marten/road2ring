@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorator="admin/layout">
+<head>
+  <title>R2R-Album Form</title>
+  <link type="text/css" href="../../css/jquery-ui-1.10.0.custom.css" rel="stylesheet"/>
+  <link type="text/css" href="../../css/bootstrap-tokenfield.min.css" rel="stylesheet"/>
+  <style>
+.ck-editor__editable {
+    min-height: 200px;
+}
+
+.box-inline{
+      box-shadow: 0 1px 1px rgba(0,0,0,0.5) !important;
+      padding: 5px 10px;
+}
+
+.list-tipe .custom-file {
+    cursor: pointer;
+    position: relative;
+    min-height: 150px;
+    background-color: #e6e6e6;
+    color: #898989;
+    border-radius: 4px;
+}
+
+.padding-md {
+    padding: 20px!important
+}
+
+.list-tipe .custom-file h2 {
+    position: absolute;
+    height: 70px;
+    width: 100%;
+    margin: auto;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+}
+
+.pre_img img,
+.msg {
+    width: 200px;
+    margin-top: 10px;
+}
+
+.push {
+    cursor: default;
+}
+
+.cont-push {
+    position: relative;
+    z-index: 100;
+}
+
+.cont-push .progress {
+    position: absolute;
+    width: 100%;
+    top: 0;
+}
+
+.cont-push img {
+    width: 100%;
+}
+
+.cont-push .btn-danger {
+    position: absolute;
+    bottom: 5px;
+    left: 40%;
+}
+
+.cont-push .msg {
+    font-size: 30pt;
+    position: absolute;
+    top: -6px;
+    right: 6px;
+    width: 33px;
+    height: 32px;
+}
+
+.cont-push .msg i {
+    opacity: 0.7;
+}
+
+.m-top-sm {
+    margin-top: 10px
+}
+
+.m-bottom-xs {
+    margin-bottom: 5px
+}
+
+.m-bottom-sm {
+    margin-bottom: 10px
+}
+</style>
+</head>
+<body>
+<div layout:fragment="content">
+  <div class="box box-primary">
+    <div class="box-header with-border">
+      <h1 class="box-title">Album Form</h1>
+    </div>
+    <form role="form" id="contentForm" th:action="@{'/album/save'}" th:object="${response}" method="post" data-parsley-validate>
+      <div class="box-body">
+        <input id="object_id" type="hidden" name="id" th:if="${response.object.id != 0}" th:value="${response.object.id != null && response.object.id != 0 ? response.object.id : 0}">
+        <div class="form-group">
+          <label for="title">Album Title</label>
+          <input type="text" class="form-control" name="title" id="title" placeholder="Album Title" th:value="${response.object.title}" required>
+        </div>
+        <div class="form-group">
+          <label for="list-id">List Picture&nbsp;<span class="font-sm text-danger"><i class="fa fa-asterisk fa-sm"></i></span></label>
+          <div id="list-id">
+            <div class="list-tipe">
+              <div class="poll-gambar poll-tipe ">
+                <div id="parent-wrap" class="custom-file row padding-md no-margin text-center">
+                  <h2 id="parent-wrap">Click Here! <br>Upload Images Gallery</h2>
+                  <th:block th:if="${not #lists.isEmpty(response.object.media)}">
+                    <div th:each="media, iterStat : ${response.object.media}" class="push col-md-4">
+                      <div class="cont-push m-bottom-sm">
+                        <input id="hidden_picture" class="picture" type="hidden" th:name="listMedia[+${iterStat.index}+].picture" th:value="${media.picture}">
+                        <div class="msg text-info">
+                          <i class="fa fa-check-circle"></i>
+                        </div>
+                        <div class="pre_img">
+                          <img th:src="${media.picture}" alt="" />
+                        </div>
+                        <button type="button" class="btn btn-sm btn-danger">Remove</button>
+                      </div>
+                      <div class="m-bottom-xs">
+                        <input class="media-id" type="hidden" th:name="listMedia[+${iterStat.index}+].id" th:value="${media.id}">
+                        <input type="text" th:name="listMedia[+${iterStat.index}+].title" th:value="${media.title}" placeholder="Title" class="form-control title">
+                      </div>
+                      <div class="m-bottom-xs">
+                        <select th:name="listMedia[+${iterStat.index}+].type" class="form-control type">
+                          <option th:selected="${media.type == T(com.r2r.road2ring.modules.media.AlbumType).IMAGE}" value="IMAGE">Picture</option>
+                          <option th:selected="${media.type == T(com.r2r.road2ring.modules.media.AlbumType).YOUTUBE}" value="YOUTUBE">Video</option>
+                        </select>
+                      </div>
+                      <div class="m-bottom-xs">
+                        <input type="text" th:name="listMedia[+${iterStat.index}+].link" th:value="${media.link}" placeholder="Youtube Link" th:disabled="${media.type != T(com.r2r.road2ring.modules.media.AlbumType).YOUTUBE}" class="form-control link">
+                      </div>
+                    </div>
+                    <div class="list-del collapse"> </div>
+                  </th:block>
+                </div>
+                <input type="file" id="up2" class="hide" multiple>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="box-footer">
+        <button type="submit" id="submit-btn" class="btn btn-primary">Submit</button>
+      </div>
+    </form>
+  </div>
+</div>
+<th:block layout:fragment="footer-js">
+  <script src="https://code.jquery.com/ui/1.10.4/jquery-ui.min.js"></script>
+  <script src="../../js/si/bootstrap-tokenfield.min.js"></script>
+  <script src="../../js/si/parsley.min.js"></script>
+  <script src="../../js/si/jquery.html5uploader.min.js"></script>
+  <script src="../../js/si/bootstrap-tokenfield.min.js"></script>
+  <script src="../../js/si/upload.js"></script>
+  <script type="text/javascript">
+        $(function() {
+            upload_gallery("/api/trip/upload_trip", "#up2");
+            <!--if ($('.type').val() == 'YOUTUBE') {-->
+                <!--$('.type').parent().next().find('input').prop('disabled', false);-->
+            <!--} else {-->
+                <!--$('.type').parent().next().find('input').prop('disabled', true);-->
+            <!--}-->
+            $('#autoCompleteTag').tokenfield({
+                autocomplete: {
+                    source: function(request, response) {
+                        var arrdata = [];
+                        var json_data = get_json_ac_api('/tag/helper', request.term);
+                        json_data.done(function(data) {
+                            //if (!$.isEmptyObject(data)) {
+                            $.each(data.object, function(key, value) {
+                                arrdata.push(value.name);
+                            });
+                            response(arrdata);
+                            //}
+                            //else{
+                            //  $('#actag-tokenfield').val('');
+                            //}
+                        });
+                    },
+                    minLength: 2,
+                    delay: 100
+                }
+            });
+
+            $('#autoCompleteTag').on('tokenfield:createtoken', function(e) {
+                var data = e.attrs.value;
+                if ($(this).val().indexOf(data) != -1) {
+                    $('#autoCompleteTag-tokenfield').val('');
+                    return false
+                }
+            });
+        });
+        //bind click
+        $(document).on("click", "#parent-wrap", function(event) {
+            //alert(event.target.id);
+            if (event.target == this) {
+                $('#up2').click();
+            } else {
+                return false;
+            }
+        });
+        $(document).on('change', '.type', function() {
+            if ($(this).val() == 'YOUTUBE') {
+                $(this).parent().next().find('input').prop('disabled', false);
+            } else {
+                $(this).parent().next().find('input').prop('disabled', true);
+            }
+
+            $('input[name=picture]').val('');
+            $('input[name=thumbnail]').val('');
+            $('input[name=type]').val('');
+            $('.push .btn-primary').removeAttr('disabled');
+        });
+        $(document).on('click', '.cont-push .btn-danger', function(event) {
+            var container = $(this).parent().parent();
+            var indDel = $('.list-del input').length > 0 ? $('.list-del input').length : 0;
+            /* Act on the event */
+            if ($('.list-del').length > 0) {
+                var delId = container.find('.media-id').val();
+                var hiddenDelId = $('<input>', {
+                    'type': 'hidden',
+                    'name': 'deleteMedia[' + indDel + '].id',
+                    'value': delId
+                });
+                $('.list-del').append(hiddenDelId);
+
+            }
+            container.remove();
+            $('.push').each(function(index, el) {
+                $(this).find('.media-id').attr('name', 'listMedia[' + index + '].id');
+                $(this).find('.title').attr('name', 'listMedia[' + index + '].title');
+                $(this).find('.source').attr('name', 'listMedia[' + index + '].source');
+                $(this).find('.picture').attr('name', 'listMedia[' + index + '].picture');
+                $(this).find('.type').attr('name', 'listMedia[' + index + '].type');
+                $(this).find('.link').attr('name', 'listMedia[' + index + '].link');
+            });
+
+            $('input[name=picture]').val('');
+            $('input[name=type]').val('');
+            $('.push .btn-primary').removeAttr('disabled');
+        });
+        <!--$(document).on('click', '#pick-cover', function(event) {-->
+            <!--/* Act on the event */-->
+            <!--$('.push .btn-primary').removeAttr('disabled');-->
+            <!--var urlPic = $(this).parent().parent().find('.picture').val();-->
+            <!--var urlThumb = $(this).parent().parent().find('.picture_thumb').val();-->
+            <!--var typeGallery = $(this).parent().parent().find('.type option:selected').val();-->
+            <!--$('input[name=picture]').val(urlPic);-->
+            <!--$('input[name=type]').val(typeGallery);-->
+            <!--$(this).prop('disabled', true);-->
+        <!--});-->
+
+        $(document).on('click', '#submit-btn', function(){
+          console.log($('#contentForm').serializeArray())
+        });
+        </script>
+</th:block>
+</body>
+</html>

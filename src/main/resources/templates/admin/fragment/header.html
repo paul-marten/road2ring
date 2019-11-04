@@ -1,39 +1,45 @@
-<header class="top-header" th:fragment="header">
-  <div class="top-header-inner">
-    <div class="header-logo">
-      <a href="/" class="brand-logo">
-        <span class="brand"><img src="/img/availaball.png"></span>
-      </a>
-    </div>
-    <div class="header-container">
-      <div class="pull-left">
-        <div class="dateclock-wrap">
-          <div id="dateclock">
-            <span class="date"></span><span class="hours"></span><span class="min"></span><span
-              class="sec"></span>
-          </div>
-        </div>
-      </div>
-      <div class="pull-right">
-        <div class="user-block hidden-xs">
-          <a href="#" id="" data-toggle="dropdown">
-            <div class="user-detail inline-block" th:inline="text">
-              Welcome, [[${#httpServletRequest.remoteUser}]]
-              <i class="fa fa-cog"></i>
+<!-- Logo -->
+<a href="/" class="logo">
+  <!-- mini logo for sidebar mini 50x50 pixels -->
+  <span class="logo-mini">R2R</span>
+  <!-- logo for regular state and mobile devices -->
+  <span class="logo-lg">Road2Ring</span>
+</a>
+<!-- Header Navbar: style can be found in header.less -->
+<nav class="navbar navbar-static-top">
+  <!-- Sidebar toggle button-->
+  <a href="#" class="sidebar-toggle" data-toggle="offcanvas" role="button">
+    <span class="sr-only">Toggle navigation</span>
+  </a>
+
+  <div class="navbar-custom-menu">
+    <ul class="nav navbar-nav">
+      <!-- User Account: style can be found in dropdown.less -->
+      <li class="dropdown user user-menu">
+        <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+          <img src="/dist/img/default_profile.png" class="user-image" alt="User Image" />
+          <span class="hidden-xs" th:inline="text">[[${#httpServletRequest.remoteUser}]]</span>
+        </a>
+        <ul class="dropdown-menu">
+          <!-- User image -->
+          <li class="user-header">
+            <img src="/dist/img/default_profile.png" class="img-circle" alt="User Image" />
+
+            <p th:inline="text">[[${#httpServletRequest.remoteUser}]]
+            </p>
+          </li>
+          <!-- Menu Footer-->
+          <li class="user-footer">
+            <div class="pull-right">
+              <a href="/logout" class="btn btn-default btn-flat">Logout</a>
             </div>
-          </a>
-          <div class="dropdown-menu user-panel">
-            <ul>
-              <li>
-                <a>
-                  <span>Log out</span>
-                </a>
-              </li>
-            </ul>
-          </div>
-        </div>
-      </div>
-      <div class="clearfix">
-    </div>
+          </li>
+        </ul>
+      </li>
+      <!-- Control Sidebar Toggle Button -->
+      <!--<li>-->
+        <!--<a href="#" data-toggle="control-sidebar"><i class="fa fa-gears"></i></a>-->
+      <!--</li>-->
+    </ul>
   </div>
-</header>
+</nav>
