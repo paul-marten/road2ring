@@ -5,6 +5,7 @@ import static com.r2r.road2ring.modules.common.Static.ROLE_ID;
 import com.r2r.road2ring.modules.common.R2rTools;
 import com.r2r.road2ring.modules.common.Road2RingException;
 import com.r2r.road2ring.modules.common.Static;
+import com.r2r.road2ring.modules.consumer.Consumer;
 import com.r2r.road2ring.modules.mail.MailClient;
 import com.r2r.road2ring.modules.role.Role;
 import java.util.Date;
@@ -76,6 +77,8 @@ public class UserService {
     // otherwise reject
     /**************************** END BLOCK ************************************************/
 
+
+
     MultiValueMap<String, String> map = new LinkedMultiValueMap<String, String>();
     map.add("username", email);
     map.add("password", password);
@@ -130,17 +133,22 @@ public class UserService {
     }
 
     User saved = new User();
-    Role role = new Role();
-    role.setId(ROLE_ID);
+    Role role;
+    if(user.getRole() == null) {
+      role = new Role();
+      role.setId(ROLE_ID);
+    }else{
+      role = user.getRole();
+    }
 
     saved.setRole(role);
-    saved.setBirthday( user.getUserBirthday() == 0 ? null : new Date(user.getUserBirthday()));
+    saved.setBirthday( user.getUserBirthday() == null || user.getUserBirthday() == 0 ? null : new Date(user.getUserBirthday()));
     saved.setPassword(r2rTools.hashingPassword(user.getPassword()));
 
     saved.setEmail(user.getEmail());
     saved.setRegisterDate(new Date());
     saved.setVerificationCode(this.generateVerificationCode());
-    saved.setActivation(Static.IS_NOT_ACTIVE);
+    saved.setActivation(user.getActivation() == null ? Static.IS_NOT_ACTIVE : Static.IS_ACTIVE);
 
     saved = userRepository.save(saved);
 
