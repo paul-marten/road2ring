@@ -52,6 +52,9 @@ public class r2rUserDetailsService implements UserDetailsService {
 
     try {
       consumer = userRepository.findOneByEmailIgnoreCase(userId);
+      if(consumer.getRole().getId() == 1){
+        return null;
+      }
       authorities = buildUserAuthority(consumer.getRole());
       user = new User(consumer.getEmail(), consumer.getPassword(), authorities);
     } catch (Exception e) {
