@@ -20,6 +20,11 @@ public class AccessoryCategoryService {
     return accessoryCategoryRepository.findAll();
   }
 
+  public List<AccessoryCategory> getAutoCompleteCaptain(String keyword){
+//    return roadCaptainRepository.findTop5ByNameIgnoreCaseContainingOrderByNameAsc(keyword);
+    return accessoryCategoryRepository.findTop5ByStatusAndTitleIgnoreCaseContaining(PublishedStatus.PUBLISHED, keyword);
+  }
+
   public AccessoryCategory saveAccessoryCategory(AccessoryCategory accessoryCategory){
     AccessoryCategory saved = new AccessoryCategory();
     if(accessoryCategory.getId() != 0 && accessoryCategory.getId() != null){

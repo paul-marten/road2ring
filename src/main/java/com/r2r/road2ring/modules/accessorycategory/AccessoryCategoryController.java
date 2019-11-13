@@ -63,15 +63,15 @@ public class AccessoryCategoryController {
     return "redirect:/accessory-category";
   }
 
-  @RequestMapping(value = "/{categoryId}/sub-category", method = RequestMethod.GET)
-  public String indexSubCategory(@PathVariable("categoryId") Integer categoryId,Model model) {
+  @RequestMapping(value = "/sub-category", method = RequestMethod.GET)
+  public String indexSubCategory(Model model) {
     ResponseMessage response = new ResponseMessage();
     model.addAttribute("response", response);
     return "admin/page/accessory-subcategory";
   }
 
-  @RequestMapping(value = "/{categoryId}/sub-category/add", method = RequestMethod.GET)
-  public String addSubCategory(@PathVariable("categoryId") Integer categoryId,Model model) {
+  @RequestMapping(value = "/sub-category/add", method = RequestMethod.GET)
+  public String addSubCategory(Model model) {
     ResponseMessage response = new ResponseMessage();
     AccessorySubCategory accessorySubCategory = new AccessorySubCategory();
     response.setObject(accessorySubCategory);
@@ -79,8 +79,8 @@ public class AccessoryCategoryController {
     return "admin/forms/accessory-subcategory";
   }
 
-  @RequestMapping(value = "/{categoryId}/sub-category/edit", method = RequestMethod.GET)
-  public String editSubcategory(@PathVariable("categoryId") Integer categoryId,Model model, @RequestParam int id) {
+  @RequestMapping(value = "/sub-category/edit", method = RequestMethod.GET)
+  public String editSubcategory(Model model, @RequestParam int id) {
     ResponseMessage response = new ResponseMessage();
     AccessorySubCategory accessorySubCategory = accessorySubCategoryService.getAccessorySubCategroryById(id);
     response.setObject(accessorySubCategory);
@@ -88,14 +88,14 @@ public class AccessoryCategoryController {
     return "admin/forms/accessory-subcategory";
   }
 
-  @RequestMapping(value = "/{categoryId}/sub-category/save", method = RequestMethod.POST)
-  public String saveSubCategory(@PathVariable("categoryId") Integer categoryId,
-      @ModelAttribute AccessorySubCategory accessorySubCategory, Model model, Principal principal) {
+  @RequestMapping(value = "/sub-category/save", method = RequestMethod.POST)
+  public String saveSubCategory(@ModelAttribute AccessorySubCategory accessorySubCategory,
+      Model model, Principal principal) {
     ResponseMessage response = new ResponseMessage();
-    response.setObject(accessorySubCategoryService.save(accessorySubCategory,categoryId));
+    response.setObject(accessorySubCategoryService.save(accessorySubCategory));
     model.addAttribute("response", response);
 
-    return "redirect:/{"+categoryId+"}/accessory-subcategory";
+    return "redirect:/accessory-category/sub-category";
   }
 
 }

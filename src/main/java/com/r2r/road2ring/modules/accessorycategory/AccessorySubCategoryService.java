@@ -1,6 +1,7 @@
 package com.r2r.road2ring.modules.accessorycategory;
 
 import com.r2r.road2ring.modules.common.PublishedStatus;
+import com.r2r.road2ring.modules.common.Road2RingException;
 import java.util.ArrayList;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,17 +23,24 @@ public class AccessorySubCategoryService {
     return result;
   }
 
+
+  public List<AccessorySubCategory> findAllSubCategory(){
+    return accessorySubCategoryRepository.findAll();
+  }
   public AccessorySubCategory getOneByName(String name){
     return accessorySubCategoryRepository.findAllByTitleIgnoreCaseNotLikeAndStatus(name,PublishedStatus.PUBLISHED);
   }
 
-  public List<AccessorySubCategory> findAllDummySubCategory(Integer accessoryCategoryId){
+  public AccessoryCategoryView findAllDummySubCategory(Integer accessoryCategoryId){
 
-    return this.generateDataDummy();
+    AccessoryCategoryView result = new AccessoryCategoryView();
+    result.setCategoryName("Safety");
+    result.setSubCategories(this.generateDataDummy());
+    return result;
   }
 
-  public AccessorySubCategory save(AccessorySubCategory accessorySubCategory,Integer categoryId){
-    AccessoryCategory category = accessoryCategoryService.getAccessoryCategoryById(categoryId);
+  public AccessorySubCategory save(AccessorySubCategory accessorySubCategory){
+    AccessoryCategory category = accessoryCategoryService.getAccessoryCategoryById(accessorySubCategory.getAccessoryCategory().getId());
     accessorySubCategory.setAccessoryCategory(category);
     accessorySubCategory.setStatus(PublishedStatus.UNPUBLISHED);
     return accessorySubCategoryRepository.save(accessorySubCategory);
@@ -70,4 +78,9 @@ public class AccessorySubCategoryService {
 
   }
 
+  public void changeStatus(PublishedStatus statusId, int id) throws Road2RingException {
+    AccessorySubCategory save = accessorySubCategoryRepository.findOne(id);
+    save.setStatus(statusId);
+    accessorySubCategoryRepository.save(save);
+  }
 }
