@@ -3,6 +3,7 @@ package com.r2r.road2ring.modules.accessory;
 import com.r2r.road2ring.modules.accessorycategory.AccessoryCategory;
 import com.r2r.road2ring.modules.accessorycategory.AccessoryCategoryService;
 import com.r2r.road2ring.modules.accessorycategory.AccessoryCategoryView;
+import com.r2r.road2ring.modules.accessorycategory.AccessorySubCategory;
 import com.r2r.road2ring.modules.accessorycategory.AccessorySubCategoryService;
 import java.util.ArrayList;
 import java.util.List;
@@ -61,10 +62,14 @@ public class AccessoryViewService {
     return result;
   }
 
-  public List<AccessoryView> getListAccessoriesBySubCategoryName(String subCategoryName){
-    Integer accessorySubCategoryId = accessorySubCategoryService.getOneByName(subCategoryName).getId();
+  public AccessoryCategoryView getListAccessoriesBySubCategory(Integer accessorySubCategoryId){
+    AccessorySubCategory subCategory = accessorySubCategoryService.getAccessorySubCategroryById(accessorySubCategoryId);
     List<Accessory> accessories = accessoryService.getAllAccessoryBySubCategory(accessorySubCategoryId);
-    List<AccessoryView> result = this.bindListAccessoryView(accessories);
+    AccessoryCategoryView result = new AccessoryCategoryView();
+
+    result.setCategoryName(subCategory.getTitle());
+
+    result.setAccessories(this.bindListAccessoryView(accessories));
     return result;
   }
 
