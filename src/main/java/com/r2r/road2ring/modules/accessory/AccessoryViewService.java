@@ -70,7 +70,7 @@ public class AccessoryViewService {
   public AccessoryCategoryView getListAccessoriesBySubCategory(Integer accessorySubCategoryId){
     AccessoryCategoryView result = new AccessoryCategoryView();
     List<Accessory> accessories = new ArrayList<Accessory>();
-    if(accessorySubCategoryId != null) {
+    if(accessorySubCategoryId != 0) {
       AccessorySubCategory subCategory = accessorySubCategoryService
           .getAccessorySubCategroryById(accessorySubCategoryId);
       accessories = accessoryService
