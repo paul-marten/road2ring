@@ -68,11 +68,17 @@ public class AccessoryViewService {
   }
 
   public AccessoryCategoryView getListAccessoriesBySubCategory(Integer accessorySubCategoryId){
-    AccessorySubCategory subCategory = accessorySubCategoryService.getAccessorySubCategroryById(accessorySubCategoryId);
-    List<Accessory> accessories = accessoryService.getAllAccessoryBySubCategory(accessorySubCategoryId);
     AccessoryCategoryView result = new AccessoryCategoryView();
-
-    result.setCategoryName(subCategory.getTitle());
+    List<Accessory> accessories = new ArrayList<Accessory>();
+    if(accessorySubCategoryId != null) {
+      AccessorySubCategory subCategory = accessorySubCategoryService
+          .getAccessorySubCategroryById(accessorySubCategoryId);
+      accessories = accessoryService
+          .getAllAccessoryBySubCategory(accessorySubCategoryId);
+      result.setCategoryName(subCategory.getTitle());
+    }else{
+      accessories = accessoryService.getAllAccessory();
+    }
 
     result.setAccessories(this.bindListAccessoryView(accessories));
     return result;
