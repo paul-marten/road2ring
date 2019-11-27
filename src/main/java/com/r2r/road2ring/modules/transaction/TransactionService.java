@@ -130,7 +130,7 @@ public class TransactionService {
     Transaction result = new Transaction();
     TripPrice tripPrice = null;
     Date created  = new Date();
-    String midtransToken;
+    String midtransToken ="";
 
     Calendar cal = Calendar.getInstance();
     cal.setTime(created);
@@ -184,6 +184,7 @@ public class TransactionService {
       view.setLastPayment(newDate);
       view.setTotalPrice(result.getPrice());
       view.setTransactionCodeId(result.getCode());
+      view.setMidtransToken(midtransToken);
 
       /*CREATE EMAIL DATA INVOICE*/
 

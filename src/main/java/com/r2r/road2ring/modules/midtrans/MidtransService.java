@@ -51,9 +51,6 @@ public class MidtransService {
   public String checkoutTrip(List<TransactionDetail> accessories, TransactionDetail motor,
       Transaction transaction, TripPrice tripPrice, User user) throws MidtransError{
     Map<String, Object> requestBody = new HashMap<>();
-    List<String> paymentList = new ArrayList<>();
-
-    Map<String, Object> params = new HashMap<>();
 
     Map<String,String> transactionDetails = this.buildTransactionDetails(transaction);
     List<Map<String, String>> itemDetails = this.buildItemDetails(motor,accessories,tripPrice,transaction);
@@ -63,13 +60,13 @@ public class MidtransService {
     Map<String,String> creditCard = this.buildCreditCard();
     Map<String,String> expiry = this.buildExpire();
 
-    params.put("transaction_details", transactionDetails);
-    params.put("item_details", itemDetails);
-    params.put("customer_details", customerDetails);
-    params.put("enabled_payments", listedPayment);
-    params.put("bca_va", bcaVA);
-    params.put("credit_card", creditCard);
-    params.put("expiry", expiry);
+    requestBody.put("transaction_details", transactionDetails);
+    requestBody.put("item_details", itemDetails);
+    requestBody.put("customer_details", customerDetails);
+    requestBody.put("enabled_payments", listedPayment);
+    requestBody.put("bca_va", bcaVA);
+    requestBody.put("credit_card", creditCard);
+    requestBody.put("expiry", expiry);
 
 
     return snapApi.createTransactionToken(requestBody);
@@ -137,6 +134,13 @@ public class MidtransService {
 
     itemDetails.add(this.buildTripItem(transaction,tripPrice));
 
+//    if(transaction.getPillion()){
+//      itemDetails.addAll(this.buildPiliionItem(tripPrice));
+//    }
+//    if(transaction.getSingleRoom()){
+//      itemDetails.add(this.buildSingleRoomItem(tripPrice));
+//    }
+
     if(motor != null){
       itemDetails.add(this.buildItem(motor));
     }
@@ -157,6 +161,40 @@ public class MidtransService {
     item.put("category","Trip");
     item.put("quantity","1");
     item.put("price",tripPrice.getPrice().toString());
+
+    return item;
+  }
+
+  private List<Map<String, String>> buildPiliionItem(TripPrice tripPrice) {
+    List<Map<String, String>> items = new ArrayList<>();
+    Map<String, String> item = new HashMap<>();
+
+    item.put("name","Additional Passenger Food");
+    item.put("brand","Road2Ring");
+    item.put("category","Pillion");
+    item.put("quantity","1");
+    item.put("price",tripPrice.getTripPriceDetail().getFoodPrice().toString());
+
+    items.add(item);
+
+    item.put("name","Additional Passenger Hotel");
+    item.put("brand","Road2Ring");
+    item.put("category","Pillion");
+    item.put("quantity","1");
+    item.put("price",tripPrice.getTripPriceDetail().getHotelPrice().toString());
+
+    items.add(item);
+
+    return items;
+  }
+  private Map<String, String> buildSingleRoomItem(TripPrice tripPrice) {
+    Map<String, String> item = new HashMap<>();
+
+    item.put("name","Single Hotel Room");
+    item.put("brand","Road2Ring");
+    item.put("category","Single Hotel");
+    item.put("quantity","1");
+    item.put("price",tripPrice.getTripPriceDetail().getHotelPrice().toString());
 
     return item;
   }
