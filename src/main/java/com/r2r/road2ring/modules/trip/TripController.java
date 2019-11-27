@@ -6,6 +6,8 @@ import com.r2r.road2ring.modules.facility.Facility;
 import com.r2r.road2ring.modules.facility.FacilityService;
 import com.r2r.road2ring.modules.itinerary.Itinerary;
 import com.r2r.road2ring.modules.itinerary.ItineraryService;
+import com.r2r.road2ring.modules.motor.Motor;
+import com.r2r.road2ring.modules.motor.MotorService;
 import java.security.Principal;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -35,6 +37,11 @@ public class TripController {
 
   FacilityService facilityService;
 
+  MotorService motorService;
+
+  @Autowired
+  TripPriceMotorService tripPriceMotorService;
+
   @Autowired
   public void setFacilityService(FacilityService facility) {
     this.facilityService = facility;
@@ -48,6 +55,11 @@ public class TripController {
   @Autowired
   public void setItineraryService(ItineraryService itineraryService) {
     this.itineraryService = itineraryService;
+  }
+
+  @Autowired
+  public void setMotorService(MotorService motorService) {
+    this.motorService = motorService;
   }
 
   @Autowired
@@ -234,5 +246,59 @@ public class TripController {
     model.addAttribute("response", response);
     model.addAttribute("action", "/trip/"+tripId+"/price-list/save");
     return "admin/forms/price-list";
+  }
+
+  @RequestMapping(value = "/{tripId}/price-list/{tripPriceId}/bike",method = RequestMethod.GET)
+  public String listBikeTripPrice(@PathVariable("tripId") int tripId,
+      @PathVariable("tripId") int tripPriceId, Model model) {
+
+    ResponseMessage response = new ResponseMessage();
+    model.addAttribute("response", response);
+    return "admin/page/trip-bike";
+  }
+  @RequestMapping(value = "/{tripId}/price-list/{tripPriceId}/bike/add",method = RequestMethod.GET)
+  public String addBikeTripPrice(@PathVariable("tripId") int tripId,
+      @PathVariable("tripPriceId") int tripPriceId, Model model) {
+
+    ResponseMessage response = new ResponseMessage();
+    TripPriceMotor tripPriceMotor = new TripPriceMotor();
+    Motor motor = new Motor();
+    tripPriceMotor.setBike(motor);
+    response.setObject(tripPriceMotor);
+    model.addAttribute("response", response);
+    model.addAttribute("action", "/trip/"+tripId+"/price-list/"+tripPriceId+"/bike/save");
+    model.addAttribute("tripPriceId", tripPriceId);
+    return "admin/forms/bike";
+  }
+
+  @RequestMapping(value = "/{tripId}/price-list/{tripPriceId}/bike/edit",method = RequestMethod.GET)
+  public String addBikeTripPrice(@PathVariable("tripId") int tripId,
+      @PathVariable("tripPriceId") int tripPriceId, Model model, @RequestParam int id) {
+
+    ResponseMessage response = new ResponseMessage();
+    TripPriceMotor tripPriceMotor = tripPriceMotorService.getOneTripPriceMotor(id);
+    Motor motor = motorService.getMotoyrById(tripPriceMotor.getBike().getId());
+    tripPriceMotor.setBike(motor);
+    response.setObject(tripPriceMotor);
+    model.addAttribute("response", response);
+    model.addAttribute("action", "/trip/"+tripId+"/price-list/"+tripPriceId+"/bike/save");
+    model.addAttribute("tripPriceId", tripPriceId);
+    return "admin/forms/bike";
+  }
+  @RequestMapping(value = "/{tripId}/price-list/{tripPriceId}/bike/save",method = RequestMethod.POST)
+  public String saveBikeTripPrice(@ModelAttribute TripPriceMotor tripPriceMotor, @PathVariable("tripId") int tripId,
+      @PathVariable("tripPriceId") int tripPriceId, Model model) {
+
+    if(!tripPriceMotorService.ifExist(tripPriceMotor, tripPriceId)) {
+      tripPriceMotorService.saveTripPriceMotor(tripPriceMotor, tripPriceId);
+      return "redirect:/trip/" + tripId + "/price-list/" + tripPriceId + "/bike";
+    }
+    else{
+      if(tripPriceMotor.getId() != null && tripPriceMotor.getId() != 0)
+        return "redirect:/trip/"+ tripId +"/price-list/"+tripPriceId+"/bike/edit?id="+tripPriceMotor.getId()+"&exists=true";
+      else
+        return "redirect:/trip/"+ tripId +"/price-list/"+tripPriceId+"/bike/add?exists=true";
+    }
+
   }
 }

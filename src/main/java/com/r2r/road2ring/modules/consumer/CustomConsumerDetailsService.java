@@ -5,6 +5,9 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+
+import com.r2r.road2ring.modules.user.User;
+import com.r2r.road2ring.modules.user.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.security.core.GrantedAuthority;
@@ -19,11 +22,11 @@ import org.springframework.transaction.annotation.Transactional;
 @Qualifier("customConsumerDetailsService")
 public class CustomConsumerDetailsService implements UserDetailsService {
 
-  private ConsumerRepository consumerRepository;
+  private UserRepository userRepository;
 
   @Autowired
-  public void setConsumerRepository(ConsumerRepository consumerRepository){
-    this.consumerRepository = consumerRepository;
+  public void setUserRepository(UserRepository userRepository){
+    this.userRepository = userRepository;
   }
 
   @Transactional(readOnly=true)
@@ -31,13 +34,17 @@ public class CustomConsumerDetailsService implements UserDetailsService {
   public UserDetails loadUserByUsername(final String email)
       throws UsernameNotFoundException {
     /*Consumer in SI*/
-    Consumer consumer = consumerRepository.findByEmail(email);
-    List<GrantedAuthority> authorities = buildUserAuthority(consumer.getRole());
-    return buildUserForAuthentication(consumer, authorities) ;
+    User user = userRepository.findOneByEmailIgnoreCase(email);
+    List<GrantedAuthority> authorities = buildUserAuthority(user.getRole());
+
+    if(user.getRole().getId() == 2){
+      throw new UsernameNotFoundException("user not found");
+    }
+    return buildUserForAuthentication(user, authorities) ;
 
   }
 
-  public ConsumerDetail loadUserByConsumer(Consumer consumer)
+  public ConsumerDetail loadUserByConsumer(User consumer)
       throws UsernameNotFoundException {
 
 
@@ -46,7 +53,7 @@ public class CustomConsumerDetailsService implements UserDetailsService {
 
   }
 
-  private ConsumerDetail buildUserForAuthentication(Consumer consumer,
+  private ConsumerDetail buildUserForAuthentication(User consumer,
       List<GrantedAuthority> authorities) {
     return new ConsumerDetail(consumer.getEmail(), consumer.getPassword(), authorities, consumer);
   }

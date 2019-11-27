@@ -1,6 +1,10 @@
 package com.r2r.road2ring.modules.accessory;
 
+import com.r2r.road2ring.modules.accessorycategory.AccessoryCategory;
 import com.r2r.road2ring.modules.accessorycategory.AccessoryCategoryService;
+import com.r2r.road2ring.modules.accessorycategory.AccessoryCategoryView;
+import com.r2r.road2ring.modules.accessorycategory.AccessorySubCategory;
+import com.r2r.road2ring.modules.accessorycategory.AccessorySubCategoryService;
 import java.util.ArrayList;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,6 +18,9 @@ public class AccessoryViewService {
   AccessoryCategoryService accessoryCategoryService;
 
   @Autowired
+  AccessorySubCategoryService accessorySubCategoryService;
+
+  @Autowired
   public void setAccessoryService(AccessoryService accessoryService){
     this.accessoryService = accessoryService;
   }
@@ -21,6 +28,11 @@ public class AccessoryViewService {
   @Autowired
   public void setAccessoryCategoryService(AccessoryCategoryService accessoryCategoryService){
     this.accessoryCategoryService = accessoryCategoryService;
+  }
+
+  public AccessoryView getAccessoryById(Integer accessoryId){
+    Accessory result = accessoryService.getAccessoryById(accessoryId);
+    return this.bindAccessoryView(result);
   }
 
   public AccessoryView bindAccessoryView(Accessory accessory){
@@ -54,5 +66,24 @@ public class AccessoryViewService {
     List<AccessoryView> result = this.bindListAccessoryView(accessories);
     return result;
   }
+
+  public AccessoryCategoryView getListAccessoriesBySubCategory(Integer accessorySubCategoryId){
+    AccessoryCategoryView result = new AccessoryCategoryView();
+    List<Accessory> accessories = new ArrayList<Accessory>();
+    if(accessorySubCategoryId != 0) {
+      AccessorySubCategory subCategory = accessorySubCategoryService
+          .getAccessorySubCategroryById(accessorySubCategoryId);
+      accessories = accessoryService
+          .getAllAccessoryBySubCategory(accessorySubCategoryId);
+      result.setCategoryName(subCategory.getTitle());
+    }else{
+      accessories = accessoryService.getAllAccessory();
+    }
+
+    result.setAccessories(this.bindListAccessoryView(accessories));
+    return result;
+  }
+
+
 
 }

@@ -1,7 +1,7 @@
 $(document).ready( function () {
-	 var table = $('#rsp-tbl').DataTable({
+	 if (/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)) {    				$("div.mobile-tbl").addClass("mbl-tbl");    			}	 var table = $('#rsp-tbl').DataTable({
 	 "dom": '<"row"<"col-sm-2"<"newRecord">><"col-sm-10"<"toolbar">>><"row"<"col-sm-12"tr>><"row"<"col-sm-6"i><"col-sm-6"p>>',
-			"sAjaxSource": "/api/captain/data",
+			"sAjaxSource": "/api/user/rc/data",
 			"sAjaxDataProp": "",
 			"aoColumns": [
 			    {"mData": "id",
@@ -12,10 +12,15 @@ $(document).ready( function () {
                 $(td).attr('data-th', 'No.');
             }
           },
-          { "mData": "name"},
-			    { "mData": "description"},
-			    { "mData": "status"},
-			    { "mData": "id",
+            { "mData": "fullName",
+            "createdCell": function(td, cellData, rowData, row, col) {
+                $(td).attr('data-th', 'Name');
+            }},
+            { "mData": "email",
+            "createdCell": function(td, cellData, rowData, row, col) {
+                $(td).attr('data-th', 'Email');
+            }},
+            { "mData": "id",
             "width": "10%",
             "searchable": false,
             "orderable": false,
@@ -49,10 +54,7 @@ $(document).ready( function () {
         "searchable": false,
         "orderable": true,
         "targets": 0
-      },{
-        "targets": 3,
-        "visible": false
-      } ],
+      },],
       "order": [[ 3, "asc" ]],
 
 	 });
@@ -68,7 +70,6 @@ $(document).ready( function () {
 //  var filterCaptain = '&nbsp;<input class="form-control findCaptain" size="24" type="text" name="findCaptain" placeholder="Find Specific Captain">';
   var filterTitle = '&nbsp;<input class="form-control findTitle" size="47" type="text" name="findTitle" placeholder="Find Specific Captain Name">';
   var filter = filterTitle;
-  $("div.newRecord").html(btnNew);
   $("div.toolbar").html(filter);
 
   $('.isIncluded').on('change', function(event){
@@ -95,19 +96,15 @@ $(document).ready( function () {
       /* Act on the event */
       var data = table.row( $(this).parents('tr') ).data()
       console.log(data)
-//        if(data.tripPrices == 0){
-//          alert("Trip Price atau Itinerary Kosong, harap input data terlebih dahulu sebelum publish")
-//        }else{
         var hide_id = $(this).parent().parent().parent().find('input').val();
         $('#publishConfirm').popup('show');
         $('#publishConfirm input[name=api_id]').val(data.id);
-//        }
       return false;
   });
 
   $(document).on("click", '#publishConfirm .do-it', function() {
       var dataId = $('#publishConfirm input[name=api_id]').val()
-      $.post( "/api/captain/change-status/"+ dataId + "/PUBLISHED").done(function(data) {
+      $.post("/api/user/remove-rc",{ id: dataId }).done(function(data) {
         window.location.reload()
       })
   });
@@ -116,27 +113,7 @@ $(document).ready( function () {
       /* Act on the event */
       $('#publishConfirm').popup('hide');
   });
-
-  $(document).on('click', '#unpublishContent', function() {
-      /* Act on the event */
-      var data = table.row( $(this).parents('tr') ).data()
-      $('#takeoutConfirm').popup('show');
-      $('#takeoutConfirm input[name=api_id]').val(data.id);
-      return false;
-  });
-
-  $(document).on("click", '#takeoutConfirm .do-it', function() {
-      var dataId = $('#takeoutConfirm input[name=api_id]').val()
-      $.post( "/api/captain/change-status/"+ dataId + "/UNPUBLISHED").done(function(data) {
-        window.location.reload()
-      })
-  });
-
-  $(document).on('click', '#takeoutConfirm .cancel', function(event) {
-      /* Act on the event */
-      $('#takeoutConfirm').popup('hide');
-  });
-});
+ });
 
  function drawListAction(rowData, cellData) {
   //Draw button Edit
@@ -147,25 +124,9 @@ $(document).ready( function () {
                           }));
   var btnEdit = $('<li>').append(iconEdit).append(textEdit);
 
-//  var iconEdit = $('<span>').append($('<i>', {'class':'icon-icon_edit'}));
-//  var textFacility =$('<span>').append( $('<a>', {
-//                                'text':'Facility ',
-//                                'href': '/trip/'+cellData+'/facility',
-//                            }));
-//  var btnFacility= $('<li>').append(textFacility);
-//
-
-//  var iconEdit = $('<span>').append($('<i>', {'class':'icon-icon_edit'}));
-//  var textIternary =$('<span>').append( $('<a>', {
-//                                'text':'Iternary ',
-//                                'href': '/trip/'+cellData+'/itinerary',
-//                            }));
-//  var btnIternary= $('<li>').append(textIternary);
-
-  //Draw buttom Publish
   var iconPublish =$('<span>').append($('<i>', {'class':'icon-icon_publish'}));
   var textPublish =$('<span>').append( $('<a>', {
-                                  'text':'Publish ',
+                                  'text':'remove ',
                                   'href': '',
                               }));
   var btnPublish = $('<li>', {'id':'publishContent'}).append(iconPublish).append(textPublish);
@@ -176,23 +137,8 @@ $(document).ready( function () {
                                   'text':'Unpublish',
                                   'href': '',
                               }));
-  var btnUnpublish = $('<li>', {'id':'unpublishContent'}).append(iconUnpublish).append(textUnpublish);
 
-  //Draw button Scheduled
-//  var iconScheduled = $('<span>').append($('<i>', {'class':'icon-icon_schedule_post'}));
-//  var textScheduled =$('<span>').append( $('<a>', {
-//                                      'text':'Schedule Publish',
-//                                      'href': '',
-//                                      }));
-//  var btnScheduled = $('<li>', {'id':'schedule'}).append(iconScheduled).append(textScheduled);
-  var list = btnEdit.add(btnPublish);
+  var list = btnPublish;
 
-  if (rowData.status == "PUBLISHED") {
-                  btnScheduled = $('<li>', {'style':'display: none;'});
-                  list = btnEdit.add(btnUnpublish);
-  }
-  if (rowData.status == "SCHEDULED") {
-      list = btnEdit.add(btnPublish).add(btnUnpublish).add(btnScheduled);
-  }
   return list;
 }

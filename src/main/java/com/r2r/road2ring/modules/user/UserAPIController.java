@@ -1,5 +1,6 @@
 package com.r2r.road2ring.modules.user;
 
+import static com.r2r.road2ring.modules.common.Static.API;
 import static com.r2r.road2ring.modules.common.Static.IMAGE_ASSETS_URL;
 import static com.r2r.road2ring.modules.common.Static.M_API;
 import static com.r2r.road2ring.modules.common.Static.USER;
@@ -9,6 +10,8 @@ import com.r2r.road2ring.modules.common.Road2RingException;
 import com.r2r.road2ring.modules.common.UploadService;
 import java.io.IOException;
 import java.security.Principal;
+import java.util.ArrayList;
+import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import org.apache.tomcat.util.http.fileupload.FileUploadBase.FileSizeLimitExceededException;
@@ -29,7 +32,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
 @RestController
-@RequestMapping(value = M_API + USER)
+@RequestMapping(value = {M_API + USER, API + USER})
 @CrossOrigin
 public class UserAPIController {
 
@@ -38,6 +41,9 @@ public class UserAPIController {
   UploadService uploadService;
 
   UserViewService userViewService;
+
+  @Autowired
+  UserRequestRoleService userRequestRoleService;
 
   @Autowired
   public void setUserService(UserService userService){
@@ -214,6 +220,84 @@ public class UserAPIController {
       httpStatus.setStatus(HttpStatus.BAD_REQUEST.value());
     }
     return response;
+  }
+
+  /**
+   * RC Request
+   */
+
+  @PostMapping(value="/request-rc")
+  public ResponseMessage requestRc(Principal principal,
+      HttpServletResponse httpStatus){
+    ResponseMessage response = new ResponseMessage();
+    try{
+      if(principal != null ){
+        Authentication auth = (Authentication) principal;
+        UserDetails currentConsumer = (UserDetails) auth.getPrincipal();
+        User user = userService.findUserByEmail(currentConsumer.getUsername());
+
+        response.setObject(userRequestRoleService.save(user));
+      }
+    }catch (Road2RingException e){
+      response.setCode(800);
+      response.setMessage(e.getMessage());
+      httpStatus.setStatus(HttpStatus.BAD_REQUEST.value());
+    }catch (Exception e){
+      response.setCode(800);
+      response.setMessage(e.getMessage());
+      httpStatus.setStatus(HttpStatus.BAD_REQUEST.value());
+    }
+    return response;
+
+  }
+
+  @PostMapping(value="/approve-rc")
+  public ResponseMessage approveRoadCaptain(@ModelAttribute UserRequestRole userRequestRole,
+      HttpServletResponse httpStatus){
+    ResponseMessage response = new ResponseMessage();
+    try{
+      userRequestRoleService.update(userRequestRole);
+    }catch (Exception e){
+      response.setCode(800);
+      response.setMessage(e.getMessage());
+      httpStatus.setStatus(HttpStatus.BAD_REQUEST.value());
+    }
+    return response;
+  }
+
+  @PostMapping(value="/remove-rc")
+  public ResponseMessage removeRoadCaptain(@ModelAttribute User user,
+      HttpServletResponse httpStatus){
+    ResponseMessage response = new ResponseMessage();
+    try{
+      userService.update(user);
+    }catch (Exception e){
+      response.setCode(800);
+      response.setMessage(e.getMessage());
+      httpStatus.setStatus(HttpStatus.BAD_REQUEST.value());
+    }
+    return response;
+  }
+
+  @RequestMapping(value = "/request-rc/data", method = RequestMethod.GET)
+  public List<UserRequestRoleView> datatable(
+      HttpServletRequest request) {
+
+    return userRequestRoleService.bindUserRequestRole(userRequestRoleService.getAllRequest());
+  }
+
+  @RequestMapping(value = "/rc/data", method = RequestMethod.GET)
+  public List<UserViewDetail> dataRole(
+      HttpServletRequest request) {
+
+    List<User> user = userService.rcList();
+    List<UserViewDetail> userViewDetailList = new ArrayList<>();
+
+    for(User u : user){
+      userViewDetailList.add(userViewService.bindUserViewDetail(u));
+    }
+
+    return userViewDetailList;
   }
 
 }

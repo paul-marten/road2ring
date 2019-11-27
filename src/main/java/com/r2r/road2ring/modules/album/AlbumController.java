@@ -65,6 +65,6 @@ public class AlbumController {
 
     response.setObject(albumService.saveAlbum(album));
     model.addAttribute("response", response);
-    return "admin/page/album";
+    return "redirect:/album";
   }
 }

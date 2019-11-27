@@ -1,13 +1,16 @@
 package com.r2r.road2ring.modules.transaction;
 
 import com.r2r.road2ring.modules.common.PaymentStatus;
+import com.r2r.road2ring.modules.common.TripStatus;
 import com.r2r.road2ring.modules.motor.Motor;
 import com.r2r.road2ring.modules.motor.MotorRepository;
+import com.r2r.road2ring.modules.trip.Trip;
 import com.r2r.road2ring.modules.trip.TripPriceRepository;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+import java.util.Random;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -35,6 +38,7 @@ public class TransactionViewService {
     }
     return transactionViews;
   }
+
 
   public TransactionView bindTransactionView(Transaction transaction){
     TransactionView result = new TransactionView();
@@ -133,6 +137,38 @@ public class TransactionViewService {
     result.setPrice(transactionDetail.getPrice());
     result.setSize(transactionDetail.getSize());
     result.setPicture(transactionDetail.getPicture());
+    return result;
+  }
+
+
+  public List<TransactionView> createDummyMyTransaction(List<Trip> trips){
+    List<TransactionView> result = new ArrayList<TransactionView>();
+    for (Trip item :
+        trips) {
+      result.add(this.bindTransactionViewDummy(item));
+    }
+    return result;
+  }
+
+  public TransactionView bindTransactionViewDummy(Trip trip){
+    Random rand = new Random();
+    TransactionView result = new TransactionView();
+    result.setId(trip.getId());
+    result.setTitle(trip.getTitle());
+    result.setDuration(trip.getDuration());
+    result.setCoverLandscape(trip.getCoverLandscape());
+    result.setCoverPortrait(trip.getCoverPotrait());
+    result.setIconCover(trip.getIconCover());
+    result.setIconPublisher(trip.getIconPublisher());
+    result.setLocation(trip.getLocation());
+    result.setTripPrice(20);
+    result.setExpiredDate(new Date());
+    result.setStartDate(new Date());
+    result.setCode("MIAKHALIFA");
+    result.setTripStatus(TripStatus.values()[rand.nextInt(TripStatus.values().length)]);
+    result.setPaymentStatus(PaymentStatus.values()[rand.nextInt(PaymentStatus.values().length)]);
+
+
     return result;
   }
 }

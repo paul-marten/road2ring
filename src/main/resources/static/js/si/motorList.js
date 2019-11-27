@@ -1,5 +1,5 @@
 $(document).ready( function () {
-	 var table = $('#rsp-tbl').DataTable({
+	 if (/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)) {    				$("div.mobile-tbl").addClass("mbl-tbl");    			}	 var table = $('#rsp-tbl').DataTable({
 	 "dom": '<"row"<"col-sm-2"<"newRecord">><"col-sm-10"<"toolbar">>><"row"<"col-sm-12"tr>><"row"<"col-sm-6"i><"col-sm-6"p>>',
 			"sAjaxSource": "/api/motor/data",
 			"sAjaxDataProp": "",
@@ -12,11 +12,22 @@ $(document).ready( function () {
                 $(td).attr('data-th', 'No.');
             }
           },
-          { "mData": "title"},
-			    { "mData": "capacity"},
-			    { "mData": "brand"},
-			    { "mData": "price"},
-			    { "mData": "status"},
+          { "mData": "title",
+            "createdCell": function(td, cellData, rowData, row, col) {
+                $(td).attr('data-th', 'Title');
+            }},
+			    { "mData": "capacity",
+            "createdCell": function(td, cellData, rowData, row, col) {
+                $(td).attr('data-th', 'Capacity(cc)');
+            }},
+			    { "mData": "brand",
+            "createdCell": function(td, cellData, rowData, row, col) {
+                $(td).attr('data-th', 'Brand');
+            }},
+			    { "mData": "status",
+            "createdCell": function(td, cellData, rowData, row, col) {
+                $(td).attr('data-th', 'Status');
+            }},
 			    { "mData": "id",
             "width": "10%",
             "searchable": false,
@@ -53,10 +64,10 @@ $(document).ready( function () {
         "targets": 0
       } ],
 			"columnDefs": [ {
-        "targets": 5,
+        "targets": 4,
         "visible": false,
       } ],
-      "order": [[ 5, "asc" ]],
+      "order": [[ 4, "asc" ]],
 
 	 });
 	 table.on( 'draw.dt', function () {

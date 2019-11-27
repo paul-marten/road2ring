@@ -217,7 +217,7 @@ form.form-border .form-group {
 
         <div class="form-group">
           <label for="albumId">Album</label>
-          <input type="text" class="form-control" th:value="${response.object.albumId}" id="albumId" placeholder="Pick your album" required>
+          <input type="text" class="form-control" th:value="${response.object.albumId}" id="albumId" placeholder="Pick your album">
           <input type="hidden" class="hidden albumId" name="albumId" th:value="${response.object.albumId}">
         </div>
       </div>
@@ -269,7 +269,6 @@ form.form-border .form-group {
       });
       $('#datepickers').datepicker({
         format: 'mm/dd/yyyy',
-        startDate: new Date(),
       });
      });
 

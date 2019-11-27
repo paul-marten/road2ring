@@ -59,4 +59,8 @@ public class TripPriceService {
   public TripPrice getTripPrice(Integer tripId, Date startDate){
     return tripPriceRepository.findOneByTripIdAndStartTrip(tripId,startDate);
   }
+
+  public TripPrice getOneTripPrice(Integer tripPriceId){
+    return tripPriceRepository.findOne(tripPriceId);
+  }
 }

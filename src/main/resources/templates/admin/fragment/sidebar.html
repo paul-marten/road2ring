@@ -14,15 +14,15 @@
         <i class="fa fa-angle-left pull-right"></i>
       </a>
       <ul class="treeview-menu">
-        <li><a href="/trip"><i class="fa fa-circle-o"></i> Trips</a></li>
-        <li><a href="/facility"><i class="fa fa-circle-o"></i> Facilities</a></li>
-        <li><a href="/motor"><i class="fa fa-circle-o"></i> Motors</a></li>
-        <li><a href="/accessory"><i class="fa fa-circle-o"></i> Accessories</a></li>
-        <li><a href="/accessory-category"><i class="fa fa-circle-o"></i> Accessory Category</a></li>
-        <li><a href="/captain"><i class="fa fa-circle-o"></i> Captain</a></li>
+        <li th:if="${#httpServletRequest.isUserInRole('ADMINISTRATOR') || #httpServletRequest.isUserInRole('ROLE_ROAD_CAPTAIN')}"><a href="/trip"><i class="fa fa-circle-o"></i> Trips</a></li>
+        <li th:if="${#httpServletRequest.isUserInRole('ROLE_ADMINISTRATOR')}"><a href="/facility"><i class="fa fa-circle-o"></i> Facilities</a></li>
+        <li th:if="${#httpServletRequest.isUserInRole('ROLE_ADMINISTRATOR')}"><a href="/motor"><i class="fa fa-circle-o"></i> Motors</a></li>
+        <li th:if="${#httpServletRequest.isUserInRole('ROLE_ADMINISTRATOR')}"><a href="/accessory"><i class="fa fa-circle-o"></i> Accessories</a></li>
+        <li th:if="${#httpServletRequest.isUserInRole('ROLE_ADMINISTRATOR')}"><a href="/accessory-category"><i class="fa fa-circle-o"></i> Accessory Category</a></li>
+        <li th:if="${#httpServletRequest.isUserInRole('ROLE_ADMINISTRATOR')}"><a href="/accessory-category/sub-category"><i class="fa fa-circle-o"></i> Accessory Sub Category</a></li>
       </ul>
     </li>
-    <li class="treeview">
+    <li th:if="${#httpServletRequest.isUserInRole('ROLE_ADMINISTRATOR')}" class="treeview">
       <a href="">
         <i class="fa fa-folder"></i>
         <span>Production</span>
@@ -30,12 +30,13 @@
       </a>
       <ul class="treeview-menu">
         <li><a href="/headline"><i class="fa fa-circle-o"></i> Headline</a></li>
+        <li><a href="/trip-feature"><i class="fa fa-circle-o"></i> Trip Feature</a></li>
         <li><a href="/gallery"><i class="fa fa-circle-o"></i> Gallery</a></li>
         <li><a href="/testimonial"><i class="fa fa-circle-o"></i> Testi</a></li>
         <li><a href="/album"><i class="fa fa-circle-o"></i> Album</a></li>
       </ul>
     </li>
-    <li class="treeview">
+    <li th:if="${#httpServletRequest.isUserInRole('ROLE_ADMINISTRATOR')}" class="treeview">
       <a href="">
         <i class="fa fa-folder"></i>
         <span>Administrative</span>
@@ -44,6 +45,17 @@
       <ul class="treeview-menu">
         <li><a href="/transaction"><i class="fa fa-circle-o"></i> Confirmation</a></li>
         <li><a href="/request-trip"><i class="fa fa-circle-o"></i> Request Trip</a></li>
+      </ul>
+    </li>
+    <li th:if="${#httpServletRequest.isUserInRole('ROLE_ADMINISTRATOR')}" class="treeview">
+      <a href="#user">
+        <i class="fa fa-folder"></i>
+        <span>User</span>
+        <i class="fa fa-angle-left pull-right"></i>
+      </a>
+      <ul class="treeview-menu">
+        <li><a href="/user/request-role"><i class="fa fa-circle-o"></i> Request Captain</a></li>
+        <li><a href="/user/captain-list"><i class="fa fa-circle-o"></i> Captain</a></li>
       </ul>
     </li>
   </ul>
