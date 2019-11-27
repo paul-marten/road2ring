@@ -54,13 +54,17 @@ public class MidtransMAPIController {
       if (fraudStatus.equals("capture")) {
         if (fraudStatus.equals("challenge")) {
           // TODO set transaction status on your database to 'challenge'
+          System.out.println("MidtransMAPIController.handleNotification Challenge");
         } else if (fraudStatus.equals("accept")){
           // TODO set transaction status on your database to 'success'
+          System.out.println("MidtransMAPIController.handleNotification Success");
         }
       } else if (transactionStatus.equals("cancel") || transactionStatus.equals("deny") || transactionStatus.equals("expire")) {
         // TODO set transaction status on your database to 'failure'
+        \System.out.println("MidtransMAPIController.handleNotification Fail");
       } else if (transactionStatus.equals("pending")) {
         // TODO set transaction status on your database to 'pending' / waiting payment
+        System.out.println("MidtransMAPIController.handleNotification Pending");
       }
     }
     return new ResponseEntity<>(notifResponse, HttpStatus.OK);

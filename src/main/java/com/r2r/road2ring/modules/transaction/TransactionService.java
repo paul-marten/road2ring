@@ -123,7 +123,7 @@ public class TransactionService {
     this.tripPriceRepository = tripPriceRepository;
   }
 
-  @Transactional(rollbackOn = InvalidOrderException.class)
+  @Transactional
   public TransactionCreateView createTransaction(Transaction transaction, User user)
       throws Road2RingException, MidtransError {
 
@@ -176,7 +176,7 @@ public class TransactionService {
             .saveListTransactionalAccessory(transaction.getAccessories(), transactionSaved,
                 transaction.getBringOwnHelm());
 
-        midtransToken = midtransService.checkoutTrip(detailAccessories,detailMotor,transaction,tripPrice,user);
+        midtransToken = midtransService.checkoutTrip(detailAccessories,detailMotor,transactionSaved,tripPrice,user);
         this.createTransactionLogByUser(transactionSaved);
       }
 

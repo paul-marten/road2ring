@@ -68,6 +68,7 @@ public class MidtransService {
     requestBody.put("credit_card", creditCard);
     requestBody.put("expiry", expiry);
 
+    System.out.println("requestBody = " + requestBody);
 
     return snapApi.createTransactionToken(requestBody);
   }
@@ -89,7 +90,6 @@ public class MidtransService {
     Map<String, String> creditCard = new HashMap<>();
 
     creditCard.put("secure", "true");
-    creditCard.put("authentication", "true");
 
     return creditCard;
   }
@@ -156,7 +156,7 @@ public class MidtransService {
   private Map<String, String> buildTripItem(Transaction transaction, TripPrice tripPrice) {
     Map<String, String> item = new HashMap<>();
 
-    item.put("name",transaction.getTrip().getTitle());
+    item.put("name",tripPrice.getTrip().getTitle());
     item.put("brand","Road2Ring");
     item.put("category","Trip");
     item.put("quantity","1");
@@ -206,7 +206,7 @@ public class MidtransService {
     item.put("brand",detailItem.getBrand());
     item.put("category",detailItem.getType());
     item.put("quantity",detailItem.getQuantity().toString());
-    item.put("price",detailItem.getPrice().toString());
+    item.put("price",detailItem.getPrice().toString() );
 
     return item;
 
